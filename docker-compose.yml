@@ -1,0 +1,6 @@
+﻿services:
+  school.api:
+    image: school.api
+    build:
+      context: .
+      dockerfile: School.API/Dockerfile
