@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Module.Seminar.Domain.Entity
 {
-    internal class Subject
+    public class Subject
     {
     }
 }
