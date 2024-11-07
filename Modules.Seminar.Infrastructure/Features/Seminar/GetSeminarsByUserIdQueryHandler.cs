@@ -8,12 +8,12 @@ using Module.Seminar.Infrastructure.DbContexts;
 
 namespace Module.Seminar.Infrastructure.Features.Seminar;
 
-public class GetSeminarsByStudentIdQueryHandler : IRequestHandler<GetSeminarsByStudentIdQuery, IEnumerable<GetSeminarsResponse>>
+public class GetSeminarsByUserIdQueryHandler : IRequestHandler<GetSeminarsByUserIdQuery, IEnumerable<GetSeminarsResponse>>
 {
     private readonly SeminarDbContext _seminarDbContext;
     private readonly IMapper _mapper;
 
-    public GetSeminarsByStudentIdQueryHandler(SeminarDbContext seminarDbContext)
+    public GetSeminarsByUserIdQueryHandler(SeminarDbContext seminarDbContext)
     {
         _seminarDbContext = seminarDbContext;
         _mapper = new MapperConfiguration(cfg =>
@@ -23,11 +23,11 @@ public class GetSeminarsByStudentIdQueryHandler : IRequestHandler<GetSeminarsByS
     }
 
 
-    async Task<IEnumerable<GetSeminarsResponse>> IRequestHandler<GetSeminarsByStudentIdQuery,
-        IEnumerable<GetSeminarsResponse>>.Handle(GetSeminarsByStudentIdQuery request,
+    async Task<IEnumerable<GetSeminarsResponse>> IRequestHandler<GetSeminarsByUserIdQuery,
+        IEnumerable<GetSeminarsResponse>>.Handle(GetSeminarsByUserIdQuery request,
         CancellationToken cancellationToken)
         => await _seminarDbContext.Seminars
-            .Where(s => s.Students.Any(st => st.Id == request.StudentId))
+            .Where(s => s.Students.Any(st => st.Id == request.UserId))
             .ProjectTo<GetSeminarsResponse>(_mapper.ConfigurationProvider)
             .ToListAsync();
 }

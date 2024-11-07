@@ -6,13 +6,13 @@ using Module.Shared.Abstractions;
 
 namespace Module.Seminar.Endpoints.Seminar;
 
-public class GetSeminarsByStudentId : IEndpoint
+public class GetSeminarsByUserId : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app)
     {
-        app.MapGet("/MySeminars/{studentId:guid}", async (Guid studentId, IMediator mediator) =>
+        app.MapGet("/MySeminars/{userId:guid}", async (Guid userId, IMediator mediator) =>
         {
-            var response = await mediator.Send(new GetSeminarsByStudentIdQuery(studentId));
+            var response = await mediator.Send(new GetSeminarsByUserIdQuery(userId));
             return response;
         }).WithTags("Seminar")
             .RequireAuthorization();
