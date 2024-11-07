@@ -27,10 +27,10 @@ public class SeminarRepository : ISeminarRepository
     async Task<Module.Seminar.Domain.Entity.Seminar> ISeminarRepository.GetSeminarByIdAsync(Guid seminarId)
         => await _seminarDbContext.Seminars.SingleAsync(s => s.Id == seminarId);
 
-    async Task<User> ISeminarRepository.GetStudentByIdAsync(Guid studentId)
+    async Task<User> ISeminarRepository.GetUserByIdAsync(Guid studentId)
         => await _seminarDbContext.User.SingleAsync(s => s.Id == studentId);
 
-    async Task ISeminarRepository.AddStudentToSeminarAsync(Module.Seminar.Domain.Entity.Seminar seminar)
+    async Task ISeminarRepository.AddUserToSeminarAsync(Module.Seminar.Domain.Entity.Seminar seminar)
     {
         await _seminarDbContext.SaveChangesAsync();
     }

@@ -20,12 +20,12 @@ public class AddStudentToSeminarCommandHandler : IRequestHandler<AddStudentToSem
     {
         // Load
         var seminar = await _seminarRepository.GetSeminarByIdAsync(request.AddStudentToSeminarRequest.SeminarId);
-        var student = await _seminarRepository.GetStudentByIdAsync(request.AddStudentToSeminarRequest.StudentId);
+        var student = await _seminarRepository.GetUserByIdAsync(request.AddStudentToSeminarRequest.StudentId);
         
         // Act
         seminar.AddStudent(student);
         
         // Save
-        await _seminarRepository.AddStudentToSeminarAsync(seminar);
+        await _seminarRepository.AddUserToSeminarAsync(seminar);
     }
 }
