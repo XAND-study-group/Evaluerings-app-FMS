@@ -3,13 +3,13 @@
 public class FakeSeminar : Entity.Seminar
 {
     #region Constructors
-    public FakeSeminar(string name, string description, DateTime startDate, DateTime endDate, int capacity)
+    public FakeSeminar(string name, string description, DateOnly startDate, DateOnly endDate, int studentCapacity)
     {
         Name = name;
         Description = description;
         StartDate = startDate;
         EndDate = endDate;
-        Capacity = capacity;
+        StudentCapacity = studentCapacity;
     }
 
     public FakeSeminar(string name)
@@ -24,12 +24,12 @@ public class FakeSeminar : Entity.Seminar
         base.AssureCapacityIsAboveZero(capacity);
     }
 
-    public new void AssureEndDateAfterStartDate(DateTime startDate, DateTime endDate)
+    public new void AssureEndDateAfterStartDate(DateOnly startDate, DateOnly endDate)
     {
         base.AssureEndDateAfterStartDate(startDate, endDate);
     }
 
-    public new void AssureStartDateInFuture(DateTime startDate, DateTime now)
+    public new void AssureStartDateInFuture(DateOnly startDate, DateOnly now)
     {
         base.AssureStartDateInFuture(startDate, now);
     }
@@ -37,6 +37,14 @@ public class FakeSeminar : Entity.Seminar
     public new void AssureNameIsUnique(string name, IEnumerable<FakeSeminar> otherSeminarNames)
     {
         base.AssureNameIsUnique(name, otherSeminarNames);
+    }
+    #endregion
+    
+    #region Relational Business Logic Methods
+
+    public new void AssureMaxCapacityIsNotReached(int studentsCount, int capacity)
+    {
+        base.AssureMaxCapacityIsNotReached(studentsCount, capacity);
     }
     #endregion
 }

@@ -34,9 +34,9 @@ public class Seminar
     // General Information 
     public string Name { get; protected set; }
     public string Description { get; protected set; }
-    public DateTime StartDate { get; protected set; }
-    public DateTime EndDate { get; protected set; }
-    public int Capacity { get; protected set; }
+    public DateOnly StartDate { get; protected set; }
+    public DateOnly EndDate { get; protected set; }
+    public int StudentCapacity { get; protected set; }
 
     #endregion
 
@@ -46,24 +46,24 @@ public class Seminar
     {
     }
 
-    private Seminar(string name, string description, DateTime startDate, DateTime endDate, int capacity,
+    private Seminar(string name, string description, DateOnly startDate, DateOnly endDate, int studentCapacity,
         IEnumerable<Seminar> otherSeminarNames)
     {
         Name = name;
         Description = description;
         StartDate = startDate;
         EndDate = endDate;
-        Capacity = capacity;
+        StudentCapacity = studentCapacity;
 
         AssureNameIsUnique(Name, otherSeminarNames);
-        AssureStartDateInFuture(StartDate, DateTime.Now);
+        AssureStartDateInFuture(StartDate, DateOnly.FromDateTime(DateTime.Now));
         AssureEndDateAfterStartDate(StartDate, EndDate);
-        AssureCapacityIsAboveZero(Capacity);
+        AssureCapacityIsAboveZero(StudentCapacity);
     }
     #endregion
 
     #region Seminar Methods
-    public static Seminar Create(string name, string description, DateTime startDate, DateTime endDate, int capacity,
+    public static Seminar Create(string name, string description, DateOnly startDate, DateOnly endDate, int capacity,
         IEnumerable<Seminar> otherSeminarNames)
         => new Seminar(name, description, startDate, endDate, capacity, otherSeminarNames);
     #endregion
@@ -75,15 +75,15 @@ public class Seminar
             throw new ArgumentException("Capacity must be greater than zero.");
     }
 
-    protected void AssureEndDateAfterStartDate(DateTime startDate, DateTime endDate)
+    protected void AssureEndDateAfterStartDate(DateOnly startDate, DateOnly endDate)
     {
         if (startDate >= endDate) 
             throw new ArgumentException("End date has to be after the start date.");
     }
 
-    protected void AssureStartDateInFuture(DateTime startDate, DateTime now)
+    protected void AssureStartDateInFuture(DateOnly startDate, DateOnly now)
     {
-        if (startDate <= DateTime.Now) 
+        if (startDate <= now) 
             throw new ArgumentException("Start date has to be in the future."); 
     }
 
@@ -105,19 +105,21 @@ public class Seminar
 
     public void AddStudent(User student)
     {
-        AssureMaxCapacityIsNotReached(_students.Count, Capacity);
+        // TODO: Check if user has CLAIM as Student
+        AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity);
         
         _students.Add(student);
     }
 
     public void AddTeacher(User teacher)
     {
+        // TODO: Check if user has CLAIM as Teacher
         _teachers.Add(teacher);
     }
     #endregion
     
     #region Relation Business Logic Methods
-    private void AssureMaxCapacityIsNotReached(int studentsCount, int capacity)
+    protected void AssureMaxCapacityIsNotReached(int studentsCount, int capacity)
     {
         if (studentsCount >= capacity) 
             throw new ArgumentException("Maximum number of students reached.");
