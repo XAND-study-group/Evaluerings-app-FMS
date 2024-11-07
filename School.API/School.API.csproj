@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.4.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
@@ -25,6 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Module.Authentication\Module.Authentication.csproj" />
+      <ProjectReference Include="..\Module.Shared.Domain\Module.Shared.Domain.csproj" />
       <ProjectReference Include="..\Module.User\Module.User.csproj" />
     </ItemGroup>
 
