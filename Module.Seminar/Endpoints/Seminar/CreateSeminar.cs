@@ -15,6 +15,7 @@ public class CreateSeminar : IEndpoint
     {
         app.MapPost("/Seminar", async ([FromBody] CreateSeminarRequest createSeminarRequest, [FromServices] IMediator mediator) =>
             await mediator.Send(new CreateSeminarCommand(createSeminarRequest))
-        ).WithTags("Seminar");
+        ).WithTags("Seminar")
+        .RequireAuthorization();
     }
 }

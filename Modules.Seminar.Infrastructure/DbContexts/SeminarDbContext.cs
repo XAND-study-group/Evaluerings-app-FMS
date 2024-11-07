@@ -5,6 +5,7 @@ namespace Module.Seminar.Infrastructure.DbContexts;
 public class SeminarDbContext : DbContext
 {
     public DbSet<Domain.Entity.Seminar> Seminars { get; set; }
+    public DbSet<User> Users { get; set; }
     
     public SeminarDbContext(DbContextOptions<SeminarDbContext> options)
     :base(options)

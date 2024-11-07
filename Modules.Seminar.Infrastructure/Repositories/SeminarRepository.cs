@@ -12,12 +12,28 @@ public class SeminarRepository : ISeminarRepository
     {
         _seminarDbContext = seminarDbContext;
     }
+
+    #region Seminar
+
     async Task ISeminarRepository.CreateSeminarAsync(Module.Seminar.Domain.Entity.Seminar seminar)
     {
         await _seminarDbContext.Seminars.AddAsync(seminar);
         await _seminarDbContext.SaveChangesAsync();
     }
 
-    async Task<IEnumerable<Module.Seminar.Domain.Entity.Seminar>> ISeminarRepository.GetAllSeminars()
+    async Task<IEnumerable<Module.Seminar.Domain.Entity.Seminar>> ISeminarRepository.GetAllSeminarsAsync()
         => await _seminarDbContext.Seminars.ToListAsync();
+
+    async Task<Module.Seminar.Domain.Entity.Seminar> ISeminarRepository.GetSeminarByIdAsync(Guid seminarId)
+        => await _seminarDbContext.Seminars.SingleAsync(s => s.Id == seminarId);
+
+    async Task<User> ISeminarRepository.GetStudentByIdAsync(Guid studentId)
+        => await _seminarDbContext.User.SingleAsync(s => s.Id == studentId);
+
+    async Task ISeminarRepository.AddStudentToSeminarAsync(Module.Seminar.Domain.Entity.Seminar seminar)
+    {
+        await _seminarDbContext.SaveChangesAsync();
+    }
+
+    #endregion
 }

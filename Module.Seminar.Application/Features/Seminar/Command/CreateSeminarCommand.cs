@@ -20,7 +20,7 @@ internal class CreateSeminarCommandHandler : IRequestHandler<CreateSeminarComman
     public async Task Handle(CreateSeminarCommand request, CancellationToken cancellationToken)
     {
         // Load
-        var otherSeminars = await _seminarRepository.GetAllSeminars();
+        var otherSeminars = await _seminarRepository.GetAllSeminarsAsync();
 
         // Do
         var seminar = Domain.Entity.Seminar.Create(
