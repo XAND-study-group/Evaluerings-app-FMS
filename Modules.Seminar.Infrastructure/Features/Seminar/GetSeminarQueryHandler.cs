@@ -20,14 +20,13 @@ public class GetSeminarQueryHandler : IRequestHandler<GetSeminarQuery, GetSemina
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Domain.Entity.Seminar, GetSeminarResponse>();
-            cfg.CreateMap<User, GetSeminarTeacherResponse>();
-            cfg.CreateMap<User, GetSeminarStudentResponse>();
+            cfg.CreateMap<User, GetSeminarUserResponse>();
             cfg.CreateMap<Subject, GetSeminarSubjectResponse>();
-        });
+        }).CreateMapper();
     }
     async Task<GetSeminarResponse> IRequestHandler<GetSeminarQuery, GetSeminarResponse>.Handle(GetSeminarQuery request, CancellationToken cancellationToken)
     => await _dbContext.Seminars
-        .Where(s => s.Id == request.SeminarId, cancellationToken)
+        .Where(s => s.Id == request.SeminarId)
         .ProjectTo<GetSeminarResponse>(_mapper.ConfigurationProvider)
         .SingleAsync(cancellationToken);
 }

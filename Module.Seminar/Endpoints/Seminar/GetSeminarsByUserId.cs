@@ -11,10 +11,10 @@ public class GetSeminarsByUserId : IEndpoint
     void IEndpoint.MapEndpoint(WebApplication app)
     {
         app.MapGet("/MySeminars/{userId:guid}", async (Guid userId, IMediator mediator) =>
-        {
-            var response = await mediator.Send(new GetSeminarsByUserIdQuery(userId));
-            return response;
-        }).WithTags("Seminar")
+            {
+                var response = await mediator.Send(new GetSeminarsByUserIdQuery(userId));
+                return response;
+            }).WithTags("Seminar")
             .RequireAuthorization();
     }
 }

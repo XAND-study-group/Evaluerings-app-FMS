@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Module.Seminar.Domain.Entity;
 
 namespace Module.Seminar.Infrastructure.DbContexts;
 

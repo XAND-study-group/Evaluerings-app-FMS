@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Seminar.Application.Abstractions;
+using Module.Seminar.Domain.Entity;
 using Module.Seminar.Infrastructure.DbContexts;
 
 namespace Modules.Seminar.Infrastructure.Repositories;
@@ -28,7 +29,7 @@ public class SeminarRepository : ISeminarRepository
         => await _seminarDbContext.Seminars.SingleAsync(s => s.Id == seminarId);
 
     async Task<User> ISeminarRepository.GetUserByIdAsync(Guid studentId)
-        => await _seminarDbContext.User.SingleAsync(s => s.Id == studentId);
+        => await _seminarDbContext.Users.SingleAsync(s => s.Id == studentId);
 
     async Task ISeminarRepository.AddUserToSeminarAsync(Module.Seminar.Domain.Entity.Seminar seminar)
     {

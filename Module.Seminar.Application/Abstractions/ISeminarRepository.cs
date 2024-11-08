@@ -1,4 +1,6 @@
-﻿namespace Module.Seminar.Application.Abstractions;
+﻿using Module.Seminar.Domain.Entity;
+
+namespace Module.Seminar.Application.Abstractions;
 
 public interface ISeminarRepository
 {

@@ -27,7 +27,7 @@ public class GetSeminarsByUserIdQueryHandler : IRequestHandler<GetSeminarsByUser
         IEnumerable<GetSeminarsResponse>>.Handle(GetSeminarsByUserIdQuery request,
         CancellationToken cancellationToken)
         => await _seminarDbContext.Seminars
-            .Where(s => s.Students.Any(st => st.Id == request.UserId), cancellationToken)
+            .Where(s => s.Students.Any(st => st.Id == request.UserId))
             .ProjectTo<GetSeminarsResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 }

@@ -1,3 +1,4 @@
+using Module.Seminar.Application.Features.Seminar.Query.Dto;
 using Module.Seminar.Domain.Entity;
 
 namespace Module.Seminar.Application.Features.Seminar.Query;
@@ -10,6 +11,6 @@ public record GetSeminarResponse(
     DateOnly StartDate,
     DateOnly EndDate,
     int StudentCapacity,
-    IEnumerable<User> Teachers,
-    IEnumerable<User> Students,
-    IEnumerable<Subject> Subjects);
+    IEnumerable<GetSeminarUserResponse> Teachers,
+    IEnumerable<GetSeminarUserResponse> Students,
+    IEnumerable<GetSeminarSubjectResponse> Subjects);
