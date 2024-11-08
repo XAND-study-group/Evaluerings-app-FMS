@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Module.Authentication.Domain.Test.Tests;
 
-public class LoginTest
+public class AccountLoginTest
 {
     [Theory]
     [MemberData(nameof(InvalidPasswordData))]
@@ -16,7 +16,7 @@ public class LoginTest
         var passwordHasherMock = new Mock<IPasswordHasher>();
 
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => Login.Create(email, password, passwordHasherMock.Object));
+        var exception = Assert.Throws<ArgumentException>(() => AccountLogin.Create(email, password, passwordHasherMock.Object));
         Assert.Equal(expectedMessage, exception.Message);
     }
     
@@ -29,7 +29,7 @@ public class LoginTest
         passwordHasherMock.Setup(mock => mock.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
 
         // Act & Assert
-        Assert.NotNull(Login.Create(email, password, passwordHasherMock.Object));
+        Assert.NotNull(AccountLogin.Create(email, password, passwordHasherMock.Object));
     }
 
     #region MemberData

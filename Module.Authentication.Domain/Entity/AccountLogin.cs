@@ -3,18 +3,18 @@ using Module.Authentication.Domain.DomainServices.Interfaces;
 
 namespace Module.Authentication.Domain.Entity;
 
-public class Login
+public class AccountLogin
 {
     public Guid Id { get; }
     public string Email { get; protected set; }
     public string PasswordHash { get; protected set; }
 
-    protected Login()
+    protected AccountLogin()
     {
         
     }
     
-    private Login(string email, string password, IPasswordHasher passwordHasher)
+    private AccountLogin(string email, string password, IPasswordHasher passwordHasher)
     {
         AssurePasswordCompliesWithRequirements(password);
 
@@ -22,9 +22,9 @@ public class Login
         PasswordHash = passwordHasher.Hash(password);
     }
 
-    public static Login Create(string email, string password, IPasswordHasher passwordHasher)
+    public static AccountLogin Create(string email, string password, IPasswordHasher passwordHasher)
     {
-        return new Login(email, password, passwordHasher);
+        return new AccountLogin(email, password, passwordHasher);
     }
 
     protected void AssurePasswordCompliesWithRequirements(string password)
