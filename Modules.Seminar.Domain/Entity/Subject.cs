@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.Seminar.Domain.Entity
+namespace Module.Semester.Domain.Entity
 {
     public class Subject
     {

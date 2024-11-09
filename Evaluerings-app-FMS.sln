@@ -30,19 +30,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.User.Infrastructure"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A672F719-0E4B-4D77-988F-CA6A95CE70A8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seminar", "Seminar", "{59F003CC-042E-4F88-B2B1-F47FFC5959E0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Semester", "Semester", "{59F003CC-042E-4F88-B2B1-F47FFC5959E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Seminar.Application", "Module.Seminar.Application\Module.Seminar.Application.csproj", "{213AFEBA-5F57-441B-9813-B0FF82927AC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Application", "Module.Semester.Application\Module.Semester.Application.csproj", "{213AFEBA-5F57-441B-9813-B0FF82927AC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Seminar.Domain", "Modules.Seminar.Domain\Module.Seminar.Domain.csproj", "{C1E38962-567B-43A6-A27D-4A1B387C7D2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Domain", "Modules.Seminar.Domain\Module.Semester.Domain.csproj", "{C1E38962-567B-43A6-A27D-4A1B387C7D2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Seminar.Domain.Test", "Modules.Seminar.Domain.Test\Module.Seminar.Domain.Test.csproj", "{922CF9A7-623C-4BCF-BEA9-F41591185C8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Domain.Test", "Modules.Seminar.Domain.Test\Module.Semester.Domain.Test.csproj", "{922CF9A7-623C-4BCF-BEA9-F41591185C8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Seminar.Infrastructure", "Modules.Seminar.Infrastructure\Module.Seminar.Infrastructure.csproj", "{735566AF-80BC-4380-9BF2-D8C03A7CDBBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Infrastructure", "Modules.Seminar.Infrastructure\Module.Semester.Infrastructure.csproj", "{735566AF-80BC-4380-9BF2-D8C03A7CDBBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Seminar", "Module.Seminar\Module.Seminar.csproj", "{BF2A9248-F01F-4AE0-AD1D-BDD90E0EE755}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester", "Module.Semester\Module.Semester.csproj", "{BF2A9248-F01F-4AE0-AD1D-BDD90E0EE755}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Shared", "Module.Shared\Module.Shared.csproj", "{676DFC34-B01D-4866-81C6-FA6728C8E35D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Shared.Infrastructure", "Module.Shared.Infrastructure\Module.Shared.Infrastructure.csproj", "{03110FFD-78EC-420B-8A82-CD45223AF88A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,6 +100,10 @@ Global
 		{676DFC34-B01D-4866-81C6-FA6728C8E35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{676DFC34-B01D-4866-81C6-FA6728C8E35D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{676DFC34-B01D-4866-81C6-FA6728C8E35D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03110FFD-78EC-420B-8A82-CD45223AF88A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03110FFD-78EC-420B-8A82-CD45223AF88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03110FFD-78EC-420B-8A82-CD45223AF88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03110FFD-78EC-420B-8A82-CD45223AF88A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{735566AF-80BC-4380-9BF2-D8C03A7CDBBD} = {59F003CC-042E-4F88-B2B1-F47FFC5959E0}
 		{BF2A9248-F01F-4AE0-AD1D-BDD90E0EE755} = {59F003CC-042E-4F88-B2B1-F47FFC5959E0}
 		{676DFC34-B01D-4866-81C6-FA6728C8E35D} = {A672F719-0E4B-4D77-988F-CA6A95CE70A8}
+		{03110FFD-78EC-420B-8A82-CD45223AF88A} = {A672F719-0E4B-4D77-988F-CA6A95CE70A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F9B67C-9A13-46EA-BC43-EA02349B6D43}
