@@ -9,12 +9,12 @@ using Module.Semester.Infrastructure.DbContexts;
 
 namespace Module.Semester.Infrastructure.Features.Semester;
 
-public class GetSemesterByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, IEnumerable<GetSemesterResponse>>
+public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, IEnumerable<GetSemesterResponse>>
 {
     private readonly SemesterDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetSemesterByUserIdQueryHandler(SemesterDbContext dbContext)
+    public GetSemestersByUserIdQueryHandler(SemesterDbContext dbContext)
     {
         _dbContext = dbContext;
         _mapper = new MapperConfiguration(cfg =>
