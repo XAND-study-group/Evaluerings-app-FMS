@@ -18,7 +18,7 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
         _semesterDbContext = semesterDbContext;
         _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Module.Semester.Domain.Entity.Class, GetClassesResponse>();
+            cfg.CreateMap<Domain.Entities.Class, GetClassesResponse>();
         }).CreateMapper();
     }
 

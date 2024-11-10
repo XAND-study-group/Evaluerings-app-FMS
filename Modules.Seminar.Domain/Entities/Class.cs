@@ -1,23 +1,15 @@
-﻿namespace Module.Semester.Domain.Entity;
+﻿namespace Module.Semester.Domain.Entities;
 
-public class Class
+public class Class : Entity
 {
     #region Properties
 
-    // Database Properties
-    public Guid Id { get; protected set; }
-    public byte[] RowVersion { get; protected set; }
-
     // List & IEnumberables
-    private List<User> _teachers { get; set; } = [];
+    private readonly List<User> _teachers = [];
     private List<User> _students { get; set; } = [];
     private List<Subject> _subjects { get; set; } = [];
 
-    public IEnumerable<User> Teachers
-    {
-        get => _teachers;
-        set => _teachers = value.ToList();
-    }
+    public IEnumerable<User> Teachers => _teachers;
 
     public IEnumerable<User> Students
     {
@@ -78,9 +70,11 @@ public class Class
 
     public void AddSubject()
     {
-        var subject = Subject.Create();
+        /*
+         var subject = Subject.Create();
         
         _subjects.Add(subject);
+        */
     }
 
     public void AddStudent(User student)

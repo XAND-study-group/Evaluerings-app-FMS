@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Abstractions;
+using Module.Semester.Domain.Entities;
 using Module.Semester.Infrastructure.DbContexts;
-using Module.Semester.Domain.Entity;
 
 namespace Module.Semester.Infrastructure.Repositories;
 
@@ -16,7 +16,7 @@ public class ClassRepository : IClassRepository
 
     #region Class
 
-    async Task IClassRepository.CreateClassAsync(Module.Semester.Domain.Entity.Class newClass)
+    async Task IClassRepository.CreateClassAsync(Class newClass)
     {
         await _semesterDbContext.Classes.AddAsync(newClass);
         await _semesterDbContext.SaveChangesAsync();

@@ -23,7 +23,7 @@ internal class CreateClassCommandHandler : IRequestHandler<CreateClassCommand>
         var otherClasses = await _classRepository.GetAllClassesAsync();
 
         // Do
-        var classToCreate = Module.Semester.Domain.Entity.Class.Create(
+        var classToCreate = Domain.Entities.Class.Create(
             request.CreateClassRequest.Name,
             request.CreateClassRequest.Description,
             request.CreateClassRequest.StudentCapacity,

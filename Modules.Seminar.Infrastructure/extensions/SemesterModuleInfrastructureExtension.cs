@@ -20,6 +20,7 @@ public static class SemesterModuleInfrastructureExtension
                 }));
         
         serviceCollection.AddScoped<IClassRepository, ClassRepository>();
+        serviceCollection.AddScoped<ISemesterRepository, SemesterRepository>();
         
         return serviceCollection;
     }

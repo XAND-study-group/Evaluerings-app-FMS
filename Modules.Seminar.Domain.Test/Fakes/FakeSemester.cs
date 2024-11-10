@@ -1,8 +1,6 @@
-﻿using Module.Semester.Domain.Enums;
+﻿namespace Module.Semester.Domain.Test.Fakes;
 
-namespace Module.Class.Domain.Test.Fakes;
-
-public class FakeSemester : Semester.Domain.Entity.Semester
+public class FakeSemester : Entities.Semester
 {
     public FakeSemester(string name)
     {

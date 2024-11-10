@@ -1,4 +1,4 @@
-﻿using Module.Class.Domain.Test.Fakes;
+﻿using Module.Semester.Domain.Test.Fakes;
 using Xunit;
 
 namespace Module.Semester.Domain.Test;

@@ -4,8 +4,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Class.Query;
 using Module.Semester.Application.Features.Class.Query.Dto;
+using Module.Semester.Domain.Entities;
 using Module.Semester.Infrastructure.DbContexts;
-using Module.Semester.Domain.Entity;
 
 namespace Module.Semester.Infrastructure.Features.Class;
 
@@ -19,7 +19,7 @@ public class GetClassQueryHandler : IRequestHandler<GetClassQuery, GetClassRespo
         _semesterDbContext = semesterDbContext;
         _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Module.Semester.Domain.Entity.Class, GetClassResponse>();
+            cfg.CreateMap<Domain.Entities.Class, GetClassResponse>();
             cfg.CreateMap<User, GetClassUserResponse>();
             cfg.CreateMap<Subject, GetClassSubjectResponse>();
         }).CreateMapper();

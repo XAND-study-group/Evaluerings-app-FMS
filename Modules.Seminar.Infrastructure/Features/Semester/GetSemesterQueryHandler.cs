@@ -16,7 +16,7 @@ public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, GetSeme
     public GetSemesterQueryHandler(SemesterDbContext dbContext)
     {
         _dbContext = dbContext;
-        _mapper = new MapperConfiguration(cfg => { cfg.CreateMap<Domain.Entity.Semester, GetSemesterResponse>(); })
+        _mapper = new MapperConfiguration(cfg => { cfg.CreateMap<Domain.Entities.Semester, GetSemesterResponse>(); })
             .CreateMapper();
     }
 

@@ -21,7 +21,7 @@ public class CreateSemesterCommandHandler : IRequestHandler<CreateSemesterComman
         var otherSemesters = await _semesterRepository.GetAllSemesters();
         
         // Do
-        var semester = Domain.Entity.Semester.Create(
+        var semester = Domain.Entities.Semester.Create(
             request.CreateSemesterRequest.Name, 
             request.CreateSemesterRequest.SemesterNumber,
             request.CreateSemesterRequest.StartDate,
