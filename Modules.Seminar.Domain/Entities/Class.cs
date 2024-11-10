@@ -4,24 +4,14 @@ public class Class : Entity
 {
     #region Properties
 
-    // List & IEnumberables
+    // List & IReadOnlyCollections
     private readonly List<User> _teachers = [];
-    private List<User> _students { get; set; } = [];
-    private List<Subject> _subjects { get; set; } = [];
+    private readonly List<User> _students = [];
+    private readonly List<Subject> _subjects = [];
 
-    public IEnumerable<User> Teachers => _teachers;
-
-    public IEnumerable<User> Students
-    {
-        get => _students;
-        set => _students = value.ToList();
-    }
-
-    public IEnumerable<Subject> Subjects
-    {
-        get => _subjects;
-        init => _subjects = value.ToList();
-    }
+    public IReadOnlyCollection<User> Teachers => _teachers;
+    public IReadOnlyCollection<User> Students => _students;
+    public IReadOnlyCollection<Subject> Subjects => _subjects;
 
     // General Information 
     public string Name { get; protected set; }
@@ -70,11 +60,11 @@ public class Class : Entity
 
     public void AddSubject()
     {
-        /*
+        
          var subject = Subject.Create();
         
         _subjects.Add(subject);
-        */
+        
     }
 
     public void AddStudent(User student)
