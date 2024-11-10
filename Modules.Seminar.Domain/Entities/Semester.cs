@@ -1,6 +1,6 @@
 ﻿using Module.Semester.Domain.Enums;
 
-namespace Module.Semester.Domain.Entity;
+namespace Module.Semester.Domain.Entities;
 
 public class Semester
 {

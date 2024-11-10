@@ -1,4 +1,4 @@
-﻿namespace Module.Semester.Domain.Entity;
+﻿namespace Module.Semester.Domain.Entities;
 
 public class User
 {

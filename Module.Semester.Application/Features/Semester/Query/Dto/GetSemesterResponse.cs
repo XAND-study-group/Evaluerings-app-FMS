@@ -1,5 +1,4 @@
-﻿using Module.Semester.Domain.Entity;
-using Module.Semester.Domain.Enums;
+﻿using Module.Semester.Domain.Enums;
 
 namespace Module.Semester.Application.Features.Semester.Query.Dto;
 

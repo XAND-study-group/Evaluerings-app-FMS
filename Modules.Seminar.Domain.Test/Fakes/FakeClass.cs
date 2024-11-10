@@ -1,6 +1,6 @@
-﻿namespace Module.Class.Domain.Test.Fakes;
+﻿namespace Module.Semester.Domain.Test.Fakes;
 
-public class FakeClass : Semester.Domain.Entity.Class
+public class FakeClass : Semester.Domain.Entities.Class
 {
     #region Constructors
     public FakeClass(string name)

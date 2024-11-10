@@ -1,4 +1,4 @@
-﻿using Module.Semester.Domain.Entity;
+﻿using Module.Semester.Domain.Entities;
 
 namespace Module.Semester.Application.Abstractions;
 

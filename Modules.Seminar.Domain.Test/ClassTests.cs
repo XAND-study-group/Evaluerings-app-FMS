@@ -1,4 +1,4 @@
-﻿using Module.Class.Domain.Test.Fakes;
+﻿using Module.Semester.Domain.Test.Fakes;
 using Xunit;
 
 namespace Module.Semester.Domain.Test;
@@ -12,7 +12,7 @@ public class ClassTests
     public void Given_Valid_Data_Then_Class_Created(string name, string description, int studentCapacity)
     {
         // Act
-        var classSut = Entity.Class.Create(name, description, studentCapacity, []);
+        var classSut = Entities.Class.Create(name, description, studentCapacity, []);
 
         // Assert
         Assert.NotNull(classSut);
