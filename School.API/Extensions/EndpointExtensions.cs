@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
-namespace SportsRideKlubSkovly.API.Extensions
+namespace School.API.Extensions
 {
     public static class EndpointExtensions
     {
