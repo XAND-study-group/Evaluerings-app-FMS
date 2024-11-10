@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Module.User.Domain.Entity
 {
-    public class Seminar
+    public class Semester
     {
 
 

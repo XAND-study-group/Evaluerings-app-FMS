@@ -14,7 +14,7 @@ namespace Module.User.Domain.Entity
         public string Lastname { get; protected set; }
         public string Email { get; protected set; }
 
-        public IEnumerable<Seminar> Seminars { get; protected set; }
+        public IEnumerable<Semester> Semester { get; protected set; }
 
 
         protected User()
@@ -35,13 +35,6 @@ namespace Module.User.Domain.Entity
         public static User Create(string firstname, string lastname, string email)=>        
             new User(firstname, lastname, email);
         
-
-        public void Update(string firstname, string lastname, string email)
-        {
-            Firstname = firstname;
-            Lastname = lastname;
-            Email = email;
-        }
 
 
     }

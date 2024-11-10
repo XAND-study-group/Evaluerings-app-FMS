@@ -11,11 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions\" />
-      <Folder Include="Features\UserManagement\Query\Dto\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
       <ProjectReference Include="..\Module.User.Domain\Module.User.Domain.csproj" />
     </ItemGroup>

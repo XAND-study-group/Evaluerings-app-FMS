@@ -12,11 +12,7 @@ namespace Module.User.Application.Abstractions
 
         #region User
 
-        Task<Domain.Entity.User> GetUserByIdAsync(Guid userId);
-
         Task CreateUserAsync(Domain.Entity.User user);
-
-
 
         #endregion 
     }
