@@ -1,4 +1,6 @@
-﻿namespace Module.Semester.Domain.Test.Fakes;
+﻿using Module.Semester.Domain.ValueObjects;
+
+namespace Module.Semester.Domain.Test.Fakes;
 
 public class FakeClass : Semester.Domain.Entities.Class
 {
@@ -10,14 +12,20 @@ public class FakeClass : Semester.Domain.Entities.Class
     #endregion
     
     #region Class Business Logic Methods
-    public new void AssureCapacityIsAboveZero(int capacity)
-    {
-        base.AssureCapacityIsAboveZero(capacity);
-    }
 
     public new void AssureNameIsUnique(string name, IEnumerable<FakeClass> otherClassNames)
     {
         base.AssureNameIsUnique(name, otherClassNames);
+    }
+
+    public void SetStudentCapacity(int capacity)
+    {
+        StudentCapacity = capacity;
+    }
+
+    public void SetDescription(string description)
+    {
+        Description = description;
     }
     #endregion
     
