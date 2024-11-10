@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Module.Shared.Abstractions;
 
 namespace Module.Shared.Abstractions
 {
-    public interface ITransactionalCommand
-    {
-    }
+public interface ITransactionalCommand
+{
+    
 }

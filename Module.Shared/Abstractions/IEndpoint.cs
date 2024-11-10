@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Builder;
+namespace Module.Shared.Abstractions;
 
 namespace Module.Shared.Abstractions
 {
-    public interface IEndpoint
-    {
-    }
+public interface IEndpoint
+{
+    void MapEndpoint(WebApplication app);
 }
