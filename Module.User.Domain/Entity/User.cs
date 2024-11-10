@@ -21,6 +21,7 @@ namespace Module.User.Domain.Entity
         {
         }
 
+
         private User(string firstname, string lastname, string email)
         {
             Firstname = firstname;
