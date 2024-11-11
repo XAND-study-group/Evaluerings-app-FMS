@@ -2,7 +2,7 @@
 using Module.Authentication.Application.Abstractions.Repositories;
 using Module.Authentication.Domain.DomainServices.Interfaces;
 using Module.Authentication.Domain.Entity;
-using Module.Shared.Domain.Models;
+using Module.Shared.Models;
 
 namespace Module.Authentication.Application.Features.Authentication.Commands;
 

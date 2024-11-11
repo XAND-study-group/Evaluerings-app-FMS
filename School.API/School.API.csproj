@@ -27,7 +27,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Module.Authentication\Module.Authentication.csproj" />
-      <ProjectReference Include="..\Module.Shared.Domain\Module.Shared.Domain.csproj" />
       <ProjectReference Include="..\Module.User\Module.User.csproj" />
     </ItemGroup>
 

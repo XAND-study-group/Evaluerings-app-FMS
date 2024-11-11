@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Reflection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Module.Shared.Domain.Abstractions;
 
-namespace SportsRideKlubSkovly.API.Extensions
+namespace School.API.Extensions
 {
     public static class EndpointExtensions
     {

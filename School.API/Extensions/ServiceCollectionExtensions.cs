@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
-namespace SportsRideKlubSkovly.API.Extensions;
+namespace School.API.Extensions;
 
 internal static class ServiceCollectionExtensions
 {

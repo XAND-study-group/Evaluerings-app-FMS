@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace Module.Shared.Domain.Models;
+﻿namespace Module.Shared.Models;
 
 public class Result<TResult>
 {

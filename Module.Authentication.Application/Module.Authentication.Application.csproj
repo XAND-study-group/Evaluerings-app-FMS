@@ -12,7 +12,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Module.Authentication.Domain\Module.Authentication.Domain.csproj" />
-      <ProjectReference Include="..\Module.Shared.Domain\Module.Shared.Domain.csproj" />
+      <ProjectReference Include="..\Module.Shared.Infrastructure\Module.Shared.Infrastructure.csproj" />
+      <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
     </ItemGroup>
 
 </Project>
