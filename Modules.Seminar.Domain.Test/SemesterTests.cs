@@ -89,14 +89,14 @@ public class SemesterTests
     }
 
     [Fact]
-    public void Given_Valid_SemesterNumber_Throw_Void()
+    public void Given_Valid_SemesterNumber_Then_Void()
     {
         // Arrange
         var semester = new FakeSemester("TestSemester");
         var semesterNumber = 6;
 
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => semester.SetSemesterNumber(semesterNumber));
+        // Act
+        semester.SetSemesterNumber(semesterNumber);
     }
 
     #endregion SemesterNumberTests

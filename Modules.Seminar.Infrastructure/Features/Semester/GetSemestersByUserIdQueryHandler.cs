@@ -3,8 +3,8 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Semester.Query;
-using Module.Semester.Application.Features.Semester.Query.Dto;
 using Module.Semester.Infrastructure.DbContexts;
+using SharedKernel.Dto.Features.Semester.Query;
 
 namespace Module.Semester.Infrastructure.Features.Semester;
 

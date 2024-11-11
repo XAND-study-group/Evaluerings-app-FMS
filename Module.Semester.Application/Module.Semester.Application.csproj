@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
     <ProjectReference Include="..\Modules.Seminar.Domain\Module.Semester.Domain.csproj" />
+    <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

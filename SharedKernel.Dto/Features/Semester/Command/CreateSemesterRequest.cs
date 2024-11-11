@@ -1,10 +1,8 @@
 ﻿using Module.Semester.Domain.Enums;
 
-namespace Module.Semester.Application.Features.Semester.Query.Dto;
+namespace SharedKernel.Dto.Features.Semester.Command;
 
-public record GetSemestersResponse(
-    Guid Id,
-    byte[] RowVersion,
+public record CreateSemesterRequest(
     string Name,
     int SemesterNumber,
     DateOnly StartDate,

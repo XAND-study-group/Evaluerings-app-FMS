@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Module.Semester.Application.Abstractions;
-using Module.Semester.Application.Features.Class.Command.Dto;
 using Module.Shared.Abstractions;
+using SharedKernel.Dto.Features.Class.Command;
 
 namespace Module.Semester.Application.Features.Class.Command;
 

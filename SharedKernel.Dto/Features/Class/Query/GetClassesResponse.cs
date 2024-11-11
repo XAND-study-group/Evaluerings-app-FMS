@@ -1,4 +1,4 @@
-﻿namespace Module.Semester.Application.Features.Class.Query.Dto;
+﻿namespace SharedKernel.Dto.Features.Class.Query;
 
 public record GetClassesResponse(
     Guid Id,

@@ -1,4 +1,4 @@
-﻿namespace Module.Semester.Application.Features.Class.Command.Dto;
+﻿namespace SharedKernel.Dto.Features.Class.Command;
 
 public record AddStudentToClassRequest(
     Guid ClassId,

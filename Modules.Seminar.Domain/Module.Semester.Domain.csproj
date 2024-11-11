@@ -7,4 +7,8 @@
     <RootNamespace>Module.Semester.Domain</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
+  </ItemGroup>
+
 </Project>

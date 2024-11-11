@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Semester.Command;
-using Module.Semester.Application.Features.Semester.Command.Dto;
 using Module.Shared.Abstractions;
+using SharedKernel.Dto.Features.Semester.Command;
 
 namespace Module.Semester.Endpoints.Semester;
 

@@ -1,4 +1,4 @@
-﻿namespace Module.Semester.Application.Features.Semester.Command.Dto;
+﻿namespace SharedKernel.Dto.Features.Semester.Command;
 
 public record AddResponsibleToSemesterRequest(
     Guid SemesterId,

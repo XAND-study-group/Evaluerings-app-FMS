@@ -1,6 +1,6 @@
 ﻿using Module.Semester.Domain.Enums;
 
-namespace Module.Semester.Application.Features.Semester.Query.Dto;
+namespace SharedKernel.Dto.Features.Semester.Query;
 
 public record GetSemesterResponse(
     Guid Id,
