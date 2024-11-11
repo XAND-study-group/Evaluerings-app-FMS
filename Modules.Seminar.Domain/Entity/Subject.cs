@@ -12,12 +12,22 @@ namespace Module.Seminar.Domain.Entity
         public string Name { get; private set; }
         public string Description { get; private set; }
 
-        public Subject(int id, string name, string description)
+        protected Subject(string name, string description)
         {
-            Id = id;
             Name = name;
             Description = description;
         }
-        public Subject() { }
+        protected Subject() { }
+
+        public static Subject Create(string name, string description)
+        {
+            return new Subject(name, description);
+        }
+        public void Update(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
+
     }
 }
