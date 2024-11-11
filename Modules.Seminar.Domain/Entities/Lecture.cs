@@ -26,4 +26,8 @@ public class Lecture : Entity
         ClassRoom = classRoom;
     }
     #endregion Constructors
+    
+    #region Lecture Methods
+    
+    #endregion Lecture Methods
 }
