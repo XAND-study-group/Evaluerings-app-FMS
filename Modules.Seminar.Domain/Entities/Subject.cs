@@ -2,5 +2,9 @@
 {
     public class Subject
     {
+        public static Subject Create()
+        {
+            return new Subject();
+        }
     }
 }

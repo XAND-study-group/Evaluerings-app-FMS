@@ -37,7 +37,29 @@ public class ClassTests
         var studentCapacity = -1;
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => classSut.AssureCapacityIsAboveZero(studentCapacity));
+        Assert.Throws<ArgumentException>(() => classSut.SetStudentCapacity(studentCapacity));
+    }
+    
+    [Fact]
+    public void Given_Description_Equal_To_WhiteSpace_Then_Throw_ArgumentNullException()
+    {
+        // Arrange
+        var classSut = new FakeClass("TestClass");
+        var description = " ";
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => classSut.SetDescription(description));
+    }
+    
+    [Fact]
+    public void Given_Description_Length_Over_500_Then_Throw_ArgumentException()
+    {
+        // Arrange
+        var classSut = new FakeClass("TestClass");
+        var description = string.Concat(Enumerable.Repeat("FakeTestNow", 50));
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => classSut.SetDescription(description));
     }
 
     [Theory]
@@ -60,8 +82,6 @@ public class ClassTests
         {
             "DMVE231",
             "Empty Description",
-            DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-            DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
             32
         };
     }
