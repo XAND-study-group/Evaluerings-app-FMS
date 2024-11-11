@@ -31,7 +31,7 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .IsRowVersion();
 
         modelBuilder.Entity<Class>()
-            .OwnsOne<Text>(c => c.Description);
+            .OwnsOne<Text>(c => c.Description); 
         modelBuilder.Entity<Class>()
             .OwnsOne<StudentCapacity>(c => c.StudentCapacity);
 
