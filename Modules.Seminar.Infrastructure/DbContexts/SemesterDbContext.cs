@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Abstractions;
 using Module.Semester.Domain.Entities;
+using Module.Semester.Domain.ValueObjects;
 using Module.Shared.Infrastructure.DbContexts;
 
 namespace Module.Semester.Infrastructure.DbContexts;
@@ -22,12 +23,34 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
     {
         #region Class OnModelCreating
         modelBuilder.Entity<Class>()
-            .Property(s => s.Id)
+            .Property(c => c.Id)
             .ValueGeneratedOnAdd();
         
         modelBuilder.Entity<Class>()
-            .Property(s => s.RowVersion)
+            .Property(c => c.RowVersion)
             .IsRowVersion();
+
+        modelBuilder.Entity<Class>()
+            .OwnsOne<Text>(c => c.Description);
+        modelBuilder.Entity<Class>()
+            .OwnsOne<StudentCapacity>(c => c.StudentCapacity);
+
+        #endregion
+        
+        #region Semester OnModelCreating
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+        
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .Property(c => c.RowVersion)
+            .IsRowVersion();
+        
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .OwnsOne<EducationRange>(s => s.EducationRange);
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .OwnsOne<SemesterNumber>(s => s.SemesterNumber);
+
         #endregion
     }
 }

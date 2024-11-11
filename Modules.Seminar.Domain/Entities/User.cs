@@ -1,6 +1,5 @@
 ﻿namespace Module.Semester.Domain.Entities;
 
-public class User
+public class User : Entity
 {
-    public Guid Id { get; private set; }
 }

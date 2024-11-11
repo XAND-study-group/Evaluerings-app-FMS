@@ -1,4 +1,6 @@
-﻿namespace Module.Semester.Domain.Entities;
+﻿using Module.Semester.Domain.ValueObjects;
+
+namespace Module.Semester.Domain.Entities;
 
 public class Class : Entity
 {
@@ -8,15 +10,14 @@ public class Class : Entity
     private readonly List<User> _teachers = [];
     private readonly List<User> _students = [];
     private readonly List<Subject> _subjects = [];
-
     public IReadOnlyCollection<User> Teachers => _teachers;
     public IReadOnlyCollection<User> Students => _students;
     public IReadOnlyCollection<Subject> Subjects => _subjects;
 
     // General Information 
     public string Name { get; protected set; }
-    public string Description { get; protected set; }
-    public int StudentCapacity { get; protected set; }
+    public Text Description { get; protected set; }
+    public StudentCapacity StudentCapacity { get; protected set; }
 
     #endregion
 
@@ -33,7 +34,6 @@ public class Class : Entity
         StudentCapacity = studentCapacity;
 
         AssureNameIsUnique(Name, otherClassNames);
-        AssureCapacityIsAboveZero(StudentCapacity);
     }
     #endregion
 
@@ -43,12 +43,6 @@ public class Class : Entity
     #endregion
     
     #region Class Business Logic Methods
-    protected void AssureCapacityIsAboveZero(int capacity)
-    {
-        if (capacity <= 0) 
-            throw new ArgumentException("Capacity must be greater than zero.");
-    }
-
     protected void AssureNameIsUnique(string name, IEnumerable<Class> otherClassNames)
     {
         if (otherClassNames.Any(s => s.Name == name)) 
@@ -64,13 +58,12 @@ public class Class : Entity
          var subject = Subject.Create();
         
         _subjects.Add(subject);
-        
     }
 
     public void AddStudent(User student)
     {
         // TODO: Check if user has CLAIM as Student
-        AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity);
+        AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity.Value);
         
         _students.Add(student);
     }
