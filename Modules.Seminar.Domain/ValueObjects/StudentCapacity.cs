@@ -1,10 +1,10 @@
 ﻿namespace Module.Semester.Domain.ValueObjects;
 
-public record Capacity
+public record StudentCapacity
 {
     public int Value { get; init; }
 
-    public Capacity(int value)
+    public StudentCapacity(int value)
     {
         Validate(value);
         Value = value;
@@ -16,6 +16,6 @@ public record Capacity
             throw new ArgumentException("Capacity must be greater than zero.");
     }
 
-    public static implicit operator Capacity(int value) 
+    public static implicit operator StudentCapacity(int value) 
         => new(value);
 }

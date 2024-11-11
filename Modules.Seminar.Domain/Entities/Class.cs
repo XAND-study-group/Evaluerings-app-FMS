@@ -17,7 +17,7 @@ public class Class : Entity
     // General Information 
     public string Name { get; protected set; }
     public Text Description { get; protected set; }
-    public Capacity StudentCapacity { get; protected set; }
+    public StudentCapacity StudentCapacity { get; protected set; }
 
     #endregion
 

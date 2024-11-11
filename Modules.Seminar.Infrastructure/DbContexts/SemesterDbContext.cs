@@ -33,7 +33,7 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
         modelBuilder.Entity<Class>()
             .OwnsOne<Text>(c => c.Description);
         modelBuilder.Entity<Class>()
-            .OwnsOne<Capacity>(c => c.StudentCapacity);
+            .OwnsOne<StudentCapacity>(c => c.StudentCapacity);
 
         #endregion
     }
