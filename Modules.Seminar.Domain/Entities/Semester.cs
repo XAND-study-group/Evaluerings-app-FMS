@@ -1,28 +1,18 @@
 ﻿using Module.Semester.Domain.Enums;
+using Module.Semester.Domain.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;
 
-public class Semester
+public class Semester : Entity
 {
     #region Properties
-
-    // Database Properties
-    public Guid Id { get; protected set; }
-    public byte[] RowVersion { get; protected set; }
-
     // General Information
-    public string Name { get; set; }
-    public int SemesterNumber { get; set; }
-    public DateOnly StartDate { get; set; }
-    public DateOnly EndDate { get; set; }
-    public SchoolType School { get; set; }
-    private List<User> _SemesterResponsibles { get; set; } = [];
-
-    public IEnumerable<User> SemesterResponsibles
-    {
-        get => _SemesterResponsibles;
-        set => _SemesterResponsibles = value.ToList();
-    }
+    public string Name { get; protected set; }
+    public SemesterNumber SemesterNumber { get; protected set; }
+    public EducationRange EducationRange { get; protected set; }
+    public SchoolType School { get; protected set; }
+    private readonly List<User> _semesterResponsibles = [];
+    public IReadOnlyCollection<User> SemesterResponsibles => _semesterResponsibles;
 
     #endregion
 
@@ -37,14 +27,10 @@ public class Semester
     {
         Name = name;
         SemesterNumber = semesterNumber;
-        StartDate = startDate;
-        EndDate = endDate;
+        EducationRange = EducationRange.Create(startDate, endDate);
         School = school;
-
-        AssureStartDateInFuture(StartDate, DateOnly.FromDateTime(DateTime.Now));
-        AssureEndDateAfterStartDate(StartDate, EndDate);
+        
         AssureNameIsUnique(Name, otherSemesters);
-        AssureSemesterNumberAboveZero(SemesterNumber);
     }
 
     #endregion
@@ -58,31 +44,11 @@ public class Semester
     #endregion
 
     #region Semester Business Logic Methods
-
-    protected void AssureSemesterNumberAboveZero(int semesterNumber)
-    {
-        if (semesterNumber <= 0)
-            throw new ArgumentException("Semester number cannot be less or equal to zero.");
-    }
-
-    protected void AssureEndDateAfterStartDate(DateOnly startDate, DateOnly endDate)
-    {
-        if (startDate >= endDate)
-            throw new ArgumentException("End date has to be after the start date.");
-    }
-
-    protected void AssureStartDateInFuture(DateOnly startDate, DateOnly now)
-    {
-        if (startDate <= now)
-            throw new ArgumentException("Start date has to be in the future.");
-    }
-
     protected void AssureNameIsUnique(string name, IEnumerable<Semester> otherSemesterNames)
     {
         if (otherSemesterNames.Any(s => s.Name == name))
             throw new ArgumentException($"A Semester with name '{name}' already exists.");
     }
-
     #endregion
     
     #region Relational Methods
@@ -91,17 +57,17 @@ public class Semester
     {
         //TODO: Check User has Claim "Teacher"
         
-        AssureNoDuplicateUser(teacher, _SemesterResponsibles);
+        AssureNoDuplicateUser(teacher, _semesterResponsibles);
 
-        _SemesterResponsibles.Add(teacher);
+        _semesterResponsibles.Add(teacher);
     }
 
     #endregion
     
     #region Relational Business Logic Methods
-    private void AssureNoDuplicateUser(User teacher, List<User> semesterResponsibles)
+    protected void AssureNoDuplicateUser(User teacher, List<User> semesterResponsibles)
     {
-        if (semesterResponsibles.Contains(teacher))
+        if (semesterResponsibles.Any(u => u.Id == teacher.Id))
             throw new ArgumentException("This teacher has already been added to this Semester as one of its responsibles.");
     }
     #endregion

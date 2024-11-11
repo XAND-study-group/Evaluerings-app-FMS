@@ -36,5 +36,21 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .OwnsOne<StudentCapacity>(c => c.StudentCapacity);
 
         #endregion
+        
+        #region Semester OnModelCreating
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+        
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .Property(c => c.RowVersion)
+            .IsRowVersion();
+        
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .OwnsOne<EducationRange>(s => s.EducationRange);
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .OwnsOne<SemesterNumber>(s => s.SemesterNumber);
+
+        #endregion
     }
 }
