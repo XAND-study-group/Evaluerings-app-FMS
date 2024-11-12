@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using Module.Semester.Domain.Enums;
-using Module.Semester.Domain.ValueObjects;
+using System.Collections;
+using SharedKernel.Enums.Features.Semester;
+using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;
 
