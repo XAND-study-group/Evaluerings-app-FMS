@@ -73,6 +73,14 @@ public class Class : Entity
         // TODO: Check if user has CLAIM as Teacher
         _teachers.Add(teacher);
     }
+
+    public Lecture AddLectureToSubject(string lectureTitle, string description, TimeOnly startTime, TimeOnly endTime,
+        DateOnly date, string classRoom, Guid subjectId)
+    {
+        var subject = _subjects.Single(s => s.Id == subjectId);
+        
+        return subject.AddLecture(lectureTitle, description, startTime, endTime, date, classRoom);
+    }
     #endregion
     
     #region Relation Business Logic Methods
