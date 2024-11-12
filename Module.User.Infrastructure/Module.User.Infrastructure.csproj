@@ -11,15 +11,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DbContext\" />
       <Folder Include="Extensions\" />
-      <Folder Include="Features\" />
       <Folder Include="Migrations\" />
       <Folder Include="Repositories\" />
       <Folder Include="Services\" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Module.Shared.Infrastructure\Module.Shared.Infrastructure.csproj" />
       <ProjectReference Include="..\Module.User.Application\Module.User.Application.csproj" />
       <ProjectReference Include="..\Module.User.Domain\Module.User.Domain.csproj" />
     </ItemGroup>
