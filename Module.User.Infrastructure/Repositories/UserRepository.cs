@@ -1,4 +1,5 @@
-﻿using Module.User.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using Module.User.Application.Abstractions;
 using Module.User.Infrastructure.DbContext;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,13 @@ namespace Module.User.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task CreateUserAsync(Domain.Entities.User user)
+        async Task IUserRepository.CreateUserAsync(Domain.Entities.User user)
         {
             await _dbContext.AddAsync(user);
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<Domain.Entities.User> GetUserByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        async Task<Domain.Entities.User> IUserRepository.GetUserByIdAsync(Guid id)
+            => await _dbContext.Users.SingleAsync(u => u.Id == id);
     }
 }

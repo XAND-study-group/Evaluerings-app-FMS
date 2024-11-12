@@ -15,7 +15,7 @@ namespace Module.User.Endpoints.UserManagement
     {
         void IEndpoint.MapEndpoint(WebApplication app)
         {
-            app.MapGet("User", async ([FromServices] IMediator mediator)
+            app.MapGet("/User", async ([FromServices] IMediator mediator)
                   => await mediator.Send(new GetUsersQuery()));
         }
     }
