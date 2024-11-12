@@ -12,7 +12,7 @@ public class CreateClass : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app)
     {
-        app.MapPost("/Class", async ([FromBody] CreateClassRequest createClassRequest, [FromServices] IMediator mediator) =>
+        app.MapPost("/Semester/Class", async ([FromBody] CreateClassRequest createClassRequest, [FromServices] IMediator mediator) =>
             await mediator.Send(new CreateClassCommand(createClassRequest))
         ).WithTags("Class")
         .RequireAuthorization();
