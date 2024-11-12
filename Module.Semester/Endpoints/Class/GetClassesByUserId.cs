@@ -10,7 +10,7 @@ public class GetClassesByUserId : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app)
     {
-        app.MapGet("/MyClasses/{userId:guid}", async (Guid userId, IMediator mediator) =>
+        app.MapGet("Semester/MyClasses/{userId:guid}", async (Guid userId, IMediator mediator) =>
             {
                 var response = await mediator.Send(new GetClassesByUserIdQuery(userId));
                 return response;

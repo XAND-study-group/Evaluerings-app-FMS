@@ -12,7 +12,7 @@ public class AddStudentToClass : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app)
     {
-        app.MapPost("Class/AddStudent",
+        app.MapPost("/Semester/Class/AddStudent",
                 async ([FromBody] AddStudentToClassRequest addStudentToClassRequest, [FromServices] IMediator mediator) =>
                 {
                     await mediator.Send(new AddStudentToClassCommand(addStudentToClassRequest));

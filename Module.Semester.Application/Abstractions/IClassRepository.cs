@@ -11,4 +11,6 @@ public interface IClassRepository
     Task<User> GetUserByIdAsync(Guid studentId);
     Task AddUserToClassAsync();
     #endregion
+
+    Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId);
 }

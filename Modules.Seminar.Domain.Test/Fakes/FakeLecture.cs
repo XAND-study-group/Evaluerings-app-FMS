@@ -24,4 +24,9 @@ public class FakeLecture : Lecture
     {
         ClassRoom = value;
     }
+
+    public new void AssureNoDuplicates(User teacher, List<User> teachers)
+    {
+        base.AssureNoDuplicates(teacher, teachers);
+    }
 }

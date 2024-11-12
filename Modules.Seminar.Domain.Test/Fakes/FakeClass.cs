@@ -9,6 +9,12 @@ public class FakeClass : Semester.Domain.Entities.Class
     {
         Name = name;
     }
+
+    public FakeClass(Guid id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
     #endregion
     
     #region Class Business Logic Methods

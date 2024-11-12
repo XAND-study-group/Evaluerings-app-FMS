@@ -7,6 +7,8 @@ public class ClassTests
 {
     #region Tests
 
+    #region CreationalTests
+
     [Theory]
     [MemberData(nameof(ValidCreateData))]
     public void Given_Valid_Data_Then_Class_Created(string name, string description, int studentCapacity)
@@ -17,6 +19,10 @@ public class ClassTests
         // Assert
         Assert.NotNull(classSut);
     }
+
+    #endregion CreationalTests
+
+    #region NameTests
 
     [Theory]
     [MemberData(nameof(NameNotUniqueData))]
@@ -29,6 +35,9 @@ public class ClassTests
         Assert.Throws<ArgumentException>(() => classSut.AssureNameIsUnique(name, otherClasses));
     }
 
+    #endregion NameTests
+
+    #region CapacityTests
     [Fact]
     public void Given_Capacity_Below_One_Then_Throw_ArgumentException()
     {
@@ -39,7 +48,20 @@ public class ClassTests
         // Act & Assert
         Assert.Throws<ArgumentException>(() => classSut.SetStudentCapacity(studentCapacity));
     }
-    
+    [Theory]
+    [MemberData(nameof(MaxCapacityReachedData))]
+    public void Given_StudentCount_Equal_To_StudentCapacity_Then_Throw_ArgumentException(int studentCount,
+        int studentCapacity)
+    {
+        // Arrange
+        var classSut = new FakeClass("TestClass");
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => classSut.AssureMaxCapacityIsNotReached(studentCount, studentCapacity));
+    }
+    #endregion CapacityTests
+
+    #region DescriptionTests
     [Fact]
     public void Given_Description_Equal_To_WhiteSpace_Then_Throw_ArgumentNullException()
     {
@@ -50,7 +72,7 @@ public class ClassTests
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() => classSut.SetDescription(description));
     }
-    
+
     [Fact]
     public void Given_Description_Length_Over_500_Then_Throw_ArgumentException()
     {
@@ -61,18 +83,9 @@ public class ClassTests
         // Act & Assert
         Assert.Throws<ArgumentException>(() => classSut.SetDescription(description));
     }
+    #endregion DescriptionTests
 
-    [Theory]
-    [MemberData(nameof(MaxCapacityReachedData))]
-    public void Given_StudentCount_Equal_To_StudentCapacity_Then_Throw_ArgumentException(int studentCount, int studentCapacity)
-    {
-        // Arrange
-        var classSut = new FakeClass("TestClass");
-        
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => classSut.AssureMaxCapacityIsNotReached(studentCount, studentCapacity));
-    }
-    #endregion
+    #endregion Tests
 
     #region MemberData Methods
 
@@ -98,7 +111,7 @@ public class ClassTests
 
     private static IEnumerable<FakeClass> OtherClassesNameNotUnique()
         => new FakeClass[] { new FakeClass("NotUnique") };
-    
+
 
     public static IEnumerable<object[]> MaxCapacityReachedData()
     {

@@ -20,11 +20,11 @@ internal class CreateClassCommandHandler : IRequestHandler<CreateClassCommand>
     public async Task Handle(CreateClassCommand request, CancellationToken cancellationToken)
     {
         // Load
+        var semester = await _classRepository.GetSemesterById(request.CreateClassRequest.SemesterId);
         var otherClasses = await _classRepository.GetAllClassesAsync();
 
         // Do
-        var classToCreate = Domain.Entities.Class.Create(
-            request.CreateClassRequest.Name,
+        var classToCreate = semester.AddClass(request.CreateClassRequest.Name,
             request.CreateClassRequest.Description,
             request.CreateClassRequest.StudentCapacity,
             otherClasses);

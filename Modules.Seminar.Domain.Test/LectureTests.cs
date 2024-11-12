@@ -1,4 +1,6 @@
-﻿using Module.Semester.Domain.Test.Fakes;
+﻿using System.Collections;
+using Module.Semester.Domain.Entities;
+using Module.Semester.Domain.Test.Fakes;
 using Xunit;
 
 namespace Module.Semester.Domain.Test;
@@ -6,6 +8,21 @@ namespace Module.Semester.Domain.Test;
 public class LectureTests
 {
     #region Tests
+    
+    #region CreationalTests
+
+    [Theory]
+    [MemberData(nameof(ValidCreateData))]
+    public void Given_Valid_Data_Then_Success(string lectureTitle, string description, TimeOnly start, TimeOnly end,
+        DateOnly date, string classRoom)
+    {
+        // Act
+        var lecture = Lecture.Create(lectureTitle, description, start, end, date, classRoom);
+        
+        // Assert
+        Assert.NotNull(lecture);
+    }
+    #endregion CreationalTests
 
     #region LectureTitleTests
 
@@ -150,6 +167,77 @@ public class LectureTests
         lecture.SetClassRoom(classRoom);
     }
     #endregion ClassRoomTests
+    
+    #region TeachersListTests
+
+    [Theory]
+    [MemberData(nameof(UniqueTeacherData))]
+    public void Given_Unique_Teacher_Then_List_Count_Increased(FakeUser teacher)
+    {
+        // Arrange
+        var lecture = new FakeLecture();
+        var expected = 1;
+        
+        // Act
+        lecture.AddTeacher(teacher);
+        
+        // Assert
+        Assert.Equal(expected, lecture.Teachers.Count);
+    }
+
+    [Theory]
+    [MemberData(nameof(NotUniqueTeacherData))]
+    public void Given_Not_Unique_Teacher_Then_Throw_InvalidOperationException(FakeUser teacher, IEnumerable<User> teachers)
+    {
+        // Arrange
+        var lecture = new FakeLecture();
+        
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => lecture.AssureNoDuplicates(teacher, teachers.ToList()));
+    }
+    #endregion TeachersListTests
 
     #endregion Tests
+    
+    #region MemberData Methods
+
+    public static IEnumerable<object[]> ValidCreateData()
+    {
+        yield return new object[]
+        {
+            "ValidTitle",
+            "ValidDescription",
+            new TimeOnly(9, 30, 0),
+            new TimeOnly(10, 30, 0),
+            DateOnly.FromDateTime(DateTime.Now.AddDays(10)),
+            "ValidClassRoom"
+        };
+    }
+
+    public static IEnumerable<object[]> UniqueTeacherData()
+    {
+        yield return new object[]
+        {
+            new FakeUser(new Guid())
+        };
+    }
+
+    public static IEnumerable<object[]> NotUniqueTeacherData()
+    {
+        var currentTeachers = GetCurrentTeachers();
+        yield return new object[]
+        {
+            new FakeUser(Guid.Parse("6e70b105-2bce-42c9-b9df-c89f1617a9a2")),
+            currentTeachers
+        };
+    }
+
+    private static IEnumerable<User> GetCurrentTeachers()
+        =>
+        [
+            new FakeUser(Guid.Parse("6e70b105-2bce-42c9-b9df-c89f1617a9a2")),
+            new FakeUser(Guid.Parse("512b72cf-dc45-4d68-9f9d-68ea0d6d35f2"))
+        ];
+
+    #endregion MemberData Methods
 }
