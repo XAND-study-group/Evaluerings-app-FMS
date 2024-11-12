@@ -1,13 +1,14 @@
 ﻿using MediatR;
 using Module.Semester.Application.Abstractions;
 using Module.Shared.Abstractions;
+using Module.Shared.Models;
 using SharedKernel.Dto.Features.Lecture.Command;
 
 namespace Module.Semester.Application.Features.Lecture.Command;
 
-public record CreateLectureCommand(CreateLectureRequest Request) : IRequest, ITransactionalCommand;
+public record CreateLectureCommand(CreateLectureRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class CreateLectureCommandHandler : IRequestHandler<CreateLectureCommand>
+public class CreateLectureCommandHandler : IRequestHandler<CreateLectureCommand, Result<bool>>
 {
     private readonly ILectureRepository _lectureRepository;
 
@@ -16,24 +17,35 @@ public class CreateLectureCommandHandler : IRequestHandler<CreateLectureCommand>
         _lectureRepository = lectureRepository;
     }
 
-    async Task IRequestHandler<CreateLectureCommand>.Handle(CreateLectureCommand request,
+    async Task<Result<bool>> IRequestHandler<CreateLectureCommand, Result<bool>>.Handle(CreateLectureCommand request,
         CancellationToken cancellationToken)
     {
-        // Load
-        var semester = await _lectureRepository.GetSemesterById(request.Request.SemesterId);
+        try
+        {
 
-        // Do
-        var lecture = semester.AddLectureToClass(
-            request.Request.LectureTitle,
-            request.Request.Description,
-            request.Request.StartTime,
-            request.Request.EndTime,
-            request.Request.Date,
-            request.Request.ClassRoom,
-            request.Request.ClassId, 
-            request.Request.SubjectId);
+            // Load
+            var semester = await _lectureRepository.GetSemesterById(request.Request.SemesterId);
+            var createLectureRequest = request.Request;
+
+            // Do
+            var lecture = semester.AddLectureToClass(
+                createLectureRequest.LectureTitle,
+                createLectureRequest.Description,
+                createLectureRequest.StartTime,
+                createLectureRequest.EndTime,
+                createLectureRequest.Date,
+                createLectureRequest.ClassRoom,
+                createLectureRequest.ClassId, 
+                createLectureRequest.SubjectId);
         
-        // Save
-        await _lectureRepository.CreateLecture(lecture);
+            // Save
+            await _lectureRepository.CreateLecture(lecture);
+
+            return Result<bool>.Create("Lektion oprettet", true, ResultStatus.Created);
+        }
+        catch (ArgumentException e)
+        {
+            return Result<bool>.Create(e.Message, false, ResultStatus.Error);
+        }
     }
 }

@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Class.Query;
 using Module.Semester.Domain.Entities;
 using Module.Semester.Infrastructure.DbContexts;
+using Module.Shared.Models;
 using SharedKernel.Dto.Features.Class.Query;
 
 namespace Module.Semester.Infrastructure.Features.Class;
 
-public class GetClassQueryHandler : IRequestHandler<GetClassQuery, GetClassResponse>
+public class GetClassQueryHandler : IRequestHandler<GetClassQuery, Result<GetClassResponse?>>
 {
     private readonly SemesterDbContext _semesterDbContext;
     private readonly IMapper _mapper;
@@ -24,10 +25,24 @@ public class GetClassQueryHandler : IRequestHandler<GetClassQuery, GetClassRespo
             cfg.CreateMap<Subject, GetClassSubjectResponse>();
         }).CreateMapper();
     }
-    async Task<GetClassResponse> IRequestHandler<GetClassQuery, GetClassResponse>.Handle(GetClassQuery request, CancellationToken cancellationToken)
-    => await _semesterDbContext.Classes
-        .AsNoTracking()
-        .Where(s => s.Id == request.SeminarId)
-        .ProjectTo<GetClassResponse>(_mapper.ConfigurationProvider)
-        .SingleAsync(cancellationToken);
+
+    async Task<Result<GetClassResponse?>> IRequestHandler<GetClassQuery, Result<GetClassResponse?>>.Handle(
+        GetClassQuery request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var getClassResponse = await _semesterDbContext.Classes
+                .AsNoTracking()
+                .Where(s => s.Id == request.SeminarId)
+                .ProjectTo<GetClassResponse>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
+
+            return Result<GetClassResponse?>.Create("Den Specifikke klasse fundet", getClassResponse,
+                ResultStatus.Success);
+        }
+        catch (Exception e)
+        {
+            return Result<GetClassResponse?>.Create(e.Message, null, ResultStatus.Error);
+        }
+    }
 }
