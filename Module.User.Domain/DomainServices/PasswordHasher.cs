@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
-using Module.Authentication.Domain.DomainServices.Interfaces;
+using Module.User.Domain.DomainServices.Interfaces;
 
-namespace Module.Authentication.Domain.DomainServices;
+namespace Module.User.Domain.DomainServices;
 
 public class PasswordHasher : IPasswordHasher
 {

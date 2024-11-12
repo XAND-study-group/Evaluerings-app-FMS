@@ -1,9 +1,9 @@
-﻿using Module.Authentication.Domain.DomainServices.Interfaces;
-using Module.Authentication.Domain.Entity;
+﻿using Module.User.Domain.DomainServices.Interfaces;
+using Module.User.Domain.Entities;
 using Moq;
 using Xunit;
 
-namespace Module.Authentication.Domain.Test.Tests;
+namespace Module.User.Domain.Test.Tests;
 
 public class AccountLoginTest
 {

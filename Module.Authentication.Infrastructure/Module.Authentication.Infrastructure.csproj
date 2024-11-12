@@ -19,9 +19,4 @@
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Module.Authentication.Application\Module.Authentication.Application.csproj" />
-      <ProjectReference Include="..\Module.Authentication.Domain\Module.Authentication.Domain.csproj" />
-    </ItemGroup>
-
 </Project>

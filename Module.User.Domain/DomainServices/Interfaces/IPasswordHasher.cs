@@ -1,4 +1,4 @@
-﻿namespace Module.Authentication.Domain.DomainServices.Interfaces;
+﻿namespace Module.User.Domain.DomainServices.Interfaces;
 
 public interface IPasswordHasher
 {

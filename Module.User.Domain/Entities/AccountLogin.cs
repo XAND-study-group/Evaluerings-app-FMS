@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Module.Authentication.Domain.DomainServices.Interfaces;
+using Module.User.Domain.DomainServices.Interfaces;
 
-namespace Module.Authentication.Domain.Entity;
+namespace Module.User.Domain.Entities;
 
 public class AccountLogin
 {

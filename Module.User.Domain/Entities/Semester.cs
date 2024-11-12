@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Module.Semester.Domain.Enums;
+using SharedKernel.Enums.Features.Semester;
 using SharedKernel.ValueObjects;
 
 namespace Module.User.Domain.Entities

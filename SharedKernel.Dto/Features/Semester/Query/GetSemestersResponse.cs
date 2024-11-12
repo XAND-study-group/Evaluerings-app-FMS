@@ -1,4 +1,4 @@
-﻿using Module.Semester.Domain.Enums;
+﻿using SharedKernel.Enums.Features.Semester;
 
 namespace SharedKernel.Dto.Features.Semester.Query;
 

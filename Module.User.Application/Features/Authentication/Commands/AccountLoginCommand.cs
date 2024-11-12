@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using Module.Authentication.Application.Abstractions.Repositories;
-using Module.Authentication.Domain.DomainServices.Interfaces;
-using Module.Authentication.Domain.Entity;
 using Module.Shared.Models;
+using Module.User.Application.Abstractions;
+using Module.User.Domain.DomainServices.Interfaces;
 
-namespace Module.Authentication.Application.Features.Authentication.Commands;
+namespace Module.User.Application.Features.Authentication.Commands;
 
 public record AccountLoginCommand(string Email, string Password) : IRequest<Result<string>>;
 
@@ -33,6 +32,6 @@ public class AccountLoginCommandHandler : IRequestHandler<AccountLoginCommand, R
         // TODO: Change "new Account()" to the factory method
         return !correctCredentials ? 
             Result<string>.Create("Email eller adgangskode er forkert", "", ResultStatus.Error) : 
-            Result<string>.Create("Success", _tokenProvider.Create(new User()), ResultStatus.Success);
+            Result<string>.Create("Success", _tokenProvider.Create(Module.User.Domain.Entities.User.Create("Jens", "Pedersen", "JensPedersen@mail.com")), ResultStatus.Success);
     }
 }

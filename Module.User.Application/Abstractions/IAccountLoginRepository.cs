@@ -1,6 +1,6 @@
-﻿using Module.Authentication.Domain.Entity;
+﻿using Module.User.Domain.Entities;
 
-namespace Module.Authentication.Application.Abstractions.Repositories;
+namespace Module.User.Application.Abstractions;
 
 public interface IAccountLoginRepository
 {

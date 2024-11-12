@@ -1,11 +1,10 @@
-﻿using System.Xml.XPath;
-using MediatR;
-using Module.Authentication.Application.Abstractions.Repositories;
-using Module.Authentication.Domain.DomainServices.Interfaces;
-using Module.Authentication.Domain.Entity;
+﻿using MediatR;
 using Module.Shared.Models;
+using Module.User.Application.Abstractions;
+using Module.User.Domain.DomainServices.Interfaces;
+using Module.User.Domain.Entities;
 
-namespace Module.Authentication.Application.Features.SignUp.Commands;
+namespace Module.User.Application.Features.SignUp.Commands;
 
 public record AccountSignUpCommand(string Email, string Password) : IRequest<Result<bool>>;
 

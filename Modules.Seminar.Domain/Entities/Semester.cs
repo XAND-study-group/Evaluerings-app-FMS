@@ -1,4 +1,4 @@
-﻿using Module.Semester.Domain.Enums;
+﻿using SharedKernel.Enums.Features.Semester;
 using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;

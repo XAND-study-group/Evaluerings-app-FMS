@@ -16,4 +16,9 @@
       <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Abstractions\Repositories\" />
+      <Folder Include="Features\" />
+    </ItemGroup>
+
 </Project>

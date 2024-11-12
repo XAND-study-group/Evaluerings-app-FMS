@@ -56,16 +56,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.ValueObjects",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{7DE2A09E-F545-4D71-9611-533C84BDB837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Authentication", "Module.Authentication\Module.Authentication.csproj", "{CFF0041D-3BDB-4B4E-838B-87DAB418B22D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Authentication.Application", "Module.Authentication.Application\Module.Authentication.Application.csproj", "{7AA7C186-861A-4EEE-8251-0D48335C5368}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Authentication.Domain", "Module.Authentication.Domain\Module.Authentication.Domain.csproj", "{417C83CB-1288-44B4-B2F3-DF4A7EF3EC18}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Authentication.Domain.Test", "Module.Authentication.Domain.Test\Module.Authentication.Domain.Test.csproj", "{22B59635-6704-4CBF-8040-FEC3654C998A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Authentication.Infrastructure", "Module.Authentication.Infrastructure\Module.Authentication.Infrastructure.csproj", "{561377D1-8E58-4D06-BCE2-1FA16F3F7381}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,16 +126,6 @@ Global
 		{31D7CF02-5216-4C00-AB17-3B02129D05FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31D7CF02-5216-4C00-AB17-3B02129D05FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31D7CF02-5216-4C00-AB17-3B02129D05FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFF0041D-3BDB-4B4E-838B-87DAB418B22D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFF0041D-3BDB-4B4E-838B-87DAB418B22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AA7C186-861A-4EEE-8251-0D48335C5368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AA7C186-861A-4EEE-8251-0D48335C5368}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{417C83CB-1288-44B4-B2F3-DF4A7EF3EC18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{417C83CB-1288-44B4-B2F3-DF4A7EF3EC18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22B59635-6704-4CBF-8040-FEC3654C998A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22B59635-6704-4CBF-8040-FEC3654C998A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{561377D1-8E58-4D06-BCE2-1FA16F3F7381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{561377D1-8E58-4D06-BCE2-1FA16F3F7381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,8 @@
-﻿using Module.Authentication.Domain.DomainServices;
-using Module.Authentication.Domain.DomainServices.Interfaces;
-using Module.Authentication.Domain.Entity;
+﻿using Module.User.Domain.DomainServices;
 using Moq;
 using Xunit;
 
-namespace Module.Authentication.Domain.Test.Tests;
+namespace Module.User.Domain.Test.Tests;
 
 public class PasswordHasherTest
 {
