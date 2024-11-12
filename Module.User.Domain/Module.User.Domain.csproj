@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Entity\" />
       <Folder Include="Enums\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
+      <ProjectReference Include="..\SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj" />
     </ItemGroup>
 
 </Project>

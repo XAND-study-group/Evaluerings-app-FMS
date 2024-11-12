@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Abstractions;
 using Module.Semester.Domain.Entities;
-using Module.Semester.Domain.ValueObjects;
 using Module.Shared.Infrastructure.DbContexts;
+using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Infrastructure.DbContexts;
 
@@ -31,7 +31,7 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .IsRowVersion();
 
         modelBuilder.Entity<Class>()
-            .OwnsOne<Text>(c => c.Description);
+            .OwnsOne<Text>(c => c.Description); 
         modelBuilder.Entity<Class>()
             .OwnsOne<StudentCapacity>(c => c.StudentCapacity);
 

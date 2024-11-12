@@ -1,4 +1,4 @@
-﻿namespace Module.Semester.Domain.ValueObjects;
+﻿namespace SharedKernel.ValueObjects;
 
 public record StudentCapacity
 {
@@ -16,6 +16,6 @@ public record StudentCapacity
             throw new ArgumentException("Capacity must be greater than zero.");
     }
 
-    public static implicit operator StudentCapacity(int value) 
+    public static implicit operator StudentCapacity(int value)
         => new(value);
 }

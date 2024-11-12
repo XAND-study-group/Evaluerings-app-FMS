@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.API", "School.API\Sc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{22D49989-AEC3-4821-B109-01D489A91EFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.User", "Module.User\Module.User.csproj", "{1BDCC975-0751-47E6-9BCA-16BF09D7D5D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.User", "Module.User\Module.User.csproj", "{1BDCC975-0751-47E6-9BCA-16BF09D7D5D3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.User.Application", "Module.User.Application\Module.User.Application.csproj", "{51BF0D42-6AAD-440F-A840-11E41B5A69BC}"
 EndProject
@@ -32,25 +32,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A672F7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Semester", "Semester", "{59F003CC-042E-4F88-B2B1-F47FFC5959E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Application", "Module.Semester.Application\Module.Semester.Application.csproj", "{213AFEBA-5F57-441B-9813-B0FF82927AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Semester.Application", "Module.Semester.Application\Module.Semester.Application.csproj", "{213AFEBA-5F57-441B-9813-B0FF82927AC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Domain", "Modules.Seminar.Domain\Module.Semester.Domain.csproj", "{C1E38962-567B-43A6-A27D-4A1B387C7D2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Semester.Domain", "Modules.Seminar.Domain\Module.Semester.Domain.csproj", "{C1E38962-567B-43A6-A27D-4A1B387C7D2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Domain.Test", "Modules.Seminar.Domain.Test\Module.Semester.Domain.Test.csproj", "{922CF9A7-623C-4BCF-BEA9-F41591185C8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Semester.Domain.Test", "Modules.Seminar.Domain.Test\Module.Semester.Domain.Test.csproj", "{922CF9A7-623C-4BCF-BEA9-F41591185C8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester.Infrastructure", "Modules.Seminar.Infrastructure\Module.Semester.Infrastructure.csproj", "{735566AF-80BC-4380-9BF2-D8C03A7CDBBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Semester.Infrastructure", "Modules.Seminar.Infrastructure\Module.Semester.Infrastructure.csproj", "{735566AF-80BC-4380-9BF2-D8C03A7CDBBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Semester", "Module.Semester\Module.Semester.csproj", "{BF2A9248-F01F-4AE0-AD1D-BDD90E0EE755}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Semester", "Module.Semester\Module.Semester.csproj", "{BF2A9248-F01F-4AE0-AD1D-BDD90E0EE755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Shared", "Module.Shared\Module.Shared.csproj", "{676DFC34-B01D-4866-81C6-FA6728C8E35D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Shared", "Module.Shared\Module.Shared.csproj", "{676DFC34-B01D-4866-81C6-FA6728C8E35D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Shared.Infrastructure", "Module.Shared.Infrastructure\Module.Shared.Infrastructure.csproj", "{03110FFD-78EC-420B-8A82-CD45223AF88A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Shared.Infrastructure", "Module.Shared.Infrastructure\Module.Shared.Infrastructure.csproj", "{03110FFD-78EC-420B-8A82-CD45223AF88A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel", "SharedKernel", "{595725BE-1532-41BB-A7F1-BA788743F756}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Dto", "SharedKernel.Dto\SharedKernel.Dto.csproj", "{4F493938-B444-425C-ACF5-9BDC658DE6B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Dto", "SharedKernel.Dto\SharedKernel.Dto.csproj", "{4F493938-B444-425C-ACF5-9BDC658DE6B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Enums", "SharedKernel.Enums\SharedKernel.Enums.csproj", "{5FBC8519-10DD-48CD-A1F4-5D3F6AB44142}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Enums", "SharedKernel.Enums\SharedKernel.Enums.csproj", "{5FBC8519-10DD-48CD-A1F4-5D3F6AB44142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.ValueObjects", "SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj", "{31D7CF02-5216-4C00-AB17-3B02129D05FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{7DE2A09E-F545-4D71-9611-533C84BDB837}"
 EndProject
@@ -124,10 +126,16 @@ Global
 		{03110FFD-78EC-420B-8A82-CD45223AF88A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F493938-B444-425C-ACF5-9BDC658DE6B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F493938-B444-425C-ACF5-9BDC658DE6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F493938-B444-425C-ACF5-9BDC658DE6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F493938-B444-425C-ACF5-9BDC658DE6B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FBC8519-10DD-48CD-A1F4-5D3F6AB44142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FBC8519-10DD-48CD-A1F4-5D3F6AB44142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FBC8519-10DD-48CD-A1F4-5D3F6AB44142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FBC8519-10DD-48CD-A1F4-5D3F6AB44142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31D7CF02-5216-4C00-AB17-3B02129D05FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D7CF02-5216-4C00-AB17-3B02129D05FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D7CF02-5216-4C00-AB17-3B02129D05FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D7CF02-5216-4C00-AB17-3B02129D05FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CFF0041D-3BDB-4B4E-838B-87DAB418B22D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFF0041D-3BDB-4B4E-838B-87DAB418B22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AA7C186-861A-4EEE-8251-0D48335C5368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -190,7 +198,9 @@ Global
 		{BF2A9248-F01F-4AE0-AD1D-BDD90E0EE755} = {59F003CC-042E-4F88-B2B1-F47FFC5959E0}
 		{676DFC34-B01D-4866-81C6-FA6728C8E35D} = {A672F719-0E4B-4D77-988F-CA6A95CE70A8}
 		{03110FFD-78EC-420B-8A82-CD45223AF88A} = {A672F719-0E4B-4D77-988F-CA6A95CE70A8}
+		{4F493938-B444-425C-ACF5-9BDC658DE6B4} = {595725BE-1532-41BB-A7F1-BA788743F756}
 		{5FBC8519-10DD-48CD-A1F4-5D3F6AB44142} = {595725BE-1532-41BB-A7F1-BA788743F756}
+		{31D7CF02-5216-4C00-AB17-3B02129D05FA} = {595725BE-1532-41BB-A7F1-BA788743F756}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F9B67C-9A13-46EA-BC43-EA02349B6D43}

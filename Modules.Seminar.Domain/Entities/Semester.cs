@@ -1,5 +1,5 @@
 ﻿using Module.Semester.Domain.Enums;
-using Module.Semester.Domain.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;
 
