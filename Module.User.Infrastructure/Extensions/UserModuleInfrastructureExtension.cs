@@ -14,7 +14,6 @@ namespace Module.User.Infrastructure.Extensions
 {
     public static class UserModuleInfrastructureExtension
     {
-
         public static IServiceCollection AddUserModuleInfrastructure(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddDbContext<IUserDbContext, UserDbContext>(options =>
@@ -26,7 +25,6 @@ namespace Module.User.Infrastructure.Extensions
             }));
 
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
-
 
             return serviceCollection;
         }
