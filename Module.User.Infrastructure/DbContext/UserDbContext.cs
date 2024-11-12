@@ -30,6 +30,14 @@ namespace Module.User.Infrastructure.DbContext
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<Semester>()
+                .OwnsOne(p
+                    => p.EducationRange);
+            
+            modelBuilder.Entity<Semester>()
+                .OwnsOne(p
+                    => p.SemesterNumber);
+
             #endregion
 
         }

@@ -11,6 +11,10 @@ builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddMediatRModules();
 
+// Add endpoints
+builder.Services
+    .AddEndpoints(Module.User.AssemblyReference.Assembly);
+
 builder.Services.AddUserModule(builder.Configuration);
 
 var app = builder.Build();

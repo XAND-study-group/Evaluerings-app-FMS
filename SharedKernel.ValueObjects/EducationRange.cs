@@ -1,5 +1,6 @@
 ﻿namespace SharedKernel.ValueObjects;
 
+
 public record EducationRange
 {
     public DateOnly Start { get; protected set; }

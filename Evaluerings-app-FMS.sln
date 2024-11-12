@@ -54,8 +54,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel.Enums", "Share
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.ValueObjects", "SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj", "{31D7CF02-5216-4C00-AB17-3B02129D05FA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{7DE2A09E-F545-4D71-9611-533C84BDB837}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

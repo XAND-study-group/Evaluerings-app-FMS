@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Module.Shared.Abstractions;
 
