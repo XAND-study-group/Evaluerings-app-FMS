@@ -20,7 +20,6 @@ namespace Module.User.Endpoints.User
            {
                await mediator.Send(new GetUserQuery(userId));
            });
-
         }
     }
 }
