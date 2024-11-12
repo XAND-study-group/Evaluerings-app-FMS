@@ -27,6 +27,7 @@ public class AccountLogin : Entity
 
         Email = email;
         PasswordHash = passwordHasher.Hash(password);
+        User = user;
     }
 
     #endregion

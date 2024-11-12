@@ -30,6 +30,14 @@ namespace Module.User.Infrastructure.DbContext
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<Domain.Entities.User>()
+                .Property(a => a.RowVersion)
+                .IsRowVersion();
+
+            #endregion
+
+            #region Semester OnModelCreating
+
             modelBuilder.Entity<Semester>()
                 .OwnsOne(p
                     => p.EducationRange);
@@ -37,9 +45,38 @@ namespace Module.User.Infrastructure.DbContext
             modelBuilder.Entity<Semester>()
                 .OwnsOne(p
                     => p.SemesterNumber);
+            
+            modelBuilder.Entity<Semester>()
+                .Property(a => a.RowVersion)
+                .IsRowVersion();
+            
+            modelBuilder.Entity<Semester>()
+                .Property(c => c.Id)
+                .ValueGeneratedOnAdd();
 
             #endregion
 
+
+            #region Authentication OnModelCreating
+
+            modelBuilder.Entity<AccountLogin>()
+                .Property(a => a.RowVersion)
+                .IsRowVersion(); // Configure RowVersion as a concurrency token
+            
+            modelBuilder.Entity<AccountLogin>()
+                .Property(c => c.Id)
+                .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<AccountClaim>()
+                .Property(a => a.RowVersion)
+                .IsRowVersion();
+            
+            modelBuilder.Entity<AccountClaim>()
+                .Property(c => c.Id)
+                .ValueGeneratedOnAdd();
+
+            #endregion
+            
         }
 
 

@@ -14,9 +14,6 @@ public class UserLogin : IEndpoint
     {
         app.MapPost("Authentication/Login",
             async ([FromBody] AuthenticateAccountLoginRequest request, [FromServices] IMediator mediator) =>
-            Results.Ok()
-            //await mediator.Send(new AccountLoginCommand(request))
-            ).WithTags("User")
-            .RequireRateLimiting("loginLimit");
+            await mediator.Send(new AccountLoginCommand(request))).WithTags("User");
     }
 }
