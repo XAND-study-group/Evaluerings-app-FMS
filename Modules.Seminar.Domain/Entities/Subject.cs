@@ -2,9 +2,11 @@
 {
     public class Subject : Entity
     {
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
+        private readonly List<Lecture> _lectures = [];
+        public IReadOnlyCollection<Lecture> Lectures => _lectures;
 
         protected Subject(string name, string description)
         {
@@ -17,16 +19,12 @@
         {
             return new Subject(name, description);
         }
-        public void Update(string name, string description)
-        private readonly List<Lecture> _lectures = [];
-        public IReadOnlyCollection<Lecture> Lectures => _lectures;
 
-        public static Subject Create()
+        public void Update(string name, string description)
         {
             Name = name;
             Description = description;
         }
-
         public Lecture AddLecture(string lectureTitle, string description, TimeOnly startTime,
             TimeOnly endTime, DateOnly date, string classRoom)
         {
