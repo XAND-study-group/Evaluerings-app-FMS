@@ -1,3 +1,4 @@
+using Module.User.Extensions;
 using School.API;
 using School.API.Extensions;
 
@@ -7,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuth();
+
+builder.Services.AddMediatRModules();
+
+builder.Services.AddUserModule(builder.Configuration);
 
 var app = builder.Build();
 

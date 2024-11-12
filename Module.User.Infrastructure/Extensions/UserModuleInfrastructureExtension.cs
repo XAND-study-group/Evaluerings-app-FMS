@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Module.User.Domain.Entities;
+using SharedKernel.Dto.Features.Authentication.Command;
 
 namespace Module.User.Infrastructure.Extensions
 {
@@ -25,6 +27,8 @@ namespace Module.User.Infrastructure.Extensions
             }));
 
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IAccountLoginRepository, AccountLoginRepository>();
+            serviceCollection.AddScoped<IAccountClaimRepository, AccountClaimRepository>();
 
             return serviceCollection;
         }
