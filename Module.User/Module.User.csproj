@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
+      <ProjectReference Include="..\Module.User.Application\Module.User.Application.csproj" />
+      <ProjectReference Include="..\Module.User.Infrastructure\Module.User.Infrastructure.csproj" />
+      <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.4.1" />
+    </ItemGroup>
+
+</Project>
