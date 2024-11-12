@@ -12,7 +12,9 @@ namespace Module.User.Infrastructure.DbContext
 {
     public class UserDbContext : SchoolDbContext, IUserDbContext
     {
-        public DbSet<Domain.Entities.Semester> Semesters { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
+        public DbSet<AccountLogin> AccountLogins { get; set; }
+        public DbSet<AccountClaim> AccountClaims { get; set; }
         public DbSet<Domain.Entities.User> Users { get; set; }
         public UserDbContext(DbContextOptions<UserDbContext> options) 
         : base(options)

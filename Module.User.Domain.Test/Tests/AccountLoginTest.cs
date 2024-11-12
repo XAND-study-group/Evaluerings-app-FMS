@@ -16,7 +16,7 @@ public class AccountLoginTest
         var passwordHasherMock = new Mock<IPasswordHasher>();
 
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => AccountLogin.Create(email, password, passwordHasherMock.Object));
+        var exception = Assert.Throws<ArgumentException>(() => AccountLogin.Create(email, password, It.IsAny<Entities.User>(), passwordHasherMock.Object));
         Assert.Equal(expectedMessage, exception.Message);
     }
     
@@ -29,7 +29,7 @@ public class AccountLoginTest
         passwordHasherMock.Setup(mock => mock.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
 
         // Act & Assert
-        Assert.NotNull(AccountLogin.Create(email, password, passwordHasherMock.Object));
+        Assert.NotNull(AccountLogin.Create(email, password, It.IsAny<Entities.User>(), passwordHasherMock.Object));
     }
 
     #region MemberData

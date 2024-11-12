@@ -18,6 +18,5 @@ namespace Module.User.Domain.Entities
 
         public IReadOnlyCollection<User> SemesterResponsibles => _semesterResponsibles;
 
-
     }
 }
