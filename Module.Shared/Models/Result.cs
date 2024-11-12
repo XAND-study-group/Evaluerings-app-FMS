@@ -23,5 +23,9 @@ public enum ResultStatus
 {
     Success,
     Warning,
-    Error
+    Error,
+    Created,
+    Updated,
+    Added,
+    Deleted
 }

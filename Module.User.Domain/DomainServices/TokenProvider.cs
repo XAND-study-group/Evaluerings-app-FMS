@@ -9,6 +9,7 @@ namespace Module.User.Domain.DomainServices;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
+    
     public string Create(User.Domain.Entities.User user)
     {
         var secretKey = configuration["Jwt:Secret"];

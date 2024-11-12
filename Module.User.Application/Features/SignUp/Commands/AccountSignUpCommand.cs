@@ -3,33 +3,28 @@ using Module.Shared.Models;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
 using Module.User.Domain.Entities;
+using SharedKernel.Dto.Features.Authentication.Command;
 
 namespace Module.User.Application.Features.SignUp.Commands;
 
-public record AccountSignUpCommand(string Email, string Password) : IRequest<Result<bool>>;
+public record AccountSignUpCommand(CreateAccountLoginRequest Request) : IRequest<Result<bool>>;
 
-public class AccountSignUpCommandHandler : IRequestHandler<AccountSignUpCommand, Result<bool>>
+public class AccountSignUpCommandHandler(IAccountLoginRepository accountLoginRepository, IPasswordHasher passwordHasher)
+    : IRequestHandler<AccountSignUpCommand, Result<bool>>
 {
-    private readonly IAccountLoginRepository _accountLoginRepository;
-    private readonly IPasswordHasher _passwordHasher;
-
-    public AccountSignUpCommandHandler(IAccountLoginRepository accountLoginRepository, IPasswordHasher passwordHasher)
-    {
-        _accountLoginRepository = accountLoginRepository;
-        _passwordHasher = passwordHasher;
-    }
-    
     public async Task<Result<bool>> Handle(AccountSignUpCommand request, CancellationToken cancellationToken)
     {
-        // TODO: Use DTO request instead
-        var exists = await _accountLoginRepository.DoesAccountLoginEmailExistAsync(request.Email);
+        var createRequest = request.Request;
+        
+        var exists = await accountLoginRepository.DoesAccountLoginEmailExistAsync(createRequest.Email);
         if (!exists)
             return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
 
-        var accountLogin = AccountLogin.Create(request.Email, request.Password, _passwordHasher);
+        var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname, createRequest.Email);
+        var accountLogin = AccountLogin.Create(createRequest.Email, createRequest.Password, user, passwordHasher);
 
-        await _accountLoginRepository.CreateAccountLoginAsync(accountLogin);
+        await accountLoginRepository.CreateAccountLoginAsync(accountLogin);
 
-        return Result<bool>.Create("Account created", false, ResultStatus.Success);
+        return Result<bool>.Create("Account created", true, ResultStatus.Success);
     }
 }

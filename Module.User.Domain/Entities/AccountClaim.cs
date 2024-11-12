@@ -1,9 +1,23 @@
 ﻿namespace Module.User.Domain.Entities;
 
-public class AccountClaim
+public class AccountClaim : Entity
 {
-    public Guid Id { get; set; }
-    public Module.User.Domain.Entities.User User { get; set; }
-    public string ClaimName { get; set; }
-    public string ClaimValue { get; set; }
+    public string ClaimName { get; protected set; }
+    public string ClaimValue { get; protected set; }
+
+    protected AccountClaim()
+    {
+        
+    }
+    
+    private AccountClaim(string claimName, string claimValue)
+    {
+        ClaimName = claimName;
+        ClaimValue = claimValue;
+    }
+    
+    public static AccountClaim Create(string claimName, string claimValue)
+    {
+        return new AccountClaim(claimName, claimValue);
+    }
 }

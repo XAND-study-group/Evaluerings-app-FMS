@@ -15,6 +15,12 @@ namespace Module.User.Domain.Entities
         public string Lastname { get; protected set; }
         public string Email { get; protected set; }
         public IEnumerable<Semester> Semesters { get; protected set; }
+        private List<AccountClaim> _accountClaims;
+        public IEnumerable<AccountClaim> AccountClaims
+        {
+            get => _accountClaims;
+            protected set => _accountClaims = value.ToList();
+        }
 
         #endregion
 
@@ -39,7 +45,12 @@ namespace Module.User.Domain.Entities
 
         #endregion
 
-
+        public void AddAccountClaim(AccountClaim claim)
+        {
+            _accountClaims.Add(claim);
+        }
+        
+        // TODO: Assure user does not have claim
 
     }
 }
