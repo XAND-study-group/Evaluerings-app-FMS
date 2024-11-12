@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Module.Shared.Models;
 
 namespace Module.User.Application.Features.User.Command
 {
@@ -22,6 +23,8 @@ namespace Module.User.Application.Features.User.Command
 
         public async Task<Task> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            
+            
             var userRequest = request.Request;
 
             // Create 

@@ -33,6 +33,6 @@ public class AccountLoginCommandHandler : IRequestHandler<AccountLoginCommand, R
         // TODO: Change "new Account()" to the factory method
         return !correctCredentials ? 
             Result<string>.Create("Email eller adgangskode er forkert", "", ResultStatus.Error) : 
-            Result<string>.Create("Success", _tokenProvider.Create(new Account()), ResultStatus.Success);
+            Result<string>.Create("Success", _tokenProvider.Create(new User()), ResultStatus.Success);
     }
 }

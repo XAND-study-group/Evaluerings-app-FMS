@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Module.Shared.Domain.Abstractions;
+using Module.Shared.Abstractions;
 
 namespace School.API.Extensions
 {

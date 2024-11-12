@@ -10,7 +10,7 @@ namespace Module.Authentication.Domain.DomainServices;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
-    public string Create(Account account)
+    public string Create(User user)
     {
         var secretKey = configuration["Jwt:Secret"];
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -21,9 +21,9 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
         {
             Subject = new ClaimsIdentity(
             [
-                new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, account.Email),
-                new Claim(JwtRegisteredClaimNames.Name, account.FirstName + " " + account.LastName)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Name, user.FirstName + " " + user.LastName)
             ]),
             Expires = DateTime.UtcNow.AddDays(configuration.GetValue<int>("Jwt:ExpirationInDays")),
             SigningCredentials = credentials,

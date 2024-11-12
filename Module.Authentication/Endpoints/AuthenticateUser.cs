@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Module.Authentication.Application.Features.Authentication.Commands;
 using Module.Authentication.Domain.Entity;
-using Module.Shared.Domain.Abstractions;
+using Module.Shared.Abstractions;
 
 namespace Module.Authentication.Endpoints;
 

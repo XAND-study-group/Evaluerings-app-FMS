@@ -4,5 +4,5 @@ namespace Module.Authentication.Domain.DomainServices.Interfaces;
 
 public interface ITokenProvider
 {
-    string Create(Account account);
+    string Create(User user);
 }

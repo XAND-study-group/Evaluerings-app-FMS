@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Module.Shared.Domain.Abstractions;
+using Module.Shared.Abstractions;
 
 namespace Module.Authentication.Endpoints;
 
