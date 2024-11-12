@@ -1,3 +1,5 @@
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 using Module.User.Extensions;
 using School.API;
 using School.API.Extensions;
@@ -17,13 +19,25 @@ builder.Services
 
 builder.Services.AddUserModule(builder.Configuration);
 
+builder.Services.AddRateLimiter(_ => _
+    .AddFixedWindowLimiter(policyName: "loginLimit", options =>
+    {
+        options.PermitLimit = 5;
+        options.Window = TimeSpan.FromMinutes(10);
+    }));
+
 var app = builder.Build();
 
+app.UseRateLimiter();
+app.MapEndpoints();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+    
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    
 }
 
 app.UseHttpsRedirection();

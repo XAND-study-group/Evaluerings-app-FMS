@@ -17,4 +17,15 @@ public class AccountClaimRepository(IUserDbContext dbContext) : IAccountClaimRep
     {
         await dbContext.SaveChangesAsync();
     }
+
+    async Task<AccountClaim> IAccountClaimRepository.GetClaimByNameAsync(Domain.Entities.User user, string claimName)
+    {
+        var foundUser = dbContext.Users.Include(u => u.AccountClaims)
+                            .Where(u => u.Id == user.Id) ??
+                        throw new ArgumentException("Bruger kunne ikk findes");
+
+        return await foundUser.SelectMany(u => u.AccountClaims)
+                   .FirstOrDefaultAsync(claim => claim.ClaimName == claimName) ??
+               throw new ArgumentException("Claim kunne ikke findes");
+    }
 }

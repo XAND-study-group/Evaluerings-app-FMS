@@ -8,15 +8,12 @@ using SharedKernel.Dto.Features.Authentication.Command;
 
 namespace Module.User.Endpoints.Authentication;
 
-public class UserLogin : IEndpoint
+public class LoginChangePassword : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapPost("Authentication/Login",
-            async ([FromBody] AuthenticateAccountLoginRequest request, [FromServices] IMediator mediator) =>
-            Results.Ok()
-            //await mediator.Send(new AccountLoginCommand(request))
-            ).WithTags("User")
-            .RequireRateLimiting("loginLimit");
+        app.MapPost("Authentication/ChangePassword", async ([FromBody] ChangePasswordRequest request, [FromServices] IMediator mediator) =>
+                await mediator.Send(new AccountChangePasswordCommand(request))).WithTags("User")
+                .RequireAuthorization();
     }
 }
