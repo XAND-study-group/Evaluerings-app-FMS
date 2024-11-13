@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Module.Semester.Domain.Entities;
+﻿using Module.Semester.Domain.Entities;
 using Module.Semester.Domain.Test.Fakes;
 using SharedKernel.Enums.Features.Semester;
 using Xunit;

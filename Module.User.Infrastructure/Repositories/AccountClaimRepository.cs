@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
 
