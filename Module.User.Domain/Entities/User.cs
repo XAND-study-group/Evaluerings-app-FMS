@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Module.User.Domain.Entities
@@ -15,6 +16,12 @@ namespace Module.User.Domain.Entities
         public string Lastname { get; protected set; }
         public string Email { get; protected set; }
         public IEnumerable<Semester> Semesters { get; protected set; }
+        private List<AccountClaim> _accountClaims;
+        public IEnumerable<AccountClaim> AccountClaims
+        {
+            get => _accountClaims;
+            protected set => _accountClaims = value.ToList();
+        }
 
         #endregion
 
@@ -28,6 +35,10 @@ namespace Module.User.Domain.Entities
             Firstname = fristname;
             Lastname = lastname;
             Email = email;
+
+            ValidateName(Firstname);
+            ValidateName(Lastname);
+            ValidateEmail(Email);
         }
 
         #endregion
@@ -39,7 +50,37 @@ namespace Module.User.Domain.Entities
 
         #endregion
 
+        public void AddAccountClaim(AccountClaim claim)
+        {
+            _accountClaims.Add(claim);
+        }
 
+        // TODO: Assure user does not have claim
+
+
+
+        #region User BusinessLogic Methodes
+
+        protected void ValidateName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Firstname cannot be empty or null.", nameof(name));        // her er jeg ikke helt sikker på hvorfor der skal tilføjes "nameof"
+
+            if (name.Length > 100)
+                throw new ArgumentException("Firstname cannot exceed 50 characters.", nameof(name));
+        }
+
+
+        protected void ValidateEmail(string email)
+        {
+            var regexItem = new Regex (@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            if (!regexItem.IsMatch(email))
+                throw new ArgumentException("Invalid email format.", nameof(email));
+        }
+
+
+
+        #endregion
 
     }
 }

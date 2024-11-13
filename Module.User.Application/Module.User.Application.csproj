@@ -12,13 +12,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Extensions\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
       <ProjectReference Include="..\Module.User.Domain\Module.User.Domain.csproj" />
       <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Extensions\" />
     </ItemGroup>
 
 </Project>

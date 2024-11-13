@@ -8,4 +8,4 @@ using System.Threading.Tasks;
 
 namespace Module.User.Application.Features.User.Query;
 
-public sealed record GetUsersQuery() : IRequest<IEnumerable<GetUserResponse>>;
+public sealed record GetUsersQuery() : IRequest<IEnumerable<GetUsersResponse>>;
