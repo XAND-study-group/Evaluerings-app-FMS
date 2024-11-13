@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore ./Evaluerings-app-FMS/Evaluerings-app-FMS.sln
+      run: dotnet restore ./Evaluerings-app-FMS.sln
     - name: Build
-      run: dotnet build ./Evaluerings-app-FMS/Evaluerings-app-FMS.sln --no-restore
+      run: dotnet build ./Evaluerings-app-FMS.sln --no-restore
     - name: Test
-      run: dotnet test ./Evaluerings-app-FMS/Evaluerings-app-FMS.sln --no-build --verbosity normal
+      run: dotnet test ./Evaluerings-app-FMS.sln --no-build --verbosity normal
