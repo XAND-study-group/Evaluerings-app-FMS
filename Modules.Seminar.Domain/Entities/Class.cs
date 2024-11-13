@@ -49,14 +49,11 @@ public class Class : Entity
             throw new ArgumentException($"A Class with name '{name}' already exists.");
     }
     #endregion
-    
+
     #region Relational Methods
 
-    public void AddSubject()
+    public void AddSubject(Subject subject)
     {
-        
-         var subject = Subject.Create();
-        
         _subjects.Add(subject);
     }
 
