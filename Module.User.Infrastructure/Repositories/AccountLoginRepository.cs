@@ -14,7 +14,7 @@ public class AccountLoginRepository(IUserDbContext dbContext) : IAccountLoginRep
 
     async Task<AccountLogin?> IAccountLoginRepository.GetAccountLoginFromEmailAsync(string email)
     {
-        return await dbContext.AccountLogins.FirstOrDefaultAsync(login => login.Email == email) ??
+        return await dbContext.AccountLogins.Include(account => account.User).FirstOrDefaultAsync(login => login.Email == email) ??
                throw new Exception("Login blev ikke fundet");
     }
 

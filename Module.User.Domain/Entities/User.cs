@@ -18,6 +18,7 @@ namespace Module.User.Domain.Entities
         public IEnumerable<Semester> Semesters { get; protected set; }
         private List<AccountClaim> _accountClaims = [];
         public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
+        
         #endregion
 
         #region Constructors
@@ -47,11 +48,10 @@ namespace Module.User.Domain.Entities
 
         public void AddAccountClaim(AccountClaim claim)
         {
+            // TODO: Assure user does not already have claim
+
             _accountClaims.Add(claim);
         }
-
-        // TODO: Assure user does not have claim
-
 
 
         #region User BusinessLogic Methodes
@@ -64,17 +64,14 @@ namespace Module.User.Domain.Entities
             if (name.Length > 100)
                 throw new ArgumentException("Firstname cannot exceed 50 characters.", nameof(name));
         }
-
-
+        
         protected void ValidateEmail(string email)
         {
             var regexItem = new Regex (@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!regexItem.IsMatch(email))
                 throw new ArgumentException("Invalid email format.", nameof(email));
         }
-
-
-
+        
         #endregion
 
     }

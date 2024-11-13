@@ -4,7 +4,7 @@ using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Authentication.Command;
 
-namespace Module.User.Application.Features.Authentication.Commands;
+namespace Module.User.Application.Features.Login.Commands;
 
 public record AccountLoginCommand(AuthenticateAccountLoginRequest Request) : IRequest<Result<string>>;
 

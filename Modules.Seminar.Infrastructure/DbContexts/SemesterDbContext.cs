@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Abstractions;
 using Module.Semester.Domain.Entities;
-using Module.Semester.Domain.ValueObjects;
 using Module.Shared.Infrastructure.DbContexts;
 using SharedKernel.ValueObjects;
 

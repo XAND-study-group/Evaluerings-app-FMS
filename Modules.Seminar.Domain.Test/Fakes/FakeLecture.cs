@@ -1,5 +1,5 @@
 ﻿using Module.Semester.Domain.Entities;
-using Module.Semester.Domain.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Test.Fakes;
 

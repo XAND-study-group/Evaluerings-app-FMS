@@ -1,4 +1,4 @@
-﻿namespace Module.Semester.Domain.ValueObjects;
+﻿namespace SharedKernel.ValueObjects;
 
 public record LectureTitle
 {

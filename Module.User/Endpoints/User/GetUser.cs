@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Module.User.Application.Features.User.Query;
 
 namespace Module.User.Endpoints.User
@@ -16,10 +17,9 @@ namespace Module.User.Endpoints.User
         void IEndpoint.MapEndpoint(WebApplication app)
         {
             app.MapGet("/User/{userId:guid}",
-           async (Guid userId, [FromServices] IMediator mediator) =>
-           {
-               await mediator.Send(new GetUserQuery(userId));
-           });
+                    async (Guid userId, [FromServices] IMediator mediator) =>
+                    await mediator.Send(new GetUserQuery(userId))).WithTags("User")
+                .RequireAuthorization();
         }
     }
 }

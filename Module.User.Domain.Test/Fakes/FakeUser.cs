@@ -15,7 +15,6 @@ namespace Module.User.Domain.Test.Fakes
             Email = email;
         }
 
-
         public new void ValidateName(string name)
             => base.ValidateName(name);
 
