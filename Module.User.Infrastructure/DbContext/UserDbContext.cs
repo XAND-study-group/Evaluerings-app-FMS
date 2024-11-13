@@ -12,7 +12,7 @@ namespace Module.User.Infrastructure.DbContext
 {
     public class UserDbContext : SchoolDbContext, IUserDbContext
     {
-        public DbSet<Semester> Semesters { get; set; }
+        public DbSet<Domain.Entities.Semester> Semesters { get; set; }
         public DbSet<AccountLogin> AccountLogins { get; set; }
         public DbSet<AccountClaim> AccountClaims { get; set; }
         public DbSet<Domain.Entities.User> Users { get; set; }
@@ -38,19 +38,19 @@ namespace Module.User.Infrastructure.DbContext
 
             #region Semester OnModelCreating
 
-            modelBuilder.Entity<Semester>()
+            modelBuilder.Entity<Domain.Entities.Semester>()
                 .OwnsOne(p
                     => p.EducationRange);
             
-            modelBuilder.Entity<Semester>()
+            modelBuilder.Entity<Domain.Entities.Semester>()
                 .OwnsOne(p
                     => p.SemesterNumber);
             
-            modelBuilder.Entity<Semester>()
+            modelBuilder.Entity<Domain.Entities.Semester>()
                 .Property(a => a.RowVersion)
                 .IsRowVersion();
             
-            modelBuilder.Entity<Semester>()
+            modelBuilder.Entity<Domain.Entities.Semester>()
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 

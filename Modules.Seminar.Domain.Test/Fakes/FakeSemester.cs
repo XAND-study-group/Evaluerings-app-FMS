@@ -24,4 +24,9 @@ public class FakeSemester : Entities.Semester
     {
         base.AssureNoDuplicateUser(teacher, semesterResponsibles);
     }
+
+    public new void AssureNoDuplicateClass(Class classToCheck, List<Class> currentClasses)
+    {
+        base.AssureNoDuplicateClass(classToCheck, currentClasses);
+    }
 }

@@ -135,26 +135,57 @@ public class SemesterTests
     {
         // Arrange
         var semester = new FakeSemester("TestSemester");
-        
+
         // Act
         semester.AddResponsible(teacher);
-        
+
         // Assert
         Assert.True(semester.SemesterResponsibles.Count == 1);
     }
-    
+
     [Theory]
     [MemberData(nameof(DuplicateResponsibleData))]
     public void Given_Duplicate_User_Then_Throw_ArgumentException(FakeUser teacher, IEnumerable<User> otherResponsibles)
     {
         // Arrange
         var semester = new FakeSemester("TestSemester");
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => semester.AssureNoDuplicateUser(teacher, otherResponsibles.ToList()));
     }
 
     #endregion AddResponsiblesTests
+
+    #region AddClassTests
+
+    [Theory]
+    [MemberData(nameof(ValidClassData))]
+    public void Given_Valid_Class_Then_List_Count_Increased(string name, string description, int studentCapacity)
+    {
+        // Arrange
+        var semester = new FakeSemester("TestSemester");
+        IEnumerable<Class> otherClasses = [];
+        var expected = 1;
+
+        // Act
+        semester.AddClass(name, description, studentCapacity, otherClasses);
+
+        // Assert
+        Assert.Equal(semester.Classes.Count, expected);
+    }
+
+    [Theory]
+    [MemberData(nameof(DuplicateClassData))]
+    public void Given_Duplicate_Class_Then_Throw_ArgumentException(FakeClass fakeClass, IEnumerable<Class> otherClasses)
+    {
+        // Arrange
+        var semester = new FakeSemester("TestSemester");
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => semester.AssureNoDuplicateClass(fakeClass, otherClasses.ToList()));
+    }
+
+    #endregion AddClassTests
 
     #endregion Tests
 
@@ -230,6 +261,7 @@ public class SemesterTests
             new FakeUser(new Guid())
         };
     }
+
     public static IEnumerable<object[]> DuplicateResponsibleData()
     {
         var otherResponsibles = GetResponsibles();
@@ -246,6 +278,33 @@ public class SemesterTests
             new FakeUser(Guid.Parse("b2d214ea-c5ea-419c-8498-0a023c27f514")),
             new FakeUser(Guid.Parse("99bf6d44-620a-4820-829d-a9444590e1d5")),
         };
+
+    public static IEnumerable<object[]> ValidClassData()
+    {
+        yield return new object[]
+        {
+            "ValidName",
+            "ValidDescription",
+            20
+        };
+    }
+
+    public static IEnumerable<object[]> DuplicateClassData()
+    {
+        var otherClasses = GetOtherClasses();
+        yield return new object[]
+        {
+            new FakeClass(Guid.Parse("80d1ffdd-b31d-4183-bcc6-6709e7177de7"), "TestClass"),
+            otherClasses
+        };
+    }
+
+    private static IEnumerable<FakeClass> GetOtherClasses()
+        =>
+        [
+            new FakeClass(Guid.Parse("80d1ffdd-b31d-4183-bcc6-6709e7177de7"), "TestClass"),
+            new FakeClass(Guid.Parse("501b49fd-9428-456e-8fe7-95c24bbc8a88"), "OtherTestClass")
+        ];
 
     #endregion
 }
