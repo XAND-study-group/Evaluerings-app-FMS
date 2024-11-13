@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using MediatR;
+﻿using MediatR;
 using Module.Shared.Models;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;

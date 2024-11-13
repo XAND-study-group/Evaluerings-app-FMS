@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Module.User.Domain.Entities
+﻿namespace Module.User.Domain.Entities
 {
     public abstract class Entity
     {
@@ -16,6 +10,5 @@ namespace Module.User.Domain.Entities
         {
             return other?.Id == Id;
         }
-
     }
 }

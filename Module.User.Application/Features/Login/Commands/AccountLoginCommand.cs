@@ -12,6 +12,7 @@ public class AccountLoginCommandHandler(IAccountLoginRepository accountLoginRepo
 {
     public async Task<Result<string>> Handle(AccountLoginCommand request, CancellationToken cancellationToken)
     {
+        // TODO: Change to try/catch
         var authenticateRequest = request.Request;
         
         var accountLogin = await accountLoginRepository.GetAccountLoginFromEmailAsync(authenticateRequest.Email);
