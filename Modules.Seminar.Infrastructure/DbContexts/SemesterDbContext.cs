@@ -12,7 +12,8 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Domain.Entities.Semester> Semesters { get; set; }
     public DbSet<Lecture> Lectures { get; set; }
-    
+    public DbSet<Subject> Subjects { get; set; }
+
     public SemesterDbContext(DbContextOptions<SemesterDbContext> options)
     :base(options)
     {
