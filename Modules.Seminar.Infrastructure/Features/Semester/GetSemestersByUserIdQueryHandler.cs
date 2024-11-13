@@ -4,11 +4,12 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Semester.Query;
 using Module.Semester.Infrastructure.DbContexts;
+using Module.Shared.Models;
 using SharedKernel.Dto.Features.Semester.Query;
 
 namespace Module.Semester.Infrastructure.Features.Semester;
 
-public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, IEnumerable<GetSemesterResponse>>
+public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSemestersResponse>>>
 {
     private readonly SemesterDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -22,10 +23,23 @@ public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUs
         }).CreateMapper();
     }
 
-    async Task<IEnumerable<GetSemesterResponse>> IRequestHandler<GetSemestersByUserIdQuery, IEnumerable<GetSemesterResponse>>.Handle(GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
-    => await _dbContext.Semesters
-        .AsNoTracking()
-        .Where(s => s.SemesterResponsibles.Any(u => u.Id == request.UserId))
-        .ProjectTo<GetSemesterResponse>(_mapper.ConfigurationProvider)
-        .ToListAsync(cancellationToken);
+    async Task<Result<IEnumerable<GetSemestersResponse>>> IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSemestersResponse>>>.Handle(GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var getSemesterResponses = await _dbContext.Semesters
+                .AsNoTracking()
+                .Where(s => s.SemesterResponsibles.Any(u => u.Id == request.UserId))
+                .ProjectTo<GetSemestersResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
+
+            return Result<IEnumerable<GetSemestersResponse>>.Create("Fandt semestre tilknyttet bruger",
+                getSemesterResponses, ResultStatus.Success);
+        }
+        catch (Exception e)
+        {
+            return Result<IEnumerable<GetSemestersResponse>>.Create(e.Message,
+                [], ResultStatus.Error);
+        }
+    }
 }

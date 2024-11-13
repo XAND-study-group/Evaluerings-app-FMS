@@ -24,9 +24,7 @@ public class SemesterRepository : ISemesterRepository
         => await _dbContext.Semesters.ToListAsync();
 
     public async Task AddResponsibleToSemester()
-    {
-        await _dbContext.SaveChangesAsync();
-    }
+        => await _dbContext.SaveChangesAsync();
 
     public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
         => await _dbContext.Semesters.SingleAsync(s => s.Id == semesterId);

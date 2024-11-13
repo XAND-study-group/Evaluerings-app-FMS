@@ -1,4 +1,5 @@
-﻿namespace Module.Semester.Domain.ValueObjects;
+﻿namespace SharedKernel.ValueObjects;
+
 
 public record EducationRange
 {
@@ -8,7 +9,7 @@ public record EducationRange
     private EducationRange(DateOnly start, DateOnly end)
     {
         var now = DateOnly.FromDateTime(DateTime.Now);
-        
+
         Validate(start, end, now);
         Start = start;
         End = end;
@@ -21,7 +22,7 @@ public record EducationRange
     {
         if (start >= end)
             throw new ArgumentException("End date has to be after the start date.");
-        
+
         if (start <= now)
             throw new ArgumentException("Start date has to be in the future.");
     }

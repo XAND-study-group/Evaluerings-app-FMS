@@ -4,11 +4,12 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Semester.Query;
 using Module.Semester.Infrastructure.DbContexts;
+using Module.Shared.Models;
 using SharedKernel.Dto.Features.Semester.Query;
 
 namespace Module.Semester.Infrastructure.Features.Semester;
 
-public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, GetSemesterResponse>
+public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, Result<GetSemesterResponse?>>
 {
     private readonly SemesterDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -20,11 +21,24 @@ public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, GetSeme
             .CreateMapper();
     }
 
-    async Task<GetSemesterResponse> IRequestHandler<GetSemesterQuery, GetSemesterResponse>.Handle(
+    async Task<Result<GetSemesterResponse?>> IRequestHandler<GetSemesterQuery, Result<GetSemesterResponse?>>.Handle(
         GetSemesterQuery request, CancellationToken cancellationToken)
-        => await _dbContext.Semesters
-            .AsNoTracking()
-            .Where(s => s.Id == request.SemesterId)
-            .ProjectTo<GetSemesterResponse>(_mapper.ConfigurationProvider)
-            .SingleAsync(cancellationToken);
+    {
+        try
+        {
+            var getSemesterResponse = await _dbContext.Semesters
+                .AsNoTracking()
+                .Where(s => s.Id == request.SemesterId)
+                .ProjectTo<GetSemesterResponse>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
+
+            return Result<GetSemesterResponse?>.Create("Efterspurgte Semester fundet", getSemesterResponse,
+                ResultStatus.Success);
+        }
+        catch (Exception e)
+        {
+            return Result<GetSemesterResponse?>.Create(e.Message, null,
+                ResultStatus.Error);
+        }
+    }
 }

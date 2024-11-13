@@ -1,5 +1,4 @@
-﻿using Module.Semester.Domain.ValueObjects;
-
+﻿
 namespace Module.Semester.Domain.Test.Fakes;
 
 public class FakeClass : Semester.Domain.Entities.Class

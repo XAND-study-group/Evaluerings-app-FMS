@@ -1,4 +1,4 @@
-﻿namespace Module.Semester.Domain.Enums;
+﻿namespace SharedKernel.Enums.Features.Semester;
 
 public enum SchoolType
 {
