@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Features.User.Query;
-using Module.User.Domain.Entities;
 using Module.User.Infrastructure.DbContext;
 using SharedKernel.Dto.Features.User.Query;
 using System;
@@ -14,26 +13,25 @@ using System.Threading.Tasks;
 
 namespace Module.User.Infrastructure.Features.User
 {
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, GetUserResponse>
+    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<GetUsersResponse>>
     {
         private readonly UserDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public GetUserQueryHandler(UserDbContext dbContext)
+        public GetUsersQueryHandler(UserDbContext dbContext)
         {
             _dbContext = dbContext;
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Domain.Entities.User, GetUserResponse>();
+                cfg.CreateMap<Domain.Entities.User, GetUsersQuery>();
             }).CreateMapper();
         }
 
-        async Task<GetUserResponse> IRequestHandler<GetUserQuery, GetUserResponse>.Handle(
-            GetUserQuery request, CancellationToken cancellationToken)
-        => await _dbContext.Users
+        async Task<IEnumerable<GetUsersResponse>> IRequestHandler<GetUsersQuery, IEnumerable<GetUsersResponse>>.Handle(
+            GetUsersQuery request, CancellationToken cancellationToken)
+       => await _dbContext.Users
             .AsNoTracking()
-            .Where(u => u.Id == request.Id)
-            .ProjectTo<GetUserResponse>(_mapper.ConfigurationProvider)
-            .SingleAsync(cancellationToken);
+            .ProjectTo<GetUsersResponse>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
     }
 }

@@ -13,3 +13,4 @@ public record GetUserResponse(
     string Lastname,
     string Email,
     IEnumerable<GetSemestersResponse> Semesters);
+
