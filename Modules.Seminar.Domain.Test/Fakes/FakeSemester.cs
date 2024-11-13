@@ -6,14 +6,22 @@ namespace Module.Semester.Domain.Test.Fakes;
 
 public class FakeSemester : Entities.Semester
 {
+    #region Constructors
+
     public FakeSemester(string name)
     {
         Name = name;
     }
 
+    public FakeSemester()
+    {
+    }
+
+    #endregion Constructors
+
     public new void AssureNameIsUnique(string name, IEnumerable<Entities.Semester> otherSemesters)
         => base.AssureNameIsUnique(name, otherSemesters);
-    
+
     public void SetEducationRange(DateOnly startDate, DateOnly endDate)
         => EducationRange = EducationRange.Create(startDate, endDate);
 
