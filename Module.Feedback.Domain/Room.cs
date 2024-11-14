@@ -8,8 +8,8 @@ public class Room : Entity
 
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
-    private readonly List<Comment> _comments = [];
-    public IReadOnlyCollection<Comment> Comments => _comments;
+    private readonly List<Feedback> _feedbacks = [];
+    public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
 
     #endregion Properties
 
@@ -32,5 +32,23 @@ public class Room : Entity
     public static Room Create(string title, string description)
         => new Room(title, description);
 
+    public void Update(string title, string description)
+    {
+        Title = title;
+        Description = description;
+    }
+
     #endregion Room Methods
+    
+    #region Relational Methods
+
+    public Feedback AddFeedback(Guid userId, string problem, string solution)
+    {
+        var feedback = Feedback.Create(userId, problem, solution);
+        
+        _feedbacks.Add(feedback);
+
+        return feedback;
+    }
+    #endregion Relational Methods
 }

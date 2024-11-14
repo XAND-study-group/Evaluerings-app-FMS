@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Endpoints\Comment\" />
+      <Folder Include="Endpoints\Feedback\" />
+      <Folder Include="Endpoints\Vote\" />
+    </ItemGroup>
+
 </Project>

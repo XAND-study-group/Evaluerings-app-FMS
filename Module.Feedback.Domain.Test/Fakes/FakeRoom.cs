@@ -6,6 +6,12 @@ public class FakeRoom : Room
     {
     }
 
+    public FakeRoom(string title, string description)
+    {
+        Title = title;
+        Description = description;
+    }
+
     public void SetTitle(string title)
         => Title = title;
 
