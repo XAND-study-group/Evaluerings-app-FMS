@@ -11,11 +11,12 @@ using Module.Semester.Application.Features.Subject.Query;
 using Module.Semester.Infrastructure.DbContexts;
 using Module.Shared.Models;
 using SharedKernel.Dto.Features.Class.Query;
+using SharedKernel.Dto.Features.Lecture.Query;
 using SharedKernel.Dto.Features.Subject.Query;
 
 namespace Module.Semester.Infrastructure.Features.Subject
 {
-    public class GetSubjectQueryHandler : IRequestHandler<GetSubjectQuery, Result<GetAllSubjectsResponse?>>
+    public class GetSubjectQueryHandler : IRequestHandler<GetSubjectQuery, Result<GetSubjectResponse?>>
     {
         private readonly SemesterDbContext _semesterDbContext;
         private readonly IMapper _mapper;
@@ -25,27 +26,28 @@ namespace Module.Semester.Infrastructure.Features.Subject
             _semesterDbContext = semesterDbContext;
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Domain.Entities.Subject, GetAllSubjectsResponse>();
+                cfg.CreateMap<Domain.Entities.Subject, GetSubjectResponse>();
+                cfg.CreateMap<Domain.Entities.Lecture, GetLectureResponse>();
             }).CreateMapper();
         }
 
-        async Task<Result<GetAllSubjectsResponse?>> IRequestHandler<GetSubjectQuery, Result<GetAllSubjectsResponse?>>.Handle(
+        async Task<Result<GetSubjectResponse?>> IRequestHandler<GetSubjectQuery, Result<GetSubjectResponse?>>.Handle(
             GetSubjectQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var getSubjectResponse = await _semesterDbContext.Subjects
                     .AsNoTracking()
-                    .Where(s => s.Id == request.GetSubjectRequest.SubjectId)
-                    .ProjectTo<GetAllSubjectsResponse>(_mapper.ConfigurationProvider)
+                    .Where(s => s.Id == request.GetSubjectRequest.Id)
+                    .ProjectTo<GetSubjectResponse>(_mapper.ConfigurationProvider)
                     .SingleAsync(cancellationToken);
 
-                return Result<GetAllSubjectsResponse?>.Create("Det Specifikke fag fundet", getSubjectResponse,
+                return Result<GetSubjectResponse?>.Create("Det Specifikke fag fundet", getSubjectResponse,
                     ResultStatus.Success);
             }
             catch (Exception e)
             {
-                return Result<GetAllSubjectsResponse?>.Create(e.Message, null, ResultStatus.Error);
+                return Result<GetSubjectResponse?>.Create(e.Message, null, ResultStatus.Error);
             }
         }
     }

@@ -5,12 +5,8 @@ namespace SharedKernel.Dto.Features.Subject.Query
 {
     public record GetSubjectsByClassResponse(
         string ClassName,
-        IEnumerable<SubjectDto> Subjects
+        IEnumerable<GetAllSubjectsResponse> Subjects
     );
 
-    public record SubjectDto(
-        Guid SubjectId,
-        string SubjectName,
-        string Description
-    );
+
 }

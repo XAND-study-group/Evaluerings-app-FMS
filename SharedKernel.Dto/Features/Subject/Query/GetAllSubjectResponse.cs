@@ -7,7 +7,7 @@ namespace SharedKernel.Dto.Features.Subject.Query
         Guid Id,
         string Name,
         string Description,
-        IEnumerable<GetLectureResponse> Lectures);
+        IEnumerable<GetLectureIdResponse> Lectures);
 
 }
 

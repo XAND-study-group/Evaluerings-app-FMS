@@ -17,8 +17,8 @@ namespace Module.Semester.Endpoints.Subject
     {
         public void MapEndpoint(WebApplication app)
         {
-            app.MapPost("/Semester/Class/GetAllSubjects",
-                    async ([FromBody] GetAllSubjectsRequest getAllSubjectsRequest, [FromServices] IMediator mediator) =>
+            app.MapGet("/Semester/Class/GetAllSubjects",
+                    async ([FromServices] IMediator mediator) =>
                     {
                         var response = await mediator.Send(new GetAllSubjectsQuery());
                         return Results.Ok(response);

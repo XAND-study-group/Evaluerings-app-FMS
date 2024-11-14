@@ -4,4 +4,4 @@ using SharedKernel.Dto.Features.Subject.Query;
 
 namespace Module.Semester.Application.Features.Subject.Query;
 
-public record GetSubjectsByClassQuery(string ClassName) : IRequest<Result<GetSubjectsByClassResponse>>;
+public record GetSubjectsByClassQuery(GetSubjectsByClassRequest Request) : IRequest<Result<IEnumerable<GetAllSubjectsResponse>?>>;

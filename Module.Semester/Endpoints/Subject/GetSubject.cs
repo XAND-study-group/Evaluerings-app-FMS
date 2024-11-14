@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Subject.Query;
 using Module.Shared.Abstractions;
 using SharedKernel.Dto.Features.Subject.Command;
+using SharedKernel.Dto.Features.Subject.Query;
 
 namespace Module.Semester.Endpoints.Subject
 {
@@ -17,10 +18,10 @@ namespace Module.Semester.Endpoints.Subject
     {
         public void MapEndpoint(WebApplication app)
         {
-            app.MapPost("/Semester/Class/GetSubject",
-                    async ([FromBody] GetSubjectRequest getSubjectRequest, [FromServices] IMediator mediator) =>
+            app.MapGet("/Semester/Class/GetSubject/{id:guid}",
+                    async ([FromRoute]Guid id,[FromServices] IMediator mediator) =>
                     {
-                        var response = await mediator.Send (new GetSubjectQuery(getSubjectRequest));
+                        var response = await mediator.Send (new GetSubjectQuery(new GetSubjectRequest(id)));
                         return Results.Ok(response);
                     }).WithTags("Class")
                 .RequireAuthorization();
