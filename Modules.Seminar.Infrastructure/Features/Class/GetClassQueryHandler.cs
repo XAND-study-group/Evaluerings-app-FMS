@@ -22,7 +22,7 @@ public class GetClassQueryHandler : IRequestHandler<GetClassQuery, Result<GetCla
         {
             cfg.CreateMap<Domain.Entities.Class, GetClassResponse>();
             cfg.CreateMap<User, GetClassUserResponse>();
-            cfg.CreateMap<Subject, GetClassSubjectResponse>();
+            cfg.CreateMap<Domain.Entities.Subject, GetClassSubjectResponse>();
         }).CreateMapper();
     }
 
