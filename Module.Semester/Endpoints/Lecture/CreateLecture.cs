@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Lecture.Command;
-using Module.Shared.Abstractions;
 using SharedKernel.Dto.Features.Lecture.Command;
+using SharedKernel.Interfaces;
 
 namespace Module.Semester.Endpoints.Lecture;
 

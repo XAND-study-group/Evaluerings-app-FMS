@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Subject.Query;
-using Module.Shared.Abstractions;
-using SharedKernel.Dto.Features.Subject.Command;
+using SharedKernel.Interfaces;
 
 namespace Module.Semester.Endpoints.Subject
 {

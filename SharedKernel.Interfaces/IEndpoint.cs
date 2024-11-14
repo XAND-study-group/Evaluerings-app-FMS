@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
-namespace Module.Shared.Abstractions;
+
+namespace SharedKernel.Interfaces;
 
 public interface IEndpoint
 {

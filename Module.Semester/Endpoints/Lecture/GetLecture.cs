@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Lecture.Query;
-using Module.Shared.Abstractions;
+using SharedKernel.Interfaces;
 
 namespace Module.Semester.Endpoints.Lecture;
 
