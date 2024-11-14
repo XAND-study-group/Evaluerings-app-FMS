@@ -1,4 +1,4 @@
-﻿namespace Module.Shared.Models;
+﻿namespace SharedKernel.Models;
 
 public class Result<TResult>
 {
