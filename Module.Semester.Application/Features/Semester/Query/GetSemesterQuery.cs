@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Module.Shared.Models;
 using SharedKernel.Dto.Features.Semester.Query;
+using SharedKernel.Models;
 
 namespace Module.Semester.Application.Features.Semester.Query;
 

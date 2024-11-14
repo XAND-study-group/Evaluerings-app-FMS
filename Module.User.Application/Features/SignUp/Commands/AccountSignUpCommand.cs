@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Module.Shared.Models;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
 using Module.User.Domain.Entities;
 using SharedKernel.Dto.Features.Authentication.Command;
+using SharedKernel.Models;
 
 namespace Module.User.Application.Features.SignUp.Commands;
 

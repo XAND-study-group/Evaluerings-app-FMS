@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Module.Shared.Models;
 
-namespace Module.Shared.Extensions;
+namespace SharedKernel.Models.Extensions;
 
 public static class IResultExtension
 {

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Subject.Query;
 using Module.Semester.Infrastructure.DbContexts;
-using Module.Shared.Models;
 using SharedKernel.Dto.Features.Lecture.Query;
 using SharedKernel.Dto.Features.Subject.Query;
+using SharedKernel.Models;
 
 namespace Module.Semester.Infrastructure.Features.Subject
 {
