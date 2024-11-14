@@ -9,13 +9,13 @@ using SharedKernel.Models.Extensions;
 
 namespace Module.Feedback.Endpoints.Room;
 
-public class CreateRoom : IEndpoint
+public class UpdateRoom : IEndpoint
 {
-    void IEndpoint.MapEndpoint(WebApplication app)
+    public void MapEndpoint(WebApplication app)
     {
-        app.MapPost("/Room",
-            async ([FromBody] CreateRoomRequest createRoomRequest, [FromServices] IMediator mediator) =>
-            (await mediator.Send(new CreateRoomCommand(createRoomRequest))).ReturnHttpResult())
+        app.MapPut("/Room",
+            async ([FromBody] UpdateRoomRequest updateRoomRequest, [FromServices] IMediator mediator) =>
+            (await mediator.Send(new UpdateRoomCommand(updateRoomRequest))).ReturnHttpResult())
             .WithTags("Room")
             .RequireAuthorization();
     }
