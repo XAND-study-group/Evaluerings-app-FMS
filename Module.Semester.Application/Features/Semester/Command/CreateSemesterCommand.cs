@@ -1,13 +1,14 @@
 ﻿using MediatR;
 using Module.Semester.Application.Abstractions;
 using Module.Shared.Abstractions;
+using Module.Shared.Models;
 using SharedKernel.Dto.Features.Semester.Command;
 
 namespace Module.Semester.Application.Features.Semester.Command;
 
-public record CreateSemesterCommand(CreateSemesterRequest CreateSemesterRequest) : IRequest, ITransactionalCommand;
+public record CreateSemesterCommand(CreateSemesterRequest CreateSemesterRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class CreateSemesterCommandHandler : IRequestHandler<CreateSemesterCommand>
+public class CreateSemesterCommandHandler : IRequestHandler<CreateSemesterCommand, Result<bool>>
 {
     private readonly ISemesterRepository _semesterRepository;
 
@@ -15,21 +16,32 @@ public class CreateSemesterCommandHandler : IRequestHandler<CreateSemesterComman
     {
         _semesterRepository = semesterRepository;
     }
-    async Task IRequestHandler<CreateSemesterCommand>.Handle(CreateSemesterCommand request, CancellationToken cancellationToken)
+    async Task<Result<bool>> IRequestHandler<CreateSemesterCommand, Result<bool>>.Handle(CreateSemesterCommand request, CancellationToken cancellationToken)
     {
-        // Load
-        var otherSemesters = await _semesterRepository.GetAllSemesters();
+        try
+        {
+
+            // Load
+            var otherSemesters = await _semesterRepository.GetAllSemesters();
+            var createSemesterRequest = request.CreateSemesterRequest;
         
-        // Do
-        var semester = Domain.Entities.Semester.Create(
-            request.CreateSemesterRequest.Name, 
-            request.CreateSemesterRequest.SemesterNumber,
-            request.CreateSemesterRequest.StartDate,
-            request.CreateSemesterRequest.EndDate,
-            request.CreateSemesterRequest.School,
-            otherSemesters);
+            // Do
+            var semester = Domain.Entities.Semester.Create(
+                createSemesterRequest.Name, 
+                createSemesterRequest.SemesterNumber,
+                createSemesterRequest.StartDate,
+                createSemesterRequest.EndDate,
+                createSemesterRequest.School,
+                otherSemesters);
         
-        // Save
-        await _semesterRepository.CreateSemesterAsync(semester);
+            // Save
+            await _semesterRepository.CreateSemesterAsync(semester);
+
+            return Result<bool>.Create("Semester oprettet", true, ResultStatus.Created);
+        }
+        catch (ArgumentException e)
+        {
+            return Result<bool>.Create(e.Message, false, ResultStatus.Error);
+        }
     }
 }

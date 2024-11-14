@@ -22,5 +22,5 @@ public record SemesterNumber
     }
 
     public static implicit operator int(SemesterNumber number) => number.Value;
-    public static implicit operator SemesterNumber(int number) => new SemesterNumber(number);
+    public static implicit operator SemesterNumber(int number) => new(number);
 }

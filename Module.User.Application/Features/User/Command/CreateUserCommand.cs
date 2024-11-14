@@ -1,14 +1,8 @@
 ﻿using MediatR;
 using Module.Shared.Abstractions;
-using Module.User.Application.Abstractions;
-using Module.User.Domain.Entities;
-using SharedKernel.Dto.Features.User.Command;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Module.Shared.Models;
+using Module.User.Application.Abstractions;
+using SharedKernel.Dto.Features.User.Command;
 
 namespace Module.User.Application.Features.User.Command
 {

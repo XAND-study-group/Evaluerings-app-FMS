@@ -18,7 +18,7 @@ namespace Module.User.Infrastructure.Repositories
         }
         async Task IUserRepository.CreateUserAsync(Domain.Entities.User user)
         {
-            await _dbContext.AddAsync(user);
+            await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
         }
 

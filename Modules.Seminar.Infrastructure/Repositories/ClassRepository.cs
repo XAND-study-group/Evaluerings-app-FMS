@@ -26,15 +26,18 @@ public class ClassRepository : IClassRepository
         => await _semesterDbContext.Classes.ToListAsync();
 
     async Task<Class> IClassRepository.GetClassByIdAsync(Guid classId)
-        => await _semesterDbContext.Classes.SingleAsync(s => s.Id == classId);
+        => await _semesterDbContext.Classes.SingleAsync(c => c.Id == classId);
 
     async Task<User> IClassRepository.GetUserByIdAsync(Guid studentId)
-        => await _semesterDbContext.Users.SingleAsync(s => s.Id == studentId);
+        => await _semesterDbContext.Users.SingleAsync(u => u.Id == studentId);
 
     async Task IClassRepository.AddUserToClassAsync()
     {
         await _semesterDbContext.SaveChangesAsync();
     }
+
+    public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
+        => await _semesterDbContext.Semesters.SingleAsync(s => s.Id == semesterId);
 
     #endregion
 }

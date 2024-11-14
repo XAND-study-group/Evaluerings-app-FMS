@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
 
@@ -16,5 +15,16 @@ public class AccountClaimRepository(IUserDbContext dbContext) : IAccountClaimRep
     async Task IAccountClaimRepository.AddClaimToUserAsync(AccountClaim claim)
     {
         await dbContext.SaveChangesAsync();
+    }
+
+    async Task<AccountClaim> IAccountClaimRepository.GetClaimByNameAsync(Domain.Entities.User user, string claimName)
+    {
+        var foundUser = dbContext.Users.Include(u => u.AccountClaims)
+                            .Where(u => u.Id == user.Id) ??
+                        throw new ArgumentException("Bruger kunne ikk findes");
+
+        return await foundUser.SelectMany(u => u.AccountClaims)
+                   .FirstOrDefaultAsync(claim => claim.ClaimName == claimName) ??
+               throw new ArgumentException("Claim kunne ikke findes");
     }
 }

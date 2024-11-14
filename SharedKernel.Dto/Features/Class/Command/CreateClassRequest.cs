@@ -3,4 +3,6 @@
 public record CreateClassRequest(
     string Name,
     string Description,
-    int StudentCapacity);
+    int StudentCapacity,
+    
+    Guid SemesterId);
