@@ -1,4 +1,4 @@
-﻿using Module.Semester.Domain.ValueObjects;
+﻿using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;
 
@@ -49,14 +49,11 @@ public class Class : Entity
             throw new ArgumentException($"A Class with name '{name}' already exists.");
     }
     #endregion
-    
+
     #region Relational Methods
 
-    public void AddSubject()
+    public void AddSubject(Subject subject)
     {
-        
-         var subject = Subject.Create();
-        
         _subjects.Add(subject);
     }
 
@@ -72,6 +69,14 @@ public class Class : Entity
     {
         // TODO: Check if user has CLAIM as Teacher
         _teachers.Add(teacher);
+    }
+
+    public Lecture AddLectureToSubject(string lectureTitle, string description, TimeOnly startTime, TimeOnly endTime,
+        DateOnly date, string classRoom, Guid subjectId)
+    {
+        var subject = _subjects.Single(s => s.Id == subjectId);
+        
+        return subject.AddLecture(lectureTitle, description, startTime, endTime, date, classRoom);
     }
     #endregion
     

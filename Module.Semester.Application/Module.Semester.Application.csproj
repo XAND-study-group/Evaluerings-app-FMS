@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Subject\Command\Dto\**" />
+    <EmbeddedResource Remove="Features\Subject\Command\Dto\**" />
+    <None Remove="Features\Subject\Command\Dto\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Features\Subject\Command\Dto\" />
+    <Folder Include="Features\Subject\Command\" />
     <Folder Include="Features\Subject\Query\Dto\" />
   </ItemGroup>
 
@@ -16,6 +22,7 @@
     <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
     <ProjectReference Include="..\Modules.Seminar.Domain\Module.Semester.Domain.csproj" />
     <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
+    <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>

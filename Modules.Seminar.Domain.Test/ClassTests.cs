@@ -7,8 +7,10 @@ public class ClassTests
 {
     #region Tests
 
+    #region CreationalTests
+
     [Theory]
-    [MemberData(nameof(ValidCreateData))]
+    [InlineData("ValidName", "ValidDescription", 32)]
     public void Given_Valid_Data_Then_Class_Created(string name, string description, int studentCapacity)
     {
         // Act
@@ -18,61 +20,122 @@ public class ClassTests
         Assert.NotNull(classSut);
     }
 
+    #endregion CreationalTests
+
+    #region NameTests
+
     [Theory]
     [MemberData(nameof(NameNotUniqueData))]
     public void Given_Name_NotUnique_Then_Throws_ArgumentException(string name, IEnumerable<FakeClass> otherClasses)
     {
         // Arrange
-        var classSut = new FakeClass(name);
+        var classSut = new FakeClass();
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => classSut.AssureNameIsUnique(name, otherClasses));
     }
 
+    [Theory]
+    [MemberData(nameof(NameUniqueData))]
+    public void Given_Name_Unique_Then_Void(string name, IEnumerable<FakeClass> otherClasses)
+    {
+        // Arrange
+        var classSut = new FakeClass();
+
+        // Act
+        classSut.AssureNameIsUnique(name, otherClasses);
+    }
+
+    #endregion NameTests
+
+    #region CapacityTests
+
     [Fact]
     public void Given_Capacity_Below_One_Then_Throw_ArgumentException()
     {
         // Arrange
-        var classSut = new FakeClass("TestClass");
+        var classSut = new FakeClass();
         var studentCapacity = -1;
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => classSut.SetStudentCapacity(studentCapacity));
     }
-    
+
+    [Fact]
+    public void Given_StudentCount_Equal_To_StudentCapacity_Then_Throw_ArgumentException()
+    {
+        // Arrange
+        var classSut = new FakeClass();
+        var studentCount = 2;
+        var studentCapacity = 2;
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => classSut.AssureMaxCapacityIsNotReached(studentCount, studentCapacity));
+    }
+
+    [Fact]
+    public void Given_Valid_StudentCount_Then_Void()
+    {
+        // Arrange
+        var classSut = new FakeClass();
+        var studentCount = 5;
+        var studentCapacity = 10;
+
+        // Act
+        classSut.AssureMaxCapacityIsNotReached(studentCount, studentCapacity);
+    }
+
+    #endregion CapacityTests
+
+    #region DescriptionTests
+
     [Fact]
     public void Given_Description_Equal_To_WhiteSpace_Then_Throw_ArgumentNullException()
     {
         // Arrange
-        var classSut = new FakeClass("TestClass");
+        var classSut = new FakeClass();
         var description = " ";
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => classSut.SetDescription(description));
+        Assert.Throws<ArgumentException>(() => classSut.SetDescription(description));
     }
-    
+
+    [Fact]
+    public void Given_Description_Equal_To_Null_Then_Throw_ArgumentNullException()
+    {
+        // Arrange
+        var classSut = new FakeClass();
+        string? description = null;
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => classSut.SetDescription(description!));
+    }
+
     [Fact]
     public void Given_Description_Length_Over_500_Then_Throw_ArgumentException()
     {
         // Arrange
-        var classSut = new FakeClass("TestClass");
+        var classSut = new FakeClass();
         var description = string.Concat(Enumerable.Repeat("FakeTestNow", 50));
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => classSut.SetDescription(description));
     }
 
-    [Theory]
-    [MemberData(nameof(MaxCapacityReachedData))]
-    public void Given_StudentCount_Equal_To_StudentCapacity_Then_Throw_ArgumentException(int studentCount, int studentCapacity)
+    [Fact]
+    public void Given_Valid_Description_Then_Void()
     {
         // Arrange
-        var classSut = new FakeClass("TestClass");
-        
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => classSut.AssureMaxCapacityIsNotReached(studentCount, studentCapacity));
+        var classSut = new FakeClass();
+        var description = "ValidDescription";
+
+        // Act
+        classSut.SetDescription(description);
     }
-    #endregion
+
+    #endregion DescriptionTests
+
+    #endregion Tests
 
     #region MemberData Methods
 
@@ -80,9 +143,6 @@ public class ClassTests
     {
         yield return new object[]
         {
-            "DMVE231",
-            "Empty Description",
-            32
         };
     }
 
@@ -96,21 +156,18 @@ public class ClassTests
         };
     }
 
-    private static IEnumerable<FakeClass> OtherClassesNameNotUnique()
-        => new FakeClass[] { new FakeClass("NotUnique") };
-    
-
-    public static IEnumerable<object[]> MaxCapacityReachedData()
+    public static IEnumerable<object[]> NameUniqueData()
     {
-        var studentCount = 2;
-        var studentCapacity = 2;
-
+        var otherClasses = OtherClassesNameNotUnique();
         yield return new object[]
         {
-            studentCount,
-            studentCapacity
+            "Unique",
+            otherClasses
         };
     }
+
+    private static IEnumerable<FakeClass> OtherClassesNameNotUnique()
+        => new FakeClass[] { new FakeClass("NotUnique") };
 
     #endregion
 }

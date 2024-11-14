@@ -1,13 +1,15 @@
 ﻿using MediatR;
 using Module.Semester.Application.Abstractions;
-using Module.Shared.Abstractions;
 using SharedKernel.Dto.Features.Class.Command;
+using SharedKernel.Interfaces;
+using SharedKernel.Models;
 
 namespace Module.Semester.Application.Features.Class.Command;
 
-public record AddStudentToClassCommand(AddStudentToClassRequest AddStudentToClassRequest) : IRequest, ITransactionalCommand;
+public record AddStudentToClassCommand(AddStudentToClassRequest AddStudentToClassRequest)
+    : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class AddStudentToClassCommandHandler : IRequestHandler<AddStudentToClassCommand>
+public class AddStudentToClassCommandHandler : IRequestHandler<AddStudentToClassCommand, Result<bool>>
 {
     private readonly IClassRepository _classRepository;
 
@@ -15,17 +17,27 @@ public class AddStudentToClassCommandHandler : IRequestHandler<AddStudentToClass
     {
         _classRepository = classRepository;
     }
-    async Task IRequestHandler<AddStudentToClassCommand>.Handle(
+
+    async Task<Result<bool>> IRequestHandler<AddStudentToClassCommand, Result<bool>>.Handle(
         AddStudentToClassCommand request, CancellationToken cancellationToken)
     {
-        // Load
-        var classToUpdate = await _classRepository.GetClassByIdAsync(request.AddStudentToClassRequest.ClassId);
-        var student = await _classRepository.GetUserByIdAsync(request.AddStudentToClassRequest.StudentId);
-        
-        // Act
-        classToUpdate.AddStudent(student);
-        
-        // Save
-        await _classRepository.AddUserToClassAsync();
+        try
+        {
+            // Load
+            var classToUpdate = await _classRepository.GetClassByIdAsync(request.AddStudentToClassRequest.ClassId);
+            var student = await _classRepository.GetUserByIdAsync(request.AddStudentToClassRequest.StudentId);
+
+            // Act
+            classToUpdate.AddStudent(student);
+
+            // Save
+            await _classRepository.AddUserToClassAsync();
+            
+            return Result<bool>.Create("Elev tilføjet", false, ResultStatus.Added);
+        }
+        catch (ArgumentException e)
+        {
+            return Result<bool>.Create(e.Message, false, ResultStatus.Error);
+        }
     }
 }

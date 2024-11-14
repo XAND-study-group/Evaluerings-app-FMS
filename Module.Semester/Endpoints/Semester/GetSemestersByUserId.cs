@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Semester.Query;
-using Module.Shared.Abstractions;
+using SharedKernel.Interfaces;
 
 namespace Module.Semester.Endpoints.Semester;
 

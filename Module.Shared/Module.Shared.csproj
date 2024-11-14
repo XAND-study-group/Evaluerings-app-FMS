@@ -10,4 +10,13 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Abstractions\" />
+      <Folder Include="Extensions\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SharedKernel.Models\SharedKernel.Models.csproj" />
+    </ItemGroup>
+
 </Project>
