@@ -1,5 +1,6 @@
 ﻿namespace Module.Feedback.Domain;
 
-public class Class1
+public class Comment : Entity
 {
+    
 }

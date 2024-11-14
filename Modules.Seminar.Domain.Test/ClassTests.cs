@@ -97,7 +97,7 @@ public class ClassTests
         var description = " ";
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => classSut.SetDescription(description));
+        Assert.Throws<ArgumentException>(() => classSut.SetDescription(description));
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class ClassTests
         string? description = null;
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => classSut.SetDescription(description!));
+        Assert.Throws<ArgumentException>(() => classSut.SetDescription(description!));
     }
 
     [Fact]

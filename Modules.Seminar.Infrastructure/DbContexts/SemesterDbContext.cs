@@ -64,7 +64,7 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .IsRowVersion();
         
         modelBuilder.Entity<Lecture>()
-            .OwnsOne<LectureTitle>(l => l.LectureTitle);
+            .OwnsOne<Title>(l => l.Title);
         modelBuilder.Entity<Lecture>()
             .OwnsOne<Text>(l => l.Description);
         modelBuilder.Entity<Lecture>()

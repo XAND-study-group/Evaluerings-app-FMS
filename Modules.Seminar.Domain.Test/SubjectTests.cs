@@ -28,7 +28,7 @@ namespace Module.Semester.Domain.Test
         public void Given_Description_Equal_To_WhiteSpace_Then_Throw_ArgumentNullException(string name, string description)
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(name, description));
+            Assert.Throws<ArgumentException>(() => FakeSubject.Create(name, description));
         }
 
         [Theory]

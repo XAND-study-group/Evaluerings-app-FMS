@@ -20,4 +20,8 @@
         <Using Include="Xunit"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Module.Feedback.Domain\Module.Feedback.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

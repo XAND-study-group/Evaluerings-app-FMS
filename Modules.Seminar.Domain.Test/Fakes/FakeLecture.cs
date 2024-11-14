@@ -7,7 +7,7 @@ public class FakeLecture : Lecture
 {
     public void SetLectureTitle(string title)
     {
-        LectureTitle = title;
+        Title = title;
     }
 
     public void SetTimePeriod(TimeOnly from, TimeOnly to)
