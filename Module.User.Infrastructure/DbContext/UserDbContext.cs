@@ -2,11 +2,6 @@
 using Module.Shared.Infrastructure.DbContexts;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.User.Infrastructure.DbContext
 {

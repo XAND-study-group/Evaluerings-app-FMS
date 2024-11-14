@@ -14,6 +14,7 @@ public class AccountSignUpCommandHandler(IAccountLoginRepository accountLoginRep
 {
     public async Task<Result<bool>> Handle(AccountSignUpCommand request, CancellationToken cancellationToken)
     {
+        // TODO: Change to try/catch
         var createRequest = request.Request;
         
         var exists = await accountLoginRepository.DoesAccountLoginEmailExistAsync(createRequest.Email);

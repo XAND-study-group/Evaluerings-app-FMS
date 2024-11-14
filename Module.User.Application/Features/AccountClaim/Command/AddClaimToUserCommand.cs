@@ -11,6 +11,7 @@ public class AddClaimToUserCommandHandler(IUserRepository userRepository, IAccou
 {
     public async Task<Result<bool>> Handle(AddClaimToUserCommand request, CancellationToken cancellationToken)
     {
+        // TODO: Change to try/catch
         var addClaimRequest = request.Request;
 
         var user = await userRepository.GetUserByIdAsync(addClaimRequest.UserId);
