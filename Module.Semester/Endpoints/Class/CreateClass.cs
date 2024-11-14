@@ -15,6 +15,6 @@ public class CreateClass : IEndpoint
         app.MapPost("/Semester/Class", async ([FromBody] CreateClassRequest createClassRequest, [FromServices] IMediator mediator) =>
             await mediator.Send(new CreateClassCommand(createClassRequest))
         ).WithTags("Class")
-        .RequireAuthorization();
+        .RequireAuthorization("Admin");
     }
 }

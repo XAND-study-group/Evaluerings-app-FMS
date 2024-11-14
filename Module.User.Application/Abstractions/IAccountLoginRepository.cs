@@ -1,4 +1,5 @@
 ﻿using Module.User.Domain.Entities;
+using SharedKernel.Enums.Features.Authentication;
 
 namespace Module.User.Application.Abstractions;
 
@@ -9,4 +10,5 @@ public interface IAccountLoginRepository
     Task CreateAccountLoginAsync(AccountLogin accountLogin);
     Task<bool> DoesAccountLoginEmailExistAsync(string email);
     Task ChangeLoginPasswordAsync();
+    Task CreateAccountLoginsAsync(IEnumerable<AccountLogin> accountLogins);
 }

@@ -16,6 +16,6 @@ public class CreateLecture : IEndpoint
         {
             await mediator.Send(new CreateLectureCommand(createLectureRequest));
         }).WithTags("Lecture")
-        .RequireAuthorization();
+        .RequireAuthorization("Teacher");
     }
 }

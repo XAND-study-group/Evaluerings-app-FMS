@@ -3,6 +3,7 @@ using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
 using Module.User.Domain.Entities;
 using SharedKernel.Dto.Features.Authentication.Command;
+using SharedKernel.Enums.Features.Authentication;
 using SharedKernel.Models;
 
 namespace Module.User.Application.Features.SignUp.Commands;
@@ -22,7 +23,7 @@ public class AccountSignUpCommandHandler(IAccountLoginRepository accountLoginRep
             return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
 
         var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname, createRequest.Email);
-        var accountLogin = AccountLogin.Create(createRequest.Email, createRequest.Password, user, passwordHasher);
+        var accountLogin = AccountLogin.Create(createRequest.Email, createRequest.Password, user, Role.User, passwordHasher);
 
         await accountLoginRepository.CreateAccountLoginAsync(accountLogin);
 

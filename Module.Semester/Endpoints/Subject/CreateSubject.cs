@@ -17,6 +17,6 @@ public class CreateSubject : IEndpoint
             {
                 await mediator.Send(new CreateSubjectCommand(createSubjectRequest));
             }).WithTags("Class")
-            .RequireAuthorization();
+            .RequireAuthorization("Admin");
     }
 }

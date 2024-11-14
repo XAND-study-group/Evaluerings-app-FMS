@@ -16,6 +16,6 @@ public class AddResponsibleToSemester : IEndpoint
             {
                 await mediator.Send(new AddResponsibleToSemesterCommand(request));
             }).WithName("Semester")
-            .RequireAuthorization();
+            .RequireAuthorization("Teacher", "Admin");
     }
 }

@@ -17,6 +17,6 @@ public class CreateSemester : IEndpoint
             {
                 await mediator.Send(new CreateSemesterCommand(createSemesterRequest));
             }).WithTags("Semester")
-            .RequireAuthorization();
+            .RequireAuthorization("Admin");
     }
 }

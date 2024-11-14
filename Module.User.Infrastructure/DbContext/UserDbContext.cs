@@ -33,19 +33,19 @@ namespace Module.User.Infrastructure.DbContext
 
             #region Semester OnModelCreating
 
-            modelBuilder.Entity<Domain.Entities.Semester>()
+            modelBuilder.Entity<Semester>()
                 .OwnsOne(p
                     => p.EducationRange);
             
-            modelBuilder.Entity<Domain.Entities.Semester>()
+            modelBuilder.Entity<Semester>()
                 .OwnsOne(p
                     => p.SemesterNumber);
             
-            modelBuilder.Entity<Domain.Entities.Semester>()
+            modelBuilder.Entity<Semester>()
                 .Property(a => a.RowVersion)
                 .IsRowVersion();
             
-            modelBuilder.Entity<Domain.Entities.Semester>()
+            modelBuilder.Entity<Semester>()
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 
@@ -57,13 +57,16 @@ namespace Module.User.Infrastructure.DbContext
             modelBuilder.Entity<AccountLogin>()
                 .Property(a => a.RowVersion)
                 .IsRowVersion(); // Configure RowVersion as a concurrency token
+
+            // modelBuilder.Entity<AccountLogin>()
+            //     .Ignore(a => a.Role);
             
             modelBuilder.Entity<AccountLogin>()
-                .Property(c => c.Id)
+                .Property(a => a.Id)
                 .ValueGeneratedOnAdd();
             
             modelBuilder.Entity<AccountClaim>()
-                .Property(a => a.RowVersion)
+                .Property(c => c.RowVersion)
                 .IsRowVersion();
             
             modelBuilder.Entity<AccountClaim>()

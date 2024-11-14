@@ -14,7 +14,7 @@ namespace Module.User.Endpoints.User
             app.MapGet("/User/{userId:guid}",
                     async (Guid userId, [FromServices] IMediator mediator) =>
                     await mediator.Send(new GetUserQuery(userId))).WithTags("User")
-                .RequireAuthorization();
+                .RequireAuthorization("User", "Teacher", "Admin");
         }
     }
 }

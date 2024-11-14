@@ -14,6 +14,6 @@ public class LoginChangePassword : IEndpoint
     {
         app.MapPost("Authentication/ChangePassword", async ([FromBody] ChangePasswordRequest request, [FromServices] IMediator mediator) =>
                 await mediator.Send(new AccountChangePasswordCommand(request))).WithTags("User")
-                .RequireAuthorization();
+                .RequireAuthorization("Admin");
     }
 }
