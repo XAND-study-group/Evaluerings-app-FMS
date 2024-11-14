@@ -10,7 +10,7 @@ public class FakeSemester : Entities.Semester
 
     public FakeSemester(string name)
     {
-        Name = name;
+        Name = SemesterName.Create(name, []);
     }
 
     public FakeSemester()
@@ -19,14 +19,14 @@ public class FakeSemester : Entities.Semester
 
     #endregion Constructors
 
-    public new void AssureNameIsUnique(string name, IEnumerable<Entities.Semester> otherSemesters)
-        => base.AssureNameIsUnique(name, otherSemesters);
-
     public void SetEducationRange(DateOnly startDate, DateOnly endDate)
         => EducationRange = EducationRange.Create(startDate, endDate);
 
     public void SetSemesterNumber(int semesterNumber)
         => SemesterNumber = semesterNumber;
+
+    public void SetSemesterName(string name, IEnumerable<string> otherSemesterNames)
+        => Name = SemesterName.Create(name, otherSemesterNames);
 
     public new void AssureNoDuplicateUser(User teacher, List<User> semesterResponsibles)
     {

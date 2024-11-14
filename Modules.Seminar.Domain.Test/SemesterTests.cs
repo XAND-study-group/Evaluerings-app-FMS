@@ -107,24 +107,67 @@ public class SemesterTests
 
     [Theory]
     [MemberData(nameof(NotUniqueNameData))]
-    public void Given_NotUniqueName_Then_Throw_ArgumentException(string name, IEnumerable<FakeSemester> otherSemesters)
+    public void Given_NotUniqueName_Then_Throw_ArgumentException(string name, IEnumerable<string> otherSemesters)
     {
         // Arrange
         var semester = new FakeSemester();
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => semester.AssureNameIsUnique(name, otherSemesters));
+        Assert.Throws<ArgumentException>(() => semester.SetSemesterName(name, otherSemesters));
     }
 
     [Theory]
     [MemberData(nameof(UniqueNameData))]
-    public void Given_UniqueName_Then_Void(string name, IEnumerable<FakeSemester> otherSemesters)
+    public void Given_UniqueName_Then_Void(string name, IEnumerable<string> otherSemesters)
     {
         // Arrange
         var semester = new FakeSemester();
 
         // Act
-        semester.AssureNameIsUnique(name, otherSemesters);
+        semester.SetSemesterName(name, otherSemesters);
+    }
+
+    [Fact]
+    public void Given_Valid_SemesterName_Then_Void()
+    {
+        // Arrange
+        var semester = new FakeSemester();
+        
+        // Act
+        semester.SetSemesterName("ValidName", []);
+    }
+
+    [Fact]
+    public void Given_Whitespace_string_Then_Throw_ArgumentException()
+    {
+        // Arrange
+        var semester = new FakeSemester();
+        var whiteSpaceString = " ";
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => semester.SetSemesterName(whiteSpaceString, []));
+    }
+    
+    [Fact]
+    public void Given_Null_string_Then_Throw_ArgumentException()
+    {
+        // Arrange
+        var semester = new FakeSemester();
+        string? nullString = null;
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => semester.SetSemesterName(nullString!, []));
+    }
+    
+    [Fact]
+    public void Given_string_With_Length_51_Then_Throw_ArgumentException()
+    {
+        // Arrange
+        var semester = new FakeSemester();
+        var name = new string('a', 51);
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => semester.SetSemesterName(name, []));
     }
 
     #endregion NameTests
@@ -226,11 +269,11 @@ public class SemesterTests
         };
     }
 
-    private static IEnumerable<FakeSemester> GetOtherSemesters()
+    private static IEnumerable<string> GetOtherSemesters()
         => new[]
         {
-            new FakeSemester("NotUniqueName"),
-            new FakeSemester("UniqueName"),
+            "NotUniqueName",
+            "UniqueName",
         };
 
     public static IEnumerable<object[]> ValidResponsibleData()
