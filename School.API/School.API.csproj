@@ -26,6 +26,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
       <ProjectReference Include="..\Module.User\Module.User.csproj" />
+      <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
     </ItemGroup>
 
     <ItemGroup>

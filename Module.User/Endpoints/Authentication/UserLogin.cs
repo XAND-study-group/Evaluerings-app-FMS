@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Module.Shared.Abstractions;
 using Module.Shared.Extensions;
-using Module.Shared.Models;
 using Module.User.Application.Features.Login.Commands;
 using SharedKernel.Dto.Features.Authentication.Command;
+using SharedKernel.Interfaces;
 
 namespace Module.User.Endpoints.Authentication;
 

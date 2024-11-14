@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Module.Shared.Abstractions;
 using Module.User.Application.Features.User.Query;
+using SharedKernel.Interfaces;
 
 namespace Module.User.Endpoints.User
 {

@@ -1,4 +1,4 @@
-﻿namespace Module.Shared.Abstractions;
+﻿namespace SharedKernel.Interfaces;
 
 public interface ITransactionalCommand
 {

@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Module.Shared.Abstractions;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Module.User.Application.Features.User.Query;
+using SharedKernel.Interfaces;
 
 namespace Module.User.Endpoints.User
 {
