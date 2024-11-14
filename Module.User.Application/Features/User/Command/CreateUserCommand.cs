@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Module.Shared.Abstractions;
+using Module.Shared.Models;
 using Module.User.Application.Abstractions;
 using SharedKernel.Dto.Features.User.Command;
 
