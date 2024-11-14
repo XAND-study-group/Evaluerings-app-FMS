@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Module.Shared.Models;
 using Module.User.Application.Abstractions;
-using SharedKernel.Dto.Features.User.Command;
+using SharedKernel.Dto.Features.School.User.Command;
 using SharedKernel.Interfaces;
 
 namespace Module.User.Application.Features.User.Command

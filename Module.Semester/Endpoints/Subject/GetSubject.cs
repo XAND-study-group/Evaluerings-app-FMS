@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Subject.Query;
-using SharedKernel.Dto.Features.Subject.Query;
+using SharedKernel.Dto.Features.School.Subject.Query;
 using SharedKernel.Interfaces;
 
 namespace Module.Semester.Endpoints.Subject

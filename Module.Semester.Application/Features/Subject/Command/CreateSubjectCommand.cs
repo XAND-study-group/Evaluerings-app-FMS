@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SharedKernel.Dto.Features.Subject.Command;
+using SharedKernel.Dto.Features.School.Subject.Command;
 
 namespace Module.Semester.Application.Features.Subject.Command;
 

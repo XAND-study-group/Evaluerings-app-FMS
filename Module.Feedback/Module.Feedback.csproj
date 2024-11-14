@@ -12,4 +12,13 @@
       <Folder Include="Endpoints\Vote\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
+      <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.4.1" />
+    </ItemGroup>
+
 </Project>

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Module.Semester.Application.Features.Semester.Command;
-using SharedKernel.Dto.Features.Semester.Command;
+using SharedKernel.Dto.Features.School.Semester.Command;
 using SharedKernel.Interfaces;
 
 namespace Module.Semester.Endpoints.Semester;

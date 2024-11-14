@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Module.Semester.Application.Abstractions;
 using Module.Shared.Models;
-using SharedKernel.Dto.Features.Lecture.Command;
+using SharedKernel.Dto.Features.School.Lecture.Command;
 using SharedKernel.Interfaces;
 
 namespace Module.Semester.Application.Features.Lecture.Command;
