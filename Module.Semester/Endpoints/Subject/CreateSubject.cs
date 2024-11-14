@@ -12,7 +12,7 @@ public class CreateSubject : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapPost("/Class/AddSubject",
+        app.MapPost("/Semester/Class/AddSubject",
             async ([FromBody] CreateSubjectRequest createSubjectRequest, [FromServices] IMediator mediator) =>
             {
                 await mediator.Send(new CreateSubjectCommand(createSubjectRequest));
