@@ -13,7 +13,7 @@ namespace Module.User.Endpoints.User
         {
             app.MapGet("/User", async ([FromServices] IMediator mediator)
                   => await mediator.Send(new GetUsersQuery())).WithTags("User")
-                .RequireAuthorization();
+                .RequireAuthorization("AdminOrTeacher");
         }
     }
 }

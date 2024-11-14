@@ -9,7 +9,6 @@ namespace Module.User.Domain.DomainServices;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
-    
     public string Create(User.Domain.Entities.User user)
     {
         var secretKey = configuration["Jwt:Secret"];
@@ -17,14 +16,18 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
 
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+        List<Claim> claims =
+        [
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Email, user.Email),
+            new(JwtRegisteredClaimNames.Name, user.Firstname + " " + user.Lastname)
+        ];
+        
+        claims.AddRange(user.AccountClaims.Select(claim => new Claim(claim.ClaimName, claim.ClaimValue)));
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(
-            [
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Name, user.Firstname + " " + user.Lastname)
-            ]),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddDays(configuration.GetValue<int>("Jwt:ExpirationInDays")),
             SigningCredentials = credentials,
             Issuer = configuration["Jwt:Issuer"],

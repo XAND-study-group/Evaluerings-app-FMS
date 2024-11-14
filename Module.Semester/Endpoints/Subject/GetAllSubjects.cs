@@ -17,7 +17,7 @@ namespace Module.Semester.Endpoints.Subject
                         var response = await mediator.Send(new GetAllSubjectsQuery());
                         return Results.Ok(response);
                     }).WithTags("Class")
-                .RequireAuthorization();
+                .RequireAuthorization("Admin");
         }
     }
 }

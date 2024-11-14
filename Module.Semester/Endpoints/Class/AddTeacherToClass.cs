@@ -16,6 +16,6 @@ public class AddTeacherToClass : IEndpoint
             {
                 await mediator.Send(new AddTeacherToClassCommand(addTeacherToClassRequest));
             }).WithName("Class")
-            .RequireAuthorization();
+            .RequireAuthorization("Admin");
     }
 }
