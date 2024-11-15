@@ -1,4 +1,5 @@
-﻿using SharedKernel.ValueObjects;
+﻿using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
 
@@ -42,9 +43,9 @@ public class Room : Entity
     
     #region Relational Methods
 
-    public Feedback AddFeedback(Guid userId, string problem, string solution)
+    public async Task<Feedback> AddFeedbackAsync(Guid userId, string title, string problem, string solution, IHashIdService hashIdService, IFeedbackAiService feedbackAiService)
     {
-        var feedback = Feedback.Create(userId, problem, solution);
+        var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, feedbackAiService);
         
         _feedbacks.Add(feedback);
 
