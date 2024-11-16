@@ -15,11 +15,13 @@ namespace Module.User.Domain.Test.Fakes
             Email = email;
         }
 
+        public void SetRefreshToken(string token, DateTime expirationDate)
+            => RefreshToken = SharedKernel.ValueObjects.RefreshToken.Create(token, expirationDate);
+        
         public new void ValidateName(string name)
             => base.ValidateName(name);
 
         public new void ValidateEmail(string email)
             => base.ValidateEmail(email);
-
     }
 }

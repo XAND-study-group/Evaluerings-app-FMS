@@ -22,15 +22,15 @@ namespace Module.User.Infrastructure.DbContext
             #region User OnModelCreating
 
             modelBuilder.Entity<Domain.Entities.User>()
-                .Property(c => c.Id)
+                .Property(u => u.Id)
                 .ValueGeneratedOnAdd();
             
             modelBuilder.Entity<Domain.Entities.User>()
-                .OwnsOne(p
-                    => p.RefreshToken);
+                .OwnsOne(u
+                    => u.RefreshToken);
 
             modelBuilder.Entity<Domain.Entities.User>()
-                .Property(a => a.RowVersion)
+                .Property(u => u.RowVersion)
                 .IsRowVersion();
 
             #endregion
@@ -38,19 +38,19 @@ namespace Module.User.Infrastructure.DbContext
             #region Semester OnModelCreating
 
             modelBuilder.Entity<Semester>()
-                .OwnsOne(p
-                    => p.EducationRange);
+                .OwnsOne(s
+                    => s.EducationRange);
             
             modelBuilder.Entity<Semester>()
-                .OwnsOne(p
-                    => p.SemesterNumber);
+                .OwnsOne(s
+                    => s.SemesterNumber);
             
             modelBuilder.Entity<Semester>()
-                .Property(a => a.RowVersion)
+                .Property(s => s.RowVersion)
                 .IsRowVersion();
             
             modelBuilder.Entity<Semester>()
-                .Property(c => c.Id)
+                .Property(s => s.Id)
                 .ValueGeneratedOnAdd();
 
             #endregion

@@ -4,4 +4,5 @@ public interface ITokenProvider
 {
     string GenerateAccessToken(User.Domain.Entities.User user);
     string GenerateRefreshToken();
+    string GenerateRandomCode();
 }

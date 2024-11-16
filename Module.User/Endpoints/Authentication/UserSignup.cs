@@ -14,7 +14,7 @@ public class UserSignup : IEndpoint
     {
         app.MapPost("Authentication/SignUp",
             async ([FromBody] CreateAccountLoginRequest request, [FromServices] IMediator mediator) =>
-            await mediator.Send(new AccountSignUpCommand(request))).WithTags("User")
+            await mediator.Send(new AccountSignUpCommand(request))).WithTags("Authentication")
             .RequireAuthorization();
     }
 }

@@ -13,7 +13,7 @@ public class LoginChangePassword : IEndpoint
     public void MapEndpoint(WebApplication app)
     {
         app.MapPost("Authentication/ChangePassword", async ([FromBody] ChangePasswordRequest request, [FromServices] IMediator mediator) =>
-                await mediator.Send(new AccountChangePasswordCommand(request))).WithTags("User")
-                .RequireAuthorization("Admin");
+                await mediator.Send(new AccountChangePasswordCommand(request))).WithTags("Authentication")
+                .RequireRateLimiting("baseLimit");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Authentication.Command;
@@ -12,7 +13,8 @@ public class AccountLoginCommandHandler(
     IAccountLoginRepository accountLoginRepository,
     IUserRepository userRepository,
     IPasswordHasher passwordHasher,
-    ITokenProvider tokenProvider) : IRequestHandler<AccountLoginCommand, Result<TokenResponse?>>
+    ITokenProvider tokenProvider,
+    IConfiguration configuration) : IRequestHandler<AccountLoginCommand, Result<TokenResponse?>>
 {
     public async Task<Result<TokenResponse?>> Handle(AccountLoginCommand request, CancellationToken cancellationToken)
     {
@@ -31,11 +33,10 @@ public class AccountLoginCommandHandler(
             var refreshToken = tokenProvider.GenerateRefreshToken();
 
             var user = accountLogin.User;
-            user.SetRefreshToken(refreshToken);
+            user.SetRefreshToken(refreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
 
             await userRepository.SetUserRefreshTokenAsync(user);
-
-            // TODO: Should there be "NEW here?
+            
             return !correctCredentials
                 ? Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error)
                 : Result<TokenResponse?>.Create("Success", new TokenResponse(accessToken, refreshToken),
