@@ -16,28 +16,34 @@ public class AccountLoginCommandHandler(
 {
     public async Task<Result<TokenResponse?>> Handle(AccountLoginCommand request, CancellationToken cancellationToken)
     {
-        // TODO: Change to try/catch
-        var authenticateRequest = request.Request;
+        try
+        {
+            var authenticateRequest = request.Request;
 
-        var accountLogin = await accountLoginRepository.GetAccountLoginFromEmailAsync(authenticateRequest.Email);
+            var accountLogin = await accountLoginRepository.GetAccountLoginFromEmailAsync(authenticateRequest.Email);
 
-        if (accountLogin is null)
-            return Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error);
+            if (accountLogin is null)
+                return Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error);
 
-        var correctCredentials = passwordHasher.Verify(authenticateRequest.Password, accountLogin.PasswordHash);
+            var correctCredentials = passwordHasher.Verify(authenticateRequest.Password, accountLogin.PasswordHash);
 
-        var accessToken = tokenProvider.GenerateAccessToken(accountLogin.User);
-        var refreshToken = tokenProvider.GenerateRefreshToken();
+            var accessToken = tokenProvider.GenerateAccessToken(accountLogin.User);
+            var refreshToken = tokenProvider.GenerateRefreshToken();
 
-        var user = accountLogin.User;
-        user.SetRefreshToken(refreshToken);
+            var user = accountLogin.User;
+            user.SetRefreshToken(refreshToken);
 
-        await userRepository.SetUserRefreshTokenAsync(user);
+            await userRepository.SetUserRefreshTokenAsync(user);
 
-        // TODO: Should there be "NEW here?
-        return !correctCredentials
-            ? Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error)
-            : Result<TokenResponse?>.Create("Success", new TokenResponse(accessToken, refreshToken),
-                ResultStatus.Success);
+            // TODO: Should there be "NEW here?
+            return !correctCredentials
+                ? Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error)
+                : Result<TokenResponse?>.Create("Success", new TokenResponse(accessToken, refreshToken),
+                    ResultStatus.Success);
+        }
+        catch (Exception e)
+        {
+            return Result<TokenResponse?>.Create(e.Message, null, ResultStatus.Error);
+        }
     }
 }

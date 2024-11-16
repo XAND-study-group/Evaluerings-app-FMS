@@ -29,7 +29,7 @@ public class AccountChangePasswordCommandHandler(
         }
         catch (Exception e)
         {
-            return Result<bool>.Create(e.Message, true, ResultStatus.Error);
+            return Result<bool>.Create(e.Message, false, ResultStatus.Error);
         }
     }
 }
