@@ -26,4 +26,11 @@ public class Vote : Entity
     }
 
     #endregion Constructors
+
+    public static Vote Create(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
+    {
+        var vote = new Vote(userId, voteScale, hashIdService);
+        
+        return vote;
+    }
 }

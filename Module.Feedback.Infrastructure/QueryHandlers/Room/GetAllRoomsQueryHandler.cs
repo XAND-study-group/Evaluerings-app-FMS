@@ -3,12 +3,11 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Features.Room.Query;
-using Module.Feedback.Domain;
 using Module.Feedback.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.Room.Query;
 using SharedKernel.Models;
 
-namespace Module.Feedback.Infrastructure.QueryHandlers;
+namespace Module.Feedback.Infrastructure.QueryHandlers.Room;
 
 public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<IEnumerable<GetAllRoomsResponse>>>
 {
@@ -18,7 +17,8 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<
     public GetAllRoomsQueryHandler(FeedbackDbContext feedbackDbContext)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg => { cfg.CreateMap<Room, GetAllRoomsResponse>(); }).CreateMapper();
+        _mapper = new MapperConfiguration(cfg => 
+            { cfg.CreateMap<Domain.Room, GetAllRoomsResponse>(); }).CreateMapper();
     }
 
     async Task<Result<IEnumerable<GetAllRoomsResponse>>>

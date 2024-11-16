@@ -2,7 +2,7 @@
 
 public class FakeRoom : Room
 {
-    public FakeRoom() : base()
+    public FakeRoom()
     {
     }
 

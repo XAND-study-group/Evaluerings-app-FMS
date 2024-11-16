@@ -20,6 +20,7 @@ public static class FeedbackModuleInfrastructureExtension
                 }));
 
         serviceCollection.AddScoped<IRoomRepository, RoomRepository>();
+        serviceCollection.AddScoped<IFeedbackRepository, FeedbackRepository>();
         
         return serviceCollection;
     }

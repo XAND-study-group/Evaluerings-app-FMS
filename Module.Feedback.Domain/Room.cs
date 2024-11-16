@@ -10,7 +10,9 @@ public class Room : Entity
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
     private readonly List<Feedback> _feedbacks = [];
+    private readonly List<Guid> _classIds = [];
     public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
+    public IReadOnlyCollection<Guid> ClassIds => _classIds;
 
     #endregion Properties
 
@@ -40,16 +42,23 @@ public class Room : Entity
     }
 
     #endregion Room Methods
-    
+
     #region Relational Methods
 
-    public async Task<Feedback> AddFeedbackAsync(Guid userId, string title, string problem, string solution, IHashIdService hashIdService, IFeedbackAiService feedbackAiService)
+    public async Task<Feedback> AddFeedbackAsync(Guid userId, string title, string problem, string solution,
+        IHashIdService hashIdService, IFeedbackAiService feedbackAiService)
     {
         var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, feedbackAiService);
-        
+
         _feedbacks.Add(feedback);
 
         return feedback;
     }
+
+    public async Task AddClassIdAsync(Guid classId)
+    {
+        _classIds.Add(classId);
+    }
+
     #endregion Relational Methods
 }

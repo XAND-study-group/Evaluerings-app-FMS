@@ -1,4 +1,5 @@
-﻿using SharedKernel.Interfaces.DomainServices;
+﻿using SharedKernel.Enums.Features.Vote;
+using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
@@ -68,4 +69,25 @@ public class Feedback : Entity
     }
     
     #endregion Feedback Business Logic Methods
+    
+    #region Relational Methods
+
+    public Comment AddComment(Guid userId, string commentText, IFeedbackAiService feedbackAiService)
+    {
+        var comment = Comment.Create(userId, commentText, feedbackAiService);
+        
+        _comments.Add(comment);
+        
+        return comment;
+    }
+
+    public Vote AddVote(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
+    {
+        var vote = Vote.Create(userId, voteScale, hashIdService);
+        
+        _votes.Add(vote);
+        
+        return vote;
+    }
+    #endregion Relational Methods
 }

@@ -1,4 +1,5 @@
-﻿using SharedKernel.ValueObjects;
+﻿using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
 
@@ -25,4 +26,11 @@ public class Comment : Entity
     }
 
     #endregion Constructors
+
+    public static Comment Create(Guid userId, string commentText, IFeedbackAiService feedbackAiService)
+    {
+        var comment = new Comment(userId, commentText);
+        
+        return comment;
+    }
 }
