@@ -39,7 +39,7 @@ builder.Services
 builder.Services.AddUserModule(builder.Configuration);
 
 builder.Services.AddRateLimiter(_ => _
-    .AddFixedWindowLimiter(policyName: "loginLimit", options =>
+    .AddFixedWindowLimiter(policyName: "baseLimit", options =>
     {
         options.PermitLimit = 5;
         options.Window = TimeSpan.FromMinutes(10);

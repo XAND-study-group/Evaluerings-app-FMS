@@ -2,5 +2,6 @@
 
 public interface ITokenProvider
 {
-    string Create(User.Domain.Entities.User user);
+    string GenerateAccessToken(User.Domain.Entities.User user);
+    string GenerateRefreshToken();
 }

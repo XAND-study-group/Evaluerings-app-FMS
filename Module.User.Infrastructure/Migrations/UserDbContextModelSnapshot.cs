@@ -215,6 +215,31 @@ namespace Module.User.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Module.User.Domain.Entities.User", b =>
+                {
+                    b.OwnsOne("SharedKernel.ValueObjects.RefreshToken", "RefreshToken", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTime?>("ExpirationDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("Token")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("RefreshToken")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SemesterUser", b =>
                 {
                     b.HasOne("Module.User.Domain.Entities.User", null)
