@@ -24,6 +24,10 @@ namespace Module.User.Infrastructure.DbContext
             modelBuilder.Entity<Domain.Entities.User>()
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<Domain.Entities.User>()
+                .OwnsOne(p
+                    => p.RefreshToken);
 
             modelBuilder.Entity<Domain.Entities.User>()
                 .Property(a => a.RowVersion)
@@ -50,7 +54,6 @@ namespace Module.User.Infrastructure.DbContext
                 .ValueGeneratedOnAdd();
 
             #endregion
-
 
             #region Authentication OnModelCreating
 
