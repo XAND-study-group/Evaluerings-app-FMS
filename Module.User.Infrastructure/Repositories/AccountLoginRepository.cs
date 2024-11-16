@@ -1,26 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
+using Module.User.Infrastructure.DbContext;
 using SharedKernel.Enums.Features.Authentication;
 
 namespace Module.User.Infrastructure.Repositories;
 
-public class AccountLoginRepository(IUserDbContext dbContext, IAccountClaimRepository accountClaimRepository)
+public class AccountLoginRepository(UserDbContext dbContext, IAccountClaimRepository accountClaimRepository)
     : IAccountLoginRepository
 {
-    async Task<AccountLogin> IAccountLoginRepository.GetAccountLoginFromIdAsync(Guid id)
+    async Task<AccountLogin?> IAccountLoginRepository.GetAccountLoginFromIdAsync(Guid id)
     {
-        return await dbContext.AccountLogins.FirstOrDefaultAsync(account => account.Id == id) ??
-               throw new ArgumentException("Login blev ikke fundet");
+        return await dbContext.AccountLogins.FirstOrDefaultAsync(account => account.Id == id);
     }
 
     async Task<AccountLogin?> IAccountLoginRepository.GetAccountLoginFromEmailAsync(string email)
     {
         return await dbContext.AccountLogins
-                   .Include(account => account.User)
-                   .ThenInclude(user => user.AccountClaims)
-                   .FirstOrDefaultAsync(login => login.Email == email) ??
-               throw new Exception("Login blev ikke fundet");
+            .Include(account => account.User)
+            .ThenInclude(user => user.AccountClaims)
+            .FirstOrDefaultAsync(login => login.Email == email);
     }
 
     async Task IAccountLoginRepository.CreateAccountLoginAsync(AccountLogin accountLogin)
@@ -29,7 +28,7 @@ public class AccountLoginRepository(IUserDbContext dbContext, IAccountClaimRepos
         await dbContext.AccountLogins.AddAsync(accountLogin);
         await dbContext.SaveChangesAsync();
     }
-    
+
     async Task IAccountLoginRepository.CreateAccountLoginsAsync(IEnumerable<AccountLogin> accountLogins)
     {
         var accountList = accountLogins.ToList();
@@ -45,7 +44,7 @@ public class AccountLoginRepository(IUserDbContext dbContext, IAccountClaimRepos
         return await dbContext.AccountLogins.AnyAsync(login => login.Email == email);
     }
 
-    async Task IAccountLoginRepository.ChangeLoginPasswordAsync()
+    async Task IAccountLoginRepository.ChangeLoginPasswordAsync(AccountLogin accountLogin)
     {
         await dbContext.SaveChangesAsync();
     }

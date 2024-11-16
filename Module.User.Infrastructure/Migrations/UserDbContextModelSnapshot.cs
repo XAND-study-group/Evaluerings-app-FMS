@@ -49,7 +49,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AccountClaims");
+                    b.ToTable("AccountClaims", (string)null);
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entities.AccountLogin", b =>
@@ -82,7 +82,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AccountLogins");
+                    b.ToTable("AccountLogins", (string)null);
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entities.Semester", b =>
@@ -106,7 +106,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Semesters");
+                    b.ToTable("Semesters", (string)null);
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entities.User", b =>
@@ -135,7 +135,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("SemesterUser", b =>
@@ -150,7 +150,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("SemestersId");
 
-                    b.ToTable("SemesterUser");
+                    b.ToTable("SemesterUser", (string)null);
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entities.AccountClaim", b =>
@@ -173,7 +173,7 @@ namespace Module.User.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.User.Domain.Entities.Semester", b =>
                 {
-                    b.OwnsOne("SharedKernel.ValueObjects.EducationRange", "EducationRange", b1 =>
+                    b.OwnsOne("Module.User.Domain.Entities.Semester.EducationRange#SharedKernel.ValueObjects.EducationRange", "EducationRange", b1 =>
                         {
                             b1.Property<Guid>("SemesterId")
                                 .HasColumnType("uniqueidentifier");
@@ -186,13 +186,13 @@ namespace Module.User.Infrastructure.Migrations
 
                             b1.HasKey("SemesterId");
 
-                            b1.ToTable("Semesters");
+                            b1.ToTable("Semesters", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("SemesterId");
                         });
 
-                    b.OwnsOne("SharedKernel.ValueObjects.SemesterNumber", "SemesterNumber", b1 =>
+                    b.OwnsOne("Module.User.Domain.Entities.Semester.SemesterNumber#SharedKernel.ValueObjects.SemesterNumber", "SemesterNumber", b1 =>
                         {
                             b1.Property<Guid>("SemesterId")
                                 .HasColumnType("uniqueidentifier");
@@ -202,7 +202,7 @@ namespace Module.User.Infrastructure.Migrations
 
                             b1.HasKey("SemesterId");
 
-                            b1.ToTable("Semesters");
+                            b1.ToTable("Semesters", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("SemesterId");
@@ -217,7 +217,7 @@ namespace Module.User.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.User.Domain.Entities.User", b =>
                 {
-                    b.OwnsOne("SharedKernel.ValueObjects.RefreshToken", "RefreshToken", b1 =>
+                    b.OwnsOne("Module.User.Domain.Entities.User.RefreshToken#SharedKernel.ValueObjects.RefreshToken", "RefreshToken", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
@@ -230,7 +230,7 @@ namespace Module.User.Infrastructure.Migrations
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("Users", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");

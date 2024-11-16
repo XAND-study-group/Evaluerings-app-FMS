@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Module.User.Domain.DomainServices.Interfaces;
 using SharedKernel.Enums.Features.Authentication;
+using SharedKernel.ValueObjects;
 
 namespace Module.User.Domain.Entities;
 
@@ -10,9 +11,9 @@ public class AccountLogin : Entity
 
     public string Email { get; protected set; }
     public string PasswordHash { get; protected set; }
-    public User User { get; set; }
+    public User User { get; protected set; }
 
-    public Role Role { get; set; }
+    public Role Role { get; protected set; }
 
     #endregion
 
@@ -53,6 +54,7 @@ public class AccountLogin : Entity
 
     public void ChangePassword(string newPassword, IPasswordHasher passwordHasher)
     {
+        AssurePasswordCompliesWithRequirements(newPassword);
         PasswordHash = passwordHasher.Hash(newPassword);
     }
 

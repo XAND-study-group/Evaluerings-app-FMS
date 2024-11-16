@@ -14,7 +14,7 @@ public class AddAccountClaimToUser : IEndpoint
     {
         app.MapPost("Authentication/AddClaimToUser",
             async ([FromBody] AddClaimToUserRequest request, [FromServices] IMediator mediator) =>
-            await mediator.Send(new AddClaimToUserCommand(request))).WithTags("User")
+            await mediator.Send(new AddClaimToUserCommand(request))).WithTags("Authentication")
             .RequireAuthorization();
     }
 }

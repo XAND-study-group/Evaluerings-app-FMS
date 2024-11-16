@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Authentication.Command;
@@ -8,7 +9,10 @@ namespace Module.User.Application.Features.Login.Commands;
 
 public record AccountRefreshTokenCommand(TokenRequest Request) : IRequest<Result<TokenResponse?>>;
 
-public class AccountRefreshTokenCommandHandler(ITokenProvider tokenProvider, IUserRepository userRepository)
+public class AccountRefreshTokenCommandHandler(
+    ITokenProvider tokenProvider,
+    IUserRepository userRepository,
+    IConfiguration configuration)
     : IRequestHandler<AccountRefreshTokenCommand, Result<TokenResponse?>>
 {
     public async Task<Result<TokenResponse?>> Handle(AccountRefreshTokenCommand request,
@@ -23,11 +27,10 @@ public class AccountRefreshTokenCommandHandler(ITokenProvider tokenProvider, IUs
 
         var newAccessToken = tokenProvider.GenerateAccessToken(storedUser);
         var newRefreshToken = tokenProvider.GenerateRefreshToken();
-        
-        storedUser.SetRefreshToken(newRefreshToken);
+
+        storedUser.SetRefreshToken(newRefreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
         await userRepository.SetUserRefreshTokenAsync(storedUser);
         
-        // TODO: Should there be "New" here?
         return Result<TokenResponse?>.Create("Ny token blev genereret korrekt",
             new TokenResponse(newAccessToken, newRefreshToken), ResultStatus.Success);
     }

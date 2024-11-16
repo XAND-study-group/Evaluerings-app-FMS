@@ -56,13 +56,9 @@ namespace Module.User.Domain.Entities
             _accountClaims.Add(claim);
         }
 
-        public void SetRefreshToken(string token)
+        public void SetRefreshToken(string token, int days)
         {
-            RefreshToken = new RefreshToken
-            {
-                Token = token,
-                ExpirationDate = DateTime.Now.AddDays(30)
-            };
+            RefreshToken = RefreshToken;
         }
 
         #region User BusinessLogic Methodes

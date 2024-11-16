@@ -42,6 +42,9 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
     }
 
     public string GenerateRefreshToken()
+        => GenerateRandomCode();
+
+    public string GenerateRandomCode()
     {
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();
