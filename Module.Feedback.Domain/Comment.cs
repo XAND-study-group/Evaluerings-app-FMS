@@ -10,6 +10,8 @@ public class Comment : Entity
     public Guid UserId { get; protected set; }
     public Text CommentText { get; protected set; }
     public DateTime CreatedDateTime { get; init; }
+    private readonly List<Comment> _subComments = [];
+    public IReadOnlyCollection<Comment> SubComments => _subComments;
 
     #endregion Properties
 
