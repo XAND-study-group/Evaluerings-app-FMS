@@ -3,7 +3,7 @@
 namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 
 public record GetAllFeedbacksResponse(
-    Guid FeedbackId,
+    Guid Id,
     byte[] RowVersion,
     string HashedId,
     string Title,

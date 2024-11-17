@@ -1,5 +1,7 @@
 ﻿namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 
 public record GetCommentResponse(
+    Guid Id,
     Guid UserId,
-    string CommentText);
+    string CommentText,
+    DateTime Created);

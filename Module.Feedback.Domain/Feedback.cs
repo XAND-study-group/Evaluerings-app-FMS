@@ -25,8 +25,10 @@ public class Feedback : Entity
 
     #region Constructors
 
-    protected Feedback(){}
-    
+    protected Feedback()
+    {
+    }
+
     private Feedback(Guid userId, string title, string problem, string solution, IHashIdService hashIdService)
     {
         HashedId = new HashedId(userId, hashIdService);
@@ -38,56 +40,58 @@ public class Feedback : Entity
     #endregion Constructors
 
     #region Feedback Methods
+
     public static async Task<Feedback> CreateAsync(Guid userId, string title, string problem, string solution,
-        IHashIdService hashIdService, IFeedbackAiService feedbackAiService)
+        IHashIdService hashIdService, IAiValidationService iAiValidationService)
     {
         var feedback = new Feedback(userId, title, problem, solution, hashIdService);
 
-        await AiTitleCheckAsync(feedback.Title, feedbackAiService);
-        await AiTextCheckAsync(feedback.Problem, feedbackAiService);
-        await AiTextCheckAsync(feedback.Solution, feedbackAiService);
-        
+        await AiTitleCheckAsync(feedback.Title, iAiValidationService);
+        await AiTextCheckAsync(feedback.Problem, iAiValidationService);
+        await AiTextCheckAsync(feedback.Solution, iAiValidationService);
+
         return feedback;
     }
-    
+
     #endregion Feedback Methods
-    
+
     #region Feedback Business Logic Methods
 
-    private static async Task AiTitleCheckAsync(string title, IFeedbackAiService feedbackAiService)
+    private static async Task AiTitleCheckAsync(string title, IAiValidationService aiValidationService)
     {
-        var isAcceptable = await feedbackAiService.IsAcceptableTitleAsync(title);
+        var isAcceptable = await aiValidationService.IsAcceptableTitleAsync(title);
         if (!isAcceptable)
             throw new ArgumentException("Title is not acceptable");
     }
-    
-    private static async Task AiTextCheckAsync(string text, IFeedbackAiService feedbackAiService)
+
+    private static async Task AiTextCheckAsync(string text, IAiValidationService aiValidationService)
     {
-        var isAcceptable = await feedbackAiService.IsAcceptableContentAsync(text);
+        var isAcceptable = await aiValidationService.IsAcceptableContentAsync(text);
         if (!isAcceptable)
             throw new ArgumentException("The value is not acceptable.");
     }
-    
+
     #endregion Feedback Business Logic Methods
-    
+
     #region Relational Methods
 
-    public Comment AddComment(Guid userId, string commentText, IFeedbackAiService feedbackAiService)
+    public async Task<Comment> AddComment(Guid userId, string commentText, IAiValidationService aiValidationService)
     {
-        var comment = Comment.Create(userId, commentText, feedbackAiService);
-        
+        var comment = await Comment.CreateAsync(userId, commentText, aiValidationService);
+
         _comments.Add(comment);
-        
+
         return comment;
     }
 
     public Vote AddVote(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
     {
         var vote = Vote.Create(userId, voteScale, hashIdService);
-        
+
         _votes.Add(vote);
-        
+
         return vote;
     }
+
     #endregion Relational Methods
 }

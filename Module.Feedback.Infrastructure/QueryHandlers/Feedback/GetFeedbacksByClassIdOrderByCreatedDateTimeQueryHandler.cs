@@ -21,7 +21,7 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Domain.Feedback, GetAllFeedbacksResponse>();
-            cfg.CreateMap<Comment, GetCommentResponse>();
+            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
             cfg.CreateMap<Vote, GetVoteResponse>();
         }).CreateMapper();
     }

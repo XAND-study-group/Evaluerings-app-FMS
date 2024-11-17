@@ -181,7 +181,7 @@ public class RoomTests
     public async Task Given_Valid_Feedback_Then_List_Count_Increased(Guid userId, string title, string problem, string solution)
     {
         // Arrange
-        var mockFeedbackService = new Mock<IFeedbackAiService>();
+        var mockFeedbackService = new Mock<IAiValidationService>();
         mockFeedbackService.Setup(x => x.IsAcceptableTitleAsync(title)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(problem)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(solution)).ReturnsAsync(true);

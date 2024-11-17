@@ -46,9 +46,9 @@ public class Room : Entity
     #region Relational Methods
 
     public async Task<Feedback> AddFeedbackAsync(Guid userId, string title, string problem, string solution,
-        IHashIdService hashIdService, IFeedbackAiService feedbackAiService)
+        IHashIdService hashIdService, IAiValidationService iAiValidationService)
     {
-        var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, feedbackAiService);
+        var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, iAiValidationService);
 
         _feedbacks.Add(feedback);
 

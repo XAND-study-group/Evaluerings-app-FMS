@@ -18,7 +18,7 @@ public class FeedbackTests
         var guid = Guid.Parse(userId);
         var room = new FakeRoom();
 
-        var mockFeedbackService = new Mock<IFeedbackAiService>();
+        var mockFeedbackService = new Mock<IAiValidationService>();
         mockFeedbackService.Setup(x => x.IsAcceptableTitleAsync(title)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(problem)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(solution)).ReturnsAsync(true);
@@ -119,5 +119,6 @@ public class FeedbackTests
     }
     
     #endregion Problem & Solution Tests
+    
     #endregion Tests
 }

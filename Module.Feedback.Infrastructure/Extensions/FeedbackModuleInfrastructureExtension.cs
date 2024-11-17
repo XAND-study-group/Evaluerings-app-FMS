@@ -21,6 +21,7 @@ public static class FeedbackModuleInfrastructureExtension
 
         serviceCollection.AddScoped<IRoomRepository, RoomRepository>();
         serviceCollection.AddScoped<IFeedbackRepository, FeedbackRepository>();
+        serviceCollection.AddScoped<ICommentRepository, CommentRepository>();
         
         return serviceCollection;
     }

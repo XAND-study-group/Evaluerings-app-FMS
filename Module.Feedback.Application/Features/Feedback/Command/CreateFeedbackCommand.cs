@@ -12,7 +12,7 @@ public record CreateFeedbackCommand(CreateFeedbackRequest CreateFeedbackRequest)
 
 public class CreateFeedbackCommandHandler(
     IFeedbackRepository feedbackRepository,
-    IFeedbackAiService feedbackAiService,
+    IAiValidationService iAiValidationService,
     IHashIdService hashIdService) : IRequestHandler<CreateFeedbackCommand, Result<bool>>
 {
     async Task<Result<bool>> IRequestHandler<CreateFeedbackCommand, Result<bool>>.Handle(CreateFeedbackCommand request,
@@ -26,7 +26,7 @@ public class CreateFeedbackCommandHandler(
 
             // Do
             var feedback = await room.AddFeedbackAsync(createFeedbackRequest.userId, createFeedbackRequest.title,
-                createFeedbackRequest.problem, createFeedbackRequest.solution, hashIdService, feedbackAiService);
+                createFeedbackRequest.problem, createFeedbackRequest.solution, hashIdService, iAiValidationService);
 
             // Save
             await feedbackRepository.CreateFeedbackAsync(feedback);

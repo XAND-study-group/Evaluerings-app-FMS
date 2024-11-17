@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Endpoints\Comment\" />
       <Folder Include="Endpoints\Vote\" />
     </ItemGroup>
 

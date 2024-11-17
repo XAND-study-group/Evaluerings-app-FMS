@@ -3,5 +3,5 @@
 namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 
 public record GetVoteResponse(
-    string hashedId,
+    string HashedId,
     VoteScale VoteScale);
