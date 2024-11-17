@@ -10,15 +10,14 @@ using SharedKernel.Models.Extensions;
 
 namespace Module.User.Endpoints.Authentication;
 
-public class RefreshToken : IEndpoint
+public class Login : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPost(configuration["Routes:UserModule:Authentication:RefreshToken"] ??
-                    throw new Exception("Route is not added to config file"), async ([FromBody] TokenRequest request,
-                    [FromServices] IMediator mediator)
-                => (await mediator.Send(new AccountRefreshTokenCommand(request))).ReturnHttpResult())
-            .WithTags("Authentication")
+        app.MapPost(configuration["Routes:UserModule:Authentication:Login"] ??
+                    throw new Exception("Route is not added to config file"),
+                async ([FromBody] AuthenticateAccountLoginRequest request, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new AccountLoginCommand(request))).ReturnHttpResult()).WithTags("Authentication")
             .RequireRateLimiting("baseLimit");
     }
 }

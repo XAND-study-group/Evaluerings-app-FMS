@@ -4,6 +4,11 @@ public record SemesterName
 {
     public string Value { get; init; }
 
+    private SemesterName()
+    {
+        
+    }
+    
     private SemesterName(string value, IEnumerable<string> otherSemesterNames)
     {
         Validate(value, otherSemesterNames);

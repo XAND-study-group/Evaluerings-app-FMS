@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Module.Semester.Application\Module.Semester.Application.csproj" />
     <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
+    <ProjectReference Include="..\Modules.Seminar.Infrastructure\Module.Semester.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

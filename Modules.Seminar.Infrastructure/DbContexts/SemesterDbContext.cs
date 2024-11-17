@@ -52,6 +52,8 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .OwnsOne<EducationRange>(s => s.EducationRange);
         modelBuilder.Entity<Domain.Entities.Semester>()
             .OwnsOne<SemesterNumber>(s => s.SemesterNumber);
+        modelBuilder.Entity<Domain.Entities.Semester>()
+            .OwnsOne<SemesterName>(s => s.Name);
 
         #endregion
         
@@ -71,6 +73,8 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .OwnsOne<TimePeriod>(l => l.TimePeriod);
         modelBuilder.Entity<Lecture>()
             .OwnsOne<LectureDate>(l => l.LectureDate);
+        modelBuilder.Entity<Lecture>()
+            .OwnsOne<ClassRoom>(l => l.ClassRoom);
 
         #endregion Lecture OnModelCreating
     }

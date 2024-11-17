@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.Semester.Application.Abstractions;
+using Module.Semester.Domain.Entities;
 using Module.Semester.Infrastructure.DbContexts;
 using Module.Semester.Infrastructure.Repositories;
 
@@ -21,6 +22,7 @@ public static class SemesterModuleInfrastructureExtension
         
         serviceCollection.AddScoped<IClassRepository, ClassRepository>();
         serviceCollection.AddScoped<ISemesterRepository, SemesterRepository>();
+        serviceCollection.AddScoped<ILectureRepository, LectureRepository>();
         
         return serviceCollection;
     }
