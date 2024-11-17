@@ -15,16 +15,22 @@ namespace Module.User.Application.Features.User.Command
             _userRepository = userRepository;
         }
 
-        public async Task<Result<bool>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        async Task<Result<bool>> IRequestHandler<CreateUserCommand, Result<bool>>.Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                // Load
+                var otherUsers = await _userRepository.GetAllUsers();
                 var userRequest = request.Request;
 
-                // Create 
-                var user = Domain.Entities.User.Create(userRequest.Firstname, userRequest.Lastname, userRequest.Email);
+                // Do 
+                var user = Domain.Entities.User.Create(
+                    userRequest.Firstname, 
+                    userRequest.Lastname, 
+                    userRequest.Email,
+                    otherUsers);
 
-                // Do & Save 
+                // Save 
                 await _userRepository.CreateUserAsync(user);
                 return Result<bool>.Create("Brugeren er blevet oprettet.", true, ResultStatus.Created);
             }

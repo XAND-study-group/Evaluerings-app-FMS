@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedKernel.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,23 @@ namespace Module.User.Domain.Test.Fakes
 {
     public class FakeUser : Entities.User
     {
-        public FakeUser(string firstname, string lastname, string email)
+        public FakeUser(string email)
         {
-            Firstname = firstname;
-            Lastname = lastname;
-            Email = email;
+            Email = UserEmail.Create(email, []);
         }
 
-        public new void ValidateName(string name)
-            => base.ValidateName(name);
+        public FakeUser()
+        {
+        }
 
-        public new void ValidateEmail(string email)
-            => base.ValidateEmail(email);
+        public void SetUserFirstname(string firstname)
+            => Firstname = UserFirstname.Create(firstname);
+
+        public void SetUserLastname(string lastname)
+            => Lastname = UserLastname.Create(lastname);
+
+        public void SetUserEmail(string email, IEnumerable<string> otherEmails)
+            => Email = UserEmail.Create(email, otherEmails);
 
     }
 }
