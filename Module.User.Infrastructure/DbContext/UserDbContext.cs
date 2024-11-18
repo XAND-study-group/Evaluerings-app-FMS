@@ -2,6 +2,7 @@
 using Module.Shared.Infrastructure.DbContexts;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
+using SharedKernel.ValueObjects;
 
 namespace Module.User.Infrastructure.DbContext
 {
@@ -28,6 +29,13 @@ namespace Module.User.Infrastructure.DbContext
             modelBuilder.Entity<Domain.Entities.User>()
                 .Property(a => a.RowVersion)
                 .IsRowVersion();
+
+            modelBuilder.Entity<Domain.Entities.User>()
+                .OwnsOne<UserFirstname>(u => u.Firstname);
+            modelBuilder.Entity<Domain.Entities.User>()
+                .OwnsOne<UserLastname>(u => u.Lastname);
+            modelBuilder.Entity<Domain.Entities.User>()
+                .OwnsOne<UserEmail>(u => u.Email);
 
             #endregion
 

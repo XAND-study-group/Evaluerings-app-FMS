@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.ExitSlip.Application.Abstractions
-{
-    public interface IExitSlipDbContext
-    {
-        public DbSet<Question> Questions { get; set; }
+namespace Module.ExitSlip.Application.Abstractions;
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    }
+public interface IExitSlipDbContext
+{
+    public DbSet<Question> Questions { get; set; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
+
