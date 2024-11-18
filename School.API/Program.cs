@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Module.Semester.Extensions;
 using Module.User.Extensions;
 using School.API;
 using School.API.Extensions;
@@ -37,6 +38,7 @@ builder.Services
     .AddEndpoints(Module.User.AssemblyReference.Assembly);
 
 builder.Services.AddUserModule(builder.Configuration);
+builder.Services.AddSemesterModule(builder.Configuration);
 
 builder.Services.AddRateLimiter(_ => _
     .AddFixedWindowLimiter(policyName: "loginLimit", options =>
