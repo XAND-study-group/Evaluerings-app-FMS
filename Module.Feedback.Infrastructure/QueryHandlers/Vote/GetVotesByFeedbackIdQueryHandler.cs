@@ -8,7 +8,8 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Vote;
 
-public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContext) : IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetVoteResponse>?>>
+public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContext)
+    : IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetVoteResponse>?>>
 {
     async Task<Result<IEnumerable<GetVoteResponse>?>>
         IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetVoteResponse>?>>.Handle(
@@ -16,19 +17,13 @@ public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContex
     {
         try
         {
-
             // Load
             var getVotesRequest = request.GetVotesByFeedbackIdRequest;
-            var feedback = await feedbackDbContext.Feedbacks
-                .SingleAsync(f => f.Id == getVotesRequest.FeedbackId, cancellationToken);
-        
-            List<GetVoteResponse> dtoVotes = [];
-            foreach (Domain.Vote vote in feedback.Votes)
-            {
-                dtoVotes.Add(vote.MapToGetVoteResponse());
-            }
+            var votes = (await feedbackDbContext.Feedbacks
+                    .SingleAsync(f => f.Id == getVotesRequest.FeedbackId, cancellationToken))
+                .Votes.MapToIEnumerableGetVoteResponse();
 
-            return Result<IEnumerable<GetVoteResponse>?>.Create("Votes fundet", dtoVotes, ResultStatus.Success);
+            return Result<IEnumerable<GetVoteResponse>?>.Create("Votes fundet", votes, ResultStatus.Success);
         }
         catch (Exception e)
         {

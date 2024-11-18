@@ -8,4 +8,9 @@ public static class VoteExtension
     {
         return new GetVoteResponse(vote.Id, vote.RowVersion, vote.HashedId, vote.VoteScale);
     }
+    
+    public static IEnumerable<GetVoteResponse> MapToIEnumerableGetVoteResponse(this IEnumerable<Vote> votes)
+    {
+        return votes.Select(vote => vote.MapToGetVoteResponse());
+    }
 }
