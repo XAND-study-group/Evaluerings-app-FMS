@@ -18,4 +18,8 @@
       <ProjectReference Include="..\Module.Feedback.Domain\Module.Feedback.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="QueryHandlers\Vote\" />
+    </ItemGroup>
+
 </Project>

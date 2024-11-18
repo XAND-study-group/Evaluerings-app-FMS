@@ -1,4 +1,5 @@
-﻿using SharedKernel.Interfaces.DomainServices;
+﻿using SharedKernel.Enums.Features.Vote;
+using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
@@ -58,6 +59,12 @@ public class Room : Entity
     public async Task AddClassIdAsync(Guid classId)
     {
         _classIds.Add(classId);
+    }
+    
+    public Vote AddVoteToFeedback(Guid feedbackId, Guid userId, VoteScale voteScale, IHashIdService hashIdService)
+    {
+        var feedback = _feedbacks.Single(f => f.Id == feedbackId);
+        return feedback.AddVote(userId, voteScale, hashIdService);
     }
 
     #endregion Relational Methods

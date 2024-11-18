@@ -19,18 +19,28 @@ public class Vote : Entity
     {
     }
 
-    private Vote(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
+    private Vote(HashedId hashedId, VoteScale voteScale)
     {
-        HashedId = new HashedId(userId, hashIdService);
+        HashedId = hashedId;
         VoteScale = voteScale;
     }
 
     #endregion Constructors
 
+    #region Vote Methods
+
     public static Vote Create(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
     {
-        var vote = new Vote(userId, voteScale, hashIdService);
-        
+        var hashedId = new HashedId(userId, hashIdService);
+        var vote = new Vote(hashedId, voteScale);
+
         return vote;
     }
+
+    public void Update(VoteScale voteScale)
+    {
+        VoteScale = voteScale;
+    }
+
+    #endregion Vote Methods
 }
