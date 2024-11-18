@@ -1,50 +1,62 @@
 ﻿using Module.Semester.Domain.Test.Fakes;
+using SharedKernel.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Module.Semester.Domain.Entities;
 using Xunit;
 
 namespace Module.Semester.Domain.Test
 {
     public class SubjectTests
     {
-        #region Tests
+        #region CreationalTests
 
         [Theory]
         [MemberData(nameof(ValidCreateData))]
-        public void Given_Valid_Data_Then_Subject_Created(string name, string description)
+        public void Given_Valid_Data_Then_Subject_Created(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
         {
             // Act
-            var subjectSut = FakeSubject.Create(name, description);
+            var subjectSut = FakeSubject.Create(name, description, otherSubjects);
 
             // Assert
             Assert.NotNull(subjectSut);
         }
 
         [Theory]
-        [MemberData(nameof(WhiteSpaceDescriptionData))]
-        public void Given_Description_Equal_To_WhiteSpace_Then_Throw_ArgumentNullException(string name, string description)
+        [InlineData("TestSubject", " ")]
+        public void Given_Description_Equal_To_WhiteSpace_Then_Throw_ArgumentException(string name, string description)
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(name, description));
+            Assert.Throws<ArgumentException>(() => FakeSubject.Create(new SubjectName(name), new SubjectDescription(description), Enumerable.Empty<Subject>()));
         }
 
-        [Theory]
-        [MemberData(nameof(LongDescriptionData))]
-        public void Given_Description_Length_Over_500_Then_Throw_ArgumentException(string name, string description)
+        [Fact]
+        public void Given_Null_SubjectName_Then_Throw_ArgumentNullException()
         {
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => FakeSubject.Create(name, description));
+            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(null!, new SubjectDescription("Valid description"), Enumerable.Empty<Subject>()));
         }
+
+        [Fact]
+        public void Given_Null_SubjectDescription_Then_Throw_ArgumentNullException()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(new SubjectName("Valid name"), null!, Enumerable.Empty<Subject>()));
+        }
+
+        #endregion CreationalTests
+
+        #region UpdateTests
 
         [Theory]
         [MemberData(nameof(ValidUpdateData))]
-        public void Given_Valid_Data_When_Updated_Then_Properties_Updated(string initialName, string initialDescription, string newName, string newDescription)
+        public void Given_Valid_Data_When_Updated_Then_Properties_Updated(SubjectName initialName, SubjectDescription initialDescription, SubjectName newName, SubjectDescription newDescription)
         {
             // Arrange
-            var subjectSut = FakeSubject.Create("InitialName", "InitialDescription");
+            var subjectSut = FakeSubject.Create(initialName, initialDescription, Enumerable.Empty<Subject>());
 
             // Act
             subjectSut.Update(newName, newDescription);
@@ -54,7 +66,27 @@ namespace Module.Semester.Domain.Test
             Assert.Equal(newDescription, subjectSut.Description);
         }
 
-        #endregion
+        [Fact]
+        public void Given_Null_SubjectName_When_Updated_Then_Throw_ArgumentNullException()
+        {
+            // Arrange
+            var subjectSut = FakeSubject.Create(new SubjectName("InitialName"), new SubjectDescription("InitialDescription"), Enumerable.Empty<Subject>());
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => subjectSut.Update(null!, new SubjectDescription("UpdatedDescription")));
+        }
+
+        [Fact]
+        public void Given_Null_SubjectDescription_When_Updated_Then_Throw_ArgumentNullException()
+        {
+            // Arrange
+            var subjectSut = FakeSubject.Create(new SubjectName("InitialName"), new SubjectDescription("InitialDescription"), Enumerable.Empty<Subject>());
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => subjectSut.Update(new SubjectName("UpdatedName"), null!));
+        }
+
+        #endregion UpdateTests
 
         #region MemberData Methods
 
@@ -62,37 +94,32 @@ namespace Module.Semester.Domain.Test
         {
             yield return new object[]
             {
-                "TestSubject",
-                "This is a valid description."
+                    new SubjectName("TestSubject"),
+                    new SubjectDescription("This is a valid description."),
+                    Enumerable.Empty<Subject>()
             };
         }
-        public static IEnumerable<object[]> WhiteSpaceDescriptionData()
-        {
-            yield return new object[]
-            {
-                "TestSubject",
-                " "
-            };
-        }
+
         public static IEnumerable<object[]> LongDescriptionData()
         {
             yield return new object[]
             {
-                "TestSubject",
-                string.Concat(Enumerable.Repeat("FakeTestNow", 50))
+                    new SubjectName("TestSubject"),
+                    new SubjectDescription(new string('a', 501))
             };
         }
+
         public static IEnumerable<object[]> ValidUpdateData()
         {
             yield return new object[]
             {
-                "InitialName",
-                "InitialDescription",
-                "UpdatedName",
-                "UpdatedDescription"
+                    new SubjectName("InitialName"),
+                    new SubjectDescription("InitialDescription"),
+                    new SubjectName("UpdatedName"),
+                    new SubjectDescription("UpdatedDescription")
             };
         }
 
-        #endregion
+        #endregion MemberData Methods
     }
 }
