@@ -22,7 +22,7 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
         {
             cfg.CreateMap<Domain.Feedback, GetAllFeedbacksResponse>();
             cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-            cfg.CreateMap<Vote, GetVoteResponse>();
+            cfg.CreateMap<Domain.Vote, GetVoteResponse>();
         }).CreateMapper();
     }
     async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>

@@ -22,7 +22,7 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
             cfg.CreateMap<Domain.Room, GetRoomResponse>();
             cfg.CreateMap<Domain.Feedback, GetFeedbackResponse>();
             cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-            cfg.CreateMap<Vote, GetVoteResponse>();
+            cfg.CreateMap<Domain.Vote, GetVoteResponse>();
         }).CreateMapper();
     }
 
