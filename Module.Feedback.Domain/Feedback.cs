@@ -61,15 +61,15 @@ public class Feedback : Entity
     private static async Task AiTitleCheckAsync(string title, IValidationServiceProxy iValidationServiceProxy)
     {
         var isAcceptable = await iValidationServiceProxy.IsAcceptableTitleAsync(title);
-        if (!isAcceptable)
-            throw new ArgumentException("Title is not acceptable");
+        if (!isAcceptable.Valid)
+            throw new ArgumentException(isAcceptable.Reason);
     }
 
     private static async Task AiTextCheckAsync(string text, IValidationServiceProxy iValidationServiceProxy)
     {
         var isAcceptable = await iValidationServiceProxy.IsAcceptableContentAsync(text);
-        if (!isAcceptable)
-            throw new ArgumentException("The value is not acceptable.");
+        if (!isAcceptable.Valid)
+            throw new ArgumentException(isAcceptable.Reason);
     }
 
     #endregion Feedback Business Logic Methods

@@ -24,7 +24,7 @@ public static class FeedbackModuleInfrastructureExtension
 
         serviceCollection.AddHttpClient<IValidationServiceProxy, ValidationServiceProxy>(client =>
         {
-            client.BaseAddress = new Uri(configuration["GeminiApiURL"] ?? string.Empty);
+            client.BaseAddress = new Uri(configuration["GeminiApiURL"] ?? throw new Exception("URL is missing"));
         });
 
         serviceCollection.AddScoped<IRoomRepository, RoomRepository>();

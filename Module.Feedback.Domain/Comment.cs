@@ -49,8 +49,8 @@ public class Comment : Entity
     private static async Task AssureAcceptableContent(string commentText, IValidationServiceProxy iIValidationServiceProxy)
     {
         var isAcceptable = await iIValidationServiceProxy.IsAcceptableContentAsync(commentText);
-        if (!isAcceptable)
-            throw new ArgumentException("Comment is not acceptable");
+        if (!isAcceptable.Valid)
+            throw new ArgumentException(isAcceptable.Reason);
     }
 
     #endregion Comment Business Logic Methods

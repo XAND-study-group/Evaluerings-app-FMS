@@ -1,6 +1,7 @@
 ﻿using Module.Feedback.Domain.DomainServices;
 using Module.Feedback.Domain.Test.Fakes;
 using Moq;
+using SharedKernel.Dto.Features.Evaluering.Proxy;
 using SharedKernel.Interfaces.DomainServices;
 
 namespace Module.Feedback.Domain.Test;
@@ -17,7 +18,7 @@ public class CommentTests
     {
         // Arrange
         var mockFeedbackAiService = new Mock<IValidationServiceProxy>();
-        mockFeedbackAiService.Setup(f => f.IsAcceptableContentAsync(commentText)).ReturnsAsync(true);
+        mockFeedbackAiService.Setup(f => f.IsAcceptableContentAsync(commentText)).ReturnsAsync(new GeminiResponse(true,""));
 
         // Act
         var comment = Comment.CreateAsync(userId, commentText, mockFeedbackAiService.Object);

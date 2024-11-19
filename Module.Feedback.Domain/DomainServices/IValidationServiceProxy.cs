@@ -1,7 +1,9 @@
-﻿namespace Module.Feedback.Domain.DomainServices;
+﻿using SharedKernel.Dto.Features.Evaluering.Proxy;
+
+namespace Module.Feedback.Domain.DomainServices;
 
 public interface IValidationServiceProxy
 {
-    Task<bool> IsAcceptableContentAsync(string content);
-    Task<bool> IsAcceptableTitleAsync(string title);
+    Task<GeminiResponse> IsAcceptableContentAsync(string content);
+    Task<GeminiResponse> IsAcceptableTitleAsync(string title);
 }
