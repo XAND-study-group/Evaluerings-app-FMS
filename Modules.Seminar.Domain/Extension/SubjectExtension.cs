@@ -10,10 +10,10 @@ namespace Module.Semester.Domain.Extension
 {
     public static class SubjectExtension
     {
-        public static GetSubjectResponse MapToGetSubjectResponse(this Subject subject)=>
-         new GetSubjectResponse(subject.Id, subject.Name, subject.Description, subject.Lectures.Select(l => l.MapToGetLectureResponse()));
+        public static GetSimpleSubjectResponse MapToGetSimpleSubjectResponse(this Subject subject)=>
+         new GetSimpleSubjectResponse(subject.Id, subject.Name, subject.Description, subject.Lectures.Select(l => l.MapToGetSimpleLectureResponse()));
         
-        public static IEnumerable<GetSubjectResponse>MapToIEnumerableGetSubjectResponse(this IEnumerable<Subject> subjects) =>
-         subjects.Select(s => s.MapToGetSubjectResponse());
+        public static IEnumerable<GetSimpleSubjectResponse>MapToIEnumerableGetSubjectResponse(this IEnumerable<Subject> subjects) =>
+         subjects.Select(s => s.MapToGetSimpleSubjectResponse());
     }
 }

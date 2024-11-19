@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Module.User.Infrastructure.Features.User
 {
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, GetUserResponse>
+    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, GetSimpleUserResponse>
     {
         private readonly UserDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -24,16 +24,16 @@ namespace Module.User.Infrastructure.Features.User
             _dbContext = dbContext;
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Domain.Entities.User, GetUserResponse>();
+                cfg.CreateMap<Domain.Entities.User, GetSimpleUserResponse>();
             }).CreateMapper();
         }
 
-        async Task<GetUserResponse> IRequestHandler<GetUserQuery, GetUserResponse>.Handle(
+        async Task<GetSimpleUserResponse> IRequestHandler<GetUserQuery, GetSimpleUserResponse>.Handle(
             GetUserQuery request, CancellationToken cancellationToken)
         => await _dbContext.Users
             .AsNoTracking()
             .Where(u => u.Id == request.Id)
-            .ProjectTo<GetUserResponse>(_mapper.ConfigurationProvider)
+            .ProjectTo<GetSimpleUserResponse>(_mapper.ConfigurationProvider)
             .SingleAsync(cancellationToken);
     }
 }

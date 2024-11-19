@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Module.User.Infrastructure.Features.User
 {
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<GetUsersResponse>>
+    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<GetDetailedUserResponse>>
     {
         private readonly UserDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -27,11 +27,11 @@ namespace Module.User.Infrastructure.Features.User
             }).CreateMapper();
         }
 
-        async Task<IEnumerable<GetUsersResponse>> IRequestHandler<GetUsersQuery, IEnumerable<GetUsersResponse>>.Handle(
+        async Task<IEnumerable<GetDetailedUserResponse>> IRequestHandler<GetUsersQuery, IEnumerable<GetDetailedUserResponse>>.Handle(
             GetUsersQuery request, CancellationToken cancellationToken)
        => await _dbContext.Users
             .AsNoTracking()
-            .ProjectTo<GetUsersResponse>(_mapper.ConfigurationProvider)
+            .ProjectTo<GetDetailedUserResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace SharedKernel.Dto.Features.User.Query;
 
-public record GetUsersResponse(
+public record GetDetailedUserResponse(
     Guid Id,
     string Firstname,
     string Lastname,
     string Email,
-    IEnumerable<GetSemestersResponse> Semesters);
+    IEnumerable<GetSimpleSemesterResponse> Semesters);

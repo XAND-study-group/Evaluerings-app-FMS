@@ -10,10 +10,10 @@ namespace Module.Semester.Domain.Extension
 {
     public static class UserExtension
     {
-        public static GetUserResponse MapToGetUserResponse(this User user) =>
-            new GetUserResponse(user.Id, user., user.Lastname, user.Email, user.Semesters.Select(s => s.MapToGetSemesterResponse()));
+        public static GetSimpleUserResponse MapToGetSimpleUserResponse(this User user) =>
+            new GetSimpleUserResponse(user.Id, user.Firstname, user.Lastname, user.Email, user.Semesters.Select(s => s.MapToGetSimpleSemesterResponse()));
 
-        public static IEnumerable<GetUserResponse> MapToIEnumerableGetUserResponse(this IEnumerable<User> users) =>
-        users.Select(u => u.MapToGetUserResponse());
+        public static IEnumerable<GetSimpleUserResponse> MapToIEnumerableGetUserResponse(this IEnumerable<User> users) =>
+        users.Select(u => u.MapToGetSimpleUserResponse());
     }
 }

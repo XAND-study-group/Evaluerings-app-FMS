@@ -5,7 +5,7 @@ namespace SharedKernel.Dto.Features.Subject.Query
 {
     public record GetSubjectsByClassResponse(
         string ClassName,
-        IEnumerable<GetAllSubjectsResponse> Subjects
+        IEnumerable<GetDetailedSubjectResponse> Subjects
     );
 
 

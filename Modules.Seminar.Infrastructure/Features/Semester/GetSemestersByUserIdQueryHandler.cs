@@ -9,7 +9,7 @@ using SharedKernel.Models;
 
 namespace Module.Semester.Infrastructure.Features.Semester;
 
-public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSemestersResponse>>>
+public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>
 {
     private readonly SemesterDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -19,26 +19,26 @@ public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUs
         _dbContext = dbContext;
         _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Domain.Entities.Semester, GetSemestersResponse>();
+            cfg.CreateMap<Domain.Entities.Semester, GetSimpleSemesterResponse>();
         }).CreateMapper();
     }
 
-    async Task<Result<IEnumerable<GetSemestersResponse>>> IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSemestersResponse>>>.Handle(GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
+    async Task<Result<IEnumerable<GetSimpleSemesterResponse>>> IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>.Handle(GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
     {
         try
         {
             var getSemesterResponses = await _dbContext.Semesters
                 .AsNoTracking()
                 .Where(s => s.SemesterResponsibles.Any(u => u.Id == request.UserId))
-                .ProjectTo<GetSemestersResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetSimpleSemesterResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetSemestersResponse>>.Create("Fandt semestre tilknyttet bruger",
+            return Result<IEnumerable<GetSimpleSemesterResponse>>.Create("Fandt semestre tilknyttet bruger",
                 getSemesterResponses, ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<IEnumerable<GetSemestersResponse>>.Create(e.Message,
+            return Result<IEnumerable<GetSimpleSemesterResponse>>.Create(e.Message,
                 [], ResultStatus.Error);
         }
     }

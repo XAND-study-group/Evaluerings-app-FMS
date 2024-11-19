@@ -10,20 +10,17 @@ namespace Module.Semester.Domain.Extension
 {
     public static class LectureExtension
     {
-        public static GetLectureResponse MapToGetLectureResponse(this Lecture lecture) =>
-            new GetLectureResponse(
-                lecture.Id,
-                lecture.RowVersion,
+        public static GetSimpleLectureResponse MapToGetSimpleLectureResponse(this Lecture lecture) =>
+            new GetSimpleLectureResponse(
                 lecture.Title.Value,
                 lecture.Description.Value,
                 lecture.TimePeriod.From,
                 lecture.TimePeriod.To,
                 lecture.LectureDate.Value,
-                lecture.ClassRoom.Value,
-                lecture.Teachers.Select(t => t.MapToGetUserResponse())
+                lecture.ClassRoom.Value
             );
 
-        public static IEnumerable<GetLectureResponse> MapToIEnumerableGetLectureResponse(this IEnumerable<Lecture> lectures) =>
-            lectures.Select(l => l.MapToGetLectureResponse());
+        public static IEnumerable<GetSimpleLectureResponse> MapToIEnumerableGetLectureResponse(this IEnumerable<Lecture> lectures) =>
+            lectures.Select(l => l.MapToGetSimpleLectureResponse());
     }
 }

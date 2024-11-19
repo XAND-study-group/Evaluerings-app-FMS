@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Dto.Features.Lecture.Query;
 
-public record GetAllLecturesResponse(
+public record GetSimpleLectureResponse(
     string LectureTitle,
     string Description,
     TimeOnly From,

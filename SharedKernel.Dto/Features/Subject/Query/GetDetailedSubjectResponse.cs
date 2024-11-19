@@ -3,11 +3,11 @@ using SharedKernel.Dto.Features.Lecture.Query;
 
 namespace SharedKernel.Dto.Features.Subject.Query
 {
-    public record GetAllSubjectsResponse(
+    public record GetDetailedSubjectResponse(
         Guid Id,
         string Name,
         string Description,
-        IEnumerable<GetLectureIdResponse> Lectures);
+        IEnumerable<GetDetailedLectureResponse> Lectures);
 
 }
 

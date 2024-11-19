@@ -2,11 +2,12 @@
 
 namespace SharedKernel.Dto.Features.Semester.Query;
 
-public record GetSemestersResponse(
+public record GetDetailedSemesterResponse(
     Guid Id,
     byte[] RowVersion,
     string Name,
     int SemesterNumber,
     DateOnly StartDate,
     DateOnly EndDate,
-    SchoolType School);
+    SchoolType School,
+    IEnumerable<GetSemesterUserResponse> Responsibles);

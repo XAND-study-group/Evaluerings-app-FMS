@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Dto.Features.Lecture.Query;
 
-public record GetLectureResponse(
+public record GetDetailedLectureResponse(
     Guid Id,
     byte[] RowVersion,
     string LectureTitle,
@@ -11,4 +11,4 @@ public record GetLectureResponse(
     TimeOnly ToTime,
     DateOnly Date,
     string ClassRoom,
-    IEnumerable<GetUserResponse> Teachers);
+    IEnumerable<GetSimpleUserResponse> Teachers);

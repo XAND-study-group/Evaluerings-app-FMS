@@ -4,4 +4,4 @@ using SharedKernel.Models;
 
 namespace Module.Semester.Application.Features.Lecture.Query;
 
-public record GetLectureQuery(Guid lectureId) : IRequest<Result<GetLectureResponse?>>;
+public record GetLectureQuery(Guid lectureId) : IRequest<Result<GetDetailedLectureResponse?>>;
