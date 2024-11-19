@@ -54,5 +54,3 @@ public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
 
 
 
-Jeg stoppede her.Der skal laves Delete til ExitSlpis.Der er ikke lavet Query endnu.
-Der skal laves Value Objects til den.Der skal laves alle endpoints. 
