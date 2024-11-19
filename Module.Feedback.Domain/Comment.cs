@@ -48,7 +48,7 @@ public class Comment : Entity
 
     private static async Task AssureAcceptableContent(string commentText, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var isAcceptable = await iIValidationServiceProxy.IsAcceptableTitleAsync(commentText);
+        var isAcceptable = await iIValidationServiceProxy.IsAcceptableCommentAsync(commentText);
         if (!isAcceptable.Valid)
             throw new ArgumentException(isAcceptable.Reason);
     }

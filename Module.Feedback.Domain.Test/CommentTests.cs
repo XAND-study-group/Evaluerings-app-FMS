@@ -18,7 +18,7 @@ public class CommentTests
     {
         // Arrange
         var mockFeedbackAiService = new Mock<IValidationServiceProxy>();
-        mockFeedbackAiService.Setup(f => f.IsAcceptableTitleAsync(commentText)).ReturnsAsync(new GeminiResponse(true,""));
+        mockFeedbackAiService.Setup(f => f.IsAcceptableCommentAsync(commentText)).ReturnsAsync(new GeminiResponse(true,""));
 
         // Act
         var comment = Comment.CreateAsync(userId, commentText, mockFeedbackAiService.Object);

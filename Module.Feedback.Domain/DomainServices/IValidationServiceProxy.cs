@@ -5,5 +5,5 @@ namespace Module.Feedback.Domain.DomainServices;
 public interface IValidationServiceProxy
 {
     Task<GeminiResponse> IsAcceptableContentAsync(string problem, string solution, string title);
-    Task<GeminiResponse> IsAcceptableTitleAsync(string title);
+    Task<GeminiResponse> IsAcceptableCommentAsync(string title);
 }
