@@ -31,22 +31,22 @@ namespace Module.User.Infrastructure.DbContext
                 .IsRowVersion();
 
             modelBuilder.Entity<Domain.Entities.User>()
-                .OwnsOne<UserFirstname>(u => u.Firstname);
+                .ComplexProperty<UserFirstname>(u => u.Firstname);
             modelBuilder.Entity<Domain.Entities.User>()
-                .OwnsOne<UserLastname>(u => u.Lastname);
+                .ComplexProperty<UserLastname>(u => u.Lastname);
             modelBuilder.Entity<Domain.Entities.User>()
-                .OwnsOne<UserEmail>(u => u.Email);
+                .ComplexProperty<UserEmail>(u => u.Email);
 
             #endregion
 
             #region Semester OnModelCreating
 
             modelBuilder.Entity<Domain.Entities.Semester>()
-                .OwnsOne(p
+                .ComplexProperty(p
                     => p.EducationRange);
             
             modelBuilder.Entity<Domain.Entities.Semester>()
-                .OwnsOne(p
+                .ComplexProperty(p
                     => p.SemesterNumber);
             
             modelBuilder.Entity<Domain.Entities.Semester>()

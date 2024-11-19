@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
-using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 using SharedKernel.ValueObjects;
 
 
@@ -33,11 +32,11 @@ public class ExitSlipDbContext : DbContext, IExitSlipDbContext
             .IsRowVersion();
 
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
-            .OwnsOne<Title>(e => e.Title);
+            .ComplexProperty<Title>(e => e.Title);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
-            .Property(e => e.MaxQuestionCount);
+            .ComplexProperty(e => e.MaxQuestionCount);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
-           .Property(e => e.ActiveStatus);
+           .ComplexProperty(e => e.ActiveStatus);
 
 
 
@@ -46,4 +45,8 @@ public class ExitSlipDbContext : DbContext, IExitSlipDbContext
         #endregion
     }
 }
+
+
+
+
 
