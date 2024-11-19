@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Module.ExitSlip.Application.Abstractions;
-using SharedKernel.Dto.Features.Evaluering.ExitSlips.Command;
+using SharedKernel.Dto.Features.Evaluering.ExitSlip.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;
 using System;

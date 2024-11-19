@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Dto.Features.Evaluering.ExitSlips.Command;
+namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Command;
 public record CreateExitSlipRequest(
     Guid OwnerId,
     Guid LectureId,

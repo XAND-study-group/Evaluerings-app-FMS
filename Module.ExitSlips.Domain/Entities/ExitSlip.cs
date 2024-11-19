@@ -13,7 +13,6 @@ namespace Module.ExitSlip.Domain.Entities
     {
         #region Properties
 
-        public Guid OwnerId { get; protected set; }
         public Guid LectureId { get; set; }
         public Title Title { get; protected set; }
 

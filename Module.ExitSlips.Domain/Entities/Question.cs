@@ -9,5 +9,6 @@ namespace Module.ExitSlip.Domain.Entities
 {
     public class Question : Entity
     {
+        public string Text { get; protected set; }
     }
 }
