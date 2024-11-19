@@ -2,6 +2,7 @@
 using Module.Shared.Infrastructure.DbContexts;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
+using SharedKernel.ValueObjects;
 
 namespace Module.User.Infrastructure.DbContext
 {
@@ -29,16 +30,23 @@ namespace Module.User.Infrastructure.DbContext
                 .Property(a => a.RowVersion)
                 .IsRowVersion();
 
+            modelBuilder.Entity<Domain.Entities.User>()
+                .ComplexProperty<UserFirstname>(u => u.Firstname);
+            modelBuilder.Entity<Domain.Entities.User>()
+                .ComplexProperty<UserLastname>(u => u.Lastname);
+            modelBuilder.Entity<Domain.Entities.User>()
+                .ComplexProperty<UserEmail>(u => u.Email);
+
             #endregion
 
             #region Semester OnModelCreating
 
             modelBuilder.Entity<Domain.Entities.Semester>()
-                .OwnsOne(p
+                .ComplexProperty(p
                     => p.EducationRange);
             
             modelBuilder.Entity<Domain.Entities.Semester>()
-                .OwnsOne(p
+                .ComplexProperty(p
                     => p.SemesterNumber);
             
             modelBuilder.Entity<Domain.Entities.Semester>()

@@ -1,4 +1,6 @@
 ﻿using Module.User.Domain.Entities;
+using SharedKernel.Models;
+using SharedKernel.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +13,9 @@ namespace Module.User.Domain.Entities
     public class User : Entity
     {
         #region Properties
-
-        public string Firstname { get; protected set; }
-        public string Lastname { get; protected set; }
-        public string Email { get; protected set; }
+        public UserFirstname Firstname { get; protected set; }
+        public UserLastname Lastname { get; protected set; }
+        public UserEmail Email { get; protected set; }
         public IEnumerable<Semester> Semesters { get; protected set; }
         private List<AccountClaim> _accountClaims = [];
         public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
@@ -26,23 +27,21 @@ namespace Module.User.Domain.Entities
         {
         }
 
-        private User(string fristname, string lastname, string email)
+        private User(string fristname, string lastname, string email, IEnumerable<User> otherUsers)
         {
-            Firstname = fristname;
-            Lastname = lastname;
-            Email = email;
+            var otherUsersEmails = otherUsers.Select(e => e.Email.Value);
 
-            ValidateName(Firstname);
-            ValidateName(Lastname);
-            ValidateEmail(Email);
+            Firstname = UserFirstname.Create(fristname);
+            Lastname = UserLastname.Create(lastname);
+            Email = UserEmail.Create(email, otherUsersEmails);         
         }
 
         #endregion
 
         #region User Methodes
 
-        public static User Create(string firstname, string lastname, string email) =>
-            new User(firstname, lastname, email);
+        public static User Create(string firstname, string lastname, string email, IEnumerable<User> otherUsers) =>
+            new User(firstname, lastname, email, otherUsers);
 
         #endregion
 
@@ -52,27 +51,6 @@ namespace Module.User.Domain.Entities
 
             _accountClaims.Add(claim);
         }
-
-
-        #region User BusinessLogic Methodes
-
-        protected void ValidateName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Firstname cannot be empty or null.", nameof(name));        // her er jeg ikke helt sikker på hvorfor der skal tilføjes "nameof"
-
-            if (name.Length > 100)
-                throw new ArgumentException("Firstname cannot exceed 50 characters.", nameof(name));
-        }
         
-        protected void ValidateEmail(string email)
-        {
-            var regexItem = new Regex (@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            if (!regexItem.IsMatch(email))
-                throw new ArgumentException("Invalid email format.", nameof(email));
-        }
-        
-        #endregion
-
     }
 }

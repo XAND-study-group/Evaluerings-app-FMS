@@ -1,4 +1,5 @@
-﻿using SharedKernel.ValueObjects;
+﻿using SharedKernel.Models;
+using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;
 
@@ -41,11 +42,11 @@ public class Class : Entity
     public static Class Create(string name, string description, int capacity, IEnumerable<Class> otherClassNames)
         => new Class(name, description, capacity, otherClassNames);
     #endregion
-    
+
     #region Class Business Logic Methods
     protected void AssureNameIsUnique(string name, IEnumerable<Class> otherClassNames)
     {
-        if (otherClassNames.Any(s => s.Name == name)) 
+        if (otherClassNames.Any(s => s.Name == name))
             throw new ArgumentException($"A Class with name '{name}' already exists.");
     }
     #endregion
@@ -61,7 +62,7 @@ public class Class : Entity
     {
         // TODO: Check if user has CLAIM as Student
         AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity.Value);
-        
+
         _students.Add(student);
     }
 
@@ -75,15 +76,15 @@ public class Class : Entity
         DateOnly date, string classRoom, Guid subjectId)
     {
         var subject = _subjects.Single(s => s.Id == subjectId);
-        
+
         return subject.AddLecture(lectureTitle, description, startTime, endTime, date, classRoom);
     }
     #endregion
-    
+
     #region Relation Business Logic Methods
     protected void AssureMaxCapacityIsNotReached(int studentsCount, int studentCapacity)
     {
-        if (studentsCount >= studentCapacity) 
+        if (studentsCount >= studentCapacity)
             throw new ArgumentException("Maximum number of students reached.");
     }
     #endregion

@@ -4,5 +4,6 @@
     {
         Task CreateUserAsync(Domain.Entities.User user);
         Task<Domain.Entities.User> GetUserByIdAsync(Guid id);
+        Task<IEnumerable<Domain.Entities.User>> GetAllUsers();
     }
 }
