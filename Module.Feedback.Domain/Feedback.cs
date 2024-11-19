@@ -18,8 +18,8 @@ public class Feedback : Entity
     // List Properties
     private readonly List<Comment> _comments = [];
     private readonly List<Vote> _votes = [];
-    public IEnumerable<Comment> Comments => _comments;
-    public IEnumerable<Vote> Votes => _votes;
+    public IReadOnlyCollection<Comment> Comments => _comments;
+    public IReadOnlyCollection<Vote> Votes => _votes;
 
     #endregion Properties
 
