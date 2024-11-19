@@ -22,10 +22,7 @@ public static class FeedbackModuleInfrastructureExtension
                     optionsBuilder.EnableRetryOnFailure();
                 }));
 
-        serviceCollection.AddHttpClient<IValidationServiceProxy, ValidationServiceProxy>(client =>
-        {
-            client.BaseAddress = new Uri(configuration["GeminiApiURL"] ?? throw new Exception("URL is missing"));
-        });
+        serviceCollection.AddHttpClient<IValidationServiceProxy, ValidationServiceProxy>();
 
         serviceCollection.AddScoped<IRoomRepository, RoomRepository>();
         serviceCollection.AddScoped<IFeedbackRepository, FeedbackRepository>();

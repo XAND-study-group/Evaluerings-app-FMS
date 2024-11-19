@@ -8,7 +8,7 @@ namespace Module.Feedback.Infrastructure.Proxy;
 
 public class ValidationServiceProxy(IConfiguration configuration, HttpClient httpClient) : IValidationServiceProxy
 {
-    async Task<GeminiResponse> IValidationServiceProxy.IsAcceptableContentAsync(string problem)
+    async Task<GeminiResponse> IValidationServiceProxy.IsAcceptableContentAsync(string title, string problem, string solution)
     {
         var prompt =
             "Din opgave er at validere følgende indhold: " +
@@ -22,12 +22,13 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
             "Retningslinje Syv -> Indholdet skal være relevant i forhold til den feedback der gives. " + 
             "Retningslinje Otte -> Indholdet skal være specifikt og undgå generaliseringer. " +
             "Retningslinje Ni -> Indholdet skal være relevant for skolearbejde og undervisning. Feedback må ikke handle om personlige emner, byttehandler eller andre irrelevante ting. " +
-            "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i et kodeblok." +
+            "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i et kodeblok og brug ikke markdown." +
             "'Valid' skal være sandt, hvis indholdet følger retningslinjerne, og falsk, hvis indholdet ikke følger retningslinjerne " +
             "'Reason' skal specificere, hvorfor 'Valid' er sat til falsk. Dette skal gøres i maksimalt 10 ord. Hvis 'Valid' er sandt, skal 'Reason' være tom " +
             "Indholdet er: " +
-            problem
-            ;
+            "Titel:" + title + " " +
+            "Problem:" + problem + " " +
+            "Løsning:" + solution;
 
         return await SendRequest(prompt);
     }
@@ -49,12 +50,10 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
     private async Task<GeminiResponse> SendRequest(string prompt)
     {
         var url = configuration["GeminiApiURL"];
-        var client = new HttpClient();
-
         var theContent = new StringContent($"{{\"contents\":[{{\"parts\":[{{\"text\":\"{prompt}\"}}]}}]}}",
             Encoding.UTF8, "application/json");
 
-        var response = await client.PostAsync(url, theContent);
+        var response = await httpClient.PostAsync(url, theContent);
         response.EnsureSuccessStatusCode();
 
         using var jsonDocument = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());

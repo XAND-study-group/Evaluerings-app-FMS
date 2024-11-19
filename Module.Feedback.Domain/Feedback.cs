@@ -46,10 +46,8 @@ public class Feedback : Entity
         IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
     {
         var feedback = new Feedback(userId, title, problem, solution, hashIdService);
-
-        await AiTitleCheckAsync(feedback.Title, iIValidationServiceProxy);
-        await AiTextCheckAsync(feedback.Problem, iIValidationServiceProxy);
-        await AiTextCheckAsync(feedback.Solution, iIValidationServiceProxy);
+        
+        await AiTextCheckAsync(feedback.Title, feedback.Problem, feedback.Solution, iIValidationServiceProxy);
 
         return feedback;
     }
@@ -57,17 +55,9 @@ public class Feedback : Entity
     #endregion Feedback Methods
 
     #region Feedback Business Logic Methods
-
-    private static async Task AiTitleCheckAsync(string title, IValidationServiceProxy iValidationServiceProxy)
+    private static async Task AiTextCheckAsync(string title, string problem, string solution, IValidationServiceProxy iValidationServiceProxy)
     {
-        var isAcceptable = await iValidationServiceProxy.IsAcceptableTitleAsync(title);
-        if (!isAcceptable.Valid)
-            throw new ArgumentException(isAcceptable.Reason);
-    }
-
-    private static async Task AiTextCheckAsync(string text, IValidationServiceProxy iValidationServiceProxy)
-    {
-        var isAcceptable = await iValidationServiceProxy.IsAcceptableContentAsync(text);
+        var isAcceptable = await iValidationServiceProxy.IsAcceptableContentAsync(title, problem, solution);
         if (!isAcceptable.Valid)
             throw new ArgumentException(isAcceptable.Reason);
     }
