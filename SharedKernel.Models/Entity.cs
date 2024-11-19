@@ -1,11 +1,16 @@
-﻿namespace Module.User.Domain.Entities
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SharedKernel.Models
 {
     public abstract class Entity : IEquatable<Entity>
     {
         // Database Properties
         public Guid Id { get; protected set; }
         public byte[] RowVersion { get; protected set; }
-
 
         bool IEquatable<Entity>.Equals(Entity? other)
         {
@@ -41,6 +46,5 @@
         {
             return !(left == right);
         }
-
     }
 }

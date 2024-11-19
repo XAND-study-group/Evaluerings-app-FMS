@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Enums.Features.Evaluering.ExitSlip;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 using System;
 using System.Collections.Generic;

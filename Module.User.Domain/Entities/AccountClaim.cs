@@ -1,4 +1,6 @@
-﻿namespace Module.User.Domain.Entities;
+﻿using SharedKernel.Models;
+
+namespace Module.User.Domain.Entities;
 
 public class AccountClaim : Entity
 {
@@ -14,9 +16,9 @@ public class AccountClaim : Entity
 
     protected AccountClaim()
     {
-        
+
     }
-    
+
     private AccountClaim(string claimName, string claimValue)
     {
         ClaimName = claimName;
@@ -45,5 +47,5 @@ public class AccountClaim : Entity
     }
 
     #endregion
-    
+
 }

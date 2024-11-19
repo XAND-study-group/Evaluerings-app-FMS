@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
+    <ProjectReference Include="..\SharedKernel.Models\SharedKernel.Models.csproj" />
     <ProjectReference Include="..\SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj" />
   </ItemGroup>
 

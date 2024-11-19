@@ -1,5 +1,6 @@
 using System.Collections;
 using SharedKernel.Enums.Features.Semester;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;

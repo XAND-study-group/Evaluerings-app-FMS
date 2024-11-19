@@ -1,4 +1,5 @@
-﻿using SharedKernel.ValueObjects;
+﻿using SharedKernel.Models;
+using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;
 

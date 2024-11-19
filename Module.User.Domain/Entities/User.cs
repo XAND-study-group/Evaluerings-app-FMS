@@ -1,4 +1,5 @@
 ﻿using Module.User.Domain.Entities;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 using System;
 using System.Collections.Generic;

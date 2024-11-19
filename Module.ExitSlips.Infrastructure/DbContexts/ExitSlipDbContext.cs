@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Evaluering.Module.Shared.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
 using SharedKernel.ValueObjects;
+using System.Runtime.ConstrainedExecution;
 
 
 namespace Module.ExitSlip.Infrastructure.DbContexts;
 
-public class ExitSlipDbContext : DbContext, IExitSlipDbContext
+public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
 {
     public DbSet<Domain.Entities.ExitSlip> ExitSlips { get; set; }
 
@@ -18,7 +20,7 @@ public class ExitSlipDbContext : DbContext, IExitSlipDbContext
     {
     }
 
-    //protected override string ConnectionString { get; }
+    protected override string ConnectionString { get; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -50,3 +52,7 @@ public class ExitSlipDbContext : DbContext, IExitSlipDbContext
 
 
 
+
+
+Jeg stoppede her.Der skal laves Delete til ExitSlpis.Der er ikke lavet Query endnu.
+Der skal laves Value Objects til den.Der skal laves alle endpoints. 
