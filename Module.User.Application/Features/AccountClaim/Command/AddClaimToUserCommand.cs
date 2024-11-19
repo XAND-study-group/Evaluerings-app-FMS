@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Module.User.Application.Abstractions;
-using SharedKernel.Dto.Features.Authentication.Command;
+using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Models;
 
 namespace Module.User.Application.Features.AccountClaim.Command;

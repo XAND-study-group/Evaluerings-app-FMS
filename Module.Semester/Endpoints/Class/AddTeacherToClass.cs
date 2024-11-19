@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.Semester.Application.Features.Class.Command;
-using SharedKernel.Dto.Features.Class.Command;
+using SharedKernel.Dto.Features.School.Class.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
 

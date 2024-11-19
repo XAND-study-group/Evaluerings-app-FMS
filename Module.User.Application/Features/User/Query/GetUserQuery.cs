@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SharedKernel.Dto.Features.User.Query;
+using SharedKernel.Dto.Features.School.User.Query;
 
 namespace Module.User.Application.Features.User.Query;
 

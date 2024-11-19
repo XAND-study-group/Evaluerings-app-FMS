@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.Semester.Application.Features.Semester.Command;
-using SharedKernel.Dto.Features.Semester.Command;
+using SharedKernel.Dto.Features.School.Semester.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
 

@@ -1,14 +1,73 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.Test.Fakes;
+using Moq;
+using SharedKernel.Dto.Features.Evaluering.Proxy;
+using SharedKernel.Interfaces.DomainServices;
 
 namespace Module.Feedback.Domain.Test;
 
 public class RoomTests
 {
     #region Tests
-    
+
     #region Creational Tests
+
+    [Fact]
+    public void Given_Valid_Data_Then_Create_Success()
+    {
+        // Arrange
+        var title = "ValidTitle";
+        var description = "ValidDescription";
+
+        // Act
+        var room = Room.Create(title, description);
+
+        // Assert
+        Assert.NotNull(room);
+    }
+
     #endregion Creational Tests
+
+    #region Update Tests
+
+    [Theory]
+    [MemberData(nameof(ValidTitleUpdateData))]
+    public void Given_Valid_Title_Then_Update_Success(FakeRoom roomToUpdate, string expectedTitle)
+    {
+        // Act
+        roomToUpdate.Update(expectedTitle, roomToUpdate.Description);
+        
+        // Assert
+        Assert.Equal(expectedTitle, roomToUpdate.Title);
+    }
     
+    [Theory]
+    [MemberData(nameof(ValidDescriptionUpdateData))]
+    public void Given_Valid_Description_Then_Update_Success(FakeRoom roomToUpdate, string expectedDescription)
+    {
+        // Act
+        roomToUpdate.Update(roomToUpdate.Title, expectedDescription);
+        
+        // Assert
+        Assert.Equal(expectedDescription, roomToUpdate.Description);
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidUpdateData))]
+    public void Given_Invalid_Data_Then_Update_Failure(FakeRoom roomToUpdate, string title, string description)
+    {
+        // Arrange
+        var expectedTitle = roomToUpdate.Title;
+        var expectedDescription = roomToUpdate.Description;
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => roomToUpdate.Update(title, description));
+        Assert.Equal(roomToUpdate.Title, expectedTitle);
+        Assert.Equal(roomToUpdate.Description, expectedDescription);
+    }
+
+    #endregion Update Tests
+
     #region Title Tests
 
     [Fact]
@@ -16,7 +75,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act
         room.SetTitle("ValidTitle");
     }
@@ -26,7 +85,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetTitle(" "));
     }
@@ -36,7 +95,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetTitle(null!));
     }
@@ -46,7 +105,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetTitle(string.Empty));
     }
@@ -56,12 +115,13 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => room.SetTitle(new string('x',101)));
+        Assert.Throws<ArgumentException>(() => room.SetTitle(new string('x', 101)));
     }
+
     #endregion Title Tests
-    
+
     #region Description Tests
 
     [Fact]
@@ -69,7 +129,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act
         room.SetDescription("ValidDescription");
     }
@@ -79,7 +139,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetDescription(" "));
     }
@@ -89,7 +149,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetDescription(null!));
     }
@@ -99,7 +159,7 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetDescription(string.Empty));
     }
@@ -109,11 +169,88 @@ public class RoomTests
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetDescription(new string('x', 501)));
     }
+
     #endregion Description Tests
     
+    #region AddFeedback Tests
+
+    [Theory]
+    [MemberData(nameof(ValidFeedbackData))]
+    public async Task Given_Valid_Feedback_Then_List_Count_Increased(Guid userId, string title, string problem, string solution)
+    {
+        // Arrange
+        var mockFeedbackService = new Mock<IValidationServiceProxy>();
+        mockFeedbackService.Setup(x => x.IsAcceptableTitleAsync(title)).ReturnsAsync(new GeminiResponse(true,""));
+        mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(problem)).ReturnsAsync(new GeminiResponse(true,""));
+        mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(solution)).ReturnsAsync(new GeminiResponse(true,""));
+
+        var mockHashIdService = new Mock<IHashIdService>();
+        mockHashIdService.Setup(h => h.Hash(userId)).Returns("FakeHashId");
+        
+        var room = new FakeRoom();
+        var expectedCount = 1;
+        
+        // Act
+        await room.AddFeedbackAsync(userId, title, problem, solution, mockHashIdService.Object, mockFeedbackService.Object);
+        
+        // Assert
+        Assert.Equal(expectedCount, room.Feedbacks.Count);
+    }
+    #endregion AddFeedback Tests
+
     #endregion Tests
+
+    #region MemberData Methods
+
+    public static IEnumerable<object[]> ValidTitleUpdateData()
+    {
+        yield return new object[]
+        {
+            new FakeRoom("ValidTitle", "ValidDescription"),
+            "AnotherValidTitle"
+        };
+    }
+    
+    public static IEnumerable<object[]> ValidDescriptionUpdateData()
+    {
+        yield return new object[]
+        {
+            new FakeRoom("ValidTitle", "ValidDescription"),
+            "AnotherValidDescription"
+        };
+    }
+    
+    public static IEnumerable<object[]> InvalidUpdateData()
+    {
+        yield return new object[]
+        {
+            new FakeRoom("ValidTitle", "ValidDescription"),
+            " ",
+            "ValidDescription"
+        };
+        
+        yield return new object[]
+        {
+            new FakeRoom("ValidTitle", "ValidDescription"),
+            "ValidTitle",
+            " "
+        };
+    }
+
+    public static IEnumerable<object[]> ValidFeedbackData()
+    {
+        yield return new object[]
+        {
+            Guid.NewGuid(),
+            "ValidTitle",
+            "ValidProblem",
+            "ValidSolution"
+        };
+    }
+
+    #endregion MemberData Methods
 }
