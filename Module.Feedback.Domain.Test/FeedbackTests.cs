@@ -1,4 +1,5 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Interfaces.DomainServices;
 
@@ -18,7 +19,7 @@ public class FeedbackTests
         var guid = Guid.Parse(userId);
         var room = new FakeRoom();
 
-        var mockFeedbackService = new Mock<IAiValidationService>();
+        var mockFeedbackService = new Mock<IValidationServiceProxy>();
         mockFeedbackService.Setup(x => x.IsAcceptableTitleAsync(title)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(problem)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(solution)).ReturnsAsync(true);

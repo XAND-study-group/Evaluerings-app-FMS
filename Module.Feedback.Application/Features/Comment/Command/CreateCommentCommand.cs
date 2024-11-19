@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Module.Feedback.Application.Abstractions;
+using Module.Feedback.Domain.DomainServices;
 using SharedKernel.Dto.Features.Evaluering.Comment.Command;
 using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.Models;
@@ -8,7 +9,7 @@ namespace Module.Feedback.Application.Features.Comment.Command;
 
 public record CreateCommentCommand(CreateCommentRequest CreateCommentRequest) : IRequest<Result<bool>>;
 
-public class CreateCommentCommandHandler(ICommentRepository commentRepository, IAiValidationService aiValidationService)
+public class CreateCommentCommandHandler(ICommentRepository commentRepository, IValidationServiceProxy iValidationServiceProxy)
     : IRequestHandler<CreateCommentCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
@@ -23,7 +24,7 @@ public class CreateCommentCommandHandler(ICommentRepository commentRepository, I
             var comment = await feedback.AddComment(
                 createCommentRequest.UserId,
                 createCommentRequest.CommentText,
-                aiValidationService);
+                iValidationServiceProxy);
 
             // Save
             await commentRepository.CreateCommentAsync(comment);

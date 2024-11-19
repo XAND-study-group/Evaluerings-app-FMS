@@ -1,4 +1,5 @@
-﻿using SharedKernel.Enums.Features.Vote;
+﻿using Module.Feedback.Domain.DomainServices;
+using SharedKernel.Enums.Features.Vote;
 using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.ValueObjects;
 
@@ -47,9 +48,9 @@ public class Room : Entity
     #region Relational Methods
 
     public async Task<Feedback> AddFeedbackAsync(Guid userId, string title, string problem, string solution,
-        IHashIdService hashIdService, IAiValidationService iAiValidationService)
+        IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, iAiValidationService);
+        var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, iIValidationServiceProxy);
 
         _feedbacks.Add(feedback);
 

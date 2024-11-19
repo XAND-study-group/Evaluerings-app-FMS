@@ -1,4 +1,5 @@
-﻿using SharedKernel.Enums.Features.Vote;
+﻿using Module.Feedback.Domain.DomainServices;
+using SharedKernel.Enums.Features.Vote;
 using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.ValueObjects;
 
@@ -42,13 +43,13 @@ public class Feedback : Entity
     #region Feedback Methods
 
     public static async Task<Feedback> CreateAsync(Guid userId, string title, string problem, string solution,
-        IHashIdService hashIdService, IAiValidationService iAiValidationService)
+        IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
     {
         var feedback = new Feedback(userId, title, problem, solution, hashIdService);
 
-        await AiTitleCheckAsync(feedback.Title, iAiValidationService);
-        await AiTextCheckAsync(feedback.Problem, iAiValidationService);
-        await AiTextCheckAsync(feedback.Solution, iAiValidationService);
+        await AiTitleCheckAsync(feedback.Title, iIValidationServiceProxy);
+        await AiTextCheckAsync(feedback.Problem, iIValidationServiceProxy);
+        await AiTextCheckAsync(feedback.Solution, iIValidationServiceProxy);
 
         return feedback;
     }
@@ -57,16 +58,16 @@ public class Feedback : Entity
 
     #region Feedback Business Logic Methods
 
-    private static async Task AiTitleCheckAsync(string title, IAiValidationService aiValidationService)
+    private static async Task AiTitleCheckAsync(string title, IValidationServiceProxy iValidationServiceProxy)
     {
-        var isAcceptable = await aiValidationService.IsAcceptableTitleAsync(title);
+        var isAcceptable = await iValidationServiceProxy.IsAcceptableTitleAsync(title);
         if (!isAcceptable)
             throw new ArgumentException("Title is not acceptable");
     }
 
-    private static async Task AiTextCheckAsync(string text, IAiValidationService aiValidationService)
+    private static async Task AiTextCheckAsync(string text, IValidationServiceProxy iValidationServiceProxy)
     {
-        var isAcceptable = await aiValidationService.IsAcceptableContentAsync(text);
+        var isAcceptable = await iValidationServiceProxy.IsAcceptableContentAsync(text);
         if (!isAcceptable)
             throw new ArgumentException("The value is not acceptable.");
     }
@@ -75,9 +76,9 @@ public class Feedback : Entity
 
     #region Relational Methods
 
-    public async Task<Comment> AddComment(Guid userId, string commentText, IAiValidationService aiValidationService)
+    public async Task<Comment> AddComment(Guid userId, string commentText, IValidationServiceProxy iValidationServiceProxy)
     {
-        var comment = await Comment.CreateAsync(userId, commentText, aiValidationService);
+        var comment = await Comment.CreateAsync(userId, commentText, iValidationServiceProxy);
 
         _comments.Add(comment);
 

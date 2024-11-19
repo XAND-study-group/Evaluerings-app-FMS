@@ -1,6 +1,6 @@
-﻿namespace SharedKernel.Interfaces.DomainServices;
+﻿namespace Module.Feedback.Domain.DomainServices;
 
-public interface IAiValidationService
+public interface IValidationServiceProxy
 {
     Task<bool> IsAcceptableContentAsync(string content);
     Task<bool> IsAcceptableTitleAsync(string title);

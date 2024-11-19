@@ -1,4 +1,5 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Interfaces.DomainServices;
 
@@ -181,7 +182,7 @@ public class RoomTests
     public async Task Given_Valid_Feedback_Then_List_Count_Increased(Guid userId, string title, string problem, string solution)
     {
         // Arrange
-        var mockFeedbackService = new Mock<IAiValidationService>();
+        var mockFeedbackService = new Mock<IValidationServiceProxy>();
         mockFeedbackService.Setup(x => x.IsAcceptableTitleAsync(title)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(problem)).ReturnsAsync(true);
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(solution)).ReturnsAsync(true);

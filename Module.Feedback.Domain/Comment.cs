@@ -1,4 +1,5 @@
-﻿using SharedKernel.Interfaces.DomainServices;
+﻿using Module.Feedback.Domain.DomainServices;
+using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
@@ -32,11 +33,11 @@ public class Comment : Entity
 
     #region Comment Methods
 
-    public static async Task<Comment> CreateAsync(Guid userId, string commentText, IAiValidationService iAiValidationService)
+    public static async Task<Comment> CreateAsync(Guid userId, string commentText, IValidationServiceProxy iIValidationServiceProxy)
     {
         var comment = new Comment(userId, commentText);
 
-        await AssureAcceptableContent(commentText, iAiValidationService);
+        await AssureAcceptableContent(commentText, iIValidationServiceProxy);
 
         return comment;
     }
@@ -45,9 +46,9 @@ public class Comment : Entity
 
     #region Comment Business Logic Methods
 
-    private static async Task AssureAcceptableContent(string commentText, IAiValidationService iAiValidationService)
+    private static async Task AssureAcceptableContent(string commentText, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var isAcceptable = await iAiValidationService.IsAcceptableContentAsync(commentText);
+        var isAcceptable = await iIValidationServiceProxy.IsAcceptableContentAsync(commentText);
         if (!isAcceptable)
             throw new ArgumentException("Comment is not acceptable");
     }

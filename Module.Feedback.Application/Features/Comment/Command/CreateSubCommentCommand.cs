@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Module.Feedback.Application.Abstractions;
+using Module.Feedback.Domain.DomainServices;
 using SharedKernel.Dto.Features.Evaluering.Comment.Command;
 using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.Models;
@@ -10,7 +11,7 @@ public record CreateSubCommentCommand(CreateSubCommentRequest CreateSubCommentRe
 
 public class CreateSubCommentCommandHandler(
     ICommentRepository commentRepository,
-    IAiValidationService aiValidationService) : IRequestHandler<CreateSubCommentCommand, Result<bool>>
+    IValidationServiceProxy iValidationServiceProxy) : IRequestHandler<CreateSubCommentCommand, Result<bool>>
 {
     async Task<Result<bool>> IRequestHandler<CreateSubCommentCommand, Result<bool>>.Handle(
         CreateSubCommentCommand request, CancellationToken cancellationToken)
@@ -24,7 +25,7 @@ public class CreateSubCommentCommandHandler(
             // Do
             var subComment = await Domain.Comment.CreateAsync(createSubCommentRequest.UserId,
                 createSubCommentRequest.CommentText,
-                aiValidationService);
+                iValidationServiceProxy);
             comment.AddSubComment(subComment);
 
             // Save

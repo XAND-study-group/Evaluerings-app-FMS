@@ -1,4 +1,5 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Interfaces.DomainServices;
 
@@ -15,7 +16,7 @@ public class CommentTests
     public void Given_Valid_Comment_Data_Then_Create_Success(Guid userId, string commentText)
     {
         // Arrange
-        var mockFeedbackAiService = new Mock<IAiValidationService>();
+        var mockFeedbackAiService = new Mock<IValidationServiceProxy>();
         mockFeedbackAiService.Setup(f => f.IsAcceptableContentAsync(commentText)).ReturnsAsync(true);
 
         // Act

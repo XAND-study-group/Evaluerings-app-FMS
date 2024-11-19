@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Module.Feedback.Application.Abstractions;
+using Module.Feedback.Domain.DomainServices;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Interfaces.DomainServices;
@@ -12,7 +13,7 @@ public record CreateFeedbackCommand(CreateFeedbackRequest CreateFeedbackRequest)
 
 public class CreateFeedbackCommandHandler(
     IFeedbackRepository feedbackRepository,
-    IAiValidationService iAiValidationService,
+    IValidationServiceProxy iIValidationServiceProxy,
     IHashIdService hashIdService) : IRequestHandler<CreateFeedbackCommand, Result<bool>>
 {
     async Task<Result<bool>> IRequestHandler<CreateFeedbackCommand, Result<bool>>.Handle(CreateFeedbackCommand request,
@@ -26,7 +27,7 @@ public class CreateFeedbackCommandHandler(
 
             // Do
             var feedback = await room.AddFeedbackAsync(createFeedbackRequest.userId, createFeedbackRequest.title,
-                createFeedbackRequest.problem, createFeedbackRequest.solution, hashIdService, iAiValidationService);
+                createFeedbackRequest.problem, createFeedbackRequest.solution, hashIdService, iIValidationServiceProxy);
 
             // Save
             await feedbackRepository.CreateFeedbackAsync(feedback);

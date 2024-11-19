@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Module.Feedback.Application\Module.Feedback.Application.csproj" />
+      <ProjectReference Include="..\Module.Feedback.Infrastructure\Module.Feedback.Infrastructure.csproj" />
       <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
       <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
     </ItemGroup>
