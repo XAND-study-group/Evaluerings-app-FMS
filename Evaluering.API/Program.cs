@@ -22,10 +22,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("TestGemini/",
-    async ([FromBody] ContentDto content, [FromServices] IValidationServiceProxy validationServiceProxy) =>
+app.MapPost("TestGemini/Feedback",
+    async ([FromBody] FeedbackContentDto content, [FromServices] IValidationServiceProxy validationServiceProxy) =>
     await validationServiceProxy.IsAcceptableContentAsync(content.Title, content.Problem, content.Solution));
+
+app.MapPost("TestGemini/Comment",
+    async ([FromBody] CommentContentDto content, [FromServices] IValidationServiceProxy validationServiceProxy) =>
+    await validationServiceProxy.IsAcceptableCommentAsync(content.Comment));
 
 app.Run();
 
-record ContentDto(string Title, string Problem, string Solution);
+record FeedbackContentDto(string Title, string Problem, string Solution);
+record CommentContentDto(string Comment);
