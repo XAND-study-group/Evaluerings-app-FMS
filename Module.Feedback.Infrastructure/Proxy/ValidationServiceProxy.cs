@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Evaluering.Proxy;
 
 namespace Module.Feedback.Infrastructure.Proxy;

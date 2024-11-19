@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
 
 var builder = WebApplication.CreateBuilder(args);

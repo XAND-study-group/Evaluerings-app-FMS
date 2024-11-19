@@ -1,6 +1,8 @@
 ﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Enums.Features.Vote;
 using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.Interfaces.DomainServices.Interfaces;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
@@ -30,9 +32,9 @@ public class Feedback : Entity
     {
     }
 
-    private Feedback(Guid userId, string title, string problem, string solution, IHashIdService hashIdService)
+    private Feedback(HashedId hashedUserId, string title, string problem, string solution)
     {
-        HashedId = new HashedId(userId, hashIdService);
+        HashedId = hashedUserId;
         Title = title;
         Problem = problem;
         Solution = solution;
@@ -45,7 +47,8 @@ public class Feedback : Entity
     public static async Task<Feedback> CreateAsync(Guid userId, string title, string problem, string solution,
         IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var feedback = new Feedback(userId, title, problem, solution, hashIdService);
+        var hashedUserId = HashedId.Create(userId, hashIdService);
+        var feedback = new Feedback(hashedUserId, title, problem, solution);
         
         await AiTextCheckAsync(feedback.Title, feedback.Problem, feedback.Solution, iIValidationServiceProxy);
 

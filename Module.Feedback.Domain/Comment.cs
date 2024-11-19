@@ -1,4 +1,5 @@
 ﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.ValueObjects;
 

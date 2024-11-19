@@ -1,4 +1,5 @@
 ﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Dto.Features.Evaluering.Proxy;

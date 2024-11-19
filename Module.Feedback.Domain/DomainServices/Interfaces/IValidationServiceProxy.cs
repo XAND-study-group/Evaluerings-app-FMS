@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Dto.Features.Evaluering.Proxy;
 
-namespace Module.Feedback.Domain.DomainServices;
+namespace Module.Feedback.Domain.DomainServices.Interfaces;
 
 public interface IValidationServiceProxy
 {
