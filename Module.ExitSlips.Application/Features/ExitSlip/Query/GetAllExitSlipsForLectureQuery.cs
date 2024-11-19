@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Query
 {
-    internal class GetExitSlipQuery
+    public class GetAllExitSlipsForLectureQuery
     {
     }
 }
