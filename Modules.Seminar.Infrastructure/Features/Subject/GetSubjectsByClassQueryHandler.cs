@@ -21,7 +21,7 @@ namespace Module.Semester.Infrastructure.Features.Subject
             _mapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Domain.Entities.Subject, GetDetailedSubjectResponse>();
-                cfg.CreateMap<Domain.Entities.Lecture, GetLectureIdResponse>();
+                cfg.CreateMap<Domain.Entities.Lecture, GetDetailedLectureResponse>();
             }).CreateMapper();
         }
 
