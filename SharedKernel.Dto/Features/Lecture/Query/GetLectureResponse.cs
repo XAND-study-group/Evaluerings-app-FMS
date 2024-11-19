@@ -1,4 +1,6 @@
-﻿namespace SharedKernel.Dto.Features.Lecture.Query;
+﻿using SharedKernel.Dto.Features.User.Query;
+
+namespace SharedKernel.Dto.Features.Lecture.Query;
 
 public record GetLectureResponse(
     Guid Id,
@@ -9,4 +11,4 @@ public record GetLectureResponse(
     TimeOnly ToTime,
     DateOnly Date,
     string ClassRoom,
-    IEnumerable<GetLectureUserResponse> Teachers);
+    IEnumerable<GetUserResponse> Teachers);

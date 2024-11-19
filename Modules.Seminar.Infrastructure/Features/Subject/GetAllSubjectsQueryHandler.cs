@@ -10,23 +10,12 @@ using SharedKernel.Models;
 
 namespace Module.Semester.Infrastructure.Features.Subject
 {
-    public class GetAllSubjectsQueryHandler : IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetAllSubjectsResponse>>>
+    public class GetAllSubjectsQueryHandler(SemesterDbContext _semesterDbContext) : IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetAllSubjectsResponse>>>
     {
-        private readonly SemesterDbContext _semesterDbContext;
-        private readonly IMapper _mapper;
-
-        public GetAllSubjectsQueryHandler(SemesterDbContext semesterDbContext, IMapper mapper)
-        {
-            _semesterDbContext = semesterDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.Subject, GetAllSubjectsResponse>();
-                cfg.CreateMap<Domain.Entities.Lecture, GetLectureIdResponse>();
-            }).CreateMapper();
-        }
-
-        public async Task<Result<IEnumerable<GetAllSubjectsResponse>>> Handle(GetAllSubjectsQuery request,
-            CancellationToken cancellationToken)
+        
+        async Task<Result<IEnumerable<GetAllSubjectsResponse>>> 
+        IRequestHandler<GetAllSubjectsQuery,Result<IEnumerable<GetAllSubjectsResponse>>>.Handle(
+            GetAllSubjectsQuery request, CancellationToken cancellationToken)
         {
             try
             {
