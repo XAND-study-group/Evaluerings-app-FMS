@@ -9,23 +9,26 @@
 
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.4.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Abstractions\" />
+      <Folder Include="Endpoints\SemesterEndpoints\" />
+      <Folder Include="Endpoints\UserEndpoints\" />
       <Folder Include="Helpers\" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
-      <ProjectReference Include="..\Module.User\Module.User.csproj" />
+      <ProjectReference Include="..\School.Application\School.Application.csproj" />
+      <ProjectReference Include="..\School.Infrastructure\School.Infrastructure.csproj" />
+      <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
     </ItemGroup>
 
     <ItemGroup>

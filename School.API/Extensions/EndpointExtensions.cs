@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Module.Shared.Abstractions;
+using SharedKernel.Interfaces;
 
 namespace School.API.Extensions
 {
@@ -20,12 +20,12 @@ namespace School.API.Extensions
             return services;
         }
         
-        public static IApplicationBuilder MapEndpoints(this WebApplication app)
+        public static IApplicationBuilder MapEndpoints(this WebApplication app, IConfiguration configuration)
         {
             var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
             foreach (var endpoint in endpoints)
             {
-                endpoint.MapEndpoint(app);
+                endpoint.MapEndpoint(app, configuration);
             }
         
             return app;
