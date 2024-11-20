@@ -10,7 +10,6 @@ namespace School.Application.Features.UserFeature.Login.Commands;
 public record AccountLoginCommand(AuthenticateAccountLoginRequest Request) : IRequest<Result<TokenResponse?>>;
 
 public class AccountLoginCommandHandler(
-    IAccountLoginRepository accountLoginRepository,
     IUserRepository userRepository,
     IPasswordHasher passwordHasher,
     ITokenProvider tokenProvider,
@@ -22,17 +21,16 @@ public class AccountLoginCommandHandler(
         {
             var authenticateRequest = request.Request;
 
-            var accountLogin = await accountLoginRepository.GetAccountLoginFromEmailAsync(authenticateRequest.Email);
+            var user = await userRepository.GetUserByEmailAsync(authenticateRequest.Email);
 
-            if (accountLogin is null)
+            if (user is null)
                 return Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error);
 
-            var correctCredentials = passwordHasher.Verify(authenticateRequest.Password, accountLogin.PasswordHash);
+            var correctCredentials = passwordHasher.Verify(authenticateRequest.Password, user.PasswordHash);
 
-            var accessToken = tokenProvider.GenerateAccessToken(accountLogin.User);
+            var accessToken = tokenProvider.GenerateAccessToken(user);
             var refreshToken = tokenProvider.GenerateRefreshToken();
-
-            var user = accountLogin.User;
+            
             user.SetRefreshToken(refreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
 
             await userRepository.SetUserRefreshTokenAsync(user);

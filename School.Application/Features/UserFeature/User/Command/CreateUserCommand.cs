@@ -1,26 +1,23 @@
 ﻿using MediatR;
 using School.Application.Abstractions.User;
+using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.User.Command;
+using SharedKernel.Enums.Features.Authentication;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.User.Command
 {
     public record CreateUserCommand(CreateUserRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<bool>>
+    public class CreateUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        : IRequestHandler<CreateUserCommand, Result<bool>>
     {
-        private readonly IUserRepository _userRepository;
-        public CreateUserCommandHandler(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
-
         async Task<Result<bool>> IRequestHandler<CreateUserCommand, Result<bool>>.Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 // Load
-                var otherUsers = await _userRepository.GetAllUsers();
+                var otherUsers = await userRepository.GetAllUsers();
                 var userRequest = request.Request;
 
                 // Do 
@@ -28,10 +25,13 @@ namespace School.Application.Features.UserFeature.User.Command
                     userRequest.Firstname, 
                     userRequest.Lastname, 
                     userRequest.Email,
-                    otherUsers);
+                    userRequest.Password,
+                    Role.User,
+                    otherUsers,
+                    passwordHasher);
 
                 // Save 
-                await _userRepository.CreateUserAsync(user);
+                await userRepository.CreateUserAsync(user);
                 return Result<bool>.Create("Brugeren er blevet oprettet.", true, ResultStatus.Created);
             }
             catch (ArgumentException e)

@@ -11,7 +11,7 @@ namespace School.Application.Features.UserFeature.Bogus.Command;
 public record GenerateUserLoginsCommand() : IRequest<Result<bool>>;
 
 public class GenerateUserLoginsCommandHandler(
-    IAccountLoginRepository accountLoginRepository,
+    IUserRepository userRepository,
     IPasswordHasher passwordHasher) : IRequestHandler<GenerateUserLoginsCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(GenerateUserLoginsCommand request, CancellationToken cancellationToken)
@@ -22,23 +22,22 @@ public class GenerateUserLoginsCommandHandler(
 
 
             //TODO: add other users
-            var accountLoginFake = new Faker<AccountLogin>()
+            var accountLoginFake = new Faker<Domain.Entities.User>()
                 .CustomInstantiator(f =>
-                    AccountLogin.Create(
-                        f.Person.Email,
-                        "Password123.",
-                        Domain.Entities.User.Create(
-                            f.Person.FirstName,
-                            f.Person.LastName,
-                            f.Person.Email, []),
+                    Domain.Entities.User.Create(
+                        f.Person.FirstName,
+                        f.Person.LastName,
+                        f.Person.Email, 
+                        "Password123.", 
                         f.PickRandom(roles),
+                        [],
                         passwordHasher)).UseSeed(420);
 
             var accounts = accountLoginFake.GenerateLazy(30);
 
-            await accountLoginRepository.CreateAccountLoginsAsync(accounts);
+            await userRepository.CreateUsersAsync(accounts);
 
-            return Result<bool>.Create("Accounts have been created", true, ResultStatus.Success);
+            return Result<bool>.Create("Users have been created", true, ResultStatus.Success);
         }
         catch (Exception e)
         {

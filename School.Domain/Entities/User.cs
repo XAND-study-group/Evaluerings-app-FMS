@@ -1,4 +1,7 @@
-﻿using SharedKernel.Models;
+﻿using System.Text.RegularExpressions;
+using School.Domain.DomainServices.Interfaces;
+using SharedKernel.Enums.Features.Authentication;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace School.Domain.Entities
@@ -9,10 +12,13 @@ namespace School.Domain.Entities
         public UserFirstname Firstname { get; protected set; }
         public UserLastname Lastname { get; protected set; }
         public UserEmail Email { get; protected set; }
+        public string PasswordHash { get; protected set; }
+        public Role UserRole { get; set; }
+
         public IEnumerable<Semester> Semesters { get; protected set; }
         private List<AccountClaim> _accountClaims = [];
         public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
-        public RefreshToken? RefreshToken { get; set; }
+        public RefreshToken RefreshToken { get; set; }
         
         #endregion
 
@@ -21,21 +27,25 @@ namespace School.Domain.Entities
         {
         }
 
-        private User(string fristname, string lastname, string email, IEnumerable<User> otherUsers)
+        private User(string fristname, string lastname, string email, string password, Role role, IEnumerable<User> otherUsers, IPasswordHasher passwordHasher)
         {
+            AssurePasswordCompliesWithRequirements(password);
+            
             var otherUsersEmails = otherUsers.Select(e => e.Email.Value);
 
             Firstname = UserFirstname.Create(fristname);
             Lastname = UserLastname.Create(lastname);
-            Email = UserEmail.Create(email, otherUsersEmails);         
+            Email = UserEmail.Create(email, otherUsersEmails);      
+            PasswordHash = passwordHasher.Hash(password);
+            UserRole = role;
         }
 
         #endregion
 
         #region User Methodes
 
-        public static User Create(string firstname, string lastname, string email, IEnumerable<User> otherUsers) =>
-            new User(firstname, lastname, email, otherUsers);
+        public static User Create(string firstname, string lastname, string email, string password, Role role, IEnumerable<User> otherUsers, IPasswordHasher passwordHasher) =>
+            new User(firstname, lastname, email, password, role, otherUsers, passwordHasher);
 
         #endregion
 
@@ -51,6 +61,12 @@ namespace School.Domain.Entities
         {
             RefreshToken = RefreshToken;
         }
+        
+        public void ChangePassword(string newPassword, IPasswordHasher passwordHasher)
+        {
+            AssurePasswordCompliesWithRequirements(newPassword);
+            PasswordHash = passwordHasher.Hash(newPassword);
+        }
 
         #region User BusinessLogic Methodes
 
@@ -61,6 +77,20 @@ namespace School.Domain.Entities
 
             if (name.Length > 100)
                 throw new ArgumentException("Firstname cannot exceed 50 characters.", nameof(name));
+        }
+        
+        protected void AssurePasswordCompliesWithRequirements(string password)
+        {
+            if (password.Length < 10)
+                throw new ArgumentException("Adgangskode skal være minimum 10 karaktere langt");
+            if (password.All(c => !char.IsUpper(c)))
+                throw new ArgumentException("Adgangskode skal have mindst ét stort bogstav");
+            if (password.All(c => !char.IsNumber(c)))
+                throw new ArgumentException("Adgangskode skal have mindst ét tal");
+        
+            var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+            if (regexItem.IsMatch(password))
+                throw new ArgumentException("Adgangskoden skal have mindst ét specialtegn");
         }
         
         #endregion

@@ -10,7 +10,7 @@ namespace School.Application.Features.UserFeature.SignUp.Commands;
 
 public record AccountSignUpCommand(CreateAccountLoginRequest Request) : IRequest<Result<bool>>;
 
-public class AccountSignUpCommandHandler(IAccountLoginRepository accountLoginRepository, IPasswordHasher passwordHasher)
+public class AccountSignUpCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
     : IRequestHandler<AccountSignUpCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(AccountSignUpCommand request, CancellationToken cancellationToken)
@@ -18,16 +18,16 @@ public class AccountSignUpCommandHandler(IAccountLoginRepository accountLoginRep
         try
         {
             var createRequest = request.Request;
-        
-            var exists = await accountLoginRepository.DoesAccountLoginEmailExistAsync(createRequest.Email);
+
+            var exists = await userRepository.DoesAccountLoginEmailExistAsync(createRequest.Email);
             if (!exists)
                 return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
 
             //TODO: Add other users
-            var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname, createRequest.Email, []);
-            var accountLogin = AccountLogin.Create(createRequest.Email, createRequest.Password, user, Role.User, passwordHasher);
+            var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname, createRequest.Email,
+                createRequest.Password, Role.User, [], passwordHasher);
 
-            await accountLoginRepository.CreateAccountLoginAsync(accountLogin);
+            await userRepository.CreateUserAsync(user);
 
             return Result<bool>.Create("Account created", true, ResultStatus.Success);
         }

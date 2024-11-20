@@ -6,7 +6,6 @@ namespace School.Infrastructure.DbContext
 {
     public class SchoolDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public DbSet<AccountLogin> AccountLogins { get; set; }
         public DbSet<AccountClaim> AccountClaims { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Class> Classes { get; set; }
@@ -30,7 +29,7 @@ namespace School.Infrastructure.DbContext
                 .ValueGeneratedOnAdd();
             
             modelBuilder.Entity<User>()
-                .ComplexProperty(u
+                .OwnsOne(u
                     => u.RefreshToken);
 
             modelBuilder.Entity<User>()
@@ -43,21 +42,13 @@ namespace School.Infrastructure.DbContext
                 .ComplexProperty<UserLastname>(u => u.Lastname);
             modelBuilder.Entity<User>()
                 .ComplexProperty<UserEmail>(u => u.Email);
+            
+            // modelBuilder.Entity<User>()
+            //     .Ignore(a => a.Role);
 
             #endregion
             
             #region Authentication OnModelCreating
-
-            modelBuilder.Entity<AccountLogin>()
-                .Property(a => a.RowVersion)
-                .IsRowVersion(); // Configure RowVersion as a concurrency token
-
-            // modelBuilder.Entity<AccountLogin>()
-            //     .Ignore(a => a.Role);
-            
-            modelBuilder.Entity<AccountLogin>()
-                .Property(a => a.Id)
-                .ValueGeneratedOnAdd();
             
             modelBuilder.Entity<AccountClaim>()
                 .Property(c => c.RowVersion)
@@ -142,7 +133,7 @@ namespace School.Infrastructure.DbContext
 
             modelBuilder.Entity<Subject>()
                 .ComplexProperty<SubjectDescription>(s => s.Description);
-
+            
             modelBuilder.Entity<Subject>()
                 .ComplexProperty<SubjectName>(s => s.Name);
 

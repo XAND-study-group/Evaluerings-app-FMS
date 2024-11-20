@@ -10,7 +10,7 @@ namespace School.Application.Features.UserFeature.Login.Commands;
 public record AccountChangePasswordCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>;
 
 public class AccountChangePasswordCommandHandler(
-    IAccountLoginRepository accountLoginRepository,
+    IUserRepository userRepository,
     IPasswordHasher passwordHasher,
     IMemoryCache memoryCache) : IRequestHandler<AccountChangePasswordCommand, Result<bool>>
 {
@@ -20,10 +20,10 @@ public class AccountChangePasswordCommandHandler(
         {
             var changePasswordRequest = request.Request;
 
-            var accountLogin =
-                await accountLoginRepository.GetAccountLoginFromIdAsync(changePasswordRequest.AccountLoginId);
+            var user =
+                await userRepository.GetUserByIdAsync(changePasswordRequest.AccountLoginId);
             
-            if (accountLogin is null)
+            if (user is null)
                 return Result<bool>.Create("Brugeren eksistere ikke", false, ResultStatus.Error);
             
             var code = memoryCache.Get(changePasswordRequest.AccountLoginId) as string;
@@ -33,9 +33,9 @@ public class AccountChangePasswordCommandHandler(
             
             memoryCache.Remove(changePasswordRequest.AccountLoginId);
             
-            accountLogin.ChangePassword(changePasswordRequest.NewPassword, passwordHasher);
+            user.ChangePassword(changePasswordRequest.NewPassword, passwordHasher);
 
-            await accountLoginRepository.ChangeLoginPasswordAsync(accountLogin);
+            await userRepository.ChangeUserPasswordAsync();
 
             return Result<bool>.Create("Adgangskode er blevet ændret", true, ResultStatus.Success);
         }

@@ -22,7 +22,6 @@ namespace School.Infrastructure.Extensions
             }));
 
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
-            serviceCollection.AddScoped<IAccountLoginRepository, AccountLoginRepository>();
             serviceCollection.AddScoped<IAccountClaimRepository, AccountClaimRepository>();
             
             serviceCollection.AddScoped<IClassRepository, ClassRepository>();

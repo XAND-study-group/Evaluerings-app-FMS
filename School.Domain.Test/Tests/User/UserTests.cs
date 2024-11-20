@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using Moq;
+using School.Domain.DomainServices.Interfaces;
 using School.Domain.Test.Fakes.User;
+using SharedKernel.Enums.Features.Authentication;
 using Xunit;
 
 namespace School.Domain.Test.Tests.User
@@ -20,7 +22,7 @@ namespace School.Domain.Test.Tests.User
             var email = "xabur@hotmail.com";
 
             // Act
-            var user = Entities.User.Create(firstname, lastname, email, []);
+            var user = Entities.User.Create(firstname, lastname, email, It.IsAny<string>(), It.IsAny<Role>(), [], It.IsAny<IPasswordHasher>());
 
             // Assert
             Assert.NotNull(user);

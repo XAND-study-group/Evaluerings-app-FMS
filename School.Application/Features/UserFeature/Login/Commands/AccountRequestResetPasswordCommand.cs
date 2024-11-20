@@ -11,7 +11,7 @@ public record AccountRequestResetPasswordCommand(RequestResetPasswordRequest Req
     : IRequest<Result<RequestResetPasswordResponse?>>;
 
 public class AccountStartResetPasswordCommandHandler(
-    IAccountLoginRepository loginRepository,
+    IUserRepository userRepository,
     ITokenProvider tokenProvider,
     IMemoryCache memoryCache)
     : IRequestHandler<AccountRequestResetPasswordCommand, Result<RequestResetPasswordResponse?>>
@@ -21,7 +21,7 @@ public class AccountStartResetPasswordCommandHandler(
     {
         var startResetPasswordRequest = request.Request;
 
-        var login = await loginRepository.GetAccountLoginFromIdAsync(startResetPasswordRequest.Id);
+        var login = await userRepository.GetUserByIdAsync(startResetPasswordRequest.Id);
 
         if (login is null)
             return Result<RequestResetPasswordResponse?>.Create("Brugeren eksistere ikke", null, ResultStatus.Error);

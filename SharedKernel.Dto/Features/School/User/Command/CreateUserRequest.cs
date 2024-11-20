@@ -3,4 +3,5 @@
 public record CreateUserRequest(
     string Firstname,
     string Lastname,
-    string Email);
+    string Email,
+    string Password);
