@@ -1,5 +1,6 @@
 ﻿namespace SharedKernel.Dto.Features.Evaluering.Room.Query;
 
 public record GetCommentResponse(
-    Guid CommentId,
-    string CommentText);
+    Guid Id,
+    string CommentText,
+    DateTime Created);

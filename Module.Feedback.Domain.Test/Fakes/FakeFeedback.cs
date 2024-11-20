@@ -6,4 +6,13 @@ public class FakeFeedback : Feedback
     {
         
     }
+    
+    public void SetTitle(string title)
+    => Title = title;
+    
+    public void SetProblem(string problem)
+    => Problem = problem;
+    
+    public void SetSolution(string solution)
+    => Solution = solution;
 }

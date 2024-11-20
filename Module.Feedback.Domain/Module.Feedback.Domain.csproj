@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
+      <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
       <ProjectReference Include="..\SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj" />
     </ItemGroup>
 

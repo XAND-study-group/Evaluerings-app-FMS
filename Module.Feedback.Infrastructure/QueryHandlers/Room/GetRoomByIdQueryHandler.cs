@@ -8,7 +8,7 @@ using Module.Feedback.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.Room.Query;
 using SharedKernel.Models;
 
-namespace Module.Feedback.Infrastructure.QueryHandlers;
+namespace Module.Feedback.Infrastructure.QueryHandlers.Room;
 
 public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<GetRoomResponse?>>
 {
@@ -19,10 +19,10 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
         _feedbackDbContext = feedbackDbContext;
         _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Room, GetRoomResponse>();
+            cfg.CreateMap<Domain.Room, GetRoomResponse>();
             cfg.CreateMap<Domain.Feedback, GetFeedbackResponse>();
-            cfg.CreateMap<Comment, GetCommentResponse>();
-            cfg.CreateMap<Vote, GetVoteResponse>();
+            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
+            cfg.CreateMap<Domain.Vote, GetVoteResponse>();
         }).CreateMapper();
     }
 

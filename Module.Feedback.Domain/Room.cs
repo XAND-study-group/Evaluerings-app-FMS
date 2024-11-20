@@ -1,4 +1,9 @@
-﻿using SharedKernel.ValueObjects;
+﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
+using SharedKernel.Enums.Features.Vote;
+using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.Interfaces.DomainServices.Interfaces;
+using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
 
@@ -9,7 +14,9 @@ public class Room : Entity
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
     private readonly List<Feedback> _feedbacks = [];
+    private readonly List<Guid> _classIds = [];
     public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
+    public IReadOnlyCollection<Guid> ClassIds => _classIds;
 
     #endregion Properties
 
@@ -39,16 +46,42 @@ public class Room : Entity
     }
 
     #endregion Room Methods
-    
+
     #region Relational Methods
 
-    public Feedback AddFeedback(Guid userId, string problem, string solution)
+    public async Task<Feedback> AddFeedbackAsync(Guid userId, string title, string problem, string solution,
+        IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var feedback = Feedback.Create(userId, problem, solution);
-        
+        var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, iIValidationServiceProxy);
+
         _feedbacks.Add(feedback);
 
         return feedback;
     }
+
+    public async Task AddClassIdAsync(Guid classId)
+    {
+        _classIds.Add(classId);
+    }
+    
+    public Vote AddVoteToFeedback(Guid feedbackId, Guid userId, VoteScale voteScale, IHashIdService hashIdService)
+    {
+        var feedback = _feedbacks.Single(f => f.Id == feedbackId);
+
+        AssureNoExistingVoteFromUser(feedback.Votes, userId, hashIdService);
+        
+        return feedback.AddVote(userId, voteScale, hashIdService);
+    }
+
     #endregion Relational Methods
+    
+    #region Relational Business Logic Methods
+
+    private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId, IHashIdService hashIdService)
+    {
+        var hashUserId = hashIdService.Hash(userId);
+        if (votes.Any(v => v.HashedId == hashUserId))
+            throw new ArgumentException("User has already voted for this feedback.");
+    }
+    #endregion
 }

@@ -1,4 +1,10 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
+using Module.Feedback.Domain.Test.Fakes;
+using Moq;
+using SharedKernel.Dto.Features.Evaluering.Proxy;
+using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.Interfaces.DomainServices.Interfaces;
 
 namespace Module.Feedback.Domain.Test;
 
@@ -176,14 +182,20 @@ public class RoomTests
 
     [Theory]
     [MemberData(nameof(ValidFeedbackData))]
-    public void Given_Valid_Feedback_Then_List_Count_Increased(Guid userId, string problem, string solution)
+    public async Task Given_Valid_Feedback_Then_List_Count_Increased(Guid userId, string title, string problem, string solution)
     {
         // Arrange
+        var mockFeedbackService = new Mock<IValidationServiceProxy>();
+        mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(title,problem, solution)).ReturnsAsync(new GeminiResponse(true,""));
+
+        var mockHashIdService = new Mock<IHashIdService>();
+        mockHashIdService.Setup(h => h.Hash(userId)).Returns("FakeHashId");
+        
         var room = new FakeRoom();
         var expectedCount = 1;
         
         // Act
-        room.AddFeedback(userId, problem, solution);
+        await room.AddFeedbackAsync(userId, title, problem, solution, mockHashIdService.Object, mockFeedbackService.Object);
         
         // Assert
         Assert.Equal(expectedCount, room.Feedbacks.Count);
@@ -234,6 +246,7 @@ public class RoomTests
         yield return new object[]
         {
             Guid.NewGuid(),
+            "ValidTitle",
             "ValidProblem",
             "ValidSolution"
         };
