@@ -6,4 +6,21 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Module.Feedback.Application\Module.Feedback.Application.csproj" />
+      <ProjectReference Include="..\Module.Feedback.Infrastructure\Module.Feedback.Infrastructure.csproj" />
+      <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
+      <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.4.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="SharedKernel.Dto">
+        <HintPath>..\SharedKernel.Dto\bin\Debug\net8.0\SharedKernel.Dto.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

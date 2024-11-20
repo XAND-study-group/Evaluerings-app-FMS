@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SharedKernel.Dto.Features.Semester.Query;
+using SharedKernel.Dto.Features.School.Semester.Query;
 
 namespace Module.Semester.Domain.Extension
 {

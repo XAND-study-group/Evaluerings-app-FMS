@@ -50,6 +50,7 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
         
         #region Semester OnModelCreating
         modelBuilder.Entity<Domain.Entities.Semester>()
+            .ToTable("Semesters")
             .Property(c => c.Id)
             .ValueGeneratedOnAdd();
         

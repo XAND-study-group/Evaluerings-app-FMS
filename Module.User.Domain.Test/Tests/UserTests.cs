@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
 using Xunit;
 
 namespace Module.User.Domain.Test.Tests
@@ -109,6 +110,34 @@ namespace Module.User.Domain.Test.Tests
 
         #endregion
 
+        #region RefreshToken Tests
+        
+        [Theory]
+        [MemberData(nameof(CreateRefreshTokenSuccess))]
+        public void Given_Expiration_Date_In_Future_Then_Create(string firstname, string lastname, string email, DateTime expirationDate)
+        {
+            // Arrange
+            var sut = new FakeUser(firstname, lastname, email);
+
+            // Act & Assert
+            Assert.NotNull(() => sut.SetRefreshToken(It.IsAny<string>(), expirationDate));
+
+        }
+        
+        [Theory]
+        [MemberData(nameof(CreateRefreshTokenFail))]
+        public void Given_Expiration_Date_In_Past_Then_Throw_Exception(string firstname, string lastname, string email, DateTime expirationDate)
+        {
+            // Arrange
+            var sut = new FakeUser(firstname, lastname, email);
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => sut.SetRefreshToken(It.IsAny<string>(), expirationDate));
+
+        }
+
+        #endregion
+
         #endregion
 
         #region MemberData Methodes
@@ -170,6 +199,27 @@ namespace Module.User.Domain.Test.Tests
                 " ",
                 otheremails
             };
+        }
+        public static IEnumerable<object[]> CreateRefreshTokenSuccess()
+        {
+            yield return
+            [
+                "Test",
+                "Test",
+                "testhotmail.com",
+                DateTime.Now.AddDays(5)
+            ];
+        }
+        
+        public static IEnumerable<object[]> CreateRefreshTokenFail()
+        {
+            yield return
+            [
+                "Test",
+                "Test",
+                "testhotmail.com",
+                DateTime.Now.Subtract(new DateTime(0, 0, 3))
+            ];
         }
 
 

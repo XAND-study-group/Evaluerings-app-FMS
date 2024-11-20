@@ -1,4 +1,5 @@
-﻿using SharedKernel.Dto.Features.Evaluering.Question.Query;
+﻿using SharedKernel.Dto.Features.Evaluering.Answer.Query;
+using SharedKernel.Dto.Features.Evaluering.Question.Query;
 using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query
         string Title,
         int MaxQuestioncount,
         ExitSlipActiveStatus ActiveStatus,
-        IEnumerable<GetSimpleQuestionsResponse> Questions);
+        IEnumerable<GetSimpleQuestionsResponse> Questions,
+        IEnumerable<GetSimpleAnswerResponse> Answers);
 }

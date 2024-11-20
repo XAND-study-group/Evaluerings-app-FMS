@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Subject.Query;
 using Module.Semester.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Lecture.Query;
-using SharedKernel.Dto.Features.Subject.Query;
+using SharedKernel.Dto.Features.School.Lecture.Query;
+using SharedKernel.Dto.Features.School.Subject.Query;
 using SharedKernel.Models;
 
 namespace Module.Semester.Infrastructure.Features.Subject

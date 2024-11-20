@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Module.Semester.Domain.Entities;
 using SharedKernel.Dto.Features.Lecture.Query;
+using SharedKernel.Dto.Features.School.Lecture.Query;
 
 namespace Module.Semester.Domain.Extension
 {

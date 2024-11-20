@@ -2,22 +2,23 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Module.Semester.Application.Features.Subject.Query;
-using SharedKernel.Dto.Features.Subject.Query;
+using SharedKernel.Dto.Features.School.Subject.Query;
 using SharedKernel.Interfaces;
+using SharedKernel.Models.Extensions;
 
 namespace Module.Semester.Endpoints.Subject
 {
     public class GetSubjectsByClass : IEndpoint
     {
-        public void MapEndpoint(WebApplication app)
+        public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapGet("/Semester/Class/GetSubjectsByClass/{id:guid}",
-                    async ([FromRoute]Guid id,[FromServices] IMediator mediator) =>
-                    {
-                        var response = await mediator.Send(new GetSubjectsByClassQuery(new GetSubjectsByClassRequest(id)));
-                        return Results.Ok(response);
-                    }).WithTags("Class")
+            app.MapGet(configuration["Routes:SemesterModule:Subject:GetAllSubjectsByClass"] ??
+                       throw new Exception("Route is not added to config file"),
+                    async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
+                    (await mediator.Send(new GetSubjectsByClassQuery(new GetSubjectsByClassRequest(id)))).ReturnHttpResult())
+                .WithTags("Class")
                 .RequireAuthorization();
         }
     }

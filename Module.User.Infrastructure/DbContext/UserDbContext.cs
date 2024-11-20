@@ -8,7 +8,7 @@ namespace Module.User.Infrastructure.DbContext
 {
     public class UserDbContext : SchoolDbContext, IUserDbContext
     {
-        public DbSet<Domain.Entities.Semester> Semesters { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
         public DbSet<AccountLogin> AccountLogins { get; set; }
         public DbSet<AccountClaim> AccountClaims { get; set; }
         public DbSet<Domain.Entities.User> Users { get; set; }
@@ -23,11 +23,15 @@ namespace Module.User.Infrastructure.DbContext
             #region User OnModelCreating
 
             modelBuilder.Entity<Domain.Entities.User>()
-                .Property(c => c.Id)
+                .Property(u => u.Id)
                 .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<Domain.Entities.User>()
+                .OwnsOne(u
+                    => u.RefreshToken);
 
             modelBuilder.Entity<Domain.Entities.User>()
-                .Property(a => a.RowVersion)
+                .Property(u => u.RowVersion)
                 .IsRowVersion();
 
             modelBuilder.Entity<Domain.Entities.User>()
@@ -65,13 +69,16 @@ namespace Module.User.Infrastructure.DbContext
             modelBuilder.Entity<AccountLogin>()
                 .Property(a => a.RowVersion)
                 .IsRowVersion(); // Configure RowVersion as a concurrency token
+
+            // modelBuilder.Entity<AccountLogin>()
+            //     .Ignore(a => a.Role);
             
             modelBuilder.Entity<AccountLogin>()
-                .Property(c => c.Id)
+                .Property(a => a.Id)
                 .ValueGeneratedOnAdd();
             
             modelBuilder.Entity<AccountClaim>()
-                .Property(a => a.RowVersion)
+                .Property(c => c.RowVersion)
                 .IsRowVersion();
             
             modelBuilder.Entity<AccountClaim>()

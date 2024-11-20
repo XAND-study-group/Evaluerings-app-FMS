@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
     <Folder Include="Features\Subject\Command\" />
     <Folder Include="Features\Subject\Query\Dto\" />
   </ItemGroup>
@@ -28,6 +27,12 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SharedKernel.Dto">
+      <HintPath>..\SharedKernel.Dto\bin\Debug\net8.0\SharedKernel.Dto.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using SharedKernel.ValueObjects;
 
 namespace Module.User.Domain.Entities
 {
@@ -19,6 +20,7 @@ namespace Module.User.Domain.Entities
         public IEnumerable<Semester> Semesters { get; protected set; }
         private List<AccountClaim> _accountClaims = [];
         public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
+        public RefreshToken RefreshToken { get; set; }
         
         #endregion
 
@@ -47,10 +49,29 @@ namespace Module.User.Domain.Entities
 
         public void AddAccountClaim(AccountClaim claim)
         {
-            // TODO: Assure user does not already have claim
+            if (AccountClaims.Contains(claim))
+                throw new ArgumentException("Brugeren har allerede denne rettighed");
 
             _accountClaims.Add(claim);
         }
+
+        public void SetRefreshToken(string token, int days)
+        {
+            RefreshToken = RefreshToken;
+        }
+
+        #region User BusinessLogic Methodes
+
+        protected void ValidateName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Firstname cannot be empty or null.", nameof(name));        // her er jeg ikke helt sikker på hvorfor der skal tilføjes "nameof"
+
+            if (name.Length > 100)
+                throw new ArgumentException("Firstname cannot exceed 50 characters.", nameof(name));
+        }
+        
+        #endregion
         
     }
 }

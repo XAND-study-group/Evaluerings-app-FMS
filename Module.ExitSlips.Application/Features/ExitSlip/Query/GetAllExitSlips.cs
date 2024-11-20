@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
+using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Query
 {
-    internal class GetAllExitSlips
-    {
-    }
+    public sealed record GetAllExitSlips() : IRequest<Result<GetSimpleExitSlipsResponse>>;
 }

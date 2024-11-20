@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Module.Semester.Domain.Entities;
-using SharedKernel.Dto.Features.User.Query;
+using SharedKernel.Dto.Features.School.User.Query;
 
 namespace Module.Semester.Domain.Extension
 {

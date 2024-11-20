@@ -10,5 +10,7 @@ namespace Module.ExitSlip.Domain.Entities
     public class Question : Entity
     {
         public string Text { get; protected set; }
+        private readonly List<Answer> _answers = [];
+        public IReadOnlyCollection<Answer> Answers => _answers;
     }
 }
