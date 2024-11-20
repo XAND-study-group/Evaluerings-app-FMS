@@ -9,5 +9,6 @@ using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Query
 {
-    public sealed record GetAllExitSlipsForLectureQuery(Guid lectureId) : IRequest<Result<GetSimpleExitSlipsResponse>>;
+   public sealed record GetExitSlipById(Guid id) : IRequest<Result<GetDetailsExitSlipResponse>>;
+   
 }

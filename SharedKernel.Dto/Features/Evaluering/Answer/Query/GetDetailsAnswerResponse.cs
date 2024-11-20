@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.ExitSlip.Application.Features.ExitSlip.Query
+namespace SharedKernel.Dto.Features.Evaluering.Answer.Query
 {
-    public class GetAllExitSlipForSubjectQuery
-    {
-    }
+    public record GetDetailsAnswerResponse(
+        );
 }
