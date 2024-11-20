@@ -7,7 +7,7 @@ public static class MediatRExtensions
     public static IServiceCollection AddMediatRModules(this IServiceCollection services)
     {
         var binPath = AppDomain.CurrentDomain.BaseDirectory;
-        var assemblies = Directory.GetFiles(binPath, "Module.*.dll")
+        var assemblies = Directory.GetFiles(binPath, "School.*.dll")
             .Select(Assembly.LoadFrom)
             .ToArray();
  

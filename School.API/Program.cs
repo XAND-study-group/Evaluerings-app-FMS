@@ -1,9 +1,8 @@
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Module.Semester.Extensions;
-using Module.User.Extensions;
 using School.API;
 using School.API.Extensions;
 
@@ -38,13 +37,9 @@ builder.Services.AddMediatRModules();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add endpoints
-builder.Services
-    .AddEndpoints(Module.User.AssemblyReference.Assembly)
-    .AddEndpoints(Module.Semester.AssemblyReference.Assembly);
+builder.Services.AddEndpoints(typeof(Program).Assembly);
 
-builder.Services
-    .AddUserModule(builder.Configuration)
-    .AddSemesterModule(builder.Configuration);
+builder.Services.AddSchool(builder.Configuration);
 
 builder.Services.AddRateLimiter(_ => _
     .AddFixedWindowLimiter(policyName: "baseLimit", options =>

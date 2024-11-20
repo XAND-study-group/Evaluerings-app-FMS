@@ -1,6 +1,6 @@
 ﻿using SharedKernel.Dto.Features.School.User.Query;
 
-namespace SharedKernel.Dto.Features.Lecture.Query;
+namespace SharedKernel.Dto.Features.School.Lecture.Query;
 
 public record GetDetailedLectureResponse(
     Guid Id,

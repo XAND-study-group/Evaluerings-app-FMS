@@ -1,6 +1,8 @@
 ﻿using Azure.Core.GeoJson;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using School.Application.Extensions;
+using School.Infrastructure.Extensions;
 
 namespace School.API.Extensions;
 
@@ -85,4 +87,12 @@ internal static class ServiceCollectionExtensions
             #endregion
             
         });
+    
+    public static IServiceCollection AddSchool(this IServiceCollection serviceCollection,
+        IConfiguration configuration)
+    {
+        return serviceCollection
+            .AddSchoolApplication()
+            .AddSchoolInfrastructure(configuration);
+    }
 }

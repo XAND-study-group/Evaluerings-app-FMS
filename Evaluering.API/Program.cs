@@ -1,5 +1,5 @@
+using Evaluering.API;
 using Microsoft.AspNetCore.Mvc;
-using Module.Feedback.Domain.DomainServices;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
 
@@ -33,5 +33,8 @@ app.MapPost("TestGemini/Comment",
 
 app.Run();
 
-record FeedbackContentDto(string Title, string Problem, string Solution);
-record CommentContentDto(string Comment);
+namespace Evaluering.API
+{
+    record FeedbackContentDto(string Title, string Problem, string Solution);
+    record CommentContentDto(string Comment);
+}

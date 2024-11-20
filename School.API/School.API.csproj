@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.4.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
           <PrivateAssets>all</PrivateAssets>
@@ -20,14 +20,14 @@
 
     <ItemGroup>
       <Folder Include="Abstractions\" />
+      <Folder Include="Endpoints\SemesterEndpoints\" />
+      <Folder Include="Endpoints\UserEndpoints\" />
       <Folder Include="Helpers\" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Module.Semester\Module.Semester.csproj" />
-      <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
-      <ProjectReference Include="..\Module.User\Module.User.csproj" />
-      <ProjectReference Include="..\Modules.Seminar.Infrastructure\Module.Semester.Infrastructure.csproj" />
+      <ProjectReference Include="..\School.Application\School.Application.csproj" />
+      <ProjectReference Include="..\School.Infrastructure\School.Infrastructure.csproj" />
       <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
     </ItemGroup>
 

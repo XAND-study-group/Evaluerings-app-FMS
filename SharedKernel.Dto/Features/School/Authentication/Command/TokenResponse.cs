@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Dto.Features.Authentication.Command;
+﻿namespace SharedKernel.Dto.Features.School.Authentication.Command;
 
 public record TokenResponse(
     string AccessToken,
