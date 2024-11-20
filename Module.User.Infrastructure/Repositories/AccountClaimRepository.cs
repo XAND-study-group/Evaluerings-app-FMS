@@ -1,15 +1,41 @@
-﻿using System.Security.Principal;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
+using SharedKernel.Enums.Features.Authentication;
 
 namespace Module.User.Infrastructure.Repositories;
 
 public class AccountClaimRepository(IUserDbContext dbContext) : IAccountClaimRepository
 {
-    async Task IAccountClaimRepository.CreateClaimForNewUserAsync(Domain.Entities.User user)
+    private const string RoleName = "Role";
+    private const string PermissionName = "Permission";
+    
+    async Task IAccountClaimRepository.CreateClaimForRoleAsync(Domain.Entities.User user, Role role)
     {
-        user.AddAccountClaim(AccountClaim.Create("Role", "User"));
+        user.AddAccountClaim(AccountClaim.Create(RoleName, role.ToString()));
+        
+        switch (role)
+        {
+            case Role.User:
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadFeedback"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "PostFeedback"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "CommentOnFeedback"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "AnswerExitSlip"));
+                break;
+            
+            case Role.Teacher:
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadInteractedFeedback"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadExitSlipAnswers"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "CreateExitSlips"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "PrintExitSlipReport"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "PrintFeedbackReport"));
+                break;  
+            
+            case Role.Admin:
+                // TODO: Make admin
+                break;
+        }
+        
         await dbContext.SaveChangesAsync();
     }
 

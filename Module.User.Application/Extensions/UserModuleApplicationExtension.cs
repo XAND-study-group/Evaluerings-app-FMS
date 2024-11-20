@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Module.User.Domain.DomainServices;
 using Module.User.Domain.DomainServices.Interfaces;
 

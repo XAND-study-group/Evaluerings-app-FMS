@@ -11,4 +11,15 @@
       <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Evaluering\Answer\Command\" />
+      <Folder Include="Features\Evaluering\Question\Command\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\Evaluering\Answer\Command\" />
+      <Folder Include="Features\Evaluering\Question\Command\" />
+      <Folder Include="Features\School\" />
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 using System.Collections;
 using SharedKernel.Enums.Features.Semester;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Entities;
@@ -9,7 +10,7 @@ public class Semester : Entity
     #region Properties
 
     // General Information
-    public string Name { get; protected set; }
+    public SemesterName Name { get; protected set; }
     public SemesterNumber SemesterNumber { get; protected set; }
     public EducationRange EducationRange { get; protected set; }
     public SchoolType School { get; protected set; }
@@ -31,12 +32,12 @@ public class Semester : Entity
     private Semester(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
         SchoolType school, IEnumerable<Semester> otherSemesters)
     {
-        Name = name;
+        var otherSemesterNames = otherSemesters.Select(s => s.Name.Value);
+        
+        Name = SemesterName.Create(name, otherSemesterNames);
         SemesterNumber = semesterNumber;
         EducationRange = EducationRange.Create(startDate, endDate);
         School = school;
-
-        AssureNameIsUnique(Name, otherSemesters);
     }
 
     #endregion
@@ -46,16 +47,6 @@ public class Semester : Entity
     public static Semester Create(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
         SchoolType school, IEnumerable<Semester> otherSemesters)
         => new Semester(name, semesterNumber, startDate, endDate, school, otherSemesters);
-
-    #endregion
-
-    #region Semester Business Logic Methods
-
-    protected void AssureNameIsUnique(string name, IEnumerable<Semester> otherSemesterNames)
-    {
-        if (otherSemesterNames.Any(s => s.Name == name))
-            throw new ArgumentException($"A Semester with name '{name}' already exists.");
-    }
 
     #endregion
 

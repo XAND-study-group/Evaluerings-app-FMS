@@ -99,16 +99,6 @@ namespace Module.Semester.Domain.Test
                     Enumerable.Empty<Subject>()
             };
         }
-
-        public static IEnumerable<object[]> LongDescriptionData()
-        {
-            yield return new object[]
-            {
-                    new SubjectName("TestSubject"),
-                    new SubjectDescription(new string('a', 501))
-            };
-        }
-
         public static IEnumerable<object[]> ValidUpdateData()
         {
             yield return new object[]

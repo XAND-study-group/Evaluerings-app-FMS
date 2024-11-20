@@ -1,15 +1,11 @@
-﻿using Module.User.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Module.User.Application.Abstractions
+﻿namespace Module.User.Application.Abstractions
 {
     public interface IUserRepository
     {
         Task CreateUserAsync(Domain.Entities.User user);
         Task<Domain.Entities.User> GetUserByIdAsync(Guid id);
+        Task<Domain.Entities.User?> GetUserByRefreshTokenAsync(string refreshToken);
+        Task SetUserRefreshTokenAsync(Domain.Entities.User user);
+        Task<IEnumerable<Domain.Entities.User>> GetAllUsers();
     }
 }

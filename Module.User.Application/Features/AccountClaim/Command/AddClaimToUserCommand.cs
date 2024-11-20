@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Module.Shared.Models;
 using Module.User.Application.Abstractions;
-using SharedKernel.Dto.Features.Authentication.Command;
+using SharedKernel.Dto.Features.School.Authentication.Command;
+using SharedKernel.Models;
 
 namespace Module.User.Application.Features.AccountClaim.Command;
 
@@ -11,13 +11,20 @@ public class AddClaimToUserCommandHandler(IUserRepository userRepository, IAccou
 {
     public async Task<Result<bool>> Handle(AddClaimToUserCommand request, CancellationToken cancellationToken)
     {
-        var addClaimRequest = request.Request;
+        try
+        {
+            var addClaimRequest = request.Request;
 
-        var user = await userRepository.GetUserByIdAsync(addClaimRequest.UserId);
-        var claim = Domain.Entities.AccountClaim.Create(addClaimRequest.ClaimName, addClaimRequest.ClaimValue);
-        user.AddAccountClaim(claim);
-        await accountClaimRepository.AddClaimToUserAsync(claim);
+            var user = await userRepository.GetUserByIdAsync(addClaimRequest.UserId);
+            var claim = Domain.Entities.AccountClaim.Create(addClaimRequest.ClaimName, addClaimRequest.ClaimValue);
+            user.AddAccountClaim(claim);
+            await accountClaimRepository.AddClaimToUserAsync(claim);
 
-        return Result<bool>.Create("Rettighed er blevet tilføjet til brugeren", true, ResultStatus.Success);
+            return Result<bool>.Create("Rettighed er blevet tilføjet til brugeren", true, ResultStatus.Success);
+        }
+        catch (Exception e)
+        {
+            return Result<bool>.Create(e.Message, false, ResultStatus.Error);
+        }
     }
 }

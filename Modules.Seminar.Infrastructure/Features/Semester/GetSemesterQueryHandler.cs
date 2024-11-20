@@ -4,12 +4,12 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Semester.Query;
 using Module.Semester.Infrastructure.DbContexts;
-using Module.Shared.Models;
-using SharedKernel.Dto.Features.Semester.Query;
+using SharedKernel.Dto.Features.School.Semester.Query;
+using SharedKernel.Models;
 
 namespace Module.Semester.Infrastructure.Features.Semester;
 
-public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, Result<GetSemesterResponse?>>
+public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, Result<GetDetailedSemesterResponse?>>
 {
     private readonly SemesterDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -17,11 +17,11 @@ public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, Result<
     public GetSemesterQueryHandler(SemesterDbContext dbContext)
     {
         _dbContext = dbContext;
-        _mapper = new MapperConfiguration(cfg => { cfg.CreateMap<Domain.Entities.Semester, GetSemesterResponse>(); })
+        _mapper = new MapperConfiguration(cfg => { cfg.CreateMap<Domain.Entities.Semester, GetDetailedSemesterResponse>(); })
             .CreateMapper();
     }
 
-    async Task<Result<GetSemesterResponse?>> IRequestHandler<GetSemesterQuery, Result<GetSemesterResponse?>>.Handle(
+    async Task<Result<GetDetailedSemesterResponse?>> IRequestHandler<GetSemesterQuery, Result<GetDetailedSemesterResponse?>>.Handle(
         GetSemesterQuery request, CancellationToken cancellationToken)
     {
         try
@@ -29,15 +29,15 @@ public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, Result<
             var getSemesterResponse = await _dbContext.Semesters
                 .AsNoTracking()
                 .Where(s => s.Id == request.SemesterId)
-                .ProjectTo<GetSemesterResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetDetailedSemesterResponse>(_mapper.ConfigurationProvider)
                 .SingleAsync(cancellationToken);
 
-            return Result<GetSemesterResponse?>.Create("Efterspurgte Semester fundet", getSemesterResponse,
+            return Result<GetDetailedSemesterResponse?>.Create("Efterspurgte Semester fundet", getSemesterResponse,
                 ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<GetSemesterResponse?>.Create(e.Message, null,
+            return Result<GetDetailedSemesterResponse?>.Create(e.Message, null,
                 ResultStatus.Error);
         }
     }

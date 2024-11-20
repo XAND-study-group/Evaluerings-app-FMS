@@ -10,12 +10,12 @@
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -24,8 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Module.Semester\Module.Semester.csproj" />
       <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
       <ProjectReference Include="..\Module.User\Module.User.csproj" />
+      <ProjectReference Include="..\Modules.Seminar.Infrastructure\Module.Semester.Infrastructure.csproj" />
+      <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
     </ItemGroup>
 
     <ItemGroup>

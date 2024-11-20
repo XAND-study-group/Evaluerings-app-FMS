@@ -1,24 +1,31 @@
-﻿using System.Collections;
-using Module.Semester.Domain.Entities;
+﻿using Module.Semester.Domain.Entities;
 using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Test.Fakes;
 
 public class FakeSemester : Entities.Semester
 {
+    #region Constructors
+
     public FakeSemester(string name)
     {
-        Name = name;
+        Name = SemesterName.Create(name, []);
     }
 
-    public new void AssureNameIsUnique(string name, IEnumerable<Entities.Semester> otherSemesters)
-        => base.AssureNameIsUnique(name, otherSemesters);
-    
+    public FakeSemester()
+    {
+    }
+
+    #endregion Constructors
+
     public void SetEducationRange(DateOnly startDate, DateOnly endDate)
         => EducationRange = EducationRange.Create(startDate, endDate);
 
     public void SetSemesterNumber(int semesterNumber)
         => SemesterNumber = semesterNumber;
+
+    public void SetSemesterName(string name, IEnumerable<string> otherSemesterNames)
+        => Name = SemesterName.Create(name, otherSemesterNames);
 
     public new void AssureNoDuplicateUser(User teacher, List<User> semesterResponsibles)
     {

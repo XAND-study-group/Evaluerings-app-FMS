@@ -13,7 +13,7 @@ public record Text
     private void Validate(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentNullException(nameof(value), "Value cannot be null or whitespace.");
+            throw new ArgumentException("Value cannot be null or whitespace.", nameof(value));
 
         if (value.Length > 500)
             throw new ArgumentException("Value cannot be longer than 500 characters.", nameof(value));
@@ -21,4 +21,6 @@ public record Text
 
     public static implicit operator Text(string value)
         => new(value);
+
+    public static implicit operator string(Text value) => value.Value;
 };

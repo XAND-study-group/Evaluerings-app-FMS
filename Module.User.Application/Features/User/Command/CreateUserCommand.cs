@@ -1,14 +1,8 @@
 ﻿using MediatR;
-using Module.Shared.Abstractions;
 using Module.User.Application.Abstractions;
-using Module.User.Domain.Entities;
-using SharedKernel.Dto.Features.User.Command;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Module.Shared.Models;
+using SharedKernel.Dto.Features.School.User.Command;
+using SharedKernel.Interfaces;
+using SharedKernel.Models;
 
 namespace Module.User.Application.Features.User.Command
 {
@@ -21,16 +15,22 @@ namespace Module.User.Application.Features.User.Command
             _userRepository = userRepository;
         }
 
-        public async Task<Result<bool>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        async Task<Result<bool>> IRequestHandler<CreateUserCommand, Result<bool>>.Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                // Load
+                var otherUsers = await _userRepository.GetAllUsers();
                 var userRequest = request.Request;
 
-                // Create 
-                var user = Domain.Entities.User.Create(userRequest.Firstname, userRequest.Lastname, userRequest.Email);
+                // Do 
+                var user = Domain.Entities.User.Create(
+                    userRequest.Firstname, 
+                    userRequest.Lastname, 
+                    userRequest.Email,
+                    otherUsers);
 
-                // Do & Save 
+                // Save 
                 await _userRepository.CreateUserAsync(user);
                 return Result<bool>.Create("Brugeren er blevet oprettet.", true, ResultStatus.Created);
             }

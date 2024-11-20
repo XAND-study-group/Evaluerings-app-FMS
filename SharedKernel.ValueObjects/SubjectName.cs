@@ -37,5 +37,7 @@ namespace SharedKernel.ValueObjects
         {
             return Value;
         }
+        public static implicit operator string(SubjectName name) => name.Value;
+        public static implicit operator SubjectName(string name) => new(name);
     }
 }
