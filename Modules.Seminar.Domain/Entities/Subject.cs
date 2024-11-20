@@ -1,4 +1,6 @@
-﻿namespace Module.Semester.Domain.Entities
+﻿using SharedKernel.Models;
+
+namespace Module.Semester.Domain.Entities
 {
     public class Subject : Entity
     {

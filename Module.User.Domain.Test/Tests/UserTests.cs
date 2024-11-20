@@ -15,52 +15,98 @@ namespace Module.User.Domain.Test.Tests
 
         #region Create Tests
 
-        [Theory]
-        [MemberData(nameof(CreateWithValidInput))]
-        public void Given_valid_input_then_create_success(string firstname, string lastname, string email)
+        [Fact]
+        public void Given_valid_input_then_create_success()
         {
+            // Arrange
+            var firstname = "Xabur";
+            var lastname = "Zaradeshtø";
+            var email = "xabur@hotmail.com";
+
             // Act
-            var user = Entities.User.Create(firstname, lastname, email);
+            var user = Entities.User.Create(firstname, lastname, email, []);
 
             // Assert
             Assert.NotNull(user);
         }
 
-        [Theory]
-        [MemberData(nameof(CreateWithEmptyFirstname))]
-        public void Given_empty_firstname_then_throw_argumentException(string firstname, string lastname, string email)
-        {
-            // Arrange
-            var sut = new FakeUser(firstname, lastname, email);
 
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => sut.ValidateName(firstname));
-        }
+        #endregion
 
+
+        #region NameTests
 
         [Theory]
-        [MemberData(nameof(CreateFirstnameWithWhiteSpace))]
-        public void Given_firstname_with_white_space_the_throw_argumentException(string firstname, string lastname, string email)
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("151")]
+        [InlineData("sar!-")]
+        [InlineData("Andræs;")]
+        [InlineData("andrea41")]
+
+        public void Given_firstname_with_white_space_or_empty_then_throw_argumentException(string name)
         {
             // Arrange
-            var sut = new FakeUser(firstname, lastname, email);
+            var user = new FakeUser();
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => sut.ValidateName(firstname));
-
+            Assert.Throws<ArgumentException>(() => user.SetUserFirstname(" "));
         }
 
         [Theory]
-        [MemberData(nameof(CreateWithInvalidEmail))]
-        public void Given_with_Invalid_email_then_throw_argumentException(string firstname, string lastname, string email)
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("151")]
+        [InlineData("sar!-")]
+        [InlineData("Andræs;")]
+        [InlineData("andrea41")]
+
+        public void Given_lastname_with_white_space_or_empty_then_throw_argumentException(string name)
         {
             // Arrange
-            var sut = new FakeUser(firstname, lastname, email);
+            var user = new FakeUser();
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => sut.ValidateEmail(email));
-
+            Assert.Throws<ArgumentException>(() => user.SetUserLastname(" "));
         }
+        #endregion
+
+
+        #region EmailTests
+
+        [Theory]
+        [MemberData(nameof(UniqueEmails))]
+        public void Given_uniqe_email_then_void(string email, IEnumerable<string> otherEmails)
+        {
+            // Arrange 
+            var user = new FakeUser();
+
+            // Act & Assert
+            user.SetUserEmail(email, otherEmails);
+        }
+
+        [Theory]
+        [MemberData(nameof(NotUniqeEmails))]
+        public void Given_not_uniqe_email_then_throw_argumentException(string email, IEnumerable<string> otherEmails)
+        {
+            // Arrange
+            var user = new FakeUser();
+
+            // Act & Assert 
+            Assert.Throws<ArgumentException>(() => user.SetUserEmail(email, otherEmails));
+        }
+
+        [Theory]
+        [MemberData(nameof(InvalidEmailInput))]
+        public void Given_invalid_email_format_then_throw_argumentException(string email, IEnumerable<string> otheremails)
+        {
+            // Arrange 
+            var user = new FakeUser();
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => user.SetUserEmail(email, otheremails));
+        }
+
 
         #endregion
 
@@ -94,51 +140,66 @@ namespace Module.User.Domain.Test.Tests
 
         #endregion
 
-
         #region MemberData Methodes
 
+        private static IEnumerable<string> GetOtherEmails()
+            => new[]
+            {
+                "Andreas@gmail.dk",
+                "Nikllerman@outlook.com",
+                "Daniel@hotmail.com"
+            };
 
-        public static IEnumerable<object[]> CreateWithValidInput()
+
+        public static IEnumerable<object[]> NotUniqeEmails()
         {
+            var otherEmails = GetOtherEmails();
             yield return new object[]
             {
-                "Test",
-                "Test",
-                "test@hotmail.com"
+                "Andreas@gmail.com",
+                otherEmails
             };
         }
 
-        public static IEnumerable<object[]> CreateWithEmptyFirstname()
+        public static IEnumerable<object[]> UniqueEmails()
         {
+            var otherEmails = GetOtherEmails();
             yield return new object[]
             {
-                "",
-                "Test",
-                "test@hotmail.com"
+                "Xabur@hotmail.com",
+                otherEmails
             };
         }
 
-
-        public static IEnumerable<object[]> CreateFirstnameWithWhiteSpace()
+        public static IEnumerable<object[]> InvalidEmailInput()
         {
+            var otheremails = GetOtherEmails();
+
+            yield return new object[]
+            {
+                "xabur",
+                otheremails
+            };
+
+            yield return new object[]
+            {
+                "Xabur@d",
+                otheremails
+            };
+
+            yield return new object[]
+            {
+                "alskdjasljdlasknflksnglkasdælkasflkanglkjsfæasjdæalsflakngalkjflksajflksajdlksajdlaksjdlakjfslaskjdlaskjflsakjdlaskjflsakjdalksjflaksjflaskjflaksjflaskfjalskfjlsakjflsakjflask" +
+                "ælsakæsafkpasodkpasofkpsodkpofsaksapofsajaosdjpoaskdpsaodkpsaokdpsaokdpasokd@hotmail.com",
+                otheremails
+            };
+
             yield return new object[]
             {
                 " ",
-                "Test",
-                "test@hotmail.com"
+                otheremails
             };
         }
-
-        public static IEnumerable<object[]> CreateWithInvalidEmail()
-        {
-            yield return new object[]
-            {
-                "Test",
-                "Test",
-                "testhotmail.com"
-            };
-        }
-
         public static IEnumerable<object[]> CreateRefreshTokenSuccess()
         {
             yield return
@@ -163,6 +224,7 @@ namespace Module.User.Domain.Test.Tests
 
 
         #endregion
+
 
     }
 }

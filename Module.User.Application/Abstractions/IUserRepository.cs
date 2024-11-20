@@ -1,6 +1,4 @@
-﻿using SharedKernel.ValueObjects;
-
-namespace Module.User.Application.Abstractions
+﻿namespace Module.User.Application.Abstractions
 {
     public interface IUserRepository
     {
@@ -8,5 +6,6 @@ namespace Module.User.Application.Abstractions
         Task<Domain.Entities.User> GetUserByIdAsync(Guid id);
         Task<Domain.Entities.User?> GetUserByRefreshTokenAsync(string refreshToken);
         Task SetUserRefreshTokenAsync(Domain.Entities.User user);
+        Task<IEnumerable<Domain.Entities.User>> GetAllUsers();
     }
 }

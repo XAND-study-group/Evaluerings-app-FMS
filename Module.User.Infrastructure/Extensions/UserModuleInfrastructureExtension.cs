@@ -14,7 +14,7 @@ namespace Module.User.Infrastructure.Extensions
             serviceCollection.AddDbContext<IUserDbContext, UserDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
             optionsBuilder =>
-            {
+            {   
                 optionsBuilder.MigrationsAssembly("Module.User.Infrastructure");
                 optionsBuilder.EnableRetryOnFailure();
             }));

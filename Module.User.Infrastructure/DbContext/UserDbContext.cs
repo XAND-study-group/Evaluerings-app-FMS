@@ -34,27 +34,35 @@ namespace Module.User.Infrastructure.DbContext
                 .Property(u => u.RowVersion)
                 .IsRowVersion();
 
+            modelBuilder.Entity<Domain.Entities.User>()
+                .ComplexProperty<UserFirstname>(u => u.Firstname);
+            modelBuilder.Entity<Domain.Entities.User>()
+                .ComplexProperty<UserLastname>(u => u.Lastname);
+            modelBuilder.Entity<Domain.Entities.User>()
+                .ComplexProperty<UserEmail>(u => u.Email);
+
             #endregion
 
             #region Semester OnModelCreating
 
-            modelBuilder.Entity<Semester>()
-                .ToTable("Semesters")
+            modelBuilder.Entity<Domain.Entities.Semester>()
+                .ComplexProperty(p
+                    => p.EducationRange);
+            
+            modelBuilder.Entity<Domain.Entities.Semester>()
+                .ComplexProperty(p
+                    => p.SemesterNumber);
+            
+            modelBuilder.Entity<Domain.Entities.Semester>()
+                .Property(a => a.RowVersion)
+                .IsRowVersion();
+            
+            modelBuilder.Entity<Domain.Entities.Semester>()
                 .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
-        
-            modelBuilder.Entity<Semester>()
-                .Property(c => c.RowVersion)
-                .IsRowVersion();
-        
-            modelBuilder.Entity<Semester>()
-                .ComplexProperty<EducationRange>(s => s.EducationRange);
-            modelBuilder.Entity<Semester>()
-                .ComplexProperty<SemesterNumber>(s => s.SemesterNumber);
-            modelBuilder.Entity<Semester>()
-                .ComplexProperty<SemesterName>(s => s.Name);
 
             #endregion
+
 
             #region Authentication OnModelCreating
 
