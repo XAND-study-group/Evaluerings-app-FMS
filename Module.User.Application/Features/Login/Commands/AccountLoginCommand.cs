@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
+using SharedKernel.Dto.Features.Authentication.Command;
 using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Models;
 

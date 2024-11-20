@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Module.Feedback.Application.Features.Room.Command;
 using SharedKernel.Dto.Features.Evaluering.Room.Command;
 using SharedKernel.Interfaces;
@@ -11,7 +12,7 @@ namespace Module.Feedback.Endpoints.Room;
 
 public class UpdateRoom : IEndpoint
 {
-    public void MapEndpoint(WebApplication app)
+    public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
         app.MapPut("/Room",
             async ([FromBody] UpdateRoomRequest updateRoomRequest, [FromServices] IMediator mediator) =>

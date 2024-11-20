@@ -2,12 +2,13 @@
 using Module.Shared.Infrastructure.DbContexts;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.Entities;
+using SharedKernel.ValueObjects;
 
 namespace Module.User.Infrastructure.DbContext
 {
     public class UserDbContext : SchoolDbContext, IUserDbContext
     {
-        public DbSet<Domain.Entities.Semester> Semesters { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
         public DbSet<AccountLogin> AccountLogins { get; set; }
         public DbSet<AccountClaim> AccountClaims { get; set; }
         public DbSet<Domain.Entities.User> Users { get; set; }
@@ -38,20 +39,20 @@ namespace Module.User.Infrastructure.DbContext
             #region Semester OnModelCreating
 
             modelBuilder.Entity<Semester>()
-                .OwnsOne(s
-                    => s.EducationRange);
-            
-            modelBuilder.Entity<Semester>()
-                .OwnsOne(s
-                    => s.SemesterNumber);
-            
-            modelBuilder.Entity<Semester>()
-                .Property(s => s.RowVersion)
-                .IsRowVersion();
-            
-            modelBuilder.Entity<Semester>()
-                .Property(s => s.Id)
+                .ToTable("Semesters")
+                .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
+        
+            modelBuilder.Entity<Semester>()
+                .Property(c => c.RowVersion)
+                .IsRowVersion();
+        
+            modelBuilder.Entity<Semester>()
+                .ComplexProperty<EducationRange>(s => s.EducationRange);
+            modelBuilder.Entity<Semester>()
+                .ComplexProperty<SemesterNumber>(s => s.SemesterNumber);
+            modelBuilder.Entity<Semester>()
+                .ComplexProperty<SemesterName>(s => s.Name);
 
             #endregion
 

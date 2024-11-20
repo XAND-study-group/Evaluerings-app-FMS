@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.User.Application.Features.Login.Commands;
 using SharedKernel.Dto.Features.Authentication.Command;
+using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Module.Feedback.Application.Features.Comment.Query;
 using SharedKernel.Dto.Features.Evaluering.Comment.Query;
 using SharedKernel.Interfaces;
@@ -11,7 +12,7 @@ namespace Module.Feedback.Endpoints.Comment;
 
 public class GetSubComments : IEndpoint
 {
-    public void MapEndpoint(WebApplication app)
+    public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
         app.MapGet("/Room/Feedback/Comment/SubComments",
                 async ([FromBody] GetSubCommentsRequest request, [FromServices] IMediator mediator) =>
