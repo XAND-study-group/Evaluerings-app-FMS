@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Dto.Features.School.Class.Query;
 
-public record GetClassesResponse(
+public record GetSimpleClassResponse(
     Guid Id,
     byte[] RowVersion,
     string Name,

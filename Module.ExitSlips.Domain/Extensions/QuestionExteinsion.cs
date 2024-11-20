@@ -11,7 +11,7 @@ namespace Module.ExitSlip.Domain.Extensions
     public static class QuestionExteinsion
     {
         public static GetSimpleQuestionsResponse MapToGetSimpleQuestionResponse(this Entities.Question question) =>
-           new(question.Text, question.Answers.Select(answer => answer.MapToGetSimpleAnswerResponse());
+           new(question.Text);//, question.Answers.Select(answer => answer.MapToGetSimpleAnswerResponse());
 
 
         public static IEnumerable<GetSimpleQuestionsResponse> MapToIEnumerableGetSimpleQuestionResponse(this IEnumerable<Entities.Question> Question)

@@ -2,7 +2,7 @@
 {
     public record GetSubjectsByClassResponse(
         string ClassName,
-        IEnumerable<GetAllSubjectsResponse> Subjects
+        IEnumerable<GetDetailedSubjectResponse> Subjects
     );
 
 

@@ -4,13 +4,15 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Semester.Application.Features.Subject.Query;
 using Module.Semester.Infrastructure.DbContexts;
+using SharedKernel.Dto.Features.Lecture.Query;
 using SharedKernel.Dto.Features.School.Lecture.Query;
 using SharedKernel.Dto.Features.School.Subject.Query;
+using SharedKernel.Dto.Features.Subject.Query;
 using SharedKernel.Models;
 
 namespace Module.Semester.Infrastructure.Features.Subject
 {
-    public class GetSubjectQueryHandler : IRequestHandler<GetSubjectQuery, Result<GetSubjectResponse?>>
+    public class GetSubjectQueryHandler : IRequestHandler<GetSubjectQuery, Result<GetDetailedSubjectResponse?>>
     {
         private readonly SemesterDbContext _semesterDbContext;
         private readonly IMapper _mapper;
@@ -20,12 +22,12 @@ namespace Module.Semester.Infrastructure.Features.Subject
             _semesterDbContext = semesterDbContext;
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Domain.Entities.Subject, GetSubjectResponse>();
-                cfg.CreateMap<Domain.Entities.Lecture, GetLectureResponse>();
+                cfg.CreateMap<Domain.Entities.Subject, GetDetailedSubjectResponse>();
+                cfg.CreateMap<Domain.Entities.Lecture, GetSimpleLectureResponse>();
             }).CreateMapper();
         }
 
-        async Task<Result<GetSubjectResponse?>> IRequestHandler<GetSubjectQuery, Result<GetSubjectResponse?>>.Handle(
+        async Task<Result<GetDetailedSubjectResponse?>> IRequestHandler<GetSubjectQuery, Result<GetDetailedSubjectResponse?>>.Handle(
             GetSubjectQuery request, CancellationToken cancellationToken)
         {
             try
@@ -33,15 +35,15 @@ namespace Module.Semester.Infrastructure.Features.Subject
                 var getSubjectResponse = await _semesterDbContext.Subjects
                     .AsNoTracking()
                     .Where(s => s.Id == request.GetSubjectRequest.Id)
-                    .ProjectTo<GetSubjectResponse>(_mapper.ConfigurationProvider)
+                    .ProjectTo<GetDetailedSubjectResponse>(_mapper.ConfigurationProvider)
                     .SingleAsync(cancellationToken);
 
-                return Result<GetSubjectResponse?>.Create("Det Specifikke fag fundet", getSubjectResponse,
+                return Result<GetDetailedSubjectResponse?>.Create("Det Specifikke fag fundet", getSubjectResponse,
                     ResultStatus.Success);
             }
             catch (Exception e)
             {
-                return Result<GetSubjectResponse?>.Create(e.Message, null, ResultStatus.Error);
+                return Result<GetDetailedSubjectResponse?>.Create(e.Message, null, ResultStatus.Error);
             }
         }
     }

@@ -5,40 +5,48 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using SharedKernel.ValueObjects;
 
 namespace Module.Semester.Domain.Test.Fakes
 {
-    public class FakeSubject : Semester.Domain.Entities.Subject
+    public class FakeSubject : Subject
     {
         #region Constructors
-        public FakeSubject(string name, string description)
+
+        public FakeSubject(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
+            : base(name, description, otherSubjects)
         {
-            SetProperty(nameof(Name), name);
-            SetProperty(nameof(Description), description);
         }
+
         #endregion
 
         #region Subject Business Logic Methods
 
-        public void SetName(string name)
+        public static new Subject Create(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
         {
-            SetProperty(nameof(Name), name);
+            return Subject.Create(name, description, otherSubjects);
         }
 
-        public void SetDescription(string description)
+        public void SetSubjectName(SubjectName name)
         {
-            SetProperty(nameof(Description), description);
+            Name = name;
         }
 
-        private void SetProperty(string propertyName, object value)
+        public void SetSubjectDescription(SubjectDescription description)
         {
-            var property = typeof(Subject).GetProperty(propertyName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-            if (property != null)
-            {
-                property.SetValue(this, value);
-            }
+            Description = description;
         }
 
+        public new void Update(SubjectName name, SubjectDescription description)
+        {
+            base.Update(name, description);
+        }
+
+        public new Lecture AddLecture(string lectureTitle, string description, TimeOnly startTime,
+            TimeOnly endTime, DateOnly date, string classRoom)
+        {
+            return base.AddLecture(lectureTitle, description, startTime, endTime, date, classRoom);
+        }
         #endregion
     }
 }

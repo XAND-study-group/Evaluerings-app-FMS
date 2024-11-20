@@ -20,6 +20,8 @@ public class GenerateUserLoginsCommandHandler(
         {
             Role[] roles = [Role.User, Role.Teacher, Role.Admin];
             
+            
+            //TODO: add other users
             var accountLoginFake = new Faker<AccountLogin>()
                 .CustomInstantiator(f =>
                     AccountLogin.Create(
@@ -28,7 +30,7 @@ public class GenerateUserLoginsCommandHandler(
                         Domain.Entities.User.Create(
                             f.Person.FirstName,
                             f.Person.LastName,
-                            f.Person.Email),
+                            f.Person.Email, []),
                         f.PickRandom(roles),
                         passwordHasher)).UseSeed(420);
 

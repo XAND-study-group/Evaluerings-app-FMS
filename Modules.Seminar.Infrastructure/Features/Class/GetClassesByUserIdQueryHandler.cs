@@ -9,7 +9,7 @@ using SharedKernel.Models;
 
 namespace Module.Semester.Infrastructure.Features.Class;
 
-public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserIdQuery, Result<IEnumerable<GetClassesResponse>>>
+public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserIdQuery, Result<IEnumerable<GetSimpleClassResponse>>>
 {
     private readonly SemesterDbContext _semesterDbContext;
     private readonly IMapper _mapper;
@@ -19,13 +19,13 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
         _semesterDbContext = semesterDbContext;
         _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Domain.Entities.Class, GetClassesResponse>();
+            cfg.CreateMap<Domain.Entities.Class, GetSimpleClassResponse>();
         }).CreateMapper();
     }
 
 
-    async Task<Result<IEnumerable<GetClassesResponse>>> IRequestHandler<GetClassesByUserIdQuery,
-        Result<IEnumerable<GetClassesResponse>>>.Handle(GetClassesByUserIdQuery request,
+    async Task<Result<IEnumerable<GetSimpleClassResponse>>> IRequestHandler<GetClassesByUserIdQuery,
+        Result<IEnumerable<GetSimpleClassResponse>>>.Handle(GetClassesByUserIdQuery request,
         CancellationToken cancellationToken)
     {
         try
@@ -33,15 +33,15 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
             var getClassesResponse = await _semesterDbContext.Classes
                 .AsNoTracking()
                 .Where(s => s.Students.Any(st => st.Id == request.UserId))
-                .ProjectTo<GetClassesResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetSimpleClassResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetClassesResponse>>.Create("Klasser tilhørende bruger fundet", getClassesResponse,
+            return Result<IEnumerable<GetSimpleClassResponse>>.Create("Klasser tilhørende bruger fundet", getClassesResponse,
                 ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<IEnumerable<GetClassesResponse>>.Create(e.Message, [],
+            return Result<IEnumerable<GetSimpleClassResponse>>.Create(e.Message, [],
                 ResultStatus.Error);
         }
     }

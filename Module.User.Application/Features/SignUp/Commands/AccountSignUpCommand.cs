@@ -24,7 +24,8 @@ public class AccountSignUpCommandHandler(IAccountLoginRepository accountLoginRep
             if (!exists)
                 return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
 
-            var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname, createRequest.Email);
+            //TODO: Add other users
+            var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname, createRequest.Email, []);
             var accountLogin = AccountLogin.Create(createRequest.Email, createRequest.Password, user, Role.User, passwordHasher);
 
             await accountLoginRepository.CreateAccountLoginAsync(accountLogin);

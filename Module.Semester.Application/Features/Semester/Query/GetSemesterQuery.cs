@@ -4,4 +4,4 @@ using SharedKernel.Models;
 
 namespace Module.Semester.Application.Features.Semester.Query;
 
-public record GetSemesterQuery(Guid SemesterId) : IRequest<Result<GetSemesterResponse?>>;
+public record GetSemesterQuery(Guid SemesterId) : IRequest<Result<GetDetailedSemesterResponse?>>;

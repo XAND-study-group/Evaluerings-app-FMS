@@ -15,7 +15,7 @@ namespace Module.ExitSlip.Domain.Extensions
 
         public static GetDetailsExitSlipResponse MapToDetailsExitSlipResponse(this Entities.ExitSlip exitSlip)
             => new(exitSlip.LectureId, exitSlip.Title, exitSlip.MaxQuestionCount, exitSlip.ActiveStatus, 
-                exitSlip.Questions.Select(q => q.MapToGetSimpleQuestionResponse()), exitSlip.);
+                exitSlip.Questions.Select(q => q.MapToGetSimpleQuestionResponse()), exitSlip.Questions.SelectMany(q => q.Answers).MapToIEnumerableGetSimpleAnswerResponse());
 
         public static IEnumerable<GetDetailsExitSlipResponse> MapToIEnumerableGetExitSlipsResponse(this IEnumerable<Entities.ExitSlip> exitSlips)
             => exitSlips.Select(exitSlip => exitSlip.MapToDetailsExitSlipResponse());
