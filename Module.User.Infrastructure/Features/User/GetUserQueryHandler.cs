@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharedKernel.Dto.Features.School.User.Query;
 
 namespace Module.User.Infrastructure.Features.User
 {

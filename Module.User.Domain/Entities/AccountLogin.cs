@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using Module.User.Domain.DomainServices.Interfaces;
-using SharedKernel.Models;
 
 namespace Module.User.Domain.Entities;
 
@@ -10,7 +9,9 @@ public class AccountLogin : Entity
 
     public string Email { get; protected set; }
     public string PasswordHash { get; protected set; }
-    public User User { get; set; }
+    public User User { get; protected set; }
+
+    public Role Role { get; protected set; }
 
     #endregion
 
@@ -22,13 +23,14 @@ public class AccountLogin : Entity
         
     }
     
-    private AccountLogin(string email, string password, User user, IPasswordHasher passwordHasher)
+    private AccountLogin(string email, string password, User user, Role role, IPasswordHasher passwordHasher)
     {
         AssurePasswordCompliesWithRequirements(password);
 
         Email = email;
         PasswordHash = passwordHasher.Hash(password);
         User = user;
+        Role = role;
     }
 
     #endregion
@@ -36,9 +38,9 @@ public class AccountLogin : Entity
 
     #region FactoryPattern
 
-    public static AccountLogin Create(string email, string password, User user, IPasswordHasher passwordHasher)
+    public static AccountLogin Create(string email, string password, User user, Role role, IPasswordHasher passwordHasher)
     {
-        return new AccountLogin(email, password, user, passwordHasher);
+        return new AccountLogin(email, password, user, role, passwordHasher);
     }
 
     public void Update(string email, string password, User user, IPasswordHasher passwordHasher)
@@ -50,6 +52,7 @@ public class AccountLogin : Entity
 
     public void ChangePassword(string newPassword, IPasswordHasher passwordHasher)
     {
+        AssurePasswordCompliesWithRequirements(newPassword);
         PasswordHash = passwordHasher.Hash(newPassword);
     }
 

@@ -10,6 +10,7 @@ public static class IResultExtension
         {
             ResultStatus.Error => Results.BadRequest(result),
             ResultStatus.Warning => Results.NotFound(result),
+            ResultStatus.UnAuthorized => Results.Unauthorized(),
             _ => Results.Ok(result)
         };
     }

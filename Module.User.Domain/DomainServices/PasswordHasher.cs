@@ -22,9 +22,9 @@ public class PasswordHasher : IPasswordHasher
         return $"{Convert.ToHexString(hashWithPepper)}-{Convert.ToHexString(salt)}-{Convert.ToHexString(pepper)}";
     }
 
-    public bool Verify(string requestPassword, string accountPassword)
+    public bool Verify(string requestPassword, string accountPasswordHash)
     {
-        var parts = accountPassword.Split('-');
+        var parts = accountPasswordHash.Split('-');
         
         var hash = Convert.FromHexString(parts[0]);
         var salt = Convert.FromHexString(parts[1]);

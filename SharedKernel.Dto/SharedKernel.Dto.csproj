@@ -16,4 +16,13 @@
       <Folder Include="Features\Evaluering\Question\Command\" />
     </ItemGroup>
 
+    <ItemGroup>
+<<<<<<< HEAD
+      <Folder Include="Features\Evaluering\Answer\Command\" />
+      <Folder Include="Features\Evaluering\Question\Command\" />
+=======
+      <Folder Include="Features\School\" />
+>>>>>>> origin/Sprint-2
+    </ItemGroup>
+
 </Project>
