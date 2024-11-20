@@ -27,6 +27,7 @@
       <ProjectReference Include="..\Module.Semester\Module.Semester.csproj" />
       <ProjectReference Include="..\Module.Shared\Module.Shared.csproj" />
       <ProjectReference Include="..\Module.User\Module.User.csproj" />
+      <ProjectReference Include="..\Modules.Seminar.Infrastructure\Module.Semester.Infrastructure.csproj" />
       <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
     </ItemGroup>
 

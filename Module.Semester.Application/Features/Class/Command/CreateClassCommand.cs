@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Module.Semester.Application.Abstractions;
-using SharedKernel.Dto.Features.Class.Command;
+using SharedKernel.Dto.Features.School.Class.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;
 

@@ -24,5 +24,13 @@ namespace Module.User.Infrastructure.Repositories
 
         async Task<Domain.Entities.User> IUserRepository.GetUserByIdAsync(Guid id)
             => await _dbContext.Users.SingleAsync(u => u.Id == id);
+
+        async Task<Domain.Entities.User?> IUserRepository.GetUserByRefreshTokenAsync(string refreshToken)
+            => await _dbContext.Users.Include(user => user.AccountClaims).FirstOrDefaultAsync(user => user.RefreshToken.Token == refreshToken);
+
+        async Task IUserRepository.SetUserRefreshTokenAsync(Domain.Entities.User user)
+        {
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

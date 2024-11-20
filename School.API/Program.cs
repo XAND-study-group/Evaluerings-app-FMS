@@ -22,9 +22,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorizationWithPolicies();
 
 builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddMemoryCache();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,15 +35,19 @@ builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddMediatRModules();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Add endpoints
 builder.Services
-    .AddEndpoints(Module.User.AssemblyReference.Assembly);
+    .AddEndpoints(Module.User.AssemblyReference.Assembly)
+    .AddEndpoints(Module.Semester.AssemblyReference.Assembly);
 
-builder.Services.AddUserModule(builder.Configuration);
-builder.Services.AddSemesterModule(builder.Configuration);
+builder.Services
+    .AddUserModule(builder.Configuration)
+    .AddSemesterModule(builder.Configuration);
 
 builder.Services.AddRateLimiter(_ => _
-    .AddFixedWindowLimiter(policyName: "loginLimit", options =>
+    .AddFixedWindowLimiter(policyName: "baseLimit", options =>
     {
         options.PermitLimit = 5;
         options.Window = TimeSpan.FromMinutes(10);
@@ -50,7 +56,7 @@ builder.Services.AddRateLimiter(_ => _
 var app = builder.Build();
 
 app.UseRateLimiter();
-app.MapEndpoints();
+app.MapEndpoints(builder.Configuration);
 
 app.UseSwagger();
 app.UseSwaggerUI();

@@ -27,5 +27,6 @@ public enum ResultStatus
     Created,
     Updated,
     Added,
-    Deleted
+    Deleted,
+    UnAuthorized
 }
