@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Module.User.Domain.DomainServices.Interfaces;
+using SharedKernel.Enums.Features.Authentication;
+using SharedKernel.Models;
 
 namespace Module.User.Domain.Entities;
 
