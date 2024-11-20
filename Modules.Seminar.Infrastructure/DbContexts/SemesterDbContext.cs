@@ -33,9 +33,18 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .IsRowVersion();
 
         modelBuilder.Entity<Class>()
-            .OwnsOne<Text>(c => c.Description); 
+            .HasMany(c => c.Teachers)
+            .WithOne()
+            .HasForeignKey("ClassIdTeacher");
         modelBuilder.Entity<Class>()
-            .OwnsOne<StudentCapacity>(c => c.StudentCapacity);
+            .HasMany(c => c.Students)
+            .WithOne()
+            .HasForeignKey("ClassIdStudent");
+        
+        modelBuilder.Entity<Class>()
+            .ComplexProperty<Text>(c => c.Description); 
+        modelBuilder.Entity<Class>()
+            .ComplexProperty<StudentCapacity>(c => c.StudentCapacity);
 
         #endregion
         
@@ -49,11 +58,11 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .IsRowVersion();
         
         modelBuilder.Entity<Domain.Entities.Semester>()
-            .OwnsOne<EducationRange>(s => s.EducationRange);
+            .ComplexProperty<EducationRange>(s => s.EducationRange);
         modelBuilder.Entity<Domain.Entities.Semester>()
-            .OwnsOne<SemesterNumber>(s => s.SemesterNumber);
+            .ComplexProperty<SemesterNumber>(s => s.SemesterNumber);
         modelBuilder.Entity<Domain.Entities.Semester>()
-            .OwnsOne<SemesterName>(s => s.Name);
+            .ComplexProperty<SemesterName>(s => s.Name);
 
         #endregion
         
@@ -66,15 +75,15 @@ public class SemesterDbContext : SchoolDbContext, ISemesterDbContext
             .IsRowVersion();
         
         modelBuilder.Entity<Lecture>()
-            .OwnsOne<Title>(l => l.Title);
+            .ComplexProperty<Title>(l => l.Title);
         modelBuilder.Entity<Lecture>()
-            .OwnsOne<Text>(l => l.Description);
+            .ComplexProperty<Text>(l => l.Description);
         modelBuilder.Entity<Lecture>()
-            .OwnsOne<TimePeriod>(l => l.TimePeriod);
+            .ComplexProperty<TimePeriod>(l => l.TimePeriod);
         modelBuilder.Entity<Lecture>()
-            .OwnsOne<LectureDate>(l => l.LectureDate);
+            .ComplexProperty<LectureDate>(l => l.LectureDate);
         modelBuilder.Entity<Lecture>()
-            .OwnsOne<ClassRoom>(l => l.ClassRoom);
+            .ComplexProperty(l => l.ClassRoom);
 
         #endregion Lecture OnModelCreating
     }

@@ -4,30 +4,32 @@ public record SemesterName
 {
     public string Value { get; init; }
 
-    private SemesterName()
+    private SemesterName(string value)
     {
-        
-    }
-    
-    private SemesterName(string value, IEnumerable<string> otherSemesterNames)
-    {
-        Validate(value, otherSemesterNames);
+        Validate(value);
         Value = value;
     }
 
     public static SemesterName Create(string name, IEnumerable<string> otherSemesterNames)
-        => new SemesterName(name, otherSemesterNames);
+    {
+        var semesterName = new SemesterName(name);
+        AssureIsUniqueName(otherSemesterNames, name);
+        return semesterName;
+    }
 
-    private void Validate(string value, IEnumerable<string> otherSemesterNames)
+    private static void AssureIsUniqueName(IEnumerable<string> otherSemesterNames, string name)
+    {
+        if (otherSemesterNames.Any(otherName => otherName == name))
+            throw new ArgumentException($"A Semester with name '{name}' already exists.");
+    }
+
+    private void Validate(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentException("Semester name kan ikke være null eller whitespace.", nameof(value));
 
         if (value.Length > 50)
             throw new ArgumentException("Semester name kan ikke være længere end 50 karakterer.", nameof(value));
-
-        if (otherSemesterNames.Any(otherName => otherName == value))
-            throw new ArgumentException($"A Semester with name '{value}' already exists.");
     }
 
     public static implicit operator string(SemesterName value) => value.Value;

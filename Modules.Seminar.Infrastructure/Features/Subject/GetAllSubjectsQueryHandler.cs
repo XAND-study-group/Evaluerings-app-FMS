@@ -15,7 +15,7 @@ namespace Module.Semester.Infrastructure.Features.Subject
         private readonly SemesterDbContext _semesterDbContext;
         private readonly IMapper _mapper;
 
-        public GetAllSubjectsQueryHandler(SemesterDbContext semesterDbContext, IMapper mapper)
+        public GetAllSubjectsQueryHandler(SemesterDbContext semesterDbContext)
         {
             _semesterDbContext = semesterDbContext;
             _mapper = new MapperConfiguration(cfg =>
