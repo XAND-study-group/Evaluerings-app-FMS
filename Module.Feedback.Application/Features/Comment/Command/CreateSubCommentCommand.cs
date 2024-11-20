@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Evaluering.Comment.Command;
 using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.Models;

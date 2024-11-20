@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Infrastructure.DbContexts;
 using Module.Feedback.Infrastructure.Proxy;
 using Module.Feedback.Infrastructure.Repositories;
@@ -22,10 +23,7 @@ public static class FeedbackModuleInfrastructureExtension
                     optionsBuilder.EnableRetryOnFailure();
                 }));
 
-        serviceCollection.AddHttpClient<IValidationServiceProxy, ValidationServiceProxy>(client =>
-        {
-            client.BaseAddress = new Uri(configuration["GeminiApiURL"] ?? throw new Exception("URL is missing"));
-        });
+        serviceCollection.AddHttpClient<IValidationServiceProxy, ValidationServiceProxy>();
 
         serviceCollection.AddScoped<IRoomRepository, RoomRepository>();
         serviceCollection.AddScoped<IFeedbackRepository, FeedbackRepository>();

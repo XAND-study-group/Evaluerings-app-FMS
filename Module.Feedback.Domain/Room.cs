@@ -1,6 +1,8 @@
 ﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Enums.Features.Vote;
 using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.Interfaces.DomainServices.Interfaces;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
@@ -65,8 +67,21 @@ public class Room : Entity
     public Vote AddVoteToFeedback(Guid feedbackId, Guid userId, VoteScale voteScale, IHashIdService hashIdService)
     {
         var feedback = _feedbacks.Single(f => f.Id == feedbackId);
+
+        AssureNoExistingVoteFromUser(feedback.Votes, userId, hashIdService);
+        
         return feedback.AddVote(userId, voteScale, hashIdService);
     }
 
     #endregion Relational Methods
+    
+    #region Relational Business Logic Methods
+
+    private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId, IHashIdService hashIdService)
+    {
+        var hashUserId = hashIdService.Hash(userId);
+        if (votes.Any(v => v.HashedId == hashUserId))
+            throw new ArgumentException("User has already voted for this feedback.");
+    }
+    #endregion
 }

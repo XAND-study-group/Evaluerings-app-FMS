@@ -1,4 +1,5 @@
 ﻿using Module.Feedback.Domain.DomainServices;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.ValueObjects;
 
@@ -48,7 +49,7 @@ public class Comment : Entity
 
     private static async Task AssureAcceptableContent(string commentText, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var isAcceptable = await iIValidationServiceProxy.IsAcceptableContentAsync(commentText);
+        var isAcceptable = await iIValidationServiceProxy.IsAcceptableCommentAsync(commentText);
         if (!isAcceptable.Valid)
             throw new ArgumentException(isAcceptable.Reason);
     }

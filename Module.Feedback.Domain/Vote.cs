@@ -1,5 +1,6 @@
 ﻿using SharedKernel.Enums.Features.Vote;
 using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.Interfaces.DomainServices.Interfaces;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
@@ -31,7 +32,7 @@ public class Vote : Entity
 
     public static Vote Create(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
     {
-        var hashedId = new HashedId(userId, hashIdService);
+        var hashedId = HashedId.Create(userId, hashIdService);
         var vote = new Vote(hashedId, voteScale);
 
         return vote;

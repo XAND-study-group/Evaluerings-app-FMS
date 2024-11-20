@@ -2,6 +2,7 @@
 using Moq;
 using SharedKernel.Enums.Features.Vote;
 using SharedKernel.Interfaces.DomainServices;
+using SharedKernel.Interfaces.DomainServices.Interfaces;
 
 namespace Module.Feedback.Domain.Test;
 
