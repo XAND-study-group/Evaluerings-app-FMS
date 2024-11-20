@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Features.User.Query;
 using Module.User.Domain.Entities;
 using Module.User.Infrastructure.DbContext;
-using SharedKernel.Dto.Features.User.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharedKernel.Dto.Features.School.User.Query;
 
 namespace Module.User.Infrastructure.Features.User
 {

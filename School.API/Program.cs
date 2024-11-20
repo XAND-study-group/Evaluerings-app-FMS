@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Module.Semester.Extensions;
 using Module.User.Extensions;
 using School.API;
 using School.API.Extensions;
@@ -34,11 +35,16 @@ builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddMediatRModules();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Add endpoints
 builder.Services
-    .AddEndpoints(Module.User.AssemblyReference.Assembly);
+    .AddEndpoints(Module.User.AssemblyReference.Assembly)
+    .AddEndpoints(Module.Semester.AssemblyReference.Assembly);
 
-builder.Services.AddUserModule(builder.Configuration);
+builder.Services
+    .AddUserModule(builder.Configuration)
+    .AddSemesterModule(builder.Configuration);
 
 builder.Services.AddRateLimiter(_ => _
     .AddFixedWindowLimiter(policyName: "baseLimit", options =>
@@ -50,7 +56,7 @@ builder.Services.AddRateLimiter(_ => _
 var app = builder.Build();
 
 app.UseRateLimiter();
-app.MapEndpoints();
+app.MapEndpoints(builder.Configuration);
 
 app.UseSwagger();
 app.UseSwaggerUI();

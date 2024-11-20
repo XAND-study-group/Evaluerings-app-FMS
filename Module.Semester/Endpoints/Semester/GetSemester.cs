@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Module.Semester.Application.Features.Semester.Query;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
@@ -10,11 +11,13 @@ namespace Module.Semester.Endpoints.Semester;
 
 public class GetSemester : IEndpoint
 {
-    void IEndpoint.MapEndpoint(WebApplication app)
+    void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapGet("/Semester/{semesterId:guid}",
-            async (Guid semesterId, [FromServices] IMediator mediator) =>
-            (await mediator.Send(new GetSemesterQuery(semesterId))).ReturnHttpResult()).WithTags("Semester")
+        app.MapGet(configuration["Routes:SemesterModule:Semester:GetSemester"] ??
+                   throw new Exception("Route is not added to config file"),
+                async (Guid semesterId, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new GetSemesterQuery(semesterId))).ReturnHttpResult())
+            .WithTags("Semester")
             .RequireAuthorization();
     }
 }

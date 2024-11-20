@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Caching.Memory;
 using Module.User.Application.Abstractions;
 using Module.User.Domain.DomainServices.Interfaces;
-using SharedKernel.Dto.Features.Authentication.Command;
 using SharedKernel.Models;
+using SharedKernel.Dto.Features.School.Authentication.Command;
 
 namespace Module.User.Application.Features.Login.Commands;
 
