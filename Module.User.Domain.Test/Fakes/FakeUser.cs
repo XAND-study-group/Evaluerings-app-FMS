@@ -18,6 +18,10 @@ namespace Module.User.Domain.Test.Fakes
         {
         }
 
+        public FakeUser(string firstname, string lastname, string email)
+        {
+        }
+
         public void SetRefreshToken(string token, DateTime expirationDate)
             => RefreshToken = SharedKernel.ValueObjects.RefreshToken.Create(token, expirationDate);
         

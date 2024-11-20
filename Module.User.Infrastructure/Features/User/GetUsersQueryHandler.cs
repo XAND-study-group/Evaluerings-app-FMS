@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Features.User.Query;
 using Module.User.Infrastructure.DbContext;
-using SharedKernel.Dto.Features.User.Query;
 using SharedKernel.Models;
 using System;
 using System.Collections.Generic;
