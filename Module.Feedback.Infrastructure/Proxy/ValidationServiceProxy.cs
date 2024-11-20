@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using Module.Feedback.Domain.DomainServices;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Evaluering.Proxy;
 
@@ -36,7 +35,7 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
 
     private async Task<GeminiResponse> SendRequest(string prompt)
     {
-        var url = configuration["GeminiApiURL"];
+        var url = configuration["GeminiApiURL"]+configuration["GEMINI_KEY"];
         var theContent = new StringContent($"{{\"contents\":[{{\"parts\":[{{\"text\":\"{prompt}\"}}]}}]}}",
             Encoding.UTF8, "application/json");
 
