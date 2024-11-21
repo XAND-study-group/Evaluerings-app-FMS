@@ -1,7 +1,7 @@
 ﻿using School.Domain.Entities;
 using SharedKernel.Enums.Features.Authentication;
 
-namespace School.Application.Abstractions.User;
+namespace School.Domain.DomainServices.Interfaces;
 
 public interface IAccountClaimRepository
 {
