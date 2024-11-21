@@ -36,11 +36,28 @@ public class Class : Entity
 
         AssureNameIsUnique(Name, otherClassNames);
     }
+    
+    private Class(string name, string description, int studentCapacity, IEnumerable<User> students, IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames)
+    {
+        Name = name;
+        Description = description;
+        StudentCapacity = studentCapacity;
+        
+        // TODO: check if students are over capacity
+        _students = students.ToList();
+        _subjects = subjects.ToList();
+
+        AssureNameIsUnique(Name, otherClassNames);
+    }
+    
     #endregion
 
     #region Class Methods
     public static Class Create(string name, string description, int capacity, IEnumerable<Class> otherClassNames)
         => new Class(name, description, capacity, otherClassNames);
+    
+    public static Class Create(string name, string description, int capacity, IEnumerable<User> students, IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames)
+        => new Class(name, description, capacity, students, subjects, otherClassNames);
     #endregion
 
     #region Class Business Logic Methods
