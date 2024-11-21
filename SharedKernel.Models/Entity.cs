@@ -26,7 +26,7 @@ namespace SharedKernel.Models
 
         public override bool Equals(object? obj)
         {
-            return Equals(obj as Entity);
+            return base.Equals(obj as Entity);
         }
 
         public override int GetHashCode()

@@ -1,5 +1,4 @@
-﻿using SharedKernel.Dto.Features.Lecture.Query;
-using SharedKernel.Dto.Features.School.Lecture.Query;
+﻿using SharedKernel.Dto.Features.School.Lecture.Query;
 
 namespace SharedKernel.Dto.Features.School.Subject.Query
 {

@@ -1,49 +1,29 @@
-﻿using SharedKernel.Models;
-
-using SharedKernel.ValueObjects;
-
-namespace Module.Semester.Domain.Entities
+﻿namespace Module.Semester.Domain.Entities
 {
     public class Subject : Entity
     {
-        #region Properties
-
-        public Guid Id { get; protected set; }
-        public SubjectName Name { get; protected set; }
-        public SubjectDescription Description { get; protected set; }
-        private readonly List<Lecture> _lectures = new();
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        private readonly List<Lecture> _lectures = [];
         public IReadOnlyCollection<Lecture> Lectures => _lectures;
 
-        #endregion
-
-        #region Constructors
-
-        protected Subject(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
+        protected Subject(string name, string description)
         {
             Name = name;
             Description = description;
-            AssureNameIsUnique(name, otherSubjects);
         }
-
         protected Subject() { }
 
-        #endregion
-
-        #region Subject Business Logic Methods
-
-        public static Subject Create(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
+        public static Subject Create(string name, string description)
         {
-            if (name == null) throw new ArgumentNullException(nameof(name));
-            if (description == null) throw new ArgumentNullException(nameof(description));
-            return new Subject(name, description, otherSubjects);
+            return new Subject(name, description);
         }
 
-        public void Update(SubjectName name, SubjectDescription description)
+        public void Update(string name, string description)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Description = description ?? throw new ArgumentNullException(nameof(description));
+            Name = name;
+            Description = description;
         }
-
         public Lecture AddLecture(string lectureTitle, string description, TimeOnly startTime,
             TimeOnly endTime, DateOnly date, string classRoom)
         {
@@ -51,15 +31,5 @@ namespace Module.Semester.Domain.Entities
             _lectures.Add(lecture);
             return lecture;
         }
-
-        public void AssureNameIsUnique(SubjectName name, IEnumerable<Subject> otherSubjects)
-        {
-            if (otherSubjects.Any(subject => subject.Name == name))
-            {
-                throw new ArgumentException($"The subject name '{name}' is already in use.");
-            }
-        }
-
-        #endregion
     }
 }

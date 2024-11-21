@@ -11,6 +11,10 @@ namespace SharedKernel.ValueObjects
     {
         public string Value { get; init; }
 
+        private UserEmail()
+        {
+            
+        }
         private UserEmail(string value, IEnumerable<string> otherUsersEmails)
         {
             Validate(value, otherUsersEmails);
