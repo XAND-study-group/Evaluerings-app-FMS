@@ -18,6 +18,6 @@ public class CreateComment : IEndpoint
                 async ([FromBody] CreateCommentRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new CreateCommentCommand(request))).ReturnHttpResult())
             .WithTags("Comment")
-            .RequireAuthorization();
+            .RequireAuthorization("CommentOnFeedback");
     }
 }

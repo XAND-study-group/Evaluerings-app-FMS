@@ -1,4 +1,5 @@
 using Evaluering.API;
+using Evaluering.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
@@ -6,6 +7,7 @@ using Module.Feedback.Infrastructure.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthorizationWithPolicies();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

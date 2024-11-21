@@ -17,6 +17,6 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTime : IEndpoint
             async (Guid classId, [FromServices] IMediator mediator) =>
             (await mediator.Send(new GetFeedbacksByClassIdOrderByCreatedDateTimeQuery(classId))).ReturnHttpResult())
             .WithTags("Feedback")
-            .RequireAuthorization();
+            .RequireAuthorization("ReadFeedback");
     }
 }

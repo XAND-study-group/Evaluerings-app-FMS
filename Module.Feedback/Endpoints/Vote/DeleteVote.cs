@@ -18,6 +18,6 @@ public class DeleteVote : IEndpoint
             async ([FromBody] DeleteVoteRequest deleteVoteRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new DeleteVoteCommand(deleteVoteRequest))).ReturnHttpResult())
             .WithTags("Vote")
-            .RequireAuthorization();
+            .RequireAuthorization("VoteOnFeedback");
     }
 }

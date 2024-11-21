@@ -18,6 +18,6 @@ public class CreateFeedback : IEndpoint
                 async ([FromBody] CreateFeedbackRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new CreateFeedbackCommand(request))).ReturnHttpResult())
             .WithTags("Feedback")
-            .RequireAuthorization();
+            .RequireAuthorization("PostFeedback");
     }
 }

@@ -18,6 +18,6 @@ public class GetVotesByFeedbackId : IEndpoint
                 async ([FromBody] GetVotesByFeedbackIdRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetVotesByFeedbackIdQuery(request))).ReturnHttpResult())
             .WithTags("Vote")
-            .RequireAuthorization();
+            .RequireAuthorization("ReadFeedback");
     }
 }

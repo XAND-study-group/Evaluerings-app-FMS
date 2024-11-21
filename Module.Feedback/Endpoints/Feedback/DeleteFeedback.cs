@@ -18,6 +18,6 @@ public class DeleteFeedback : IEndpoint
             async ([FromBody] DeleteFeedbackRequest deleteFeedbackRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new DeleteFeedbackCommand(deleteFeedbackRequest))).ReturnHttpResult())
             .WithTags("Feedback")
-            .RequireAuthorization();
+            .RequireAuthorization("Admin");
     }
 }

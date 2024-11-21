@@ -18,6 +18,6 @@ public class GetFeedbacksByRoomId : IEndpoint
                 async ([FromBody] GetFeedbacksByRoomIdRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetFeedbacksByRoomIdQuery(request))).ReturnHttpResult())
             .WithTags("Feedback")
-            .RequireAuthorization();
+            .RequireAuthorization("ReadFeedback");
     }
 }

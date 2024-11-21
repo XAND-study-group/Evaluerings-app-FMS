@@ -18,6 +18,6 @@ public class UpdateRoom : IEndpoint
             async ([FromBody] UpdateRoomRequest updateRoomRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new UpdateRoomCommand(updateRoomRequest))).ReturnHttpResult())
             .WithTags("Room")
-            .RequireAuthorization();
+            .RequireAuthorization("Admin");
     }
 }

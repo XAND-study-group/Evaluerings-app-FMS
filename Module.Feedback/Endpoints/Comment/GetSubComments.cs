@@ -18,6 +18,6 @@ public class GetSubComments : IEndpoint
                 async ([FromBody] GetSubCommentsRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetSubCommentsQuery(request))).ReturnHttpResult())
             .WithTags("Comment")
-            .RequireAuthorization();
+            .RequireAuthorization("ReadInteractedFeedback");
     }
 }

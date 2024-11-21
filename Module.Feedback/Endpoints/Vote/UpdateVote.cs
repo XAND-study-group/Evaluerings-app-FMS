@@ -18,6 +18,6 @@ public class UpdateVote : IEndpoint
             async ([FromBody] UpdateVoteRequest updateVoteRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new UpdateVoteCommand(updateVoteRequest))).ReturnHttpResult())
             .WithTags("Vote")
-            .RequireAuthorization();
+            .RequireAuthorization("VoteOnFeedback");
     }
 }

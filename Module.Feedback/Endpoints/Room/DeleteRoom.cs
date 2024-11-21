@@ -17,6 +17,6 @@ public class DeleteRoom : IEndpoint
             async ([FromBody] DeleteRoomRequest deleteRoomRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new DeleteRoomCommand(deleteRoomRequest))).ReturnHttpResult())
             .WithName("Room")
-            .RequireAuthorization();
+            .RequireAuthorization("Admin");
     }
 }
