@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
-using SharedKernel.Interfaces.DomainServices.Interfaces;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 
-namespace SharedKernel.Interfaces.DomainServices;
+namespace Module.Feedback.Domain.DomainServices;
 
 public class HashIdService : IHashIdService
 {
@@ -12,7 +12,7 @@ public class HashIdService : IHashIdService
         // Perform the SHA256 hashing algorithm on guidBytes
         byte[] hashBytes = SHA256.HashData(guidBytes);
         // Convert the bytes to a hexadecimal string
-        return $"{Convert.ToHexString(hashBytes)}";
+        return Convert.ToHexString(hashBytes);
     }
 
     bool IHashIdService.Verify(Guid requestId, string storedId)

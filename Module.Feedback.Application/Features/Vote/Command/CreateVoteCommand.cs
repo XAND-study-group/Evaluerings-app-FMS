@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using Module.Feedback.Application.Abstractions;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Evaluering.Vote.Command;
 using SharedKernel.Interfaces;
-using SharedKernel.Interfaces.DomainServices;
-using SharedKernel.Interfaces.DomainServices.Interfaces;
 using SharedKernel.Models;
 
 namespace Module.Feedback.Application.Features.Vote.Command;

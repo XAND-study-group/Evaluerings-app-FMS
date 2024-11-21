@@ -1,5 +1,6 @@
 ﻿using School.Domain.Test.Fakes.Semester;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace School.Domain.Test.Tests.Semester;
 

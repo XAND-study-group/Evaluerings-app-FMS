@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using School.Domain.DomainServices.Interfaces;
+using School.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Authentication;
 using SharedKernel.Models;
 using SharedKernel.ValueObjects;

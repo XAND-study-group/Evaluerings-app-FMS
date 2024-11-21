@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace SharedKernel.ValueObjects;
+﻿namespace School.Domain.ValueObjects;
 
 public class RefreshToken
 {

@@ -1,6 +1,7 @@
 ﻿using Moq;
 using School.Domain.DomainServices;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace School.Domain.Test.Tests.User;
 
