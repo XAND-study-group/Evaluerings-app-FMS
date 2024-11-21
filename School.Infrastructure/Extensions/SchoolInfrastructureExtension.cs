@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using School.Application.Abstractions.Semester;
 using School.Application.Abstractions.User;
+using School.Domain.DomainServices.Interfaces;
 using School.Infrastructure.DbContext;
 using School.Infrastructure.Repositories.Semester;
 using School.Infrastructure.Repositories.User;

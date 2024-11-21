@@ -18,6 +18,12 @@ public class SemesterRepository : ISemesterRepository
         await _dbContext.AddAsync(semester);
         await _dbContext.SaveChangesAsync();
     }
+    
+    public async Task CreateSemestersAsync(IEnumerable<Domain.Entities.Semester> semester)
+    {
+        await _dbContext.AddRangeAsync(semester);
+        await _dbContext.SaveChangesAsync();
+    }
 
     public async Task<IEnumerable<Domain.Entities.Semester>> GetAllSemesters()
         => await _dbContext.Semesters.ToListAsync();

@@ -25,7 +25,7 @@ namespace School.Infrastructure.Repositories.User
             => await dbContext.Users.SingleAsync(u => u.Id == id);
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByEmailAsync(string email)
-            => await dbContext.Users.FirstOrDefaultAsync(user => user.Email.Value == email);
+            => await dbContext.Users.Include(user => user.AccountClaims).FirstOrDefaultAsync(user => user.Email.Value == email);
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByRefreshTokenAsync(string refreshToken)
             => await dbContext.Users.Include(user => user.AccountClaims)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Application.Abstractions.User;
+using School.Domain.DomainServices.Interfaces;
 using School.Domain.Entities;
 using School.Infrastructure.DbContext;
 using SharedKernel.Enums.Features.Authentication;

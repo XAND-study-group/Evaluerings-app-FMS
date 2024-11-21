@@ -28,7 +28,7 @@ public class AccountChangePasswordCommandHandler(
             
             var code = memoryCache.Get(changePasswordRequest.AccountLoginId) as string;
             
-            if (code == null && code != changePasswordRequest.Code)
+            if (code == null || code != changePasswordRequest.Code)
                 return Result<bool>.Create("Du kan ikke ændre adgangskoden lige nu", false, ResultStatus.Error);
             
             memoryCache.Remove(changePasswordRequest.AccountLoginId);
