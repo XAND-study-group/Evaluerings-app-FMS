@@ -1,8 +1,10 @@
 using Evaluering.API;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
 using Module.Feedback.Infrastructure.Options;
+using School.API.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddFeedbackModule(builder.Configuration);
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
