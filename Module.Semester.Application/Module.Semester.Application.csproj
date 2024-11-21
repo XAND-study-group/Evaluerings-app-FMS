@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\Subject\Command\Dto\**" />
-    <EmbeddedResource Remove="Features\Subject\Command\Dto\**" />
-    <None Remove="Features\Subject\Command\Dto\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Subject\Command\" />
     <Folder Include="Features\Subject\Query\Dto\" />
   </ItemGroup>
 
