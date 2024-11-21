@@ -48,6 +48,31 @@ namespace Module.ExitSlip.Domain.Entities
         public static ExitSlip Create(Guid userId, Guid lectureId, string title, int maxQuestionCount, ExitSlipActiveStatus activeStatus)
             => new ExitSlip(userId, lectureId, title, maxQuestionCount, activeStatus);
 
+        public void DeleteQuestion(Question question)
+        {
+            if (ActiveStatus == ExitSlipActiveStatus.Inactive)
+            {
+                question.ClearAnswers();
+                _questions.Remove(question);
+            }
+            else
+            {
+                throw new InvalidOperationException("Cannot delete questions from an active ExitSlip.");
+            }
+        }
+
+        public void EditQuestion(Question question, string newText)
+        {
+            if (ActiveStatus == ExitSlipActiveStatus.Inactive)
+            {
+                question.ClearAnswers();
+                question.UpdateText(newText);
+            }
+            else
+            {
+                throw new InvalidOperationException("Cannot edit questions in an active ExitSlip.");
+            }
+        }
         #endregion
 
 
