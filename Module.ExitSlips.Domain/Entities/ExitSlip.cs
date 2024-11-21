@@ -48,6 +48,13 @@ namespace Module.ExitSlip.Domain.Entities
         public static ExitSlip Create(Guid userId, Guid lectureId, string title, int maxQuestionCount, ExitSlipActiveStatus activeStatus)
             => new ExitSlip(userId, lectureId, title, maxQuestionCount, activeStatus);
 
+
+        public void Update(string title, ExitSlipActiveStatus activeStatus)
+        {
+            Title = title;
+            ActiveStatus = activeStatus;
+        }
+
         #endregion
 
 
