@@ -3,6 +3,7 @@ using School.Domain.Test.Fakes.Semester;
 using School.Domain.ValueObjects;
 using SharedKernel.ValueObjects;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace School.Domain.Test.Tests.Semester
 {

@@ -4,6 +4,7 @@ using School.Domain.DomainServices.Interfaces;
 using School.Domain.Test.Fakes.User;
 using SharedKernel.Enums.Features.Authentication;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace School.Domain.Test.Tests.User
 {

@@ -28,7 +28,7 @@ namespace School.Infrastructure.DbContext
             modelBuilder.Entity<User>()
                 .Property(u => u.Id)
                 .ValueGeneratedOnAdd();
-            
+
             modelBuilder.Entity<User>()
                 .OwnsOne(u
                     => u.RefreshToken);
