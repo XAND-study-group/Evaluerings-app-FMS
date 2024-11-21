@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.Feedback.Application.Features.Room.Query;
@@ -15,7 +16,7 @@ public class GetRoomById : IEndpoint
         app.MapGet("/Room/{roomId:guid}",
             async (Guid roomId, [FromBody] IMediator mediator) =>
             (await mediator.Send(new GetRoomByIdQuery(roomId))).ReturnHttpResult())
-            .WithName("Room")
+            .WithTags("Room")
             .RequireAuthorization();
     }
 }

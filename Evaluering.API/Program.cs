@@ -13,6 +13,8 @@ builder.Services.AddAuthorizationWithPolicies();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMediatRModules();
+builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -25,6 +27,8 @@ builder.Services.Configure<EvaluationSecrets>(builder.Configuration.GetSection(n
 
 var app = builder.Build();
 
+app.MapEndpoints(builder.Configuration);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,6 +37,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 
 app.MapPost("TestGemini/Feedback",
     async ([FromBody] FeedbackContentDto content, [FromServices] IValidationServiceProxy validationServiceProxy) =>

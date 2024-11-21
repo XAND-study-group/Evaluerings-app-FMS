@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.Feedback.Application.Features.Room.Command;
@@ -16,7 +17,7 @@ public class DeleteRoom : IEndpoint
         app.MapDelete("/Room",
             async ([FromBody] DeleteRoomRequest deleteRoomRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new DeleteRoomCommand(deleteRoomRequest))).ReturnHttpResult())
-            .WithName("Room")
+            .WithTags("Room")
             .RequireAuthorization("Admin");
     }
 }

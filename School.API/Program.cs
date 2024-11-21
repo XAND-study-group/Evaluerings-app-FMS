@@ -1,7 +1,6 @@
-using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.RateLimiting;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using School.API;
 using School.API.Extensions;
