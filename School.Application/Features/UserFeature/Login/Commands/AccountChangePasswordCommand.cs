@@ -3,11 +3,12 @@ using Microsoft.Extensions.Caching.Memory;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.Login.Commands;
 
-public record AccountChangePasswordCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>;
+public record AccountChangePasswordCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class AccountChangePasswordCommandHandler(
     IUserRepository userRepository,

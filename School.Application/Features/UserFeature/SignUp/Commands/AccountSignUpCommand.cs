@@ -4,11 +4,12 @@ using School.Domain.DomainServices.Interfaces;
 using School.Domain.Entities;
 using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Enums.Features.Authentication;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.SignUp.Commands;
 
-public record AccountSignUpCommand(CreateAccountLoginRequest Request) : IRequest<Result<bool>>;
+public record AccountSignUpCommand(CreateAccountLoginRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class AccountSignUpCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
     : IRequestHandler<AccountSignUpCommand, Result<bool>>

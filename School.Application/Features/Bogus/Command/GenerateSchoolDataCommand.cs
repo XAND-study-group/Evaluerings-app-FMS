@@ -6,11 +6,12 @@ using School.Domain.DomainServices.Interfaces;
 using School.Domain.Entities;
 using SharedKernel.Enums.Features.Authentication;
 using SharedKernel.Enums.Features.Semester;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.Bogus.Command;
 
-public record GenerateSchoolDataCommand() : IRequest<Result<bool>>;
+public record GenerateSchoolDataCommand() : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class GenerateSchoolDataCommandHandler(
     IUserRepository userRepository,
