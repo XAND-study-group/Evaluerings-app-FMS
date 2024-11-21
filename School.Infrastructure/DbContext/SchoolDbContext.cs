@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Domain.Entities;
+using School.Domain.ValueObjects;
 using SharedKernel.ValueObjects;
 
 namespace School.Infrastructure.DbContext
