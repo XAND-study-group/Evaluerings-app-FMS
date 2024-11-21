@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Interfaces.DomainServices.Interfaces;
+﻿namespace Module.Feedback.Domain.DomainServices.Interfaces;
 
 public interface IHashIdService
 {

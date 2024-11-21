@@ -1,7 +1,6 @@
-﻿using SharedKernel.Interfaces.DomainServices;
-using SharedKernel.Interfaces.DomainServices.Interfaces;
+﻿using Module.Feedback.Domain.DomainServices.Interfaces;
 
-namespace SharedKernel.ValueObjects;
+namespace Module.Feedback.Domain.ValueObjects;
 
 public record HashedId
 {

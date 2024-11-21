@@ -1,8 +1,6 @@
-﻿using Module.Feedback.Domain.DomainServices;
-using Module.Feedback.Domain.DomainServices.Interfaces;
+﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+using Module.Feedback.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Vote;
-using SharedKernel.Interfaces.DomainServices;
-using SharedKernel.Interfaces.DomainServices.Interfaces;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;

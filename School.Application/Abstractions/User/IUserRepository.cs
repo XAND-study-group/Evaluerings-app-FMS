@@ -12,6 +12,6 @@ namespace School.Application.Abstractions.User
         Task SetUserRefreshTokenAsync(Domain.Entities.User user);
         Task<IEnumerable<Domain.Entities.User>> GetAllUsers();
         Task ChangeUserPasswordAsync();
-        Task<bool> DoesAccountLoginEmailExistAsync(string createRequestEmail);
+        Task<bool> DoesUserEmailExistAsync(string createRequestEmail);
     }
 }

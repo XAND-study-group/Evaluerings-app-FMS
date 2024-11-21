@@ -19,7 +19,7 @@ public class AccountSignUpCommandHandler(IUserRepository userRepository, IPasswo
         {
             var createRequest = request.Request;
 
-            var exists = await userRepository.DoesAccountLoginEmailExistAsync(createRequest.Email);
+            var exists = await userRepository.DoesUserEmailExistAsync(createRequest.Email);
             if (!exists)
                 return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
 

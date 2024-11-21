@@ -41,7 +41,7 @@ namespace School.Infrastructure.Repositories.User
             await dbContext.SaveChangesAsync();
         }
 
-        async Task<bool> IUserRepository.DoesAccountLoginEmailExistAsync(string createRequestEmail)
+        async Task<bool> IUserRepository.DoesUserEmailExistAsync(string createRequestEmail)
             => await dbContext.Users.AnyAsync(user => user.Email.Value == createRequestEmail);
     }
 }
