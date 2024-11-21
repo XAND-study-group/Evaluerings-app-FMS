@@ -18,6 +18,6 @@ public class CreateRoom : IEndpoint
             async ([FromBody] CreateRoomRequest createRoomRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new CreateRoomCommand(createRoomRequest))).ReturnHttpResult())
             .WithTags("Room")
-            .RequireAuthorization("Admin");
+            .RequireAuthorization("RoomManagement");
     }
 }

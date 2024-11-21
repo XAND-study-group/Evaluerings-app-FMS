@@ -17,6 +17,6 @@ public class GetRoomsByClassId : IEndpoint
             await mediator.Send(new GetRoomsByClassIdQuery(classId));
         })
         .WithTags("Room")
-        .RequireAuthorization();
+        .RequireAuthorization("ReadRoom");
     }
 }

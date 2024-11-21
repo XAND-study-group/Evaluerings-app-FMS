@@ -16,6 +16,6 @@ public class GetAllRooms : IEndpoint
         app.MapGet("/Rooms",
             async ([FromBody] IMediator mediator) => (await mediator.Send(new GetAllRoomsQuery())).ReturnHttpResult())
             .WithTags("Room")
-            .RequireAuthorization();
+            .RequireAuthorization("ReadRoom");
     }
 }

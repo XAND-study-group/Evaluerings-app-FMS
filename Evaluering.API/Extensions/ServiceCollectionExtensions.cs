@@ -27,6 +27,10 @@ public static class ServiceCollectionExtensions
                 policy => policy.RequireClaim("Permission", "PrintFeedbackReport"));
             options.AddPolicy("VoteOnFeedback",
                 policy => policy.RequireClaim("Permission", "VoteOnFeedback"));
+            options.AddPolicy("RoomManagement",
+                policy => policy.RequireClaim("Permission", "RoomManagement"));
+            options.AddPolicy("ReadRoom",
+                policy => policy.RequireClaim("Permission", "ReadRoom"));
             
             #endregion
 

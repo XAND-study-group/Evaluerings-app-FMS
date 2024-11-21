@@ -17,6 +17,6 @@ public class GetRoomById : IEndpoint
             async (Guid roomId, [FromBody] IMediator mediator) =>
             (await mediator.Send(new GetRoomByIdQuery(roomId))).ReturnHttpResult())
             .WithTags("Room")
-            .RequireAuthorization();
+            .RequireAuthorization("ReadRoom");
     }
 }

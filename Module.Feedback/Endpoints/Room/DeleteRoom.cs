@@ -18,6 +18,6 @@ public class DeleteRoom : IEndpoint
             async ([FromBody] DeleteRoomRequest deleteRoomRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new DeleteRoomCommand(deleteRoomRequest))).ReturnHttpResult())
             .WithTags("Room")
-            .RequireAuthorization("Admin");
+            .RequireAuthorization("RoomManagement");
     }
 }
