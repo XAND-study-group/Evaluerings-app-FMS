@@ -19,10 +19,10 @@ public class CreateVoteCommandHandler(IVoteRepository voteRepository, IHashIdSer
         {
             // Load
             var createVoteRequest = request.CreateVoteRequest;
-            var room = await voteRepository.GetRoomByIdAsync(createVoteRequest.RoomId);
+            var feedback = await voteRepository.GetFeedbackByIdAsync(createVoteRequest.FeedbackId);
 
             // Do
-            var vote = room.AddVoteToFeedback(createVoteRequest.FeedbackId,
+            var vote = feedback.AddVote(
                 createVoteRequest.UserId,
                 createVoteRequest.VoteScale,
                 hashIdService);

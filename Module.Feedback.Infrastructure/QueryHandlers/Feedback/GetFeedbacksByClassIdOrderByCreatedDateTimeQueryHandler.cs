@@ -31,11 +31,11 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
     {
         try
         {
-            var feedbacks = await _feedbackDbContext.Rooms
-                .Include(r => r.Feedbacks)
-                .Where(r => r.ClassIds
-                    .Any(c => c == request.ClassId))
-                .Select(r => r.Feedbacks)
+            var feedbacks = await _feedbackDbContext.Feedbacks
+                .Include(f => f.Room)
+                .ThenInclude(r => r.ClassIds)
+                .Where(f => f.Room.ClassIds
+                    .Any(g => g == request.ClassId))
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

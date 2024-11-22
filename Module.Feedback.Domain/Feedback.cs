@@ -1,5 +1,6 @@
 ﻿using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Domain.ValueObjects;
+using SharedKernel.Enums.Features.Evaluering.Feedback;
 using SharedKernel.Enums.Features.Vote;
 using SharedKernel.ValueObjects;
 
@@ -14,7 +15,9 @@ public class Feedback : Entity
     public Title Title { get; protected set; }
     public Text Problem { get; protected set; }
     public Text Solution { get; protected set; }
-    public DateTime CreatedDateTime { get; init; }
+    public DateTime Created { get; init; }
+    public FeedbackStatus Status { get; protected set; }
+    public Room Room { get; set; }
 
     // List Properties
     private readonly List<Comment> _comments = [];
@@ -30,12 +33,14 @@ public class Feedback : Entity
     {
     }
 
-    private Feedback(HashedId hashedUserId, string title, string problem, string solution)
+    private Feedback(HashedId hashedUserId, string title, string problem, string solution, Room room)
     {
         HashedId = hashedUserId;
         Title = title;
         Problem = problem;
         Solution = solution;
+        Status = FeedbackStatus.Active;
+        Room = room;
     }
 
     #endregion Constructors
@@ -43,11 +48,12 @@ public class Feedback : Entity
     #region Feedback Methods
 
     public static async Task<Feedback> CreateAsync(Guid userId, string title, string problem, string solution,
+        Room room,
         IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
     {
         var hashedUserId = HashedId.Create(userId, hashIdService);
-        var feedback = new Feedback(hashedUserId, title, problem, solution);
-        
+        var feedback = new Feedback(hashedUserId, title, problem, solution, room);
+
         await AiTextCheckAsync(feedback.Title, feedback.Problem, feedback.Solution, iIValidationServiceProxy);
 
         return feedback;
@@ -56,7 +62,9 @@ public class Feedback : Entity
     #endregion Feedback Methods
 
     #region Feedback Business Logic Methods
-    private static async Task AiTextCheckAsync(string title, string problem, string solution, IValidationServiceProxy iValidationServiceProxy)
+
+    private static async Task AiTextCheckAsync(string title, string problem, string solution,
+        IValidationServiceProxy iValidationServiceProxy)
     {
         var isAcceptable = await iValidationServiceProxy.IsAcceptableContentAsync(title, problem, solution);
         if (!isAcceptable.Valid)
@@ -67,17 +75,42 @@ public class Feedback : Entity
 
     #region Relational Methods
 
-    public async Task<Comment> AddComment(Guid userId, string commentText, IValidationServiceProxy iValidationServiceProxy)
+    #region Comment Related Methods
+
+    public async Task<Comment> AddComment(Guid userId, string commentText,
+        IValidationServiceProxy validationServiceProxy)
     {
-        var comment = await Comment.CreateAsync(userId, commentText, iValidationServiceProxy);
+        var comment = await Comment.CreateAsync(userId, commentText, validationServiceProxy);
 
         _comments.Add(comment);
 
         return comment;
     }
 
+    public async Task<Comment> AddSubCommentAsync(Guid commentId, Guid userId, string commentText,
+        IValidationServiceProxy validationServiceProxy)
+    {
+        AssureStatusIsNotSolved();
+
+        var comment = GetCommentById(commentId);
+        var subComment = await Comment.CreateAsync(userId, commentText, validationServiceProxy);
+        comment.AddSubComment(subComment);
+
+        return subComment;
+    }
+
+    private Comment GetCommentById(Guid commentId)
+        => _comments.FirstOrDefault(c => c.Id == commentId) ??
+           throw new ArgumentException("Kommentaren du prøver at kommentere kunne ikke findes");
+
+    #endregion Comment Related Methods
+
+    #region Vote Related Methods
+
     public Vote AddVote(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
     {
+        AssureNoExistingVoteFromUser(_votes, userId, hashIdService);
+
         var vote = Vote.Create(userId, voteScale, hashIdService);
 
         _votes.Add(vote);
@@ -85,5 +118,46 @@ public class Feedback : Entity
         return vote;
     }
 
+    public Vote DeleteVote(Guid voteId)
+    {
+        AssureStatusIsNotSolved();
+
+        return GetVoteById(voteId);
+    }
+
+    public Vote UpdateVote(Guid voteId, VoteScale voteScale)
+    {
+        AssureStatusIsNotSolved();
+
+        var vote = GetVoteById(voteId);
+
+        vote.Update(voteScale);
+
+        return vote;
+    }
+
+    private Vote GetVoteById(Guid voteId)
+        => _votes.FirstOrDefault(v => v.Id == voteId) ?? throw new ArgumentException("Vote kunne ikke findes");
+
+    #endregion Vote Related Methods
+
     #endregion Relational Methods
+
+
+    #region Relational Business Logic Methods
+
+    private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId, IHashIdService hashIdService)
+    {
+        var hashUserId = hashIdService.Hash(userId);
+        if (votes.Any(v => v.HashedId == hashUserId))
+            throw new ArgumentException("User has already voted for this feedback.");
+    }
+
+    private void AssureStatusIsNotSolved()
+    {
+        if (Status == FeedbackStatus.Solved)
+            throw new ArgumentException("Evalueringen er allerede løst.");
+    }
+
+    #endregion Relational Business Logic Methods
 }

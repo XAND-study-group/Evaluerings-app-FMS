@@ -4,13 +4,13 @@ namespace Module.Feedback.Domain.ValueObjects;
 
 public record HashedId
 {
-    public string Value { get; set; }
+    public string Value { get; init; }
 
-    private HashedId(string hashedValue)
+    private HashedId(string value)
     {
-        Value = hashedValue;
+        Value = value;
     }
-
+    
     public static HashedId Create(Guid value, IHashIdService hashIdService)
     {
         var hashedValue = hashIdService.Hash(value);

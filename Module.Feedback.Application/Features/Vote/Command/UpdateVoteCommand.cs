@@ -16,10 +16,10 @@ public class UpdateVoteCommandHandler(IVoteRepository voteRepository) : IRequest
         {
             // Load
             var updateVoteRequest = request.UpdateVoteRequest;
-            var vote = await voteRepository.GetVoteByIdAsync(updateVoteRequest.VoteId);
+            var feedback = await voteRepository.GetFeedbackByIdAsync(updateVoteRequest.FeedbackId);
 
             // Do
-            vote.Update(updateVoteRequest.VoteScale);
+            var vote = feedback.UpdateVote(updateVoteRequest.VoteId, updateVoteRequest.VoteScale);
 
             // Save
             await voteRepository.UpdateVoteAsync(vote, updateVoteRequest.RowVersion);

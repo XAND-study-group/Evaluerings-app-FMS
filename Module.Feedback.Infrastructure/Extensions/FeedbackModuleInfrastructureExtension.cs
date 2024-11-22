@@ -19,7 +19,7 @@ public static class FeedbackModuleInfrastructureExtension
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 optionsBuilder =>
                 {
-                    optionsBuilder.MigrationsAssembly("Module.Semester.Infrastructure");
+                    optionsBuilder.MigrationsAssembly("Module.Feedback.Infrastructure");
                     optionsBuilder.EnableRetryOnFailure();
                 }));
 

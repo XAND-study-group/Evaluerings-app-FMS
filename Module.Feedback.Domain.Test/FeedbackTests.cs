@@ -26,7 +26,7 @@ public class FeedbackTests
         mockHashIdService.Setup(h => h.Hash(guid)).Returns("FakeHashId");
 
         // Act
-        var feedback = await room.AddFeedbackAsync(guid, title, problem, solution, mockHashIdService.Object,
+        var feedback = await Feedback.CreateAsync(guid, title, problem, solution, room, mockHashIdService.Object,
             mockFeedbackService.Object);
 
         // Assert

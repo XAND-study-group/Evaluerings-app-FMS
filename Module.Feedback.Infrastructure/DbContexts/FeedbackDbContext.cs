@@ -34,8 +34,9 @@ public class FeedbackDbContext : DbContext, IFeedbackDbContext
             .ComplexProperty(r => r.Description);
 
         #endregion Room OnModelCreating Configuration
-        
+
         #region Feedback OnModelCreating Configuration
+
         modelBuilder.Entity<Domain.Feedback>()
             .Property(r => r.Id)
             .ValueGeneratedOnAdd();
@@ -51,9 +52,36 @@ public class FeedbackDbContext : DbContext, IFeedbackDbContext
         modelBuilder.Entity<Domain.Feedback>()
             .ComplexProperty(f => f.HashedId);
         modelBuilder.Entity<Domain.Feedback>()
-            .Property(f => f.CreatedDateTime)
+            .Property(f => f.Created)
             .ValueGeneratedOnAdd();
 
         #endregion Feedback OnModelCreating Configuration
+
+        #region Vote OnModelCreating Configuration
+        modelBuilder.Entity<Vote>()
+            .Property(v => v.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Vote>()
+            .Property(v => v.RowVersion)
+            .IsRowVersion();
+        modelBuilder.Entity<Vote>()
+            .ComplexProperty(v => v.HashedId);
+
+        #endregion Vote OnModelCreating Configuration
+        
+        #region Comment OnModelCreating Configuration
+        modelBuilder.Entity<Comment>()
+            .Property(v => v.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Comment>()
+            .Property(v => v.RowVersion)
+            .IsRowVersion();
+        modelBuilder.Entity<Comment>()
+            .ComplexProperty(c => c.CommentText);
+        modelBuilder.Entity<Comment>()
+            .Property(c => c.Created)
+            .ValueGeneratedOnAdd();
+
+        #endregion Comment OnModelCreating Configuration
     }
 }

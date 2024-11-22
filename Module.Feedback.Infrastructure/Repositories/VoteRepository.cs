@@ -7,11 +7,8 @@ namespace Module.Feedback.Infrastructure.Repositories;
 
 public class VoteRepository(FeedbackDbContext feedbackDbContext) : IVoteRepository
 {
-    async Task<Room> IVoteRepository.GetRoomByIdAsync(Guid roomId)
-    => await feedbackDbContext.Rooms.SingleAsync(r => r.Id == roomId);
-
-    async Task<Vote> IVoteRepository.GetVoteByIdAsync(Guid voteId)
-    => await feedbackDbContext.Votes.SingleAsync(v => v.Id == voteId);
+    async Task<Domain.Feedback> IVoteRepository.GetFeedbackByIdAsync(Guid feedbackId)
+    => await feedbackDbContext.Feedbacks.SingleAsync(f => f.Id == feedbackId);
 
     async Task IVoteRepository.CreateVoteAsync(Vote vote)
     {

@@ -35,18 +35,18 @@ public class RoomTests
     {
         // Act
         roomToUpdate.Update(expectedTitle, roomToUpdate.Description);
-        
+
         // Assert
         Assert.Equal(expectedTitle, roomToUpdate.Title);
     }
-    
+
     [Theory]
     [MemberData(nameof(ValidDescriptionUpdateData))]
     public void Given_Valid_Description_Then_Update_Success(FakeRoom roomToUpdate, string expectedDescription)
     {
         // Act
         roomToUpdate.Update(roomToUpdate.Title, expectedDescription);
-        
+
         // Assert
         Assert.Equal(expectedDescription, roomToUpdate.Description);
     }
@@ -58,7 +58,7 @@ public class RoomTests
         // Arrange
         var expectedTitle = roomToUpdate.Title;
         var expectedDescription = roomToUpdate.Description;
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => roomToUpdate.Update(title, description));
         Assert.Equal(roomToUpdate.Title, expectedTitle);
@@ -174,30 +174,6 @@ public class RoomTests
     }
 
     #endregion Description Tests
-    
-    #region AddFeedback Tests
-
-    [Theory]
-    [MemberData(nameof(ValidFeedbackData))]
-    public async Task Given_Valid_Feedback_Then_List_Count_Increased(Guid userId, string title, string problem, string solution)
-    {
-        // Arrange
-        var mockFeedbackService = new Mock<IValidationServiceProxy>();
-        mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(title,problem, solution)).ReturnsAsync(new GeminiResponse(true,""));
-
-        var mockHashIdService = new Mock<IHashIdService>();
-        mockHashIdService.Setup(h => h.Hash(userId)).Returns("FakeHashId");
-        
-        var room = new FakeRoom();
-        var expectedCount = 1;
-        
-        // Act
-        await room.AddFeedbackAsync(userId, title, problem, solution, mockHashIdService.Object, mockFeedbackService.Object);
-        
-        // Assert
-        Assert.Equal(expectedCount, room.Feedbacks.Count);
-    }
-    #endregion AddFeedback Tests
 
     #endregion Tests
 
@@ -211,7 +187,7 @@ public class RoomTests
             "AnotherValidTitle"
         };
     }
-    
+
     public static IEnumerable<object[]> ValidDescriptionUpdateData()
     {
         yield return new object[]
@@ -220,7 +196,7 @@ public class RoomTests
             "AnotherValidDescription"
         };
     }
-    
+
     public static IEnumerable<object[]> InvalidUpdateData()
     {
         yield return new object[]
@@ -229,7 +205,7 @@ public class RoomTests
             " ",
             "ValidDescription"
         };
-        
+
         yield return new object[]
         {
             new FakeRoom("ValidTitle", "ValidDescription"),
