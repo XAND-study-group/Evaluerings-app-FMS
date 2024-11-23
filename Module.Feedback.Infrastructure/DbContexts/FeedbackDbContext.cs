@@ -4,19 +4,12 @@ using Module.Feedback.Domain;
 
 namespace Module.Feedback.Infrastructure.DbContexts;
 
-public class FeedbackDbContext : DbContext, IFeedbackDbContext
+public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : DbContext(options), IFeedbackDbContext
 {
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Domain.Feedback> Feedbacks { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Vote> Votes { get; set; }
-
-    public FeedbackDbContext(DbContextOptions<FeedbackDbContext> options)
-        : base(options)
-    {
-    }
-
-    //protected override string ConnectionString { get; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

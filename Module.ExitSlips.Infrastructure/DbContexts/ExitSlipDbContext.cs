@@ -1,26 +1,16 @@
-﻿using Evaluering.Module.Shared.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
 using SharedKernel.ValueObjects;
-using System.Runtime.ConstrainedExecution;
-
 
 namespace Module.ExitSlip.Infrastructure.DbContexts;
 
-public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
+public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : DbContext(options), IExitSlipDbContext
 {
     public DbSet<Domain.Entities.ExitSlip> ExitSlips { get; set; }
 
     public DbSet<Question> Questions { get; set; }
 
-
-    public ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options)
-        : base(options)
-    {
-    }
-
-    protected override string ConnectionString { get; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
