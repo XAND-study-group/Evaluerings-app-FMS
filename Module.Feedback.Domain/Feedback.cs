@@ -80,8 +80,9 @@ public class Feedback : Entity
     public async Task<Comment> AddComment(Guid userId, string commentText,
         IValidationServiceProxy validationServiceProxy)
     {
+        AssureStatusIsNotSolved();
+        
         var comment = await Comment.CreateAsync(userId, commentText, validationServiceProxy);
-
         _comments.Add(comment);
 
         return comment;
@@ -110,6 +111,7 @@ public class Feedback : Entity
     public Vote AddVote(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
     {
         AssureNoExistingVoteFromUser(_votes, userId, hashIdService);
+        AssureStatusIsNotSolved();
 
         var vote = Vote.Create(userId, voteScale, hashIdService);
 
@@ -130,7 +132,6 @@ public class Feedback : Entity
         AssureStatusIsNotSolved();
 
         var vote = GetVoteById(voteId);
-
         vote.Update(voteScale);
 
         return vote;

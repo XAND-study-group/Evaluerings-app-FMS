@@ -1,6 +1,4 @@
-﻿using Module.Feedback.Domain.DomainServices.Interfaces;
-using SharedKernel.Enums.Features.Vote;
-using SharedKernel.ValueObjects;
+﻿using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
 
@@ -44,10 +42,21 @@ public class Room : Entity
 
     #region Relational Methods
 
-    public async Task AddClassIdAsync(Guid classId)
+    public void AddClassIdAsync(Guid classId)
     {
+        AssureNoDuplicateClassIds(classId, _classIds);
         _classIds.Add(classId);
     }
 
     #endregion Relational Methods
+
+    #region Relational Business Logic Methods
+
+    protected void AssureNoDuplicateClassIds(Guid classId, IEnumerable<Guid> currentClassIds)
+    {
+        if (currentClassIds.Any(cId => cId == classId))
+            throw new ArgumentException("Klasse er allerede tilføjet til forum");
+    }
+
+    #endregion Relational Business Logic Methods
 }
