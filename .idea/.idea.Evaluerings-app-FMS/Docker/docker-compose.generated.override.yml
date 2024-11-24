@@ -1,0 +1,40 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  evaluation.api:
+    build:
+      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      dockerfile: "Evaluering.API/Dockerfile"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Evaluering.API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "evaluation.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\Evaluering.API:/app:rw"
+    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\Oetho\\AppData\\Roaming\\Microsoft\\UserSecrets:/home/app/.microsoft/usersecrets"
+    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  school.api:
+    build:
+      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      dockerfile: "School.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/School.API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "school.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\School.API:/app:rw"
+    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
