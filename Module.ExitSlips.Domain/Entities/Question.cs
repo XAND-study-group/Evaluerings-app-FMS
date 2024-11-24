@@ -4,53 +4,79 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharedKernel.Enums.Features.Evaluering.ExitSlip;
+using SharedKernel.ValueObjects;
 
 namespace Module.ExitSlip.Domain.Entities
 {
     public class Question : Entity
     {
-        public string Text { get; protected set; }
+        #region Properties
+
+        public Text Text { get; protected set; }
         private readonly List<Answer> _answers = new();
         public IReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
 
-        public Question(string text)
+        #endregion
+
+        #region Constructors
+
+        public Question(Guid exitSlipId, string text)
         {
             Text = text;
         }
 
-        public void AddAnswer(Answer answer)
-        {
-            if (answer == null)
-            {
-                throw new ArgumentNullException(nameof(answer), "Answer cannot be null.");
-            }
+        public static Question Create(Guid exitSlipId, string text)
+            => new Question(exitSlipId, text);
 
+        #endregion
+
+        #region Methods
+
+        #region AnswerHandling
+
+        public void AddAnswer(string text)
+        {
+            var answer = Answer.Create(Id, text);
             _answers.Add(answer);
         }
 
-        public void RemoveAnswer(Answer answer)
+        public void UpdateAnswer(Guid answerId, string newText)
         {
-            if (answer == null)
-            {
-                throw new ArgumentNullException(nameof(answer), "Answer cannot be null.");
-            }
+            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
+            if (answer is null)
+                throw new InvalidOperationException("Svar ikke fundet");
+            answer.UpdateAnswer(newText);
+        }
 
+        public Answer GetAnswerById(Guid answerId)
+        {
+            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
+            if (answer is null)
+                throw new InvalidOperationException("Svar ikke fundet");
+            return answer;
+        }
+
+        public void RemoveAnswer(Guid answerId)
+        {
+            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
+            if (answer is null)
+                throw new InvalidOperationException("Svar ikke fundet");
             _answers.Remove(answer);
         }
 
-        public void ClearAnswers()
-        {
-            _answers.Clear();
-        }
+        #endregion
 
-        public void UpdateText(string newText)
-        {
-            if (string.IsNullOrWhiteSpace(newText))
-            {
-                throw new ArgumentException("Question text cannot be null or empty.", nameof(newText));
-            }
+        #region QuestionHandling
 
+        public void UpdateQuestion(string newText)
+        {
             Text = newText;
         }
+
+        #endregion
+
+        #endregion
     }
 }
+
