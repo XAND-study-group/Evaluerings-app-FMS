@@ -3,6 +3,7 @@ using ArchUnitNET.Fluent;
 using ArchUnitNET.Loader;
 using ArchUnitNET.xUnit;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Application.Features.Room.Command;
 using Module.Feedback.Endpoints.Room;
@@ -68,6 +69,9 @@ public class ModuleFeedbackArchitectureTests
 
     private readonly IObjectProvider<Class> _domainClasses =
         Classes().That().AreAssignableTo(typeof(Entity)).As("Domain Classes");
+    
+    private readonly IObjectProvider<Class> _dbContextClasses =
+        Classes().That().AreAssignableTo(typeof(DbContext)).As("DbContext Classes");
 
     #endregion Classes & Interfaces Setup
 
@@ -169,5 +173,14 @@ public class ModuleFeedbackArchitectureTests
             Classes().That().Are(_domainClasses).Should().Be(_domainLayer);
 
         domainClassesShouldBeInDomainLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void DbContextClassesShouldBeInInfrastructureLayer()
+    {
+        IArchRule dbContextClassesShouldBeInInfrastructureLayer =
+            Classes().That().Are(_dbContextClasses).Should().Be(_infrastructureLayer);
+        
+        dbContextClassesShouldBeInInfrastructureLayer.Check(Architecture);
     }
 }
