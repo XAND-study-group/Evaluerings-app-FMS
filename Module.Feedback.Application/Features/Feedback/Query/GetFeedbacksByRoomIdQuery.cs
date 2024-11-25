@@ -4,4 +4,4 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Application.Features.Feedback.Query;
 
-public record GetFeedbacksByRoomIdQuery(GetFeedbacksByRoomIdRequest GetFeedbacksByRoomIdRequest) : IRequest<Result<IEnumerable<GetAllFeedbacksResponse>?>>;
+public record GetFeedbacksByRoomIdQuery(Guid RoomId) : IRequest<Result<IEnumerable<GetAllFeedbacksResponse>?>>;

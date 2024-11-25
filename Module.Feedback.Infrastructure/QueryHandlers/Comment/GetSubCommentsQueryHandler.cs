@@ -29,13 +29,10 @@ public class GetSubCommentsQueryHandler : IRequestHandler<GetSubCommentsQuery, R
     {
         try
         {
-            // Load
-            var getSubCommentsRequest = request.GetSubCommentsRequest;
-
             // Get
             var comments = await _feedbackDbContext.Comments
                 .AsNoTracking()
-                .Where(c => c.Id == getSubCommentsRequest.CommentId)
+                .Where(c => c.Id == request.CommentId)
                 .Select(c => c.SubComments)
                 .ProjectTo<GetCommentResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);

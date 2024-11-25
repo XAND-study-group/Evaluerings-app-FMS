@@ -14,9 +14,9 @@ public class GetFeedbacksByRoomId : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapGet("/Room/AllFeedbacks",
-                async ([FromBody] GetFeedbacksByRoomIdRequest request, [FromServices] IMediator mediator) =>
-                (await mediator.Send(new GetFeedbacksByRoomIdQuery(request))).ReturnHttpResult())
+        app.MapGet("/Room/{roomId:guid}/AllFeedbacks",
+                async (Guid roomId, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new GetFeedbacksByRoomIdQuery(roomId))).ReturnHttpResult())
             .WithTags("Feedback")
             .RequireAuthorization("ReadFeedback");
     }

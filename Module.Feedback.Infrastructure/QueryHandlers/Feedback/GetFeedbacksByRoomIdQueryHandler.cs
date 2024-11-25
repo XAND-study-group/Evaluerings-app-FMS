@@ -34,7 +34,7 @@ public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRo
         {
             var feedbacks = await _feedbackDbContext.Feedbacks
                 .Include(f => f.Room)
-                .Where(f => f.Room.Id == request.GetFeedbacksByRoomIdRequest.RoomId)
+                .Where(f => f.Room.Id == request.RoomId)
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
