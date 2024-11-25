@@ -24,8 +24,8 @@ public class ModuleFeedbackArchitectureTests
 
     #region Layer Setup
 
-    private readonly IObjectProvider<IType> _endpointLayer =
-        Types().That().ResideInAssembly(typeof(CreateRoom).Assembly).As("Endpoint Layer");
+    private readonly IObjectProvider<IType> _presentationLayer =
+        Types().That().ResideInAssembly(typeof(CreateRoom).Assembly).As("Presentation Layer");
 
     private readonly IObjectProvider<IType> _applicationLayer =
         Types().That().ResideInAssembly(typeof(CreateRoomCommand).Assembly).As("Application Layer");
@@ -61,6 +61,9 @@ public class ModuleFeedbackArchitectureTests
     private readonly IObjectProvider<Class> _queryHandlerClasses =
         Classes().That().HaveNameEndingWith("QueryHandler").As("QueryHandler Classes");
 
+    private readonly IObjectProvider<Class> _iRequestHandlerClasses =
+        Classes().That().ImplementInterface(typeof(IRequestHandler<,>)).As("IRequestHandler Classes");
+
     private readonly IObjectProvider<Class> _repositoryInterfaces =
         Classes().That().ImplementInterface(typeof(IRoomRepository))
             .Or().ImplementInterface(typeof(IFeedbackRepository))
@@ -76,12 +79,12 @@ public class ModuleFeedbackArchitectureTests
     #endregion Classes & Interfaces Setup
 
     [Fact]
-    public void EndpointClassesShouldBeInEndpointLayer()
+    public void EndpointClassesShouldBeInPresentationLayer()
     {
-        IArchRule endpointClassesShouldBeInEndpointLayer =
-            Classes().That().Are(_endpointClasses).Should().Be(_endpointLayer);
+        IArchRule endpointClassesShouldBeInPresentationLayer =
+            Classes().That().Are(_endpointClasses).Should().Be(_presentationLayer);
 
-        endpointClassesShouldBeInEndpointLayer.Check(Architecture);
+        endpointClassesShouldBeInPresentationLayer.Check(Architecture);
     }
 
     [Fact]
@@ -182,5 +185,14 @@ public class ModuleFeedbackArchitectureTests
             Classes().That().Are(_dbContextClasses).Should().Be(_infrastructureLayer);
         
         dbContextClassesShouldBeInInfrastructureLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void IRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer()
+    {
+        IArchRule iRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer =
+            Classes().That().Are(_iRequestHandlerClasses).Should().Be(_applicationLayer).OrShould().Be(_infrastructureLayer);
+        
+        iRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer.Check(Architecture);
     }
 }
