@@ -14,7 +14,8 @@ public class CreateComment : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPost("/Room/Feedback/CreateComment",
+        app.MapPost(configuration["Routes:FeedbackModule:Comment:CreateComment"] ??
+                throw new Exception("Route is not added to config file"),
                 async ([FromBody] CreateCommentRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new CreateCommentCommand(request))).ReturnHttpResult())
             .WithTags("Comment")

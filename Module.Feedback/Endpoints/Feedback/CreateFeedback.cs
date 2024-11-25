@@ -14,7 +14,8 @@ public class CreateFeedback : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPost("/Room/Feedback",
+        app.MapPost(configuration["Routes:FeedbackModule:Feedback:CreateFeedback"] ??
+                throw new Exception("Route is not added to config file"),
                 async ([FromBody] CreateFeedbackRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new CreateFeedbackCommand(request))).ReturnHttpResult())
             .WithTags("Feedback")

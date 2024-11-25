@@ -14,7 +14,8 @@ public class CreateVote : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPost("/Room/Feedback/CreateVote",
+        app.MapPost(configuration["Routes:FeedbackModule:Vote:CreateVote"] ??
+                throw new Exception("Route is not added to config file"),
             async ([FromBody] CreateVoteRequest request, [FromServices] IMediator mediator) =>
             (await mediator.Send(new CreateVoteCommand(request))).ReturnHttpResult())
             .WithTags("Vote")

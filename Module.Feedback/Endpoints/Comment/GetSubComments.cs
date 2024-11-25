@@ -13,7 +13,8 @@ public class GetSubComments : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapGet("/Room/Feedback/Comment/{commentId:guid}/SubComments",
+        app.MapGet(configuration["Routes:FeedbackModule:Comment:GetSubComments"] ??
+                throw new Exception("Route is not added to config file"),
                 async (Guid commentId, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetSubCommentsQuery(commentId))).ReturnHttpResult())
             .WithTags("Comment")

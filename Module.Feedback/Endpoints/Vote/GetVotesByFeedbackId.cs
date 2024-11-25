@@ -13,7 +13,8 @@ public class GetVotesByFeedbackId : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapGet("/Room/Feedback/{feedbackId:guid}/Votes",
+        app.MapGet(configuration["Routes:FeedbackModule:Vote:GetVotesByFeedbackId"] ??
+                throw new Exception("Route is not added to config file"),
                 async (Guid feedbackId, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetVotesByFeedbackIdQuery(feedbackId))).ReturnHttpResult())
             .WithTags("Vote")

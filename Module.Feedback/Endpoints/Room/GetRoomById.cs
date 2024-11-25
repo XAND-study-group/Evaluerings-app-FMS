@@ -13,7 +13,8 @@ public class GetRoomById : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapGet("/Room/{roomId:guid}",
+        app.MapGet(configuration["Routes:FeedbackModule:Room:GetRoomById"] ??
+                throw new Exception("Route is not added to config file"),
             async (Guid roomId, [FromServices] IMediator mediator) =>
             (await mediator.Send(new GetRoomByIdQuery(roomId))).ReturnHttpResult())
             .WithTags("Room")

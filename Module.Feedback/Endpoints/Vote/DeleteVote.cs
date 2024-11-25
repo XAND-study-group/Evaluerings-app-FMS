@@ -14,7 +14,8 @@ public class DeleteVote : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapDelete("/Room/Feedback/DeleteVote",
+        app.MapDelete(configuration["Routes:FeedbackModule:Vote:DeleteVote"] ??
+                throw new Exception("Route is not added to config file"),
             async ([FromBody] DeleteVoteRequest deleteVoteRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new DeleteVoteCommand(deleteVoteRequest))).ReturnHttpResult())
             .WithTags("Vote")

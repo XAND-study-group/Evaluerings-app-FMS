@@ -14,7 +14,8 @@ public class DeleteFeedback : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapDelete("/Room/Feedback",
+        app.MapDelete(configuration["Routes:FeedbackModule:Feedback:DeleteFeedback"] ??
+                throw new Exception("Route is not added to config file"),
             async ([FromBody] DeleteFeedbackRequest deleteFeedbackRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new DeleteFeedbackCommand(deleteFeedbackRequest))).ReturnHttpResult())
             .WithTags("Feedback")
