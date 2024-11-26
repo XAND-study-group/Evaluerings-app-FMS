@@ -13,6 +13,7 @@ namespace Module.ExitSlip.Application.Abstractions
 
         Task<Domain.Entities.ExitSlip> GetExitSlipByIdAsync(Guid exitSlipId);
         Task<Domain.Entities.Question> GetQuestionByIdAsync(Guid questionId);
+        Task<Domain.Entities.ExitSlip> GetExitSlipByQuestionIdAsync(Guid questionId);
 
         Task UpdateAnswerAsync(Answer answer, byte[] rowVersion);
         Task CreateAnswerAsync(Answer answer);

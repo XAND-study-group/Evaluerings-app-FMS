@@ -60,6 +60,10 @@ namespace Module.ExitSlip.Domain.Entities
                 throw new InvalidOperationException("Svar ikke fundet");
             _answers.Remove(answer);
         }
+        public void DeleteAllAnswers()
+        {
+            _answers.Clear();
+        }
 
         #endregion
 

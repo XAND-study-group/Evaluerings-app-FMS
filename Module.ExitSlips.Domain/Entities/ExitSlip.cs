@@ -64,6 +64,7 @@ namespace Module.ExitSlip.Domain.Entities
             if (question is null)
                 throw new InvalidOperationException("Spørgsmål ikke fundet.");
 
+            question.DeleteAllAnswers();
             _questions.Remove(question);
         }
 
