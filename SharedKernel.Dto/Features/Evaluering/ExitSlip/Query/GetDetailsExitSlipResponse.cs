@@ -14,6 +14,5 @@ namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query
         string Title,
         int MaxQuestioncount,
         ExitSlipActiveStatus ActiveStatus,
-        IEnumerable<GetSimpleQuestionsResponse> Questions,
-        IEnumerable<GetSimpleAnswerResponse> Answers);
+        IEnumerable<GetSimpleQuestionsResponse> Questions);
 }
