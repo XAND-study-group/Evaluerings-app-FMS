@@ -1,11 +1,6 @@
 ﻿using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 using SharedKernel.Models;
 using SharedKernel.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Domain.Entities
 {
@@ -55,7 +50,7 @@ namespace Module.ExitSlip.Domain.Entities
             if (_questions.Count >= MaxQuestionCount)
                 throw new InvalidOperationException("Kan ikke tilføje flere spørgsmål end det maksimalt tilladte.");
 
-            var question = Question.Create(Id, text);
+            var question = Question.Create(text);
             _questions.Add(question);
         }
 

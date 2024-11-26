@@ -11,7 +11,7 @@ public class AnswerTests
     #region Command Tests
 
     [Theory]
-    [MemberData(nameof(Valid_Input_TestData))]
+    [MemberData(nameof(Valid_Create_Data))]
     public void Given_Valid_Data_Then_Create_Success(string text)
     {
         // Act
@@ -37,7 +37,7 @@ public class AnswerTests
     #region Text Tests
 
     [Theory]
-    [MemberData(nameof(Invalid_Input_TestData))]
+    [MemberData(nameof(Invalid_Text_Data))]
     public void Given_Invalid_Text_Data_Then_Throw_ArgumentException(string? text)
     {
         // Arrange
@@ -53,14 +53,14 @@ public class AnswerTests
 
     #region MemberData Methods
 
-    public static IEnumerable<object[]> Valid_Input_TestData()
+    public static IEnumerable<object[]> Valid_Create_Data()
     {
         yield return ["ValidText"];
         yield return ["V"];
         yield return [new string('x', 500)];
     }
 
-    public static IEnumerable<object[]> Invalid_Input_TestData()
+    public static IEnumerable<object[]> Invalid_Text_Data()
     {
         yield return [" "];
         yield return [null!];

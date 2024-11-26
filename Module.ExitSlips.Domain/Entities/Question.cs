@@ -21,13 +21,14 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region Constructors
 
-        public Question(Guid exitSlipId, string text)
+        protected Question(){}
+        private Question(string text)
         {
             Text = text;
         }
 
-        public static Question Create(Guid exitSlipId, string text)
-            => new Question(exitSlipId, text);
+        public static Question Create(string text)
+            => new(text);
 
         #endregion
 
