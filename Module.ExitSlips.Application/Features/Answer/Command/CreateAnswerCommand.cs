@@ -11,12 +11,10 @@ public record CreateAnswerCommand(CreateAnswerRequest createAnswerRequest) : IRe
 public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, Result<bool>>
 {
     private readonly IExitSlipRepository _exitSlipRepository;
-
     public CreateAnswerCommandHandler(IExitSlipRepository exitSlipRepository)
     {
         _exitSlipRepository = exitSlipRepository;
     }
-
     public async Task<Result<bool>> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
     {
         try

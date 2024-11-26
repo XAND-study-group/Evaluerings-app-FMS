@@ -27,14 +27,11 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
 
         public async Task<Result<IEnumerable<GetSimpleAnswerResponse>>> Handle(GetAllAnswersForQuestionIdQuery query, CancellationToken cancellationToken)
         {
-            var answers = (await _dbContext.Questions
+            var answers = (await _exitSlipDbContext.Questions
                 .Include(q => q.Answers)
                 .SingleAsync(q => q.Id == query.QuestionId)).Answers;
             if (answers == null)
-            {
-                return Result<IEnumerable<GetSimpleAnswerResponse>>.Create(
-                    "Ingen svar blev fundet udfra det gældende spørgsmål", null, ResultStatus.Error);
-            }
+                return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Ingen svar blev fundet udfra det gældende spørgsmål", null, ResultStatus.Error);
 
             var response = _mapper.Map<IEnumerable<GetSimpleAnswerResponse>>(answers);
             return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Success", response, ResultStatus.Success);

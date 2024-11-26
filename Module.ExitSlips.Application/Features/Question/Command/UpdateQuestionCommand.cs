@@ -22,7 +22,6 @@ public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionComman
     {
         _exitSlipRepository = exitSlipRepository;
     }
-
     public async Task<Result<bool>> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
     {
         try

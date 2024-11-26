@@ -16,7 +16,6 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
     {
         _exitSlipRepository = exitSlipRepository;
     }
-
     public async Task<Result<bool>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
     {
         try

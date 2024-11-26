@@ -14,37 +14,6 @@ public class ExitSlipDbContext : EvalueringDbContext, IExitSlipDbContext
 
     public DbSet<Question> Questions { get; set; }
     public DbSet<Answer> Answers { get; set; }
-    public async Task<IEnumerable<Answer>> GetAnswersByQuestionId(Guid questionId)
-    {
-
-        var question = Questions.Single(q => q.Id == questionId);
-
-        if (question is null)
-            throw new InvalidOperationException("Spørgsmål blev ikke fundet");
-
-        return question.Answers;
-    }
-
-    public async Task<IEnumerable<Answer>> GetAnswerByUserId(Guid userId)
-    {
-        var answers = Answers.Where(a => a.UserId == userId);
-        if (answers is null)
-            throw new InvalidOperationException("Svar blev ikke fundet");
-
-        return answers;
-    }
-
-    public async Task<IEnumerable<Question>> GetQuestionsByExitSlipId(Guid exitSlipId)
-    {
-        var exitSlip = await ExitSlips.Include(e => e.Questions)
-            .SingleOrDefaultAsync(e => e.Id == exitSlipId);
-
-        if (exitSlip is null)
-            throw new InvalidOperationException("Exitslip blev ikke fundet");
-
-        return exitSlip.Questions;
-    }
-
 
     public ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options)
         : base(options)

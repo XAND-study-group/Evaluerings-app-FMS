@@ -22,7 +22,6 @@ public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionComman
     {
         _exitSlipRepository = exitSlipRepository;
     }
-
     public async Task<Result<bool>> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
     {
         try

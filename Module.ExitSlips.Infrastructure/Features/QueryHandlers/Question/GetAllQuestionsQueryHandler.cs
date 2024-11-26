@@ -7,23 +7,31 @@ using SharedKernel.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
 {
     public class GetAllQuestionsQueryHandler : IRequestHandler<GetAllQuestionsQuery, Result<IEnumerable<GetSimpleQuestionsResponse>>>
     {
-        private readonly IQuestionRepository _questionRepository;
+        private readonly IExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
 
-        public GetAllQuestionsQueryHandler(IQuestionRepository questionRepository, IMapper mapper)
+        public GetAllQuestionsQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
-            _questionRepository = questionRepository;
+            _exitSlipDbContext = exitSlipDbContext;
             _mapper = mapper;
         }
 
         public async Task<Result<IEnumerable<GetSimpleQuestionsResponse>>> Handle(GetAllQuestionsQuery query, CancellationToken cancellationToken)
         {
-            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("response", [], ResultStatus.Error);
+            var questions= await _exitSlipDbContext.Questions
+                .ToListAsync(cancellationToken);
+
+            if(questions is null)
+                return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Ingen spørgsmål blev fundet", null, ResultStatus.Error);
+            
+            var response = _mapper.Map<IEnumerable<GetSimpleQuestionsResponse>>(questions);
+            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Success", response, ResultStatus.Success);
         }
     }
 }
