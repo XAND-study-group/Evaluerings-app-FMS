@@ -83,20 +83,11 @@ namespace Module.ExitSlip.Domain.Entities
             question.UpdateQuestion(newText);
         }
 
-        public Question GetQuestionById(Guid questionId)
-        {
-            var question = _questions.FirstOrDefault(q => q.Id == questionId);
-            if (question is null)
-                throw new InvalidOperationException("Spørgsmål ikke fundet.");
-
-            return question;
-        }
-
         #endregion
 
         #region AnswerHandling
 
-        public void AddAnswer(Guid questionId, string text)
+        public Answer AddAnswer(Guid questionId,Guid exitslipId, string text)
         {
             if (ActiveStatus == ExitSlipActiveStatus.Inactive)
                 throw new InvalidOperationException("Kan ikke tilføje svar til en inaktiv ExitSlip.");
@@ -105,19 +96,19 @@ namespace Module.ExitSlip.Domain.Entities
             if (question is null)
                 throw new InvalidOperationException("Spørgsmål ikke fundet.");
 
-            question.AddAnswer(text);
+            var answer= question.AddAnswer(text);
+            return answer;
         }
 
-        public void UpdateAnswer(Guid questionId, Guid answerId, string newText)
+        public Answer UpdateAnswer(Guid questionId, Guid answerId, string newText)
         {
             if (ActiveStatus == ExitSlipActiveStatus.Inactive)
                 throw new InvalidOperationException("Kan ikke opdatere svar i en inaktiv ExitSlip.");
 
-            var question = _questions.FirstOrDefault(q => q.Id == questionId);
-            if (question is null)
+            var question = _questions.FirstOrDefault(q => q.Id == questionId) ??
                 throw new InvalidOperationException("Spørgsmål ikke fundet.");
 
-            question.UpdateAnswer(answerId, newText);
+            return question.UpdateAnswer(answerId, newText);
         }
 
         #endregion

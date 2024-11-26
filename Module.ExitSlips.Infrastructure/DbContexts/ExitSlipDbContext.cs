@@ -13,6 +13,7 @@ public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
     public DbSet<Domain.Entities.ExitSlip> ExitSlips { get; set; }
 
     public DbSet<Question> Questions { get; set; }
+    public DbSet<Answer> Answers { get; set; }
 
 
     public ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options)

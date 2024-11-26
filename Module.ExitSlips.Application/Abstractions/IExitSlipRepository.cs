@@ -11,5 +11,8 @@ namespace Module.ExitSlip.Application.Abstractions
     {
         Task CreateExitSlipAsync(Domain.Entities.ExitSlip exitSlip);
 
+        Task<Domain.Entities.ExitSlip> GetExitSlipByIdAsync(Guid exitSlipId);
+
+        Task UpdateAnswerAsync(Answer answer, byte[] rowVersion);
     }
 }

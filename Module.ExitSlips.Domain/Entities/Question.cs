@@ -35,29 +35,22 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region AnswerHandling
 
-        public void AddAnswer(string text)
+        public Answer AddAnswer(string text)
         {
             var answer = Answer.Create(Id, text);
             _answers.Add(answer);
-        }
-
-        public void UpdateAnswer(Guid answerId, string newText)
-        {
-            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
-            if (answer is null)
-                throw new InvalidOperationException("Svar ikke fundet");
-            answer.UpdateAnswer(newText);
-        }
-
-        public Answer GetAnswerById(Guid answerId)
-        {
-            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
-            if (answer is null)
-                throw new InvalidOperationException("Svar ikke fundet");
             return answer;
         }
 
-        public void RemoveAnswer(Guid answerId)
+        public Answer UpdateAnswer(Guid answerId, string newText)
+        {
+            var answer = _answers.FirstOrDefault(a => a.Id == answerId) ??
+                throw new InvalidOperationException("Svar ikke fundet");
+            answer.UpdateAnswer(newText);
+            return answer;
+        }
+
+        public void DeleteAnswer(Guid answerId)
         {
             var answer = _answers.FirstOrDefault(a => a.Id == answerId);
             if (answer is null)

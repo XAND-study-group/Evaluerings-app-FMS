@@ -18,4 +18,8 @@
 	  <ProjectReference Include="..\Module.ExitSlips.Application\Module.ExitSlip.Application.csproj" />
 	  <ProjectReference Include="..\Module.ExitSlips.Domain\Module.ExitSlip.Domain.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Features\QueryHandlers\ExitSlip\" />
+	</ItemGroup>
 </Project>

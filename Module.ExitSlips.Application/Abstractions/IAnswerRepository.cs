@@ -7,10 +7,10 @@ using Module.ExitSlip.Domain.Entities;
 
 namespace Module.ExitSlip.Application.Abstractions
 {
-    public interface IQuestionRepository
+    public interface IAnswerRepository
     {
-        Task AddAsync(Question question);
-        Task UpdateAsync(Guid id, string newText);
+        Task AddAsync(Answer answer);
+        Task UpdateAsync(Answer answer);
         Task DeleteAsync(Guid id);
     }
 }

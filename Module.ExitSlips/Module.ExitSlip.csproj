@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\Exitslip\" />
+    <Folder Include="Endpoints\Question\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Module.ExitSlips.Application\Module.ExitSlip.Application.csproj" />
+    <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
+    <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>
