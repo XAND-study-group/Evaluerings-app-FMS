@@ -13,26 +13,26 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
 {
     public class GetQuestionsByExitSlipIdQueryHandler : IRequestHandler<GetQuestionsByExitSlipIdQuery, Result<IEnumerable<GetSimpleQuestionsResponse>>>
     {
-        private readonly IExitSlipRepository _exitSlipRepository;
+        private readonly IExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
 
-        public GetQuestionsByExitSlipIdQueryHandler(IExitSlipRepository exitSlipRepository, IMapper mapper)
+        public GetQuestionsByExitSlipIdQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
-            _exitSlipRepository = exitSlipRepository;
+            _exitSlipDbContext = exitSlipDbContext;
             _mapper = mapper;
         }
 
         public async Task<Result<IEnumerable<GetSimpleQuestionsResponse>>> Handle(GetQuestionsByExitSlipIdQuery query, CancellationToken cancellationToken)
         {
-            var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(query.ExitSlipId);
-            if (exitSlip == null)
+            var questions = await _exitSlipDbContext.GetQuestionsByExitSlipId(query.ExitSlipId);
+            if (questions == null)
             {
-                return Result<IEnumerable<GetSimpleQuestionsResponse>>.Failure("ExitSlip not found");
+                return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create(
+                    "Ingen spørgsmål blev fundet for det givne exitslip", null, ResultStatus.Error);
             }
 
-            var questions = exitSlip.Questions;
             var response = _mapper.Map<IEnumerable<GetSimpleQuestionsResponse>>(questions);
-            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Success(response);
+            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Succes", response, ResultStatus.Success);
         }
     }
 }

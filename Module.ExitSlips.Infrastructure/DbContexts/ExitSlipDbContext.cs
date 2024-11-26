@@ -8,7 +8,7 @@ using System.Runtime.ConstrainedExecution;
 
 namespace Module.ExitSlip.Infrastructure.DbContexts;
 
-public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
+public class ExitSlipDbContext : EvalueringDbContext, IExitSlipDbContext
 {
     public DbSet<Domain.Entities.ExitSlip> ExitSlips { get; set; }
 
@@ -19,7 +19,7 @@ public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
 
         var question = Questions.Single(q => q.Id == questionId);
 
-        if(question is null)
+        if (question is null)
             throw new InvalidOperationException("Spørgsmål blev ikke fundet");
 
         return question.Answers;
@@ -28,10 +28,21 @@ public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
     public async Task<IEnumerable<Answer>> GetAnswerByUserId(Guid userId)
     {
         var answers = Answers.Where(a => a.UserId == userId);
-        if(answers is null)
+        if (answers is null)
             throw new InvalidOperationException("Svar blev ikke fundet");
 
         return answers;
+    }
+
+    public async Task<IEnumerable<Question>> GetQuestionsByExitSlipId(Guid exitSlipId)
+    {
+        var exitSlip = await ExitSlips.Include(e => e.Questions)
+            .SingleOrDefaultAsync(e => e.Id == exitSlipId);
+
+        if (exitSlip is null)
+            throw new InvalidOperationException("Exitslip blev ikke fundet");
+
+        return exitSlip.Questions;
     }
 
 
