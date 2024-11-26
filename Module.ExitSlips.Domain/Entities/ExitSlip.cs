@@ -50,13 +50,14 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region QuestionHandling
 
-        public void AddQuestion(string text)
+        public Question AddQuestion(string text)
         {
             if (_questions.Count >= MaxQuestionCount)
                 throw new InvalidOperationException("Kan ikke tilføje flere spørgsmål end det maksimalt tilladte.");
 
             var question = Question.Create(Id, text);
             _questions.Add(question);
+            return question;
         }
 
         public void DeleteQuestion(Guid questionId)

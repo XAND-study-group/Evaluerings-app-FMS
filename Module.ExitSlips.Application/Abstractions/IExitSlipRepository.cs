@@ -16,5 +16,6 @@ namespace Module.ExitSlip.Application.Abstractions
         Task UpdateAnswerAsync(Answer answer, byte[] rowVersion);
         Task CreateAnswerAsync(Answer answer);
         Task UpdateQuestionAsync(Question question, byte[] rowVersion);
+        Task CreateQuestionAsync(Question question);
     }
 }
