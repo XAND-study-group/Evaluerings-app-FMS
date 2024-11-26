@@ -44,10 +44,10 @@ public class ModuleFeedbackArchitectureTests
         Classes().That().ImplementInterface(typeof(IEndpoint)).As("Endpoint Classes");
 
     private readonly IObjectProvider<Class> _transactionalClasses =
-        Classes().That().ImplementInterface(typeof(ITransactionalCommand)).As("Application Classes");
+        Classes().That().ImplementInterface(typeof(ITransactionalCommand)).As("Transactional Classes");
 
     private readonly IObjectProvider<Class> _commandRecords =
-        Classes().That().HaveNameEndingWith("Command").And().AreRecord().As("Command Records");
+        Classes().That().HaveNameEndingWith("Command").As("Command Records");
 
     private readonly IObjectProvider<Class> _iRequestRecords =
         Classes().That().ImplementInterface(typeof(IRequest<>)).And().AreRecord().As("IRequest Records");
@@ -102,7 +102,7 @@ public class ModuleFeedbackArchitectureTests
         IArchRule commandRecordsShouldBeInApplicationLayer =
             Classes().That().Are(_commandRecords).Should().Be(_applicationLayer);
         IArchRule commandRecordsShouldBeInImplementIRequest =
-            Classes().That().Are(_commandRecords).Should().ImplementInterface(typeof(IRequest<>));
+            Classes().That().Are(_commandRecords).Should().ImplementInterface(typeof(IRequest<>)).AndShould().BeRecord();
 
         var combineRules =
             commandRecordsShouldBeInApplicationLayer.And(commandRecordsShouldBeInImplementIRequest);
