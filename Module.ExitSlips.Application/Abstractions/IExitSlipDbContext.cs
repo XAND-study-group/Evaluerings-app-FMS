@@ -14,5 +14,7 @@ public interface IExitSlipDbContext
     public DbSet<Answer> Answers { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<Answer>> GetAnswersByQuestionId(Guid questionId);
+    Task<IEnumerable<Answer>> GetAnswerByUserId(Guid userId);
 }
 

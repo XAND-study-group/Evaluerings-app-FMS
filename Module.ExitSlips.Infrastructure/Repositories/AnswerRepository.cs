@@ -35,14 +35,10 @@ namespace Module.ExitSlip.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Guid id, string newText)
+        public async Task UpdateAsync(Answer answer)
         {
-            var answer = await GetByIdAsync(id);
-            if (answer != null)
-            {
-                _context.Answers.Update(answer);
-                await _context.SaveChangesAsync();
-            }
+            _context.Answers.Update(answer);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)

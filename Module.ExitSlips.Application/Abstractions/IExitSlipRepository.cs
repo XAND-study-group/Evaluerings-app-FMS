@@ -14,5 +14,7 @@ namespace Module.ExitSlip.Application.Abstractions
         Task<Domain.Entities.ExitSlip> GetExitSlipByIdAsync(Guid exitSlipId);
 
         Task UpdateAnswerAsync(Answer answer, byte[] rowVersion);
+        Task CreateAnswerAsync(Answer answer);
+        Task UpdateQuestionAsync(Question question, byte[] rowVersion);
     }
 }

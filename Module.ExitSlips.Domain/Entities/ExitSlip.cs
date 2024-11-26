@@ -71,7 +71,7 @@ namespace Module.ExitSlip.Domain.Entities
             _questions.Remove(question);
         }
 
-        public void UpdateQuestion(Guid questionId, string newText)
+        public Question UpdateQuestion(Guid questionId, string newText)
         {
             if (ActiveStatus != ExitSlipActiveStatus.Inactive)
                 throw new InvalidOperationException("Kan ikke redigere spørgsmål i en aktiv ExitSlip.");
@@ -81,13 +81,14 @@ namespace Module.ExitSlip.Domain.Entities
                 throw new InvalidOperationException("Spørgsmål ikke fundet.");
 
             question.UpdateQuestion(newText);
+            return question;
         }
 
         #endregion
 
         #region AnswerHandling
 
-        public Answer AddAnswer(Guid questionId,Guid exitslipId, string text)
+        public Answer AddAnswer(Guid userId, Guid questionId, Guid exitslipId, string text)
         {
             if (ActiveStatus == ExitSlipActiveStatus.Inactive)
                 throw new InvalidOperationException("Kan ikke tilføje svar til en inaktiv ExitSlip.");
@@ -96,11 +97,11 @@ namespace Module.ExitSlip.Domain.Entities
             if (question is null)
                 throw new InvalidOperationException("Spørgsmål ikke fundet.");
 
-            var answer= question.AddAnswer(text);
+            var answer = question.AddAnswer(text, userId);
             return answer;
         }
 
-        public Answer UpdateAnswer(Guid questionId, Guid answerId, string newText)
+        public Answer UpdateAnswer(Guid userId, Guid questionId, Guid answerId, string newText)
         {
             if (ActiveStatus == ExitSlipActiveStatus.Inactive)
                 throw new InvalidOperationException("Kan ikke opdatere svar i en inaktiv ExitSlip.");
@@ -108,7 +109,7 @@ namespace Module.ExitSlip.Domain.Entities
             var question = _questions.FirstOrDefault(q => q.Id == questionId) ??
                 throw new InvalidOperationException("Spørgsmål ikke fundet.");
 
-            return question.UpdateAnswer(answerId, newText);
+            return question.UpdateAnswer(userId, answerId, newText);
         }
 
         #endregion

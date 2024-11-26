@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace SharedKernel.Dto.Features.Evaluering.Answer.Command;
 
 public record UpdateAnswerRequest(
-    Guid AnswerId, 
+    Guid UserId,
     Guid QuestionId,
+    Guid AnswerId, 
     Guid ExitSlipId,
     string Text,
     byte[] RowVersion);

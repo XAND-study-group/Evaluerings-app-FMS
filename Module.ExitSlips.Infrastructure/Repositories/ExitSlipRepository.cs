@@ -32,5 +32,18 @@ public class ExitSlipRepository(ExitSlipDbContext _context) : IExitSlipRepositor
         _context.Answers.Update(answer);
         await _context.SaveChangesAsync();
     }
+
+    public async Task CreateAnswerAsync(Answer answer)
+    {
+        await _context.Answers.AddAsync(answer);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateQuestionAsync(Question question, byte[] rowVersion)
+    {
+        _context.Entry(question).Property(nameof(Question.RowVersion)).OriginalValue = rowVersion;
+        _context.Questions.Update(question);
+        await _context.SaveChangesAsync();
+    }
 }
 

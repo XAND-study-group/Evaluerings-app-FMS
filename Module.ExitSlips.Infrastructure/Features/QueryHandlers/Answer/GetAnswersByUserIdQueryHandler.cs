@@ -12,20 +12,20 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
 {
-    public class GetAllAnswersForQuestionIdQueryHandler : IRequestHandler<GetAllAnswersForQuestionIdQuery, Result<IEnumerable<GetSimpleAnswerResponse>>>
+    public class GetAnswersByUserIdQueryHandler : IRequestHandler<GetAnswersByUserIdQuery, Result<IEnumerable<GetSimpleAnswerResponse>>>
     {
-        private IExitSlipDbContext _exitSlipDbContext;
+        private readonly IExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
 
-        public GetAllAnswersForQuestionIdQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper)
+        public GetAnswersByUserIdQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
             _mapper = mapper;
         }
 
-        public async Task<Result<IEnumerable<GetSimpleAnswerResponse>>> Handle(GetAllAnswersForQuestionIdQuery query, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<GetSimpleAnswerResponse>>> Handle(GetAnswersByUserIdQuery query, CancellationToken cancellationToken)
         {
-            var answers = await _exitSlipDbContext.GetAnswersByQuestionId(query.QuestionId);
+            var answers = await _exitSlipDbContext.GetAnswerByUserId(query.UserId);
             if (answers == null)
             {
                 return Result<IEnumerable<GetSimpleAnswerResponse>>.Create(
@@ -34,6 +34,6 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
 
             var response = _mapper.Map<IEnumerable<GetSimpleAnswerResponse>>(answers);
             return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Success", response, ResultStatus.Success);
-        }
+        } 
     }
 }
