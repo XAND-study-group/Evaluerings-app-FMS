@@ -28,7 +28,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
                 return Result<bool>.Create("Exitslip blev ikke fundet", false, ResultStatus.Error);
 
             // Do
-            var question = exitSlip.AddQuestion(createQuestionRequest.Text);
+            var question = exitSlip.AddQuestion(createQuestionRequest.Text, createQuestionRequest.UserId);
 
             // Save
             await _exitSlipRepository.CreateQuestionAsync(question);

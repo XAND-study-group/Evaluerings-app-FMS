@@ -14,6 +14,7 @@ namespace Module.ExitSlip.Domain.Entities
         #region Properties
 
         public Text Text { get; protected set; }
+        public Guid UserId { get; protected set; }
         private readonly List<Answer> _answers = new();
         public IReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
 
@@ -21,13 +22,14 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region Constructors
 
-        public Question(Guid exitSlipId, string text)
+        public Question(Guid exitSlipId, string text, Guid userId)
         {
             Text = text;
+            UserId = userId;
         }
 
-        public static Question Create(Guid exitSlipId, string text)
-            => new Question(exitSlipId, text);
+        public static Question Create(Guid exitSlipId, string text, Guid userId)
+            => new Question(exitSlipId, text, userId);
 
         #endregion
 
@@ -42,11 +44,11 @@ namespace Module.ExitSlip.Domain.Entities
             return answer;
         }
 
-        public Answer UpdateAnswer(Guid answerId,Guid userId, string newText)
+        public Answer UpdateAnswer(Guid answerId, Guid userId, string newText)
         {
             var answer = _answers.FirstOrDefault(a => a.Id == answerId) ??
                 throw new InvalidOperationException("Svar ikke fundet");
-            answer.UpdateAnswer(newText,userId);
+            answer.UpdateAnswer(newText, userId);
             return answer;
         }
 

@@ -25,6 +25,12 @@ public class ExitSlipRepository(ExitSlipDbContext _context) : IExitSlipRepositor
                 .ThenInclude(q => q.Answers)
                 .SingleAsync(i => i.Id == exitSlipId);
     }
+    public async Task<Domain.Entities.Question> GetQuestionByIdAsync(Guid questionId)
+    {
+        return await _context.Questions
+                .Include(q => q.Answers)
+                .SingleAsync(i => i.Id == questionId);
+    }
 
     public async Task UpdateAnswerAsync(Answer answer, byte[] rowVersion)
     {
@@ -49,6 +55,16 @@ public class ExitSlipRepository(ExitSlipDbContext _context) : IExitSlipRepositor
     public async Task CreateQuestionAsync(Question question)
     {
         await _context.Questions.AddAsync(question);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteQuestionAsync(Question question, byte[] RowVersion)
+    {
+        if (question is null)
+            throw new InvalidOperationException("Spørgsmål ikke fundet.");
+
+        _context.Entry(question).Property(nameof(Question.RowVersion)).OriginalValue = RowVersion;
+        _context.Questions.Remove(question);
         await _context.SaveChangesAsync();
     }
 }
