@@ -14,6 +14,7 @@ namespace Module.ExitSlip.Domain.Entities
         #region Properties
 
         public Text Text { get; protected set; }
+        public Guid UserId { get; protected set; }
         private readonly List<Answer> _answers = new();
         public IReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
 
@@ -21,14 +22,15 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region Constructors
 
-        protected Question(){}
-        private Question(string text)
+        protected Question() { }
+        private Question(Guid exitSlipId, string text, Guid userId)
         {
             Text = text;
+            UserId = userId;
         }
 
-        public static Question Create(string text)
-            => new(text);
+        public static Question Create(Guid exitSlipId, string text, Guid userId)
+            => new Question(exitSlipId, text, userId);
 
         #endregion
 
@@ -36,18 +38,18 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region AnswerHandling
 
-        public Answer AddAnswer(string text)
+        public Answer AddAnswer(string text, Guid userId)
         {
-            var answer = Answer.Create(text);
+            var answer = Answer.Create(Id, text, userId);
             _answers.Add(answer);
             return answer;
         }
 
-        public Answer UpdateAnswer(Guid answerId, string newText)
+        public Answer UpdateAnswer(Guid answerId, Guid userId, string newText)
         {
             var answer = _answers.FirstOrDefault(a => a.Id == answerId) ??
                 throw new InvalidOperationException("Svar ikke fundet");
-            answer.UpdateAnswer(newText);
+            answer.UpdateAnswer(newText, userId);
             return answer;
         }
 
@@ -57,6 +59,10 @@ namespace Module.ExitSlip.Domain.Entities
             if (answer is null)
                 throw new InvalidOperationException("Svar ikke fundet");
             _answers.Remove(answer);
+        }
+        public void DeleteAllAnswers()
+        {
+            _answers.Clear();
         }
 
         #endregion

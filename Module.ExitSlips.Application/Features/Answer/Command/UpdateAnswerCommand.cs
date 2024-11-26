@@ -11,12 +11,10 @@ public record UpdateAnswerCommand(UpdateAnswerRequest UpdateAnswerRequest) : IRe
 public class UpdateAnswerCommandHandler : IRequestHandler<UpdateAnswerCommand, Result<bool>>
 {
     private readonly IExitSlipRepository _exitSlipRepository;
-
     public UpdateAnswerCommandHandler(IExitSlipRepository exitSlipRepository)
     {
         _exitSlipRepository = exitSlipRepository;
     }
-
     public async Task<Result<bool>> Handle(UpdateAnswerCommand request, CancellationToken cancellationToken)
     {
         try
@@ -26,7 +24,7 @@ public class UpdateAnswerCommandHandler : IRequestHandler<UpdateAnswerCommand, R
             var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(updateAnswerRequest.ExitSlipId);
 
             // Do
-            var answer = exitSlip.UpdateAnswer(updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
+            var answer = exitSlip.UpdateAnswer(updateAnswerRequest.UserId, updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
 
             // Save
             await _exitSlipRepository.UpdateAnswerAsync(answer,updateAnswerRequest.RowVersion);

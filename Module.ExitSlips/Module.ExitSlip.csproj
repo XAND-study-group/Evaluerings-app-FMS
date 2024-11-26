@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Endpoints\Exitslip\" />
-    <Folder Include="Endpoints\Question\" />
   </ItemGroup>
 
   <ItemGroup>

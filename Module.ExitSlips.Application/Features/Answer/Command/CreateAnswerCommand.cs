@@ -11,12 +11,10 @@ public record CreateAnswerCommand(CreateAnswerRequest createAnswerRequest) : IRe
 public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, Result<bool>>
 {
     private readonly IExitSlipRepository _exitSlipRepository;
-
     public CreateAnswerCommandHandler(IExitSlipRepository exitSlipRepository)
     {
         _exitSlipRepository = exitSlipRepository;
     }
-
     public async Task<Result<bool>> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
     {
         try
@@ -26,10 +24,10 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, R
             var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(createAnswerRequest.ExitslipId);
 
             // Do
-            var answer = exitSlip.AddAnswer(createAnswerRequest.QuestionId, createAnswerRequest.ExitslipId, createAnswerRequest.Text);
+            var answer = exitSlip.AddAnswer(createAnswerRequest.userId, createAnswerRequest.QuestionId, createAnswerRequest.ExitslipId, createAnswerRequest.Text);
 
             // Save
-            //await _exitSlipRepository.UpdateQuestionAsync(answer);
+            await _exitSlipRepository.CreateAnswerAsync(answer);
 
             return Result<bool>.Create("Answer created", true, ResultStatus.Created);
         }

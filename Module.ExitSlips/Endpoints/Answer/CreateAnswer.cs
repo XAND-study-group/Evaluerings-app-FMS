@@ -20,8 +20,8 @@ namespace Module.ExitSlip.Endpoints.Answer
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
             app.MapPost("/Exitslip/Question/Answer",
-                async([FromBody] CreateAnswerRequest createAnswerRequest, [FromServices] IMediator mediator)=>
-                (await mediator.Send(new CreateAnswerCommand(createAnswerRequest))).ReturnHttpResult())
+                    async ([FromBody] CreateAnswerRequest createAnswerRequest, [FromServices] IMediator mediator) =>
+                    (await mediator.Send(new CreateAnswerCommand(createAnswerRequest))).ReturnHttpResult())
                 .WithTags("Answer")
                 .RequireAuthorization();
         }

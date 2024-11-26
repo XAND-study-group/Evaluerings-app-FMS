@@ -37,17 +37,8 @@ namespace Module.ExitSlip.Infrastructure.Repositories
 
         public async Task UpdateAsync(Answer answer)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateAsync(Guid id, string newText)
-        {
-            var answer = await GetByIdAsync(id);
-            if (answer != null)
-            {
-                _context.Answers.Update(answer);
-                await _context.SaveChangesAsync();
-            }
+            _context.Answers.Update(answer);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)

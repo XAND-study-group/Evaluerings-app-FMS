@@ -16,27 +16,25 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
 {
     public class GetAllAnswersForQuestionIdQueryHandler : IRequestHandler<GetAllAnswersForQuestionIdQuery, Result<IEnumerable<GetSimpleAnswerResponse>>>
     {
-        private readonly ExitSlipDbContext _dbContext;
+        private IExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
 
-        public GetAllAnswersForQuestionIdQueryHandler(ExitSlipDbContext dbContext, IMapper mapper)
+        public GetAllAnswersForQuestionIdQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _exitSlipDbContext = exitSlipDbContext;
             _mapper = mapper;
         }
 
         public async Task<Result<IEnumerable<GetSimpleAnswerResponse>>> Handle(GetAllAnswersForQuestionIdQuery query, CancellationToken cancellationToken)
         {
-            var answers = (await _dbContext.Questions
+            var answers = (await _exitSlipDbContext.Questions
                 .Include(q => q.Answers)
                 .SingleAsync(q => q.Id == query.QuestionId)).Answers;
             if (answers == null)
-            {
-                return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("No answers found for the given question ID", [], ResultStatus.Error);
-            }
+                return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Ingen svar blev fundet udfra det gældende spørgsmål", null, ResultStatus.Error);
 
             var response = _mapper.Map<IEnumerable<GetSimpleAnswerResponse>>(answers);
-            return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("", response, ResultStatus.Success);
+            return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Success", response, ResultStatus.Success);
         }
     }
 }
