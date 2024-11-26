@@ -20,6 +20,7 @@ public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContex
             // Load
             var getVotesRequest = request.GetVotesByFeedbackIdRequest;
             var votes = (await feedbackDbContext.Feedbacks
+                    .AsNoTracking()
                     .SingleAsync(f => f.Id == getVotesRequest.FeedbackId, cancellationToken))
                 .Votes.MapToIEnumerableGetVoteResponse();
 

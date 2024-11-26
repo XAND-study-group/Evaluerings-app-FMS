@@ -32,6 +32,7 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
         try
         {
             var feedbacks = await _feedbackDbContext.Rooms
+                .AsNoTracking()
                 .Include(r => r.Feedbacks)
                 .Where(r => r.ClassIds
                     .Any(c => c == request.ClassId))

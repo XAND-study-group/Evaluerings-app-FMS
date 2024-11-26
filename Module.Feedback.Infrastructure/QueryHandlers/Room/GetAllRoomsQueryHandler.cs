@@ -28,6 +28,7 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<
         try
         {
             var response = await _feedbackDbContext.Rooms
+                .AsNoTracking()
                 .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
