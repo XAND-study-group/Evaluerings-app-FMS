@@ -22,7 +22,8 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region Constructors
 
-        public Question(Guid exitSlipId, string text, Guid userId)
+        protected Question() { }
+        private Question(Guid exitSlipId, string text, Guid userId)
         {
             Text = text;
             UserId = userId;

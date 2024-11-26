@@ -25,9 +25,7 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
 
         public async Task<Result<IEnumerable<GetSimpleAnswerResponse>>> Handle(GetAllAnswersQuery query, CancellationToken cancellationToken)
         {
-            var answers = await _answerRepository.GetAllAnswersAsync();
-            var response = _mapper.Map<IEnumerable<GetSimpleAnswerResponse>>(answers);
-            return Result<IEnumerable<GetSimpleAnswerResponse>>.Success(response);
+            return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("", [], ResultStatus.Error);
         }
     }
 }

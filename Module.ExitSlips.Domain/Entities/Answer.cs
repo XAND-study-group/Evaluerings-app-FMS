@@ -1,9 +1,5 @@
 ﻿using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharedKernel.ValueObjects;
 
 namespace Module.ExitSlip.Domain.Entities
 {
@@ -11,12 +7,13 @@ namespace Module.ExitSlip.Domain.Entities
     {
         #region Properties
         public Guid UserId { get; protected set; }
-        public string Text { get; protected set; }
+        public Text Text { get; protected set; }
 
         #endregion
 
         #region Constructors
-        public Answer(Guid questionId, string text, Guid userId)
+        protected Answer(){}
+        private Answer(Guid questionId, string text, Guid userId)
         {
             Text = text;
             UserId = userId;

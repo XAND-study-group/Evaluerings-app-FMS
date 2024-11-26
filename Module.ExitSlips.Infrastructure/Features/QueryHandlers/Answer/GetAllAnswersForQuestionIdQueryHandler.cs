@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Application.Features.Answer.Query;
+using Module.ExitSlip.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 using SharedKernel.Models;
 
@@ -25,7 +27,9 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
 
         public async Task<Result<IEnumerable<GetSimpleAnswerResponse>>> Handle(GetAllAnswersForQuestionIdQuery query, CancellationToken cancellationToken)
         {
-            var answers = await _exitSlipDbContext.GetAnswersByQuestionId(query.QuestionId);
+            var answers = (await _dbContext.Questions
+                .Include(q => q.Answers)
+                .SingleAsync(q => q.Id == query.QuestionId)).Answers;
             if (answers == null)
             {
                 return Result<IEnumerable<GetSimpleAnswerResponse>>.Create(
