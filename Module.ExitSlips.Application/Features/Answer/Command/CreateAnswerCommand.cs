@@ -29,7 +29,7 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, R
             var answer = exitSlip.AddAnswer(createAnswerRequest.QuestionId, createAnswerRequest.ExitslipId, createAnswerRequest.Text);
 
             // Save
-            await _exitSlipRepository.UpdateQuestionAsync(answer);
+            //await _exitSlipRepository.UpdateQuestionAsync(answer);
 
             return Result<bool>.Create("Answer created", true, ResultStatus.Created);
         }

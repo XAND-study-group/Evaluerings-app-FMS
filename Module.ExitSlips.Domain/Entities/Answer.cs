@@ -1,28 +1,26 @@
 ﻿using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharedKernel.ValueObjects;
 
 namespace Module.ExitSlip.Domain.Entities
 {
     public class Answer : Entity
     {
         #region Properties
-        public string Text { get; protected set; }
+        public Text Text { get; protected set; }
         #endregion
 
         #region Constructors
-        public Answer(Guid questionId, string text)
+
+        protected Answer(){}
+        private Answer(string text)
         {
             Text = text;
         }
         #endregion
 
         #region Methods
-        public static Answer Create(Guid questionId, string text)
-        => new Answer(questionId, text);
+        public static Answer Create(string text)
+        => new (text);
 
         public void UpdateAnswer(string newText)
         {

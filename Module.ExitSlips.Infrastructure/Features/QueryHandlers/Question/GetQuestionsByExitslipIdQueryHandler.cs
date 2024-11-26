@@ -27,12 +27,12 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
             var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(query.ExitSlipId);
             if (exitSlip == null)
             {
-                return Result<IEnumerable<GetSimpleQuestionsResponse>>.Failure("ExitSlip not found");
+                //return Result<IEnumerable<GetSimpleQuestionsResponse>>.Failure("ExitSlip not found");
             }
 
             var questions = exitSlip.Questions;
             var response = _mapper.Map<IEnumerable<GetSimpleQuestionsResponse>>(questions);
-            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Success(response);
+            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("response", response, ResultStatus.Error);
         }
     }
 }

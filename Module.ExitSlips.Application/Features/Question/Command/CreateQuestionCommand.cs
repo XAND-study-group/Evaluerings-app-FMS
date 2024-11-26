@@ -31,7 +31,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
             exitSlip.AddQuestion(request.Text);
 
             // Save
-            await _exitSlipRepository.UpdateExitSlipAsync(exitSlip);
+            // await _exitSlipRepository.UpdateExitSlipAsync(exitSlip);
 
             return Result<bool>.Create("Question created", true, ResultStatus.Created);
         }

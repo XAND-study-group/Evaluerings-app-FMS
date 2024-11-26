@@ -37,7 +37,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         public Answer AddAnswer(string text)
         {
-            var answer = Answer.Create(Id, text);
+            var answer = Answer.Create(text);
             _answers.Add(answer);
             return answer;
         }
