@@ -33,6 +33,7 @@ public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRo
         try
         {
             var feedbacks = await _feedbackDbContext.Rooms
+                .AsNoTracking()
                 .Include(r => r.Feedbacks)
                 .Where(r => r.Id == request.GetFeedbacksByRoomIdRequest.RoomId)
                 .Select(r => r.Feedbacks)
