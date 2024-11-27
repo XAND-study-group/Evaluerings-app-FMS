@@ -88,7 +88,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.ComplexProperty<Dictionary<string, object>>("HashedId", "Module.Feedback.Domain.Feedback.HashedId#HashedId", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("HashedUserId", "Module.Feedback.Domain.Feedback.HashedUserId#HashedUserId", b1 =>
                         {
                             b1.IsRequired();
 
@@ -184,7 +184,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                     b.Property<int>("VoteScale")
                         .HasColumnType("int");
 
-                    b.ComplexProperty<Dictionary<string, object>>("HashedId", "Module.Feedback.Domain.Vote.HashedId#HashedId", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("HashedUserId", "Module.Feedback.Domain.Vote.HashedUserId#HashedUserId", b1 =>
                         {
                             b1.IsRequired();
 

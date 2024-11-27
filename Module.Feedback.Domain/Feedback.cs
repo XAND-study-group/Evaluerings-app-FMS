@@ -11,13 +11,13 @@ public class Feedback : Entity
     #region Properties
 
     // General Properties
-    public HashedId HashedId { get; protected set; }
+    public HashedId HashedUserId { get; protected set; }
     public Title Title { get; protected set; }
     public Text Problem { get; protected set; }
     public Text Solution { get; protected set; }
     public DateTime Created { get; init; }
     public FeedbackStatus Status { get; protected set; }
-    public Room Room { get; set; }
+    public Room Room { get; protected set; }
 
     // List Properties
     private readonly List<Comment> _comments = [];
@@ -33,9 +33,9 @@ public class Feedback : Entity
     {
     }
 
-    private Feedback(HashedId hashedUserId, string title, string problem, string solution, Room room)
+    private Feedback(HashedId hashedUserUserId, string title, string problem, string solution, Room room)
     {
-        HashedId = hashedUserId;
+        HashedUserId = hashedUserUserId;
         Title = title;
         Problem = problem;
         Solution = solution;
@@ -48,11 +48,9 @@ public class Feedback : Entity
     #region Feedback Methods
 
     public static async Task<Feedback> CreateAsync(Guid userId, string title, string problem, string solution,
-        Room room,
-        IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
+        Room room, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var hashedUserId = HashedId.Create(userId, hashIdService);
-        var feedback = new Feedback(hashedUserId, title, problem, solution, room);
+        var feedback = new Feedback(userId, title, problem, solution, room);
 
         await AiTextCheckAsync(feedback.Title, feedback.Problem, feedback.Solution, iIValidationServiceProxy);
 
@@ -108,12 +106,12 @@ public class Feedback : Entity
 
     #region Vote Related Methods
 
-    public Vote AddVote(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
+    public Vote AddVote(Guid userId, VoteScale voteScale)
     {
-        AssureNoExistingVoteFromUser(_votes, userId, hashIdService);
         AssureStatusIsNotSolved();
+        AssureNoExistingVoteFromUser(_votes, userId);
 
-        var vote = Vote.Create(userId, voteScale, hashIdService);
+        var vote = Vote.Create(userId, voteScale);
 
         _votes.Add(vote);
 
@@ -147,10 +145,9 @@ public class Feedback : Entity
 
     #region Relational Business Logic Methods
 
-    private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId, IHashIdService hashIdService)
+    private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId)
     {
-        var hashUserId = hashIdService.Hash(userId);
-        if (votes.Any(v => v.HashedId == hashUserId))
+        if (votes.Any(v => v.HashedUserId == userId))
             throw new ArgumentException("User has already voted for this feedback.");
     }
 

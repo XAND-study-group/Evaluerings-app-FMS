@@ -21,7 +21,7 @@ public class AddClassToRoomCommandHandler(IRoomRepository roomRepository)
             var room = await roomRepository.GetRoomByIdAsync(addClassToRoomRequest.RoomId);
 
             // Do
-            room.AddClassIdAsync(addClassToRoomRequest.ClassId);
+            room.AddClassId(addClassToRoomRequest.ClassId);
 
             // Save
             await roomRepository.UpdateRoomAsync(room, addClassToRoomRequest.RowVersion);

@@ -9,8 +9,6 @@ public static class FeedbackModuleDomainExtension
 {
     public static IServiceCollection AddFeedbackModuleDomain(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddScoped<IHashIdService, HashIdService>();
-        
         return serviceCollection;
     }
 }

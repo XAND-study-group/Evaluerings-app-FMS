@@ -34,9 +34,9 @@ public class Comment : Entity
 
     public static async Task<Comment> CreateAsync(Guid userId, string commentText, IValidationServiceProxy iIValidationServiceProxy)
     {
-        var comment = new Comment(userId, commentText);
-
         await AssureAcceptableContent(commentText, iIValidationServiceProxy);
+
+        var comment = new Comment(userId, commentText);
 
         return comment;
     }
@@ -58,7 +58,6 @@ public class Comment : Entity
 
     public void AddSubComment(Comment comment)
     {
-
         _subComments.Add(comment);
     }
 

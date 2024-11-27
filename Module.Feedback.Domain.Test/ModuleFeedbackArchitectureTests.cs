@@ -10,31 +10,32 @@ using Module.Feedback.Endpoints.Room;
 using Module.Feedback.Infrastructure.Repositories;
 using SharedKernel.Interfaces;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
+// ReSharper disable RedundantNameQualifier
 
 namespace Module.Feedback.Domain.Test;
 
 public class ModuleFeedbackArchitectureTests
 {
     private static readonly Architecture Architecture = new ArchLoader()
-        .LoadAssemblies(typeof(CreateRoom).Assembly,
-            typeof(CreateRoomCommand).Assembly,
-            typeof(Room).Assembly,
-            typeof(RoomRepository).Assembly)
+        .LoadAssemblies(Module.Feedback.AssemblyReference.Assembly,
+            Module.Feedback.Application.AssemblyReference.Assembly,
+            Module.Feedback.Domain.AssemblyReference.Assembly,
+            Module.Feedback.Infrastructure.AssemblyReference.Assembly)
         .Build();
 
     #region Layer Setup
 
     private readonly IObjectProvider<IType> _presentationLayer =
-        Types().That().ResideInAssembly(typeof(CreateRoom).Assembly).As("Presentation Layer");
+        Types().That().ResideInAssembly(Module.Feedback.AssemblyReference.Assembly).As("Presentation Layer");
 
     private readonly IObjectProvider<IType> _applicationLayer =
-        Types().That().ResideInAssembly(typeof(CreateRoomCommand).Assembly).As("Application Layer");
+        Types().That().ResideInAssembly(Module.Feedback.Application.AssemblyReference.Assembly).As("Application Layer");
 
     private readonly IObjectProvider<IType> _domainLayer =
-        Types().That().ResideInAssembly(typeof(Room).Assembly).As("Domain Layer");
+        Types().That().ResideInAssembly(Module.Feedback.Domain.AssemblyReference.Assembly).As("Domain Layer");
 
     private readonly IObjectProvider<IType> _infrastructureLayer =
-        Types().That().ResideInAssembly(typeof(RoomRepository).Assembly).As("Infrastructure Layer");
+        Types().That().ResideInAssembly(Module.Feedback.Infrastructure.AssemblyReference.Assembly).As("Infrastructure Layer");
 
     #endregion Layer Setup
 
@@ -50,13 +51,13 @@ public class ModuleFeedbackArchitectureTests
         Classes().That().HaveNameEndingWith("Command").As("Command Records");
 
     private readonly IObjectProvider<Class> _iRequestRecords =
-        Classes().That().ImplementInterface(typeof(IRequest<>)).And().AreRecord().As("IRequest Records");
+        Classes().That().ImplementInterface(typeof(IRequest<>)).As("IRequest Records");
 
     private readonly IObjectProvider<Class> _commandHandlerClasses =
         Classes().That().HaveNameEndingWith("CommandHandler").As("CommandHandler Classes");
 
     private readonly IObjectProvider<Class> _queryRecords =
-        Classes().That().HaveNameEndingWith("Query").And().AreRecord().As("Query Records");
+        Classes().That().HaveNameEndingWith("Query").As("Query Records");
 
     private readonly IObjectProvider<Class> _queryHandlerClasses =
         Classes().That().HaveNameEndingWith("QueryHandler").As("QueryHandler Classes");
@@ -100,21 +101,21 @@ public class ModuleFeedbackArchitectureTests
     public void CommandRecordsShouldBeInApplicationLayer()
     {
         IArchRule commandRecordsShouldBeInApplicationLayer =
-            Classes().That().Are(_commandRecords).Should().Be(_applicationLayer);
-        IArchRule commandRecordsShouldBeInImplementIRequest =
-            Classes().That().Are(_commandRecords).Should().ImplementInterface(typeof(IRequest<>)).AndShould().BeRecord();
+            Classes().That().Are(_commandRecords)
+                .Should().Be(_applicationLayer)
+                .AndShould().ImplementInterface(typeof(IRequest<>))
+                .AndShould().BeRecord();
 
-        var combineRules =
-            commandRecordsShouldBeInApplicationLayer.And(commandRecordsShouldBeInImplementIRequest);
-
-        combineRules.Check(Architecture);
+        commandRecordsShouldBeInApplicationLayer.Check(Architecture);
     }
 
     [Fact]
     public void IRequestRecordsShouldBeInApplicationLayer()
     {
         IArchRule iRequestRecordsShouldBeInApplicationLayer =
-            Classes().That().Are(_iRequestRecords).Should().Be(_applicationLayer);
+            Classes().That().Are(_iRequestRecords)
+                .Should().Be(_applicationLayer)
+                .AndShould().BeRecord();
 
         iRequestRecordsShouldBeInApplicationLayer.Check(Architecture);
     }
@@ -123,41 +124,34 @@ public class ModuleFeedbackArchitectureTests
     public void CommandHandlerClassesShouldBeInApplicationLayer()
     {
         IArchRule commandHandlerClassesShouldBeInApplicationLayer =
-            Classes().That().Are(_commandHandlerClasses).Should().Be(_applicationLayer);
-        IArchRule commandHandlerClassesShouldImplementIRequestHandler =
-            Classes().That().Are(_commandHandlerClasses).Should().ImplementInterface(typeof(IRequestHandler<,>));
+            Classes().That().Are(_commandHandlerClasses)
+                .Should().Be(_applicationLayer)
+                .AndShould().ImplementInterface(typeof(IRequestHandler<,>));
 
-        var combineRules =
-            commandHandlerClassesShouldBeInApplicationLayer.And(commandHandlerClassesShouldImplementIRequestHandler);
-
-        combineRules.Check(Architecture);
+        commandHandlerClassesShouldBeInApplicationLayer.Check(Architecture);
     }
 
     [Fact]
     public void QueryRecordsShouldBeInApplicationLayer()
     {
         IArchRule queryRecordsShouldBeInApplicationLayer =
-            Classes().That().Are(_queryRecords).Should().Be(_applicationLayer);
-        IArchRule queryRecordsShouldBeInImplementIRequest =
-            Classes().That().Are(_queryRecords).Should().ImplementInterface(typeof(IRequest<>));
+            Classes().That().Are(_queryRecords)
+                .Should().Be(_applicationLayer)
+                .AndShould().ImplementInterface(typeof(IRequest<>))
+                .AndShould().BeRecord();
 
-        var combineRules = queryRecordsShouldBeInApplicationLayer.And(queryRecordsShouldBeInImplementIRequest);
-
-        combineRules.Check(Architecture);
+        queryRecordsShouldBeInApplicationLayer.Check(Architecture);
     }
 
     [Fact]
     public void QueryHandlerClassesShouldBeInInfrastructureLayer()
     {
         IArchRule queryHandlerClassesShouldBeInApplicationLayer =
-            Classes().That().Are(_queryHandlerClasses).Should().Be(_infrastructureLayer);
-        IArchRule queryHandlerClassesShouldImplementIRequestHandler =
-            Classes().That().Are(_queryHandlerClasses).Should().ImplementInterface(typeof(IRequestHandler<,>));
+            Classes().That().Are(_queryHandlerClasses)
+                .Should().Be(_infrastructureLayer)
+                .AndShould().ImplementInterface(typeof(IRequestHandler<,>));
 
-        var combineRules =
-            queryHandlerClassesShouldBeInApplicationLayer.And(queryHandlerClassesShouldImplementIRequestHandler);
-
-        combineRules.Check(Architecture);
+        queryHandlerClassesShouldBeInApplicationLayer.Check(Architecture);
     }
 
     [Fact]
@@ -191,7 +185,9 @@ public class ModuleFeedbackArchitectureTests
     public void IRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer()
     {
         IArchRule iRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer =
-            Classes().That().Are(_iRequestHandlerClasses).Should().Be(_applicationLayer).OrShould().Be(_infrastructureLayer);
+            Classes().That().Are(_iRequestHandlerClasses)
+                .Should().Be(_applicationLayer)
+                .OrShould().Be(_infrastructureLayer);
         
         iRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer.Check(Architecture);
     }

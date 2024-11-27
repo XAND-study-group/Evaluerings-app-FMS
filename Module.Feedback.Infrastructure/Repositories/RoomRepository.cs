@@ -15,6 +15,7 @@ public class RoomRepository(FeedbackDbContext feedbackDbContext) : IRoomReposito
 
     async Task<Room> IRoomRepository.GetRoomByIdAsync(Guid roomId)
         => await feedbackDbContext.Rooms
+            .Include(r => r.ClassIds)
             .SingleAsync(r => r.Id == roomId);
 
     async Task IRoomRepository.UpdateRoomAsync(Room room, byte[] rowVersion)
