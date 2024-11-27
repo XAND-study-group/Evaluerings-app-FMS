@@ -15,8 +15,9 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTime : IEndpoint
     {
         app.MapGet(configuration["Routes:FeedbackModule:Feedback:GetFeedbacksByClassIdOrderByCreatedDateTime"] ??
                 throw new Exception("Route is not added to config file"),
-            async (Guid classId, [FromServices] IMediator mediator) =>
-            (await mediator.Send(new GetFeedbacksByClassIdOrderByCreatedDateTimeQuery(classId))).ReturnHttpResult())
+            async ([FromRoute] Guid classId, [FromQuery(Name = "p")] int page, [FromQuery(Name = "perPage")] int itemPerPage, [FromServices] IMediator mediator) =>
+            (await mediator.Send(new GetFeedbacksByClassIdOrderByCreatedDateTimeQuery(classId, page, itemPerPage)))
+            .ReturnHttpResult())
             .WithTags("Feedback")
             .RequireAuthorization("ReadFeedback");
     }
