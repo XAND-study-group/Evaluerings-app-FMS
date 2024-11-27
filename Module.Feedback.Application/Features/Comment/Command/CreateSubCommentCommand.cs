@@ -19,13 +19,13 @@ public class CreateSubCommentCommandHandler(
         {
             // Load
             var createSubCommentRequest = request.CreateSubCommentRequest;
-            var comment = await commentRepository.GetCommentByIdAsync(createSubCommentRequest.CommentId);
+            var feedback = await commentRepository.GetFeedbackByIdAsync(createSubCommentRequest.FeedbackId);
 
             // Do
-            var subComment = await Domain.Comment.CreateAsync(createSubCommentRequest.UserId,
+            var subComment = await feedback.AddSubCommentAsync(createSubCommentRequest.CommentId,
+                createSubCommentRequest.UserId,
                 createSubCommentRequest.CommentText,
                 iValidationServiceProxy);
-            comment.AddSubComment(subComment);
 
             // Save
             await commentRepository.CreateCommentAsync(subComment);

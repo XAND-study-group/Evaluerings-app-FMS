@@ -1,10 +1,7 @@
-﻿using Evaluering.Module.Shared.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
 using SharedKernel.ValueObjects;
-using System.Runtime.ConstrainedExecution;
-
 
 namespace Module.ExitSlip.Infrastructure.DbContexts;
 

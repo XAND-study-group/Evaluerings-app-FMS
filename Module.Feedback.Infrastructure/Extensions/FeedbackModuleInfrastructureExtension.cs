@@ -19,7 +19,7 @@ public static class FeedbackModuleInfrastructureExtension
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 optionsBuilder =>
                 {
-                    optionsBuilder.MigrationsAssembly("Module.Semester.Infrastructure");
+                    optionsBuilder.MigrationsAssembly("Module.Feedback.Infrastructure");
                     optionsBuilder.EnableRetryOnFailure();
                 }));
 
@@ -28,6 +28,7 @@ public static class FeedbackModuleInfrastructureExtension
         serviceCollection.AddScoped<IRoomRepository, RoomRepository>();
         serviceCollection.AddScoped<IFeedbackRepository, FeedbackRepository>();
         serviceCollection.AddScoped<ICommentRepository, CommentRepository>();
+        serviceCollection.AddScoped<IVoteRepository, VoteRepository>();
         serviceCollection.AddScoped<IValidationServiceProxy, ValidationServiceProxy>();
 
         return serviceCollection;

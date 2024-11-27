@@ -2,11 +2,12 @@
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Evaluering.Comment.Command;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace Module.Feedback.Application.Features.Comment.Command;
 
-public record CreateCommentCommand(CreateCommentRequest CreateCommentRequest) : IRequest<Result<bool>>;
+public record CreateCommentCommand(CreateCommentRequest CreateCommentRequest) : IRequest<Result<bool>>, IApplcationClass;
 
 public class CreateCommentCommandHandler(ICommentRepository commentRepository, IValidationServiceProxy iValidationServiceProxy)
     : IRequestHandler<CreateCommentCommand, Result<bool>>

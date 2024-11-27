@@ -79,7 +79,7 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
     
     private string GetDefaultPrompt() =>
             "Din opgave er at validere følgende indhold: " +
-            "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i et kodeblok og brug ikke markdown." +
+            "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i en kodeblok og brug ikke markdown." +
             "'Valid' skal være sandt, hvis indholdet følger retningslinjerne, og falsk, hvis indholdet ikke følger retningslinjerne " +
             "'Reason' skal specificere, hvorfor 'Valid' er sat til falsk. Dette skal gøres i maksimalt 10 ord. Hvis 'Valid' er sandt, skal 'Reason' være tom " +
             "I din validering skal du følge mindst disse retningslinjer:";

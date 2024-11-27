@@ -13,10 +13,11 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTime : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapGet("/AllFeedbacks/ForClass/{classId:guid}",
+        app.MapGet(configuration["Routes:FeedbackModule:Feedback:GetFeedbacksByClassIdOrderByCreatedDateTime"] ??
+                throw new Exception("Route is not added to config file"),
             async (Guid classId, [FromServices] IMediator mediator) =>
             (await mediator.Send(new GetFeedbacksByClassIdOrderByCreatedDateTimeQuery(classId))).ReturnHttpResult())
             .WithTags("Feedback")
-            .RequireAuthorization();
+            .RequireAuthorization("ReadFeedback");
     }
 }

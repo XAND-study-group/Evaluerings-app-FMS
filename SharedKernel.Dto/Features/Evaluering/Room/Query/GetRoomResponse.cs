@@ -4,5 +4,4 @@ public record GetRoomResponse(
     Guid RoomId,
     byte[] RowVersion,
     string Title,
-    string Description,
-    IEnumerable<GetFeedbackResponse> Feedbacks);
+    string Description);
