@@ -12,10 +12,4 @@
       <ProjectReference Include="..\SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="SharedKernel.Dto">
-        <HintPath>..\SharedKernel.Dto\bin\Debug\net8.0\SharedKernel.Dto.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>

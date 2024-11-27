@@ -8,4 +8,5 @@ public interface IFeedbackRepository
     Task CreateFeedbackAsync(Domain.Feedback feedback);
     Task<Domain.Feedback> GetFeedbackByIdAsync(Guid feedbackId);
     Task DeleteFeedbackAsync(Domain.Feedback feedback, byte[] rowVersion);
+    Task UpdateFeedbackAsync(Domain.Feedback feedback, byte[] rowVersion);
 }
