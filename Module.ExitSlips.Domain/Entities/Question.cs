@@ -16,7 +16,7 @@ namespace Module.ExitSlip.Domain.Entities
         public Text Text { get; protected set; }
         public Guid UserId { get; protected set; }
         private readonly List<Answer> _answers = new();
-        public IReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
+        public IReadOnlyCollection<Answer> Answers => _answers;
 
         #endregion
 
