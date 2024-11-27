@@ -17,7 +17,8 @@ public class GenerateSchoolDataCommandHandler(
     IUserRepository userRepository,
     ISemesterRepository semesterRepository,
     IAccountClaimRepository accountClaimRepository,
-    IPasswordHasher passwordHasher) : IRequestHandler<GenerateSchoolDataCommand, Result<bool>>
+    IPasswordHasher passwordHasher,
+    IUserDomainService userDomainService) : IRequestHandler<GenerateSchoolDataCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(GenerateSchoolDataCommand request, CancellationToken cancellationToken)
     {
@@ -105,8 +106,7 @@ public class GenerateSchoolDataCommandHandler(
                     }
                 }
             };
-
-            //TODO: Update when changed to domainservice
+            
             var userFake = new Faker<User>()
                 .CustomInstantiator(f =>
                     User.CreateAsync(
@@ -115,7 +115,7 @@ public class GenerateSchoolDataCommandHandler(
                         f.Person.Email,
                         "Password123.",
                         f.PickRandom(roles),
-                        [],
+                        userDomainService,
                         passwordHasher,
                         accountClaimRepository).Result).UseSeed(420);
 
@@ -166,7 +166,7 @@ public class GenerateSchoolDataCommandHandler(
                         f.Person.Email,
                         "Password123.",
                         Role.Admin,
-                        [],
+                        userDomainService,
                         passwordHasher,
                         accountClaimRepository).Result).UseSeed(50);
 

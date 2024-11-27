@@ -14,13 +14,15 @@ namespace School.Domain.Entities
         public UserFirstname Firstname { get; protected set; }
         public UserLastname Lastname { get; protected set; }
         public UserEmail Email { get; protected set; }
+        
+        // TODO: Make into value object
         public string PasswordHash { get; protected set; }
-        public Role UserRole { get; set; }
+        public Role UserRole { get; protected set; }
 
         public IEnumerable<Semester> Semesters { get; protected set; }
         private List<AccountClaim> _accountClaims = [];
         public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
-        public RefreshToken RefreshToken { get; set; }
+        public RefreshToken RefreshToken { get; protected set; }
 
         #endregion
 
@@ -31,19 +33,15 @@ namespace School.Domain.Entities
         }
 
         private User(string fristname, string lastname, string email, string password, Role role,
-            IEnumerable<User> otherUsers, IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher)
         {
             AssurePasswordCompliesWithRequirements(password);
 
-            var otherUsersEmails = otherUsers.Select(e => e.Email.Value);
-
             Firstname = UserFirstname.Create(fristname);
             Lastname = UserLastname.Create(lastname);
-            Email = UserEmail.Create(email, otherUsersEmails);
+            Email = UserEmail.Create(email);
             PasswordHash = passwordHasher.Hash(password);
             UserRole = role;
-
-            
         }
 
         #endregion
@@ -52,13 +50,17 @@ namespace School.Domain.Entities
 
         public static User Create(string firstname, string lastname, string email, string password, Role role,
             IEnumerable<User> otherUsers, IPasswordHasher passwordHasher) =>
-            new User(firstname, lastname, email, password, role, otherUsers, passwordHasher);
-        
-        public static async Task<User> CreateAsync(string firstname, string lastname, string email, string password, Role role,
-            IEnumerable<User> otherUsers, IPasswordHasher passwordHasher,
+            new User(firstname, lastname, email, password, role, passwordHasher);
+
+        public static async Task<User> CreateAsync(string firstname, string lastname, string email, string password,
+            Role role,
+            IUserDomainService userDomainService, IPasswordHasher passwordHasher,
             IAccountClaimRepository accountClaimRepository)
         {
-            var user = new User(firstname, lastname, email, password, role, otherUsers, passwordHasher);
+            if (userDomainService.DoesUserEmailExist(email))
+                throw new ArgumentException($"A User with email '{email}' already exists.");
+
+            var user = new User(firstname, lastname, email, password, role, passwordHasher);
             await accountClaimRepository.CreateClaimForRoleAsync(user, role);
 
             return user;

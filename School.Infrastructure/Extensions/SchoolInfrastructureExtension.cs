@@ -7,6 +7,7 @@ using School.Domain.DomainServices.Interfaces;
 using School.Infrastructure.DbContext;
 using School.Infrastructure.Repositories.Semester;
 using School.Infrastructure.Repositories.User;
+using School.Infrastructure.Services;
 using SharedKernel.Interfaces.UOF;
 
 namespace School.Infrastructure.Extensions
@@ -28,7 +29,8 @@ namespace School.Infrastructure.Extensions
                 .AddScoped<IClassRepository, ClassRepository>()
                 .AddScoped<ISemesterRepository, SemesterRepository>()
                 .AddScoped<ILectureRepository, LectureRepository>()
-                .AddScoped<IUnitOfWork, UnitOfWork<SchoolDbContext>>();
+                .AddScoped<IUnitOfWork, UnitOfWork<SchoolDbContext>>()
+                .AddScoped<IUserDomainService, UserDomainService>();
 
             return serviceCollection;
         }

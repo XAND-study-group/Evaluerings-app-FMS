@@ -9,7 +9,7 @@ public class GenerateSchoolDataBogus : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPost(configuration["Routes:UserModule:Bogus:GenerateUserLoginBogus"] ??
+        app.MapPost(configuration["Routes:UserModule:Bogus:GenerateSchoolDataBogus"] ??
                     throw new Exception("Route is not added to config file"),
             async ([FromServices] IMediator mediator) =>
             await mediator.Send(new GenerateSchoolDataCommand())).WithTags("GenerateData");

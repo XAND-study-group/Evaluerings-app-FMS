@@ -7,7 +7,7 @@ namespace School.Domain.Test.Fakes.User
     {
         public FakeUser(string email)
         {
-            Email = UserEmail.Create(email, []);
+            Email = UserEmail.Create(email);
         }
 
         public FakeUser()
@@ -27,8 +27,8 @@ namespace School.Domain.Test.Fakes.User
         public void SetUserLastname(string lastname)
             => Lastname = UserLastname.Create(lastname);
 
-        public void SetUserEmail(string email, IEnumerable<string> otherEmails)
-            => Email = UserEmail.Create(email, otherEmails);
+        public void SetUserEmail(string email)
+            => Email = UserEmail.Create(email);
 
     }
 }
