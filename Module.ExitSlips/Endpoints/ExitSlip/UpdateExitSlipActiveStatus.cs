@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.ExitSlip.Application.Features.ExitSlip.Command;
@@ -14,17 +15,16 @@ using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Endpoints.ExitSlip
 {
-    public class DeleteExitSlip : IEndpoint
+    public class UpdateExitSlipActiveStatus : IEndpoint
     {
+        // TODO: FLytte Url til ConfigFil og tilføje Policies.
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            // TODO: FLytte Url til ConfigFil og tilføje Policies.
-
-            app.MapDelete("/ExitSlip",
-                async ([FromBody] DeleteExitSlipRequest deleteExitSlipRequest, [FromServices] IMediator mediator) =>
-                (await mediator.Send(new DeleteExitSlipCommand(deleteExitSlipRequest))).ReturnHttpResult())
-                .WithName("ExitSlip")
-                .RequireAuthorization();                
+            app.MapPut("ExitSlip",
+                async ([FromBody] UpdateExitSlipActiveStatusRequest updateExitSLipActiveStatusRequest, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new UpdateExitSlipActiveStatusCommand(updateExitSLipActiveStatusRequest))).ReturnHttpResult())
+                .WithTags("ExitSlip")
+                .RequireAuthorization();
         }
     }
 }

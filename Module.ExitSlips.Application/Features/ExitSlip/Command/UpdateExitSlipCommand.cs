@@ -24,11 +24,10 @@ namespace Module.ExitSlip.Application.Features.ExitSlip.Command
                 var exitSlip = await exitSlipRepository.GetExitSlipByIdAsync(updateExitSlipRequest.Id);
 
                 // Do 
-                exitSlip.Update(updateExitSlipRequest.Title, updateExitSlipRequest.ActiveStatus);
+                exitSlip.Update(updateExitSlipRequest.Title);
 
                 // Save
                 await exitSlipRepository.UpdateExitSlipAsync(exitSlip, updateExitSlipRequest.RowVersion);
-
                 return Result<bool>.Create("ExitSlip opdateret", true, ResultStatus.Success);
             }
             catch (Exception e)

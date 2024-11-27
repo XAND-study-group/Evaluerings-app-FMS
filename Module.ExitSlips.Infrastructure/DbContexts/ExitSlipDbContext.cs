@@ -8,7 +8,7 @@ using System.Runtime.ConstrainedExecution;
 
 namespace Module.ExitSlip.Infrastructure.DbContexts;
 
-public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
+public class ExitSlipDbContext : EvalueringDbContext, IExitSlipDbContext
 {
     public DbSet<Domain.Entities.ExitSlip> ExitSlips { get; set; }
 
@@ -34,17 +34,16 @@ public class ExitSlipDbContext : EvalueringDbContext , IExitSlipDbContext
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
             .Property(e => e.RowVersion)
             .IsRowVersion();
-
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
-            .ComplexProperty<Title>(e => e.Title);
+          .Property(e => e.SubjectId);
+        modelBuilder.Entity<Domain.Entities.ExitSlip>()
+        .Property(e => e.LectureId);
+        modelBuilder.Entity<Domain.Entities.ExitSlip>()
+            .ComplexProperty(e => e.Title);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
             .ComplexProperty(e => e.MaxQuestionCount);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
            .ComplexProperty(e => e.ActiveStatus);
-
-
-
-
 
         #endregion
     }

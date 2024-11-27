@@ -42,3 +42,16 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
         }
     }
 }
+
+
+Der 
+
+   
+
+    Husk at tilføje Update test
+
+    Der skal laves Delete ExitSlip i Domain, hvor der bliver checket om Den er aktiv eller ej. Man må ikke slette en Inaktiv exitSlip
+
+    Der skal tilføjes noget logik til Update, da den skal være Inaktiv, før man kan reagere på. 
+
+    Der skal tilføjes et Endpoint, hvor den ændrer ExitSlips ActivStatus. Metoden skal være i domainet. Så det skal igennem hele arkitekturen. 

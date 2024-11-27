@@ -34,8 +34,8 @@ namespace School.Domain.Entities
             
             var otherUsersEmails = otherUsers.Select(e => e.Email.Value);
 
-            Firstname = UserFirstname.Create(fristname);
-            Lastname = UserLastname.Create(lastname);
+            Firstname =fristname;
+            Lastname =lastname;
             Email = UserEmail.Create(email, otherUsersEmails);      
             PasswordHash = passwordHasher.Hash(password);
             UserRole = role;

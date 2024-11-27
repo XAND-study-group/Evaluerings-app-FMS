@@ -7,10 +7,6 @@ namespace Module.ExitSlip.Infrastructure.Repositories;
 
 public class ExitSlipRepository(ExitSlipDbContext exitSlipDbContext) : IExitSlipRepository
 {
-
-
-
-
     async Task IExitSlipRepository.CreateExitSlipAsync(Domain.Entities.ExitSlip exitSlip)
     {
         await exitSlipDbContext.ExitSlips.AddAsync(exitSlip);
@@ -27,6 +23,12 @@ public class ExitSlipRepository(ExitSlipDbContext exitSlipDbContext) : IExitSlip
     async Task<Domain.Entities.ExitSlip> IExitSlipRepository.GetExitSlipByIdAsync(Guid id)
     {
         return await exitSlipDbContext.ExitSlips.SingleAsync(e => e.Id == id);
+    }
+
+    async Task IExitSlipRepository.UpdateExitSlipActiveStatusAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
+    {
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
     }
 
     async Task IExitSlipRepository.UpdateExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)

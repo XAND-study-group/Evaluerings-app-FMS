@@ -16,6 +16,8 @@ namespace Module.ExitSlip.Endpoints.ExitSlip
     {
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
+            // TODO: FLytte Url til ConfigFil og tilføje Policies. 
+
             app.MapGet("/ExitSlips/SubjectExitSLips/{subjectId:guid}",
                 async (Guid subjectId, [FromServices] IMediator mediator) =>
                 {

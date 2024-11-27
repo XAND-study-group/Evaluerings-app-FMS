@@ -46,18 +46,30 @@ namespace Module.ExitSlip.Domain.Entities
         #endregion
 
 
-
-
         #region Exit Slip Methodes
 
         public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount, ExitSlipActiveStatus activeStatus)
             => new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
 
 
-        public void Update(string title, ExitSlipActiveStatus activeStatus)
+        public void Update(string title)
         {
+            AssureExitSlipInactive();
             Title = title;
+        }
+        public void Delete()
+        {
+            AssureExitSlipInactive();            
+        }
+
+        public void UpdateActiveStatus(ExitSlipActiveStatus activeStatus)
+        {
             ActiveStatus = activeStatus;
+        }
+        private void AssureExitSlipInactive()
+        {
+            if (ActiveStatus == ExitSlipActiveStatus.Active)
+                throw new ArgumentException("ExitSlip skal være inaktiv, før de kan redigeres.");
         }
 
         #endregion
@@ -66,3 +78,4 @@ namespace Module.ExitSlip.Domain.Entities
 
     }
 }
+

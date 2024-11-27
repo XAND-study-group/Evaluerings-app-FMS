@@ -24,9 +24,10 @@ namespace Module.ExitSlip.Application.Features.ExitSlip.Command
                 var exitSlip = await exitSlipRepository.GetExitSlipByIdAsync(deleteExitSlipRequest.Id);
 
                 // Do
-                await exitSlipRepository.DeleteExitSlipAsync(exitSlip, deleteExitSlipRequest.RowVersion);
+                exitSlip.Delete();
 
                 // Save
+                await exitSlipRepository.DeleteExitSlipAsync(exitSlip, deleteExitSlipRequest.RowVersion);
                 return Result<bool>.Create("ExitSlip fjernet", true, ResultStatus.Success);
             }
             catch (Exception e)

@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace SharedKernel.Dto.Features.Evaluering.Answer.Query
 {
     public record GetSimpleAnswerResponse(
+
         );
 }
