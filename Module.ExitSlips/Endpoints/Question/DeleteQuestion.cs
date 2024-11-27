@@ -19,7 +19,8 @@ namespace Module.ExitSlip.Endpoints.Question
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapDelete("ExitSlip/Question",
+            app.MapDelete(configuration["Routes:ExitSlipModule:Question:DeleteQuestion"] ??
+                          throw new Exception("Route is not added to config file"),
                 async ([FromBody] DeleteQuestionRequest deleteQuestionRequest, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new DeleteQuestionCommand(deleteQuestionRequest))).ReturnHttpResult())
                 .WithTags("Question")

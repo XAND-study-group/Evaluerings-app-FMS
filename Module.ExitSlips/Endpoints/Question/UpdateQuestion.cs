@@ -19,8 +19,9 @@ namespace Module.ExitSlip.Endpoints.Question
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapPut("/ExitSlip/Question",
-                async([FromBody]UpdateQuestionRequest UpdateQuestionRequest, [FromServices]IMediator mediator)=>
+            app.MapPut(configuration["Routes:ExitSlipModule:Question:UpdateQuestion"] ??
+                       throw new Exception("Route is not added to config file"),
+                async ([FromBody]UpdateQuestionRequest UpdateQuestionRequest, [FromServices]IMediator mediator)=>
                 (await mediator.Send(new UpdateQuestionCommand(UpdateQuestionRequest))).ReturnHttpResult())
                 .WithTags("Question")
                 .RequireAuthorization();

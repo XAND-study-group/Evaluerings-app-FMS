@@ -19,7 +19,8 @@ namespace Module.ExitSlip.Endpoints.Answer
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapPost("/ExitSlip/Question/Answer",
+            app.MapPost(configuration["Routes:ExitSlipModule:Answer:CreateAnswer"] ??
+                        throw new Exception("Route is not added to config file"),
                     async ([FromBody] CreateAnswerRequest createAnswerRequest, [FromServices] IMediator mediator) =>
                     (await mediator.Send(new CreateAnswerCommand(createAnswerRequest))).ReturnHttpResult())
                 .WithTags("Answer")

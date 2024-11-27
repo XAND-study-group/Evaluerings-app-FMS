@@ -18,7 +18,8 @@ namespace Module.ExitSlip.Endpoints.Question
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapGet("/ExitSlip/Question/{exitSlipId:guid}",
+            app.MapGet(configuration["Routes:ExitSlipModule:Question:GetQuestionsByExitSlipId"] ??
+                       throw new Exception("Route is not added to config file"),
                 async ([FromRoute] Guid exitSlipId, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetQuestionsByExitSlipIdQuery(exitSlipId))).ReturnHttpResult())
                 .WithTags("Question")
