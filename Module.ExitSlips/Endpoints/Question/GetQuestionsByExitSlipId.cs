@@ -18,7 +18,7 @@ namespace Module.ExitSlip.Endpoints.Question
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapGet("/Exitslip/Question/{exitSlipId:guid}",
+            app.MapGet("/ExitSlip/Question/{exitSlipId:guid}",
                 async ([FromRoute] Guid exitSlipId, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetQuestionsByExitSlipIdQuery(exitSlipId))).ReturnHttpResult())
                 .WithTags("Question")

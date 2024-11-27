@@ -14,23 +14,21 @@ namespace Module.ExitSlip.Domain.Entities
         #region Properties
 
         public Text Text { get; protected set; }
-        public Guid UserId { get; protected set; }
-        private readonly List<Answer> _answers = new();
-        public IReadOnlyCollection<Answer> Answers => _answers.AsReadOnly();
+        private readonly List<Answer> _answers = [];
+        public IReadOnlyCollection<Answer> Answers => _answers;
 
         #endregion
 
         #region Constructors
 
         protected Question() { }
-        private Question(Guid exitSlipId, string text, Guid userId)
+        private Question(string text)
         {
             Text = text;
-            UserId = userId;
         }
 
-        public static Question Create(Guid exitSlipId, string text, Guid userId)
-            => new Question(exitSlipId, text, userId);
+        public static Question Create(string text)
+            => new Question(text);
 
         #endregion
 
@@ -40,29 +38,22 @@ namespace Module.ExitSlip.Domain.Entities
 
         public Answer AddAnswer(string text, Guid userId)
         {
-            var answer = Answer.Create(Id, text, userId);
+            var answer = Answer.Create(text, userId);
             _answers.Add(answer);
             return answer;
         }
 
-        public Answer UpdateAnswer(Guid answerId, Guid userId, string newText)
+        public Answer UpdateAnswer(Guid answerId, string newText)
         {
-            var answer = _answers.FirstOrDefault(a => a.Id == answerId) ??
-                throw new InvalidOperationException("Svar ikke fundet");
-            answer.UpdateAnswer(newText, userId);
+            var answer = GetAnswerById(answerId);
+            answer.UpdateAnswer(newText);
             return answer;
         }
 
         public void DeleteAnswer(Guid answerId)
         {
-            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
-            if (answer is null)
-                throw new InvalidOperationException("Svar ikke fundet");
+            var answer = GetAnswerById(answerId);
             _answers.Remove(answer);
-        }
-        public void DeleteAllAnswers()
-        {
-            _answers.Clear();
         }
 
         #endregion
@@ -72,6 +63,18 @@ namespace Module.ExitSlip.Domain.Entities
         public void UpdateQuestion(string newText)
         {
             Text = newText;
+        }
+
+        #endregion
+
+        #region HelperMethods
+
+        private Answer GetAnswerById(Guid answerId)
+        {
+            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
+            if (answer is null)
+                throw new InvalidOperationException("Svar ikke fundet.");
+            return answer;
         }
 
         #endregion

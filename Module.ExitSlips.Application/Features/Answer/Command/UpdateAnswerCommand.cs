@@ -24,12 +24,12 @@ public class UpdateAnswerCommandHandler : IRequestHandler<UpdateAnswerCommand, R
             var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(updateAnswerRequest.ExitSlipId);
 
             // Do
-            var answer = exitSlip.UpdateAnswer(updateAnswerRequest.UserId, updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
+            var answer = exitSlip.UpdateAnswer(updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
 
             // Save
             await _exitSlipRepository.UpdateAnswerAsync(answer,updateAnswerRequest.RowVersion);
 
-            return Result<bool>.Create("Answer updated", true, ResultStatus.Updated);
+            return Result<bool>.Create("Svaret blev opdateret", true, ResultStatus.Updated);
         }
         catch (Exception e)
         {

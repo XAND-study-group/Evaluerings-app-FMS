@@ -19,7 +19,7 @@ namespace Module.ExitSlip.Endpoints.Question
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapPost("Exitslip/Question",
+            app.MapPost("ExitSlip/Question",
                 async([FromBody]CreateQuestionRequest createQuestionRequest, [FromServices]IMediator mediator)=>
                 (await mediator.Send(new CreateQuestionCommand(createQuestionRequest))).ReturnHttpResult())
                 .WithTags("Question")

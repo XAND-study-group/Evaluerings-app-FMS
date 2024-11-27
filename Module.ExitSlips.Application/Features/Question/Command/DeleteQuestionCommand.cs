@@ -35,7 +35,7 @@ public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionComman
             exitSlip.DeleteQuestion(deleteQuestionRequest.QuestionId);
             await _exitSlipRepository.DeleteQuestionAsync(question, question.RowVersion);
 
-            return Result<bool>.Create("Question Deleted", true, ResultStatus.Deleted);
+            return Result<bool>.Create("Spørgsmål blev slettet", true, ResultStatus.Deleted);
         }
         catch (Exception e)
         {

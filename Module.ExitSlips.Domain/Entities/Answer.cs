@@ -13,7 +13,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region Constructors
         protected Answer(){}
-        private Answer(Guid questionId, string text, Guid userId)
+        private Answer(string text, Guid userId)
         {
             Text = text;
             UserId = userId;
@@ -21,10 +21,10 @@ namespace Module.ExitSlip.Domain.Entities
         #endregion
 
         #region Methods
-        public static Answer Create(Guid questionId, string text, Guid userId)
-        => new Answer(questionId, text, userId);
+        public static Answer Create(string text, Guid userId)
+        => new Answer(text, userId);
 
-        public void UpdateAnswer(string newText, Guid userId)
+        public void UpdateAnswer(string newText)
         {
             Text = newText;
         }

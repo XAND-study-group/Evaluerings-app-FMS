@@ -19,7 +19,7 @@ namespace Module.ExitSlip.Endpoints.Question
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapDelete("Exitslip/Question",
+            app.MapDelete("ExitSlip/Question",
                 async ([FromBody] DeleteQuestionRequest deleteQuestionRequest, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new DeleteQuestionCommand(deleteQuestionRequest))).ReturnHttpResult())
                 .WithTags("Question")

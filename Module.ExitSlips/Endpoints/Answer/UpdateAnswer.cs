@@ -19,7 +19,7 @@ namespace Module.ExitSlip.Endpoints.Answer
     {
         public void MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapPut("/Exitslip/Question/Answer",
+            app.MapPut("/ExitSlip/Question/Answer",
                     async ([FromBody] UpdateAnswerRequest updateAnswerRequest, [FromServices] IMediator mediator) =>
                     (await mediator.Send(new UpdateAnswerCommand(updateAnswerRequest))).ReturnHttpResult())
                 .WithTags("Answer")

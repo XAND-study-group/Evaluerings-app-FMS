@@ -36,7 +36,7 @@ public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionComman
             //Save
             await _exitSlipRepository.UpdateQuestionAsync(question, updateQuestionRequest.RowVersion);
 
-            return Result<bool>.Create("Question updated", true, ResultStatus.Updated);
+            return Result<bool>.Create("Spørgsmål blev opdateret", true, ResultStatus.Updated);
         }
         catch (Exception e)
         {

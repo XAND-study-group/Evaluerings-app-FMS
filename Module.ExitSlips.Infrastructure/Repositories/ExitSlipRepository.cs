@@ -37,7 +37,7 @@ public class ExitSlipRepository(ExitSlipDbContext _context) : IExitSlipRepositor
         return await _context.ExitSlips
             .Include(e => e.Questions)
             .ThenInclude(q => q.Answers)
-            .SingleOrDefaultAsync(e => e.Questions.Any(q => q.Id == questionId));
+            .SingleAsync(e => e.Questions.Any(q => q.Id == questionId));
     }
 
     public async Task UpdateAnswerAsync(Answer answer, byte[] rowVersion)

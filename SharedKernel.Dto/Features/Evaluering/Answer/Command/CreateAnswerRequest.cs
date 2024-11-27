@@ -3,5 +3,5 @@
 public record CreateAnswerRequest(
         Guid userId,
         Guid QuestionId,
-        Guid ExitslipId,
+        Guid ExitSlipId,
         string Text);

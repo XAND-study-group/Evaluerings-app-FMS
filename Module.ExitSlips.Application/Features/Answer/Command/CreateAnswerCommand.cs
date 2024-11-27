@@ -21,15 +21,15 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, R
         {
             // Load
             var createAnswerRequest = request.createAnswerRequest;
-            var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(createAnswerRequest.ExitslipId);
+            var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(createAnswerRequest.ExitSlipId);
 
             // Do
-            var answer = exitSlip.AddAnswer(createAnswerRequest.userId, createAnswerRequest.QuestionId, createAnswerRequest.ExitslipId, createAnswerRequest.Text);
+            var answer = exitSlip.AddAnswer(createAnswerRequest.userId, createAnswerRequest.QuestionId, createAnswerRequest.Text);
 
             // Save
             await _exitSlipRepository.CreateAnswerAsync(answer);
 
-            return Result<bool>.Create("Answer created", true, ResultStatus.Created);
+            return Result<bool>.Create("Svar blev oprettet", true, ResultStatus.Created);
         }
         catch (Exception e)
         {
