@@ -56,8 +56,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.ExitSlip.Infrastruct
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B4997CDC-6B90-4B35-8C7D-74F758484B7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Evaluering.Module.Shared.Infrastructure", "Evaluering.Module.Shared.Infrastructure\Evaluering.Module.Shared.Infrastructure.csproj", "{053DB269-57DD-4B97-9C72-1A3216291E50}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.Application", "School.Application\School.Application.csproj", "{7AF99363-C59F-4946-A890-402EB4129D6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.Domain", "School.Domain\School.Domain.csproj", "{799A2651-DC75-4A52-818D-4D4E80C8FD41}"
@@ -154,6 +152,8 @@ Global
 		{94B0152F-CA6B-4BA5-87B5-6D8831D8FBA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94B0152F-CA6B-4BA5-87B5-6D8831D8FBA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94B0152F-CA6B-4BA5-87B5-6D8831D8FBA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF3BD43-5FA7-494D-884C-082B65A83EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF3BD43-5FA7-494D-884C-082B65A83EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

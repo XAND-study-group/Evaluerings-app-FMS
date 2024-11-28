@@ -1,5 +1,7 @@
-﻿using Module.ExitSlip.Domain.Entities;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Domain.Test.Fakes;
+using Moq;
 using Xunit;
 
 namespace Module.ExitSlip.Domain.Test;
@@ -15,7 +17,7 @@ public class AnswerTests
     public void Given_Valid_Data_Then_Create_Success(string text)
     {
         // Act
-        var answer = Answer.Create(text);
+        var answer = Answer.Create(text, It.IsAny<Guid>());
 
         // Assert
         Assert.NotNull(answer);

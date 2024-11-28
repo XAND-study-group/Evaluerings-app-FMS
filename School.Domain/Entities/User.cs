@@ -39,7 +39,7 @@ namespace School.Domain.Entities
 
             Firstname =fristname;
             Lastname =lastname;
-            Email = UserEmail.Create(email, otherUsersEmails);      
+            Email = UserEmail.Create(email);      
             PasswordHash = passwordHasher.Hash(password);
             UserRole = role;
         }

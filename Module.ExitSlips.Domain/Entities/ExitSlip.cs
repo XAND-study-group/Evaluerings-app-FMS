@@ -39,8 +39,6 @@ namespace Module.ExitSlip.Domain.Entities
 
         #endregion
 
-        #region Methods
-
         #region Exit Slip Methodes
 
         public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount, ExitSlipActiveStatus activeStatus)

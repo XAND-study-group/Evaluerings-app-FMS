@@ -14,9 +14,14 @@ namespace Module.ExitSlip.Domain.Test.Fakes
         public FakeExitSlip()
         {
         }
-
-        public FakeExitSlip(ExitSlipActiveStatus activeStatus)
+        public FakeExitSlip(string title, ExitSlipActiveStatus activeStatus)
         {
+            Title = title;
+            ActiveStatus = activeStatus;
+        }
+        public FakeExitSlip( ExitSlipActiveStatus activeStatus)
+        {
+
             ActiveStatus = activeStatus;
         }
 
@@ -24,8 +29,6 @@ namespace Module.ExitSlip.Domain.Test.Fakes
             => Title = title;
 
         public void SetMaxQuestionCount(int maxQuestionCount)
-            => MaxQuestionCount.Create(maxQuestionCount);
-
-        
+            => MaxQuestionCount = maxQuestionCount;
     }
 }
