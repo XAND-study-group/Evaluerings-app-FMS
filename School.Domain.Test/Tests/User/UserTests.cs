@@ -23,10 +23,6 @@ namespace School.Domain.Test.Tests.User
             domainServiceMock.Setup(mock => mock.DoesUserEmailExist(It.IsAny<string>()))
                 .Returns(false);
 
-            var passwordHasherMock = new Mock<IPasswordHasher>();
-            passwordHasherMock.Setup(mock => mock.Hash(password))
-                .Returns(It.IsAny<string>());
-
             var accountClaimRepositoryMock = new Mock<IAccountClaimRepository>();
             accountClaimRepositoryMock
                 .Setup(mock => mock.CreateClaimForRoleAsync(It.IsAny<Entities.User>(), It.IsAny<Role>()))
@@ -34,7 +30,7 @@ namespace School.Domain.Test.Tests.User
 
             // Act
             var user = await Entities.User.CreateAsync(firstname, lastname, email, password, It.IsAny<Role>(),
-                domainServiceMock.Object, passwordHasherMock.Object, accountClaimRepositoryMock.Object);
+                domainServiceMock.Object, accountClaimRepositoryMock.Object);
 
             // Assert
             Assert.NotNull(user);

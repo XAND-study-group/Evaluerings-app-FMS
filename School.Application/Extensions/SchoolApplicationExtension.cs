@@ -9,7 +9,6 @@ public static class SchoolApplicationExtension
     public static IServiceCollection AddSchoolApplication(this IServiceCollection serviceCollection)
     {
         return serviceCollection
-            .AddScoped<IPasswordHasher, PasswordHasher>()
             .AddScoped<ITokenProvider, TokenProvider>();
     }
 }

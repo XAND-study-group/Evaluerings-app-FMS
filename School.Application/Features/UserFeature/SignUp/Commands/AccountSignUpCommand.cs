@@ -11,7 +11,10 @@ namespace School.Application.Features.UserFeature.SignUp.Commands;
 
 public record AccountSignUpCommand(CreateAccountLoginRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class AccountSignUpCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+public class AccountSignUpCommandHandler(
+    IUserRepository userRepository,
+    IUserDomainService userDomainService,
+    IAccountClaimRepository accountClaimRepository)
     : IRequestHandler<AccountSignUpCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(AccountSignUpCommand request, CancellationToken cancellationToken)
@@ -23,10 +26,10 @@ public class AccountSignUpCommandHandler(IUserRepository userRepository, IPasswo
             var exists = await userRepository.DoesUserEmailExistAsync(createRequest.Email);
             if (!exists)
                 return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
-
-            //TODO: Add other users
-            var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname, createRequest.Email,
-                createRequest.Password, Role.User, [], passwordHasher);
+            
+            var user = await Domain.Entities.User.CreateAsync(createRequest.Firstname, createRequest.Lastname,
+                createRequest.Email,
+                createRequest.Password, Role.User, userDomainService, accountClaimRepository);
 
             await userRepository.CreateUserAsync(user);
 

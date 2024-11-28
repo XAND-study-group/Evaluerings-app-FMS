@@ -13,7 +13,7 @@ public class LoginChangePassword : IEndpoint
         app.MapPost(configuration["Routes:UserModule:Authentication:LoginChangePassword"] ??
                     throw new Exception("Route is not added to config file"),
                 async ([FromBody] ChangePasswordRequest request, [FromServices] IMediator mediator) =>
-                await mediator.Send(new AccountChangePasswordCommand(request)))
+                await mediator.Send(new AccountChangePasswordNotLoggedInCommand(request)))
             .WithTags("Authentication")
             .RequireRateLimiting("LowFrequencyEndpoint");
     }
