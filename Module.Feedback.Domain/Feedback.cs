@@ -11,7 +11,7 @@ public class Feedback : Entity
     #region Properties
 
     // General Properties
-    public HashedId HashedUserId { get; protected set; }
+    public HashedUserId HashedUserUserId { get; protected set; }
     public Title Title { get; protected set; }
     public Text Problem { get; protected set; }
     public Text Solution { get; protected set; }
@@ -33,9 +33,9 @@ public class Feedback : Entity
     {
     }
 
-    private Feedback(HashedId hashedUserUserId, string title, string problem, string solution, Room room)
+    private Feedback(HashedUserId hashedUserUserUserId, string title, string problem, string solution, Room room)
     {
-        HashedUserId = hashedUserUserId;
+        HashedUserUserId = hashedUserUserUserId;
         Title = title;
         Problem = problem;
         Solution = solution;
@@ -150,7 +150,7 @@ public class Feedback : Entity
 
     private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId)
     {
-        if (votes.Any(v => v.HashedUserId == userId))
+        if (votes.Any(v => v.HashedUserUserId == userId))
             throw new ArgumentException("User has already voted for this feedback.");
     }
 

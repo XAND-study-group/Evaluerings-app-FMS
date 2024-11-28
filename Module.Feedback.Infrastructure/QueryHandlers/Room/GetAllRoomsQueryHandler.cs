@@ -9,7 +9,7 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Room;
 
-public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<IEnumerable<GetAllRoomsResponse>>>
+public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<IEnumerable<GetSimpleRoomResponse>>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
@@ -18,25 +18,25 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<
     {
         _feedbackDbContext = feedbackDbContext;
         _mapper = new MapperConfiguration(cfg => 
-            { cfg.CreateMap<Domain.Room, GetAllRoomsResponse>(); }).CreateMapper();
+            { cfg.CreateMap<Domain.Room, GetSimpleRoomResponse>(); }).CreateMapper();
     }
 
-    async Task<Result<IEnumerable<GetAllRoomsResponse>>>
-        IRequestHandler<GetAllRoomsQuery, Result<IEnumerable<GetAllRoomsResponse>>>.Handle(GetAllRoomsQuery request,
+    async Task<Result<IEnumerable<GetSimpleRoomResponse>>>
+        IRequestHandler<GetAllRoomsQuery, Result<IEnumerable<GetSimpleRoomResponse>>>.Handle(GetAllRoomsQuery request,
             CancellationToken cancellationToken)
     {
         try
         {
             var response = await _feedbackDbContext.Rooms
                 .AsNoTracking()
-                .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetSimpleRoomResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetAllRoomsResponse>>.Create("Forums fundet", response, ResultStatus.Success);
+            return Result<IEnumerable<GetSimpleRoomResponse>>.Create("Forums fundet", response, ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<IEnumerable<GetAllRoomsResponse>>.Create(e.Message, [], ResultStatus.Error);
+            return Result<IEnumerable<GetSimpleRoomResponse>>.Create(e.Message, [], ResultStatus.Error);
         }
     }
 }

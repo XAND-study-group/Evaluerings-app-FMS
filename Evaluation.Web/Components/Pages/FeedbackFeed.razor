@@ -1,0 +1,73 @@
+﻿@page "/FeedbackFeed"
+@rendermode InteractiveServer
+<h3>FeedbackFeed</h3>
+<div class="modal fade"
+     id="CreateFeedback"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="CreateFeedbackLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <EditForm model="@FeedbackViewModel" OnValidSubmit="CreateFeedback">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="CreateFeedbackLabel">Opret Evaluering</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
+                </div>
+                <div class="modal-body">
+                    <DataAnnotationsValidator/>
+                    <div class="mb-3">
+                        <label>Titel</label>
+                        <input @bind-value="FeedbackViewModel.Title"
+                               class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Problem</label>
+                        <InputTextArea @bind-value="FeedbackViewModel.Problem"
+                                       class="form-control"
+                                       style="height: 150px; max-height: 200px"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Løsning</label>
+                        <InputTextArea @bind-value="FeedbackViewModel.Solution"
+                                       class="form-control"
+                                       style="height: 150px; max-height: 200px"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Forum</label>
+                        <InputSelect @bind-Value="FeedbackViewModel.RoomId" class="form-control">
+                            @foreach (var room in Rooms)
+                            {
+                                <option checked="@(FeedbackViewModel.RoomId == room.Id)"
+                                        value="@room.Id">
+                                    @room.Title
+                                </option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+                    @if (IsValidInput)
+                    {
+                        <button type="submit" class="btn btn-primary">Gem ændringer</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary" onclick="@ValidateInput">Valider input</button>
+                    }
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+<div>
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#CreateFeedback">
+        Opret Evaluering
+    </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>

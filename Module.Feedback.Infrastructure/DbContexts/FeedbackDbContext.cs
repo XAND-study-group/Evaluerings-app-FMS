@@ -43,7 +43,7 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
         modelBuilder.Entity<Domain.Feedback>()
             .ComplexProperty(f => f.Solution);
         modelBuilder.Entity<Domain.Feedback>()
-            .ComplexProperty(f => f.HashedUserId);
+            .ComplexProperty(f => f.HashedUserUserId);
         modelBuilder.Entity<Domain.Feedback>()
             .Property(f => f.Created)
             .ValueGeneratedOnAdd();
@@ -58,7 +58,7 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
             .Property(v => v.RowVersion)
             .IsRowVersion();
         modelBuilder.Entity<Vote>()
-            .ComplexProperty(v => v.HashedUserId);
+            .ComplexProperty(v => v.HashedUserUserId);
 
         #endregion Vote OnModelCreating Configuration
         

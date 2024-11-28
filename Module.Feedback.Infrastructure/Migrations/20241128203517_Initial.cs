@@ -33,7 +33,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    HashedId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HashedUserUserId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Problem_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Solution_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Title_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -84,7 +84,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VoteScale = table.Column<int>(type: "int", nullable: false),
                     FeedbackId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    HashedId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HashedUserUserId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>

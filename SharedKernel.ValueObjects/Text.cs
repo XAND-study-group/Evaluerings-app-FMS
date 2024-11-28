@@ -18,9 +18,13 @@ public record Text
         if (value.Length > 500)
             throw new ArgumentException("Value cannot be longer than 500 characters.", nameof(value));
     }
+    
+    public override string ToString()
+    {
+        return Value;
+    }
 
-    public static implicit operator Text(string value)
-        => new(value);
+    public static implicit operator Text(string value) => new(value);
 
-    public static implicit operator string(Text value) => value.Value;
+    public static implicit operator string(Text text) => text.Value;
 };

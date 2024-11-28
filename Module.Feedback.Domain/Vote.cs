@@ -8,7 +8,7 @@ public class Vote : Entity
 {
     #region Properties
 
-    public HashedId HashedUserId { get; protected set; }
+    public HashedUserId HashedUserUserId { get; protected set; }
     public VoteScale VoteScale { get; protected set; }
 
     #endregion Properties
@@ -19,9 +19,9 @@ public class Vote : Entity
     {
     }
 
-    private Vote(HashedId hashedUserId, VoteScale voteScale)
+    private Vote(HashedUserId hashedUserUserId, VoteScale voteScale)
     {
-        HashedUserId = hashedUserId;
+        HashedUserUserId = hashedUserUserId;
         VoteScale = voteScale;
     }
 
