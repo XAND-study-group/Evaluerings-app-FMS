@@ -10,7 +10,7 @@ namespace School.Application.Features.UserFeature.User.Command
 {
     public record CreateUserCommand(CreateUserRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
     
-    public class CreateUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+    public class CreateUserCommandHandler(IUserRepository userRepository, IUserDomainService userDomainService, IAccountClaimRepository accountClaimRepository)
         : IRequestHandler<CreateUserCommand, Result<bool>>
     {
         async Task<Result<bool>> IRequestHandler<CreateUserCommand, Result<bool>>.Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -18,18 +18,17 @@ namespace School.Application.Features.UserFeature.User.Command
             try
             {
                 // Load
-                var otherUsers = await userRepository.GetAllUsers();
                 var userRequest = request.Request;
 
                 // Do 
-                var user = Domain.Entities.User.Create(
+                var user = await Domain.Entities.User.CreateAsync(
                     userRequest.Firstname, 
                     userRequest.Lastname, 
                     userRequest.Email,
                     userRequest.Password,
                     Role.User,
-                    otherUsers,
-                    passwordHasher);
+                    userDomainService, 
+                    accountClaimRepository);
 
                 // Save 
                 await userRepository.CreateUserAsync(user);

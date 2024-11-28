@@ -12,7 +12,6 @@ public record AccountLoginCommand(AuthenticateAccountLoginRequest Request) : IRe
 
 public class AccountLoginCommandHandler(
     IUserRepository userRepository,
-    IPasswordHasher passwordHasher,
     ITokenProvider tokenProvider,
     IConfiguration configuration) : IRequestHandler<AccountLoginCommand, Result<TokenResponse?>>
 {
@@ -27,7 +26,7 @@ public class AccountLoginCommandHandler(
             if (user is null)
                 return Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error);
 
-            var correctCredentials = passwordHasher.Verify(authenticateRequest.Password, user.PasswordHash);
+            var correctCredentials = user.PasswordHash.Verify(authenticateRequest.Password);
 
             var accessToken = tokenProvider.GenerateAccessToken(user);
             var refreshToken = tokenProvider.GenerateRefreshToken();

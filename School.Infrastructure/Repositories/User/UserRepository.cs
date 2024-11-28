@@ -36,9 +36,10 @@ namespace School.Infrastructure.Repositories.User
             await dbContext.SaveChangesAsync();
         }
 
-        async Task IUserRepository.ChangeUserPasswordAsync()
+        async Task IUserRepository.ChangeUserPasswordAsync(Domain.Entities.User user, byte[] rowVersion)
         {
-            // TODO: Reset refresh token
+            user.ResetRefreshToken();
+            dbContext.Entry(user).Property(nameof(user.RowVersion)).OriginalValue = rowVersion;
             await dbContext.SaveChangesAsync();
         }
 
