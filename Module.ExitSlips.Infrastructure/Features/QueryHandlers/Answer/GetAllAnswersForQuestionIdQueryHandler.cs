@@ -17,9 +17,9 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
     public class GetAllAnswersForQuestionIdQueryHandler : IRequestHandler<GetAllAnswersForQuestionIdQuery, Result<IEnumerable<GetSimpleAnswerResponse>>>
     {
         private IExitSlipDbContext _exitSlipDbContext;
-        private readonly AutoMapper.IMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public GetAllAnswersForQuestionIdQueryHandler(IExitSlipDbContext exitSlipDbContext, AutoMapper.IMapper mapper)
+        public GetAllAnswersForQuestionIdQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
             _mapper = mapper;
