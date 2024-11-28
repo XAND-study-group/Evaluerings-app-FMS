@@ -32,6 +32,7 @@ public class AccountStartResetPasswordCommandHandler(
         var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetSlidingExpiration(TimeSpan.FromMinutes(15));
 
+        // TODO: Reverse id/code
         memoryCache.Set(startResetPasswordRequest.Id, code, cacheEntryOptions);
 
         return Result<RequestResetPasswordResponse?>.Create("Der blev genereret en kode til at nulstille kodeordet",

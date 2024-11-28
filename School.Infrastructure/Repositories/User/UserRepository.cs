@@ -38,6 +38,7 @@ namespace School.Infrastructure.Repositories.User
 
         async Task IUserRepository.ChangeUserPasswordAsync()
         {
+            // TODO: Reset refresh token
             await dbContext.SaveChangesAsync();
         }
 

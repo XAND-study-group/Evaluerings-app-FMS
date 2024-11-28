@@ -27,6 +27,7 @@ public class AccountChangePasswordCommandHandler(
             if (user is null)
                 return Result<bool>.Create("Brugeren eksistere ikke", false, ResultStatus.Error);
             
+            // TODO: Update so code is given as key to get userId & move to top
             var code = memoryCache.Get(changePasswordRequest.AccountLoginId) as string;
             
             if (code == null || code != changePasswordRequest.Code)
