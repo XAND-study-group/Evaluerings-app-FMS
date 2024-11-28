@@ -1,7 +1,6 @@
-﻿using SharedKernel.Enums.Features.Vote;
-using SharedKernel.Interfaces.DomainServices;
-using SharedKernel.Interfaces.DomainServices.Interfaces;
-using SharedKernel.ValueObjects;
+﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+using Module.Feedback.Domain.ValueObjects;
+using SharedKernel.Enums.Features.Vote;
 
 namespace Module.Feedback.Domain.Test.Fakes;
 
@@ -17,6 +16,6 @@ public class FakeVote : Vote
         VoteScale = voteScale;
     }
     
-    public void SetHashId(Guid userId, IHashIdService hashIdService)
-    => HashedId = HashedId.Create(userId, hashIdService);
+    public void SetHashId(Guid userId)
+    => HashedUserId = userId;
 }

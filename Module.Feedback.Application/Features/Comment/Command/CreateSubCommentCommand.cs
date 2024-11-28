@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Module.Feedback.Application.Abstractions;
-using Module.Feedback.Domain.DomainServices;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Evaluering.Comment.Command;
-using SharedKernel.Interfaces.DomainServices;
 using SharedKernel.Models;
 
 namespace Module.Feedback.Application.Features.Comment.Command;
@@ -21,13 +19,13 @@ public class CreateSubCommentCommandHandler(
         {
             // Load
             var createSubCommentRequest = request.CreateSubCommentRequest;
-            var comment = await commentRepository.GetCommentByIdAsync(createSubCommentRequest.CommentId);
+            var feedback = await commentRepository.GetFeedbackByIdAsync(createSubCommentRequest.FeedbackId);
 
             // Do
-            var subComment = await Domain.Comment.CreateAsync(createSubCommentRequest.UserId,
+            var subComment = await feedback.AddSubCommentAsync(createSubCommentRequest.CommentId,
+                createSubCommentRequest.UserId,
                 createSubCommentRequest.CommentText,
                 iValidationServiceProxy);
-            comment.AddSubComment(subComment);
 
             // Save
             await commentRepository.CreateCommentAsync(subComment);

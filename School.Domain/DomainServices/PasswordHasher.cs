@@ -10,14 +10,14 @@ public class PasswordHasher : IPasswordHasher
     private const int HashSize = 32;
     private const int Iterations = 100000;
 
-    private readonly HashAlgorithmName Algorithm = HashAlgorithmName.SHA512;
+    private readonly HashAlgorithmName _algorithm = HashAlgorithmName.SHA512;
     
     public string Hash(string password)
     {
         var salt = RandomNumberGenerator.GetBytes(SaltSize);
         var pepper = RandomNumberGenerator.GetBytes(PepperSize);
-        var hashWithSalt = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, Algorithm, HashSize);
-        var hashWithPepper = Rfc2898DeriveBytes.Pbkdf2(hashWithSalt, pepper, Iterations, Algorithm, HashSize);
+        var hashWithSalt = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, _algorithm, HashSize);
+        var hashWithPepper = Rfc2898DeriveBytes.Pbkdf2(hashWithSalt, pepper, Iterations, _algorithm, HashSize);
         
         return $"{Convert.ToHexString(hashWithPepper)}-{Convert.ToHexString(salt)}-{Convert.ToHexString(pepper)}";
     }
@@ -30,8 +30,8 @@ public class PasswordHasher : IPasswordHasher
         var salt = Convert.FromHexString(parts[1]);
         var pepper = Convert.FromHexString(parts[2]);
 
-        var inputHashWithSalt = Rfc2898DeriveBytes.Pbkdf2(requestPassword, salt, Iterations, Algorithm, HashSize);
-        var inputHashWithPepper = Rfc2898DeriveBytes.Pbkdf2(inputHashWithSalt, pepper, Iterations, Algorithm, HashSize);
+        var inputHashWithSalt = Rfc2898DeriveBytes.Pbkdf2(requestPassword, salt, Iterations, _algorithm, HashSize);
+        var inputHashWithPepper = Rfc2898DeriveBytes.Pbkdf2(inputHashWithSalt, pepper, Iterations, _algorithm, HashSize);
 
         // return hash.SequenceEqual(inputHash); // Attackers can see how long it takes to compare and then find the correct hash
         return CryptographicOperations.FixedTimeEquals(hash, inputHashWithPepper);

@@ -4,6 +4,7 @@ using School.Domain.DomainServices.Interfaces;
 using School.Domain.Entities;
 using SharedKernel.Enums.Features.Authentication;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace School.Domain.Test.Tests.User;
 
@@ -18,10 +19,11 @@ public class AccountLoginTest
         var passwordHasherMock = new Mock<IPasswordHasher>();
 
         // Act & Assert
-        var exception = Assert.Throws<ArgumentException>(() => Entities.User.Create(It.IsAny<string>(), It.IsAny<string>(), email, password, It.IsAny<Role>(), [], passwordHasherMock.Object));
+        var exception = Assert.Throws<ArgumentException>(() => Entities.User.Create(It.IsAny<string>(),
+            It.IsAny<string>(), email, password, It.IsAny<Role>(), [], passwordHasherMock.Object));
         Assert.Equal(expectedMessage, exception.Message);
     }
-    
+
     [Theory]
     [MemberData(nameof(ValidCreateLoginsData))]
     public void Create_ShouldNotThrowExceptions_WhenValidDataIsGiven(string email, string password)
@@ -31,32 +33,29 @@ public class AccountLoginTest
         passwordHasherMock.Setup(mock => mock.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
 
         // Act & Assert
-        Assert.NotNull(Entities.User.Create(It.IsAny<string>(), It.IsAny<string>(), email, password, It.IsAny<Role>(), [], passwordHasherMock.Object));
+        Assert.NotNull(Entities.User.Create(It.IsAny<string>(), It.IsAny<string>(), email, password, It.IsAny<Role>(),
+            [], passwordHasherMock.Object));
     }
 
     #region MemberData
 
     public static IEnumerable<object[]> InvalidPasswordData()
     {
-        
         yield return ["short", "Adgangskode skal være minimum 10 karaktere langt"];
         yield return ["nouppercase1!", "Adgangskode skal have mindst ét stort bogstav"];
         yield return ["NoNumberInPassword!", "Adgangskode skal have mindst ét tal"];
         yield return ["NoSpecialChar1", "Adgangskoden skal have mindst ét specialtegn"];
     }
-    
+
     public static IEnumerable<object[]> ValidCreateLoginsData()
     {
         var email = "test@example.com";
-        
+
         yield return [email, "ValidPassword123!"];
         yield return [email, "OtherValidPassword98."];
         yield return [email, "SomeWeirdPassword45#"];
         yield return [email, "BestPassword5*"];
     }
-    
-    
 
     #endregion
-    
 }

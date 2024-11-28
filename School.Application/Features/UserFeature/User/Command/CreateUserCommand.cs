@@ -9,6 +9,7 @@ using SharedKernel.Models;
 namespace School.Application.Features.UserFeature.User.Command
 {
     public record CreateUserCommand(CreateUserRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
+    
     public class CreateUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
         : IRequestHandler<CreateUserCommand, Result<bool>>
     {

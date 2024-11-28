@@ -16,9 +16,12 @@ public class DeleteVoteCommandHandler(IVoteRepository voteRepository) : IRequest
         {
             // Load
             var deleteVoteRequest = request.DeleteVoteRequest;
-            var vote = await voteRepository.GetVoteByIdAsync(deleteVoteRequest.VoteId);
+            var feedback = await voteRepository.GetFeedbackByIdAsync(deleteVoteRequest.FeedbackId);
 
-            // Do & Save
+            // Do
+            var vote = feedback.DeleteVote(deleteVoteRequest.VoteId);
+            
+            // Save
             await voteRepository.DeleteVoteAsync(vote, deleteVoteRequest.RowVersion);
 
             return Result<bool>.Create("Vote Fjernet", true, ResultStatus.Deleted);

@@ -6,16 +6,36 @@
       dockerfile: School.API/Dockerfile
     networks:
       - backend
+        
+  evaluation.api:
+    image: evaluation.api
+    build:
+      context: .
+      dockerfile: Evaluering.API/Dockerfile
+    networks:
+      - backend
       
-  db:
+  schooldb:
     image: mcr.microsoft.com/mssql/server:latest
     volumes:
-      - C:\Dev\SQL\Evalueringsapp:/var/opt/mssql/data
+      - C:\Dev\SQL\SchoolApp:/var/opt/mssql/data
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "StrongPassword123."
     ports:
       - "8090:1433"
+    networks:
+      - backend
+  
+  evaluationdb:
+    image: mcr.microsoft.com/mssql/server:latest
+    volumes:
+      - C:\Dev\SQL\EvaluationApp:/var/opt/mssql/data
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "StrongPassword123."
+    ports:
+      - "9090:1433"
     networks:
       - backend
         
@@ -24,9 +44,3 @@ networks:
     driver: bridge
   backend:
     driver: bridge
-
-  validation.api:
-    image: validation.api
-    build:
-      context: .
-      dockerfile: Validation.API/Dockerfile

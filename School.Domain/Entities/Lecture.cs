@@ -1,4 +1,5 @@
-﻿using SharedKernel.Models;
+﻿using School.Domain.ValueObjects;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace School.Domain.Entities;
@@ -14,6 +15,7 @@ public class Lecture : Entity
     public ClassRoom ClassRoom { get; protected set; }
     private readonly List<User> _teachers = [];
     public IReadOnlyCollection<User> Teachers => _teachers;
+    
 
     #endregion Properties
 

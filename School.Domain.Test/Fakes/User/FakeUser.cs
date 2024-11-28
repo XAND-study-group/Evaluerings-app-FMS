@@ -1,4 +1,5 @@
-﻿using SharedKernel.ValueObjects;
+﻿using School.Domain.ValueObjects;
+using SharedKernel.ValueObjects;
 
 namespace School.Domain.Test.Fakes.User
 {
@@ -6,7 +7,7 @@ namespace School.Domain.Test.Fakes.User
     {
         public FakeUser(string email)
         {
-            Email = UserEmail.Create(email, []);
+            Email = UserEmail.Create(email);
         }
 
         public FakeUser()
@@ -18,16 +19,16 @@ namespace School.Domain.Test.Fakes.User
         }
 
         public void SetRefreshToken(string token, DateTime expirationDate)
-            => RefreshToken = SharedKernel.ValueObjects.RefreshToken.Create(token, expirationDate);
-        
-        public void SetUserFirstname(string firstname)
-            => Firstname = UserFirstname.Create(firstname);
-        
-        public void SetUserLastname(string lastname)
-            => Lastname = UserLastname.Create(lastname);
+            => RefreshToken = RefreshToken.Create(token, expirationDate);
 
-        public void SetUserEmail(string email, IEnumerable<string> otherEmails)
-            => Email = UserEmail.Create(email, otherEmails);
+        public void SetUserFirstname(string firstname)
+            => Firstname = firstname;
+
+        public void SetUserLastname(string lastname)
+            => Lastname = lastname;
+
+        public void SetUserEmail(string email)
+            => Email = UserEmail.Create(email);
 
     }
 }

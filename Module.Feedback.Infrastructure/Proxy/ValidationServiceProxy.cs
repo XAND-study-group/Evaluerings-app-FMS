@@ -1,12 +1,14 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Module.Feedback.Domain.DomainServices.Interfaces;
+using Module.Feedback.Infrastructure.Options;
 using SharedKernel.Dto.Features.Evaluering.Proxy;
 
 namespace Module.Feedback.Infrastructure.Proxy;
 
-public class ValidationServiceProxy(IConfiguration configuration, HttpClient httpClient) : IValidationServiceProxy
+public class ValidationServiceProxy(IConfiguration configuration, HttpClient httpClient, IOptions<EvaluationSecrets> evaluationSecrets) : IValidationServiceProxy
 {
     async Task<GeminiResponse> IValidationServiceProxy.IsAcceptableContentAsync(string title, string problem,
         string solution)
@@ -35,7 +37,7 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
 
     private async Task<GeminiResponse> SendRequest(string prompt)
     {
-        var url = configuration["GeminiApiURL"]+configuration["GEMINI_KEY"];
+        var url = configuration["GeminiApiURL"]+evaluationSecrets.Value.GeminiApiKey;
         var theContent = new StringContent($"{{\"contents\":[{{\"parts\":[{{\"text\":\"{prompt}\"}}]}}]}}",
             Encoding.UTF8, "application/json");
 
@@ -77,7 +79,7 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
     
     private string GetDefaultPrompt() =>
             "Din opgave er at validere følgende indhold: " +
-            "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i et kodeblok og brug ikke markdown." +
+            "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i en kodeblok og brug ikke markdown." +
             "'Valid' skal være sandt, hvis indholdet følger retningslinjerne, og falsk, hvis indholdet ikke følger retningslinjerne " +
             "'Reason' skal specificere, hvorfor 'Valid' er sat til falsk. Dette skal gøres i maksimalt 10 ord. Hvis 'Valid' er sandt, skal 'Reason' være tom " +
             "I din validering skal du følge mindst disse retningslinjer:";

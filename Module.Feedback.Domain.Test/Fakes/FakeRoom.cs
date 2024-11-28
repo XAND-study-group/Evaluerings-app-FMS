@@ -17,4 +17,16 @@ public class FakeRoom : Room
 
     public void SetDescription(string description)
         => Description = description;
+
+    public new void AssureNoDuplicateClassIds(Guid classId, IEnumerable<Guid> currentClassIds)
+        => base.AssureNoDuplicateClassIds(classId, currentClassIds);
+
+    public new void AssureClassIdIsInList(Guid classId, IEnumerable<Guid> currentClassIds)
+        => base.AssureClassIdIsInList(classId, currentClassIds);
+
+    public new void AssureNoDuplicateUserIds(Guid userId, IEnumerable<Guid> currentUserIds)
+        => base.AssureNoDuplicateUserIds(userId, currentUserIds);
+
+    public new void AssureUserIdIsInList(Guid userId, IEnumerable<Guid> currentUserIds)
+        => base.AssureUserIdIsInList(userId, currentUserIds);
 }

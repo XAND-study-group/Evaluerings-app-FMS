@@ -1,8 +1,7 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Enums.Features.Vote;
-using SharedKernel.Interfaces.DomainServices;
-using SharedKernel.Interfaces.DomainServices.Interfaces;
 
 namespace Module.Feedback.Domain.Test;
 
@@ -16,12 +15,8 @@ public class VoteTests
     [MemberData(nameof(ValidCreationData))]
     public void Given_Valid_Data_Then_Create_Success(Guid userId, VoteScale voteScale)
     {
-        // Arrange
-        var mockIHashIdService = new Mock<IHashIdService>();
-        mockIHashIdService.Setup(hashId => hashId.Hash(userId)).Returns("ValidIdHash");
-        
         // Act
-        var vote = Vote.Create(userId, voteScale, mockIHashIdService.Object);
+        var vote = Vote.Create(userId, voteScale);
         
         // Assert
         Assert.NotNull(vote);

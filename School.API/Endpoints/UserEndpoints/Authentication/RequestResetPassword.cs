@@ -15,6 +15,6 @@ public class RequestResetPassword : IEndpoint
                 async (RequestResetPasswordRequest request, IMediator mediator)
                     => (await mediator.Send(new AccountRequestResetPasswordCommand(request))).ReturnHttpResult())
             .WithTags("Authentication")
-            .RequireRateLimiting("baseLimit");
+            .RequireRateLimiting("LowFrequencyEndpoint");
     }
 }

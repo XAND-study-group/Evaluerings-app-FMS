@@ -4,11 +4,12 @@ using School.Domain.DomainServices.Interfaces;
 using School.Domain.Entities;
 using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Enums.Features.Authentication;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.SignUp.Commands;
 
-public record AccountSignUpCommand(CreateAccountLoginRequest Request) : IRequest<Result<bool>>;
+public record AccountSignUpCommand(CreateAccountLoginRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class AccountSignUpCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
     : IRequestHandler<AccountSignUpCommand, Result<bool>>
@@ -19,7 +20,7 @@ public class AccountSignUpCommandHandler(IUserRepository userRepository, IPasswo
         {
             var createRequest = request.Request;
 
-            var exists = await userRepository.DoesAccountLoginEmailExistAsync(createRequest.Email);
+            var exists = await userRepository.DoesUserEmailExistAsync(createRequest.Email);
             if (!exists)
                 return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
 

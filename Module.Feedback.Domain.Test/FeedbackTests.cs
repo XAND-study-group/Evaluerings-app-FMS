@@ -1,10 +1,7 @@
-﻿using Module.Feedback.Domain.DomainServices;
-using Module.Feedback.Domain.DomainServices.Interfaces;
+﻿using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Dto.Features.Evaluering.Proxy;
-using SharedKernel.Interfaces.DomainServices;
-using SharedKernel.Interfaces.DomainServices.Interfaces;
 
 namespace Module.Feedback.Domain.Test;
 
@@ -25,12 +22,8 @@ public class FeedbackTests
         var mockFeedbackService = new Mock<IValidationServiceProxy>();
         mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(title,problem, solution)).ReturnsAsync(new GeminiResponse(true,""));
 
-        var mockHashIdService = new Mock<IHashIdService>();
-        mockHashIdService.Setup(h => h.Hash(guid)).Returns("FakeHashId");
-
         // Act
-        var feedback = await room.AddFeedbackAsync(guid, title, problem, solution, mockHashIdService.Object,
-            mockFeedbackService.Object);
+        var feedback = await Feedback.CreateAsync(guid, title, problem, solution, room, mockFeedbackService.Object);
 
         // Assert
         Assert.NotNull(feedback);

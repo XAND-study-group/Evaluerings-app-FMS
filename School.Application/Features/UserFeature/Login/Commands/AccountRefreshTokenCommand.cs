@@ -3,11 +3,12 @@ using Microsoft.Extensions.Configuration;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.Login.Commands;
 
-public record AccountRefreshTokenCommand(TokenRequest Request) : IRequest<Result<TokenResponse?>>;
+public record AccountRefreshTokenCommand(TokenRequest Request) : IRequest<Result<TokenResponse?>>, ITransactionalCommand;
 
 public class AccountRefreshTokenCommandHandler(
     ITokenProvider tokenProvider,

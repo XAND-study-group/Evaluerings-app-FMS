@@ -1,4 +1,5 @@
-﻿using SharedKernel.Models;
+﻿using School.Domain.ValueObjects;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace School.Domain.Entities
@@ -17,6 +18,14 @@ namespace School.Domain.Entities
 
         #region Constructors
 
+        protected Subject(SubjectName name, SubjectDescription description, IEnumerable<Lecture> lectures, IEnumerable<Subject> otherSubjects)
+        {
+            Name = name;
+            Description = description;
+            _lectures = lectures.ToList();
+            AssureNameIsUnique(name, otherSubjects);
+        }
+        
         protected Subject(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
         {
             Name = name;
@@ -35,6 +44,14 @@ namespace School.Domain.Entities
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (description == null) throw new ArgumentNullException(nameof(description));
             return new Subject(name, description, otherSubjects);
+        }
+        
+        public static Subject Create(SubjectName name, SubjectDescription description, IEnumerable<Lecture> lectures, IEnumerable<Subject> otherSubjects)
+        {
+            ArgumentNullException.ThrowIfNull(name);
+            ArgumentNullException.ThrowIfNull(description);
+            
+            return new Subject(name, description, lectures, otherSubjects);
         }
 
         public void Update(SubjectName name, SubjectDescription description)
