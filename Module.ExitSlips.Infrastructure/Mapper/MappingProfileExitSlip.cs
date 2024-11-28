@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Module.ExitSlip.Domain.Entities;
 using SharedKernel.Dto.Features.Evaluering.Answer.Command;
 using SharedKernel.Dto.Features.Evaluering.Answer.Query;
@@ -12,7 +7,7 @@ using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
 using SharedKernel.Dto.Features.Evaluering.Question.Command;
 using SharedKernel.Dto.Features.Evaluering.Question.Query;
 
-namespace Module.ExitSlip.Infrastructure.IMapper
+namespace Module.ExitSlip.Infrastructure.Mapper
 {
     public class MappingProfileExitSlip : Profile
     {

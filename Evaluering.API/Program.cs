@@ -2,12 +2,12 @@ using Evaluering.API;
 using MediatR;
 using Evaluering.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Module.ExitSlip.Infrastructure.Mapper;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
 using Module.Feedback.Infrastructure.IMapper;
 using Module.Feedback.Infrastructure.Options;
 using School.API.Helper;
-using Module.ExitSlip.Infrastructure.IMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

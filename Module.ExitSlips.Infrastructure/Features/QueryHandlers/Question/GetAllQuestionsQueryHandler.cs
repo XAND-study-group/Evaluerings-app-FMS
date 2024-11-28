@@ -7,7 +7,9 @@ using SharedKernel.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Dto.Features.School.Lecture.Query;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
 {
@@ -25,13 +27,13 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
         public async Task<Result<IEnumerable<GetSimpleQuestionsResponse>>> Handle(GetAllQuestionsQuery query, CancellationToken cancellationToken)
         {
             var questions= await _exitSlipDbContext.Questions
+                .ProjectTo<GetSimpleQuestionsResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
             if(questions is null)
                 return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Ingen spørgsmål blev fundet", null, ResultStatus.Error);
             
-            var response = _mapper.Map<IEnumerable<GetSimpleQuestionsResponse>>(questions);
-            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Success", response, ResultStatus.Success);
+            return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Success", questions, ResultStatus.Success);
         }
     }
 }
