@@ -11,9 +11,10 @@ namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query
 {
     public record GetDetailsExitSlipResponse(
         Guid LectureId,
+        Guid SubjectId,
         string Title,
         int MaxQuestioncount,
         ExitSlipActiveStatus ActiveStatus,
-        IEnumerable<GetSimpleQuestionsResponse> Questions,
-        IEnumerable<GetSimpleAnswerResponse> Answers);
+        IEnumerable<GetSimpleQuestionsResponse> Questions);
+
 }

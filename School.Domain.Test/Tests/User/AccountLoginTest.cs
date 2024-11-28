@@ -4,6 +4,7 @@ using School.Domain.DomainServices.Interfaces;
 using School.Domain.Entities;
 using SharedKernel.Enums.Features.Authentication;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace School.Domain.Test.Tests.User;
 

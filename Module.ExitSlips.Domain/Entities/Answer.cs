@@ -9,5 +9,6 @@ namespace Module.ExitSlip.Domain.Entities
 {
     public class Answer : Entity
     {
+        public Guid UserId { get; set; }
     }
 }

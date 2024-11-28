@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Domain.Entities;
+using School.Domain.ValueObjects;
 using SharedKernel.ValueObjects;
 
 namespace School.Infrastructure.DbContext
@@ -27,7 +28,7 @@ namespace School.Infrastructure.DbContext
             modelBuilder.Entity<User>()
                 .Property(u => u.Id)
                 .ValueGeneratedOnAdd();
-            
+
             modelBuilder.Entity<User>()
                 .OwnsOne(u
                     => u.RefreshToken);
