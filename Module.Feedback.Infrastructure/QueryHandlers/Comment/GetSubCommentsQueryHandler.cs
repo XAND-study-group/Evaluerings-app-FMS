@@ -14,13 +14,10 @@ public class GetSubCommentsQueryHandler : IRequestHandler<GetSubCommentsQuery, R
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetSubCommentsQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetSubCommentsQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<IEnumerable<GetCommentResponse>?>>
@@ -34,8 +31,8 @@ public class GetSubCommentsQueryHandler : IRequestHandler<GetSubCommentsQuery, R
                 .AsNoTracking()
                 .Where(c => c.Id == request.CommentId)
                 .Select(c => c.SubComments)
-                .ProjectTo<GetCommentResponse>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .ProjectTo<IEnumerable<GetCommentResponse>>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
 
             return Result<IEnumerable<GetCommentResponse>?>.Create("Fandt Sub Comments", comments,
                 ResultStatus.Success);

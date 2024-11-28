@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Features.Vote.Query;
 using Module.Feedback.Domain.Extensions;
@@ -8,7 +10,7 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Vote;
 
-public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContext)
+public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     : IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetVoteResponse>?>>
 {
     async Task<Result<IEnumerable<GetVoteResponse>?>>
@@ -18,9 +20,14 @@ public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContex
         try
         {
             // Load
-            var votes = (await feedbackDbContext.Feedbacks
-                    .SingleAsync(f => f.Id == request.FeedbackId, cancellationToken))
-                .Votes.MapToIEnumerableGetVoteResponse();
+            var votes = await feedbackDbContext.Feedbacks
+                .AsNoTracking()
+                .Include(f => f.Votes)
+                .Where(f => f.Id == request.FeedbackId)
+                .Select(f => f.Votes)
+                .ProjectTo<IEnumerable<GetVoteResponse>>(mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
+
 
             return Result<IEnumerable<GetVoteResponse>?>.Create("Votes fundet", votes, ResultStatus.Success);
         }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Module.ExitSlip.Infrastructure.Mapper;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
-using Module.Feedback.Infrastructure.IMapper;
+using Module.Feedback.Infrastructure.Mapper;
 using Module.Feedback.Infrastructure.Options;
 using School.API.Helper;
 
