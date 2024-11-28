@@ -3,11 +3,12 @@ using Microsoft.Extensions.Caching.Memory;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.Login.Commands;
 
-public record AccountChangePasswordCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>;
+public record AccountChangePasswordCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class AccountChangePasswordCommandHandler(
     IUserRepository userRepository,
@@ -26,9 +27,10 @@ public class AccountChangePasswordCommandHandler(
             if (user is null)
                 return Result<bool>.Create("Brugeren eksistere ikke", false, ResultStatus.Error);
             
+            // TODO: Update so code is given as key to get userId & move to top
             var code = memoryCache.Get(changePasswordRequest.AccountLoginId) as string;
             
-            if (code == null && code != changePasswordRequest.Code)
+            if (code == null || code != changePasswordRequest.Code)
                 return Result<bool>.Create("Du kan ikke ændre adgangskoden lige nu", false, ResultStatus.Error);
             
             memoryCache.Remove(changePasswordRequest.AccountLoginId);

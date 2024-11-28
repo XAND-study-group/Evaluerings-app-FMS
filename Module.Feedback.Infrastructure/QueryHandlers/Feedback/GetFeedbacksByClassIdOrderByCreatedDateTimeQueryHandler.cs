@@ -10,7 +10,8 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Feedback;
 
-public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestHandler<GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>
+public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestHandler<
+    GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
@@ -25,21 +26,28 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
             cfg.CreateMap<Domain.Vote, GetVoteResponse>();
         }).CreateMapper();
     }
+
     async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>
         IRequestHandler<GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>
         .Handle(GetFeedbacksByClassIdOrderByCreatedDateTimeQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var feedbacks = await _feedbackDbContext.Rooms
-                .Include(r => r.Feedbacks)
-                .Where(r => r.ClassIds
-                    .Any(c => c == request.ClassId))
-                .Select(r => r.Feedbacks)
+            var feedbacks = await _feedbackDbContext.Feedbacks
+                .AsNoTracking()
+                .Include(f => f.Room)
+                .ThenInclude(r => r.ClassIds)
+                .Where(f => f.Room.ClassIds
+                    .Any(g => g == request.ClassId))
+                .OrderBy(f => f.Created)
+                .AsSplitQuery()
+                .Skip(request.ItemsPerPage*(request.Page - 1))
+                .Take(request.ItemsPerPage)
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create("Alle evalueringer tilhørende klassens ID fundet",
+            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create(
+                "Alle evalueringer tilhørende klassens ID fundet",
                 feedbacks, ResultStatus.Success);
         }
         catch (Exception e)

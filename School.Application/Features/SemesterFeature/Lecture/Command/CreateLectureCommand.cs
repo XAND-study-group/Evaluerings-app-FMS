@@ -8,7 +8,7 @@ namespace School.Application.Features.SemesterFeature.Lecture.Command;
 
 public record CreateLectureCommand(CreateLectureRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class CreateLectureCommandHandler : IRequestHandler<CreateLectureCommand, Result<bool>>
+public class CreateLectureCommandHandler : IRequestHandler<CreateLectureCommand, Result<bool>>, ITransactionalCommand
 {
     private readonly ILectureRepository _lectureRepository;
 

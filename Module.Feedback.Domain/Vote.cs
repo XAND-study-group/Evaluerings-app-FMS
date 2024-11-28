@@ -8,7 +8,7 @@ public class Vote : Entity
 {
     #region Properties
 
-    public HashedId HashedId { get; protected set; }
+    public HashedId HashedUserId { get; protected set; }
     public VoteScale VoteScale { get; protected set; }
 
     #endregion Properties
@@ -19,9 +19,9 @@ public class Vote : Entity
     {
     }
 
-    private Vote(HashedId hashedId, VoteScale voteScale)
+    private Vote(HashedId hashedUserId, VoteScale voteScale)
     {
-        HashedId = hashedId;
+        HashedUserId = hashedUserId;
         VoteScale = voteScale;
     }
 
@@ -29,18 +29,11 @@ public class Vote : Entity
 
     #region Vote Methods
 
-    public static Vote Create(Guid userId, VoteScale voteScale, IHashIdService hashIdService)
-    {
-        var hashedId = HashedId.Create(userId, hashIdService);
-        var vote = new Vote(hashedId, voteScale);
-
-        return vote;
-    }
+    public static Vote Create(Guid userId, VoteScale voteScale)
+        => new(userId, voteScale);
 
     public void Update(VoteScale voteScale)
-    {
-        VoteScale = voteScale;
-    }
+        => VoteScale = voteScale;
 
     #endregion Vote Methods
 }

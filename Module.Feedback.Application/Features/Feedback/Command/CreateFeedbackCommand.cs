@@ -12,8 +12,7 @@ public record CreateFeedbackCommand(CreateFeedbackRequest CreateFeedbackRequest)
 
 public class CreateFeedbackCommandHandler(
     IFeedbackRepository feedbackRepository,
-    IValidationServiceProxy iIValidationServiceProxy,
-    IHashIdService hashIdService) : IRequestHandler<CreateFeedbackCommand, Result<bool>>
+    IValidationServiceProxy iIValidationServiceProxy) : IRequestHandler<CreateFeedbackCommand, Result<bool>>
 {
     async Task<Result<bool>> IRequestHandler<CreateFeedbackCommand, Result<bool>>.Handle(CreateFeedbackCommand request,
         CancellationToken cancellationToken)
@@ -22,11 +21,11 @@ public class CreateFeedbackCommandHandler(
         {
             // Load
             var createFeedbackRequest = request.CreateFeedbackRequest;
-            var room = await feedbackRepository.GetRoomByIAsync(createFeedbackRequest.roomId);
+            var room = await feedbackRepository.GetRoomByIAsync(createFeedbackRequest.RoomId);
 
             // Do
-            var feedback = await room.AddFeedbackAsync(createFeedbackRequest.userId, createFeedbackRequest.title,
-                createFeedbackRequest.problem, createFeedbackRequest.solution, hashIdService, iIValidationServiceProxy);
+            var feedback = await Domain.Feedback.CreateAsync(createFeedbackRequest.UserId, createFeedbackRequest.Title,
+                createFeedbackRequest.Problem, createFeedbackRequest.Solution, room, iIValidationServiceProxy);
 
             // Save
             await feedbackRepository.CreateFeedbackAsync(feedback);

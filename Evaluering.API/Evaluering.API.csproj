@@ -5,6 +5,7 @@
         <UserSecretsId>EvaluationSecrets</UserSecretsId>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,11 +13,21 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
         <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Module.Feedback.Domain\Module.Feedback.Domain.csproj" />
       <ProjectReference Include="..\Module.Feedback\Module.Feedback.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

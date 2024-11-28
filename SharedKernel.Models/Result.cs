@@ -12,11 +12,9 @@ public class Result<TResult>
         SuccessResult = successResult;
         Status = status;
     }
-    
-    public static Result<TResult> Create(string message, TResult successResult, ResultStatus status)
-    {
-        return new Result<TResult>(message, successResult, status);
-    }
+
+    public static Result<TResult> Create(string message, TResult successResult, ResultStatus status) =>
+        new(message, successResult, status);
 }
 
 public enum ResultStatus

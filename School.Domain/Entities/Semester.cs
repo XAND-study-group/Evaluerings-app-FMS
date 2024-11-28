@@ -39,6 +39,18 @@ public class Semester : Entity
         EducationRange = EducationRange.Create(startDate, endDate);
         School = school;
     }
+    
+    private Semester(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
+        SchoolType school, IEnumerable<Class> classes, IEnumerable<Semester> otherSemesters)
+    {
+        var otherSemesterNames = otherSemesters.Select(s => s.Name.Value);
+        
+        Name = SemesterName.Create(name, otherSemesterNames);
+        SemesterNumber = semesterNumber;
+        EducationRange = EducationRange.Create(startDate, endDate);
+        School = school;
+        _classes = classes.ToList();
+    }
 
     #endregion
 
@@ -47,6 +59,10 @@ public class Semester : Entity
     public static Semester Create(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
         SchoolType school, IEnumerable<Semester> otherSemesters)
         => new Semester(name, semesterNumber, startDate, endDate, school, otherSemesters);
+    
+    public static Semester Create(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
+        SchoolType school, IEnumerable<Class> classes, IEnumerable<Semester> otherSemesters)
+        => new Semester(name, semesterNumber, startDate, endDate, school, classes, otherSemesters);
 
     #endregion
 

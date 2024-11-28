@@ -25,4 +25,11 @@ public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedback
         feedbackDbContext.Feedbacks.Remove(feedback);
         await feedbackDbContext.SaveChangesAsync();
     }
+
+    public async Task UpdateFeedbackAsync(Domain.Feedback feedback, byte[] rowVersion)
+    {
+        feedbackDbContext.Entry(feedback).Property(nameof(Domain.Feedback.RowVersion)).OriginalValue = rowVersion;
+        feedbackDbContext.Feedbacks.Update(feedback);
+        await feedbackDbContext.SaveChangesAsync();
+    }
 }

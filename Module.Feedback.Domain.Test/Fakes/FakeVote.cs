@@ -16,6 +16,6 @@ public class FakeVote : Vote
         VoteScale = voteScale;
     }
     
-    public void SetHashId(Guid userId, IHashIdService hashIdService)
-    => HashedId = HashedId.Create(userId, hashIdService);
+    public void SetHashId(Guid userId)
+    => HashedUserId = userId;
 }

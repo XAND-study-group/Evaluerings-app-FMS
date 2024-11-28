@@ -14,8 +14,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Evaluering.Module.Shared.Infrastructure\Evaluering.Module.Shared.Infrastructure.csproj" />
 	  <ProjectReference Include="..\Module.ExitSlips.Application\Module.ExitSlip.Application.csproj" />
 	  <ProjectReference Include="..\Module.ExitSlips.Domain\Module.ExitSlip.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Features\QueryHandlers\ExitSlip\" />
 	</ItemGroup>
 </Project>

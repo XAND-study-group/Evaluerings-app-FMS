@@ -48,29 +48,6 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddAuthorizationWithPolicies(this IServiceCollection serviceCollection)
         => serviceCollection.AddAuthorization(options =>
         {
-            #region EvaluationApp policies
-            
-            options.AddPolicy("ReadFeedback", 
-                policy => policy.RequireClaim("Permission", "ReadFeedback"));
-            options.AddPolicy("ReadInteractedFeedback",
-                policy => policy.RequireClaim("Permission", "ReadInteractedFeedback"));
-            options.AddPolicy("PostFeedback", 
-                policy => policy.RequireClaim("Permission", "PostFeedback"));
-            options.AddPolicy("CommentOnFeedback", 
-                policy => policy.RequireClaim("Permission", "CommentOnFeedback"));
-            options.AddPolicy("AnswerExitSlip", 
-                policy => policy.RequireClaim("Permission", "AnswerExitSlip"));
-            options.AddPolicy("ReadExitSlipAnswers",
-                policy => policy.RequireClaim("Permission", "ReadExistSlipAnswers"));
-            options.AddPolicy("CreateExitSlips",
-                policy => policy.RequireClaim("Permission", "CreateExistSlips"));
-            options.AddPolicy("PrintExitSlipReport",
-                policy => policy.RequireClaim("Permission", "PrintExitSlipReport"));
-            options.AddPolicy("PrintFeedbackReport",
-                policy => policy.RequireClaim("Permission", "PrintFeedbackReport"));
-
-            #endregion
-
             #region School policies
             
             options.AddPolicy("Admin",

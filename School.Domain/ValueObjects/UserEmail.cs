@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using School.Domain.DomainServices.Interfaces;
 
 namespace School.Domain.ValueObjects
 {
@@ -10,16 +11,19 @@ namespace School.Domain.ValueObjects
         {
             
         }
-        private UserEmail(string value, IEnumerable<string> otherUsersEmails)
+        private UserEmail(string value)
         {
-            Validate(value, otherUsersEmails);
+            Validate(value);
             Value = value;
         }
 
-        public static UserEmail Create(string value, IEnumerable<string> otherUsersEmails)
-            => new UserEmail(value, otherUsersEmails);
+        public static UserEmail Create(string value)
+            => new UserEmail(value);
 
-        private void Validate(string value, IEnumerable<string> otherUsersEmails)
+         public static async Task<UserEmail> CreateAsync(string value) 
+             => new(value);
+
+         private void Validate(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Email cannot be empty or whitespace", nameof(value));
@@ -27,16 +31,12 @@ namespace School.Domain.ValueObjects
             if (value.Length > 254)
                 throw new ArgumentException("Email cannot exceed 254 characters", nameof(value));
 
-            if (otherUsersEmails.Any(otherEmails => otherEmails == value))
-                throw new ArgumentException($"A User with email '{value}' already exists.");
-
             if (!IsValidEmail(value))
                 throw new ArgumentException("Email format is invalid", nameof(value));
 
 
             string normalizedEmail = NormalizeEmail(value);
         }
-
 
         private bool IsValidEmail(string value)
         {

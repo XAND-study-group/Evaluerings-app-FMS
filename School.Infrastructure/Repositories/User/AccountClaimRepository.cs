@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.Application.Abstractions.User;
+using School.Domain.DomainServices.Interfaces;
 using School.Domain.Entities;
 using School.Infrastructure.DbContext;
 using SharedKernel.Enums.Features.Authentication;
@@ -22,6 +23,8 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "PostFeedback"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "CommentOnFeedback"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "AnswerExitSlip"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "VoteOnFeedback"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadRoom"));
                 break;
             
             case Role.Teacher:
@@ -30,6 +33,9 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "CreateExitSlips"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "PrintExitSlipReport"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "PrintFeedbackReport"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "CommentOnFeedback"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "RoomManagement"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadRoom"));
                 break;  
             
             case Role.Admin:

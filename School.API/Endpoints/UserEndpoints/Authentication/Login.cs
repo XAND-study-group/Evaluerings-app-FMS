@@ -14,7 +14,8 @@ public class Login : IEndpoint
         app.MapPost(configuration["Routes:UserModule:Authentication:Login"] ??
                     throw new Exception("Route is not added to config file"),
                 async ([FromBody] AuthenticateAccountLoginRequest request, [FromServices] IMediator mediator) =>
-                (await mediator.Send(new AccountLoginCommand(request))).ReturnHttpResult()).WithTags("Authentication")
-            .RequireRateLimiting("baseLimit");
+                (await mediator.Send(new AccountLoginCommand(request))).ReturnHttpResult())
+            .WithTags("Authentication")
+            .RequireRateLimiting("LowFrequencyEndpoint");
     }
 }
