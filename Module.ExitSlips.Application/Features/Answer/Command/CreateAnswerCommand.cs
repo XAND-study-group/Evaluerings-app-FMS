@@ -6,7 +6,7 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.Answer.Command;
 
-public record CreateAnswerCommand(CreateAnswerRequest createAnswerRequest) : IRequest<Result<bool>>, ITransactionalCommand;
+public record CreateAnswerCommand(CreateAnswerRequest CreateAnswerRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, Result<bool>>
 {
@@ -20,7 +20,7 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, R
         try
         {
             // Load
-            var createAnswerRequest = request.createAnswerRequest;
+            var createAnswerRequest = request.CreateAnswerRequest;
             var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(createAnswerRequest.ExitSlipId);
 
             // Do

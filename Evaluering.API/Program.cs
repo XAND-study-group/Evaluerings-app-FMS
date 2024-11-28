@@ -4,8 +4,10 @@ using Evaluering.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
+using Module.Feedback.Infrastructure.IMapper;
 using Module.Feedback.Infrastructure.Options;
 using School.API.Helper;
+using Module.ExitSlip.Infrastructure.IMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,11 @@ builder.Services.AddMediatRModules();
 builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
+
+builder.Services.AddAutoMapper(
+    typeof(MappingProfileFeedback).Assembly,
+    typeof(MappingProfileExitSlip).Assembly
+    );
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)

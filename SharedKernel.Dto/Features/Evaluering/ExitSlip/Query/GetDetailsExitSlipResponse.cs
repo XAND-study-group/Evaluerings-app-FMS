@@ -13,7 +13,7 @@ namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query
         Guid LectureId,
         Guid SubjectId,
         string Title,
-        int MaxQuestioncount,
+        int MaxQuestionCount,
         ExitSlipActiveStatus ActiveStatus,
         IEnumerable<GetSimpleQuestionsResponse> Questions);
 
