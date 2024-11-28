@@ -19,14 +19,10 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
 
         private readonly ExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
-        public GetExitSlipByIdQueryHandler(ExitSlipDbContext exitSlipDbContext)
+        public GetExitSlipByIdQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.ExitSlip, GetDetailsExitSlipResponse>();
-                cfg.CreateMap<Domain.Entities.Question, GetSimpleExitSlipsResponse>();
-            }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<GetDetailsExitSlipResponse?>> IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailsExitSlipResponse?>>.Handle(GetExitSlipByIdQuery request, CancellationToken cancellationToken)
