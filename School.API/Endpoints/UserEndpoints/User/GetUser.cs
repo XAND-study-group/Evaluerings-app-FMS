@@ -12,8 +12,9 @@ namespace School.API.Endpoints.UserEndpoints.User
             app.MapGet(configuration["Routes:UserModule:User:GetUser"] ??
                        throw new Exception("Route is not added to config file"),
                     async (Guid userId, [FromServices] IMediator mediator) =>
-                    await mediator.Send(new GetUserQuery(userId))).WithTags("User")
-                .RequireAuthorization("User", "Teacher", "Admin");
+                    await mediator.Send(new GetUserQuery(userId)))
+                .WithTags("User")
+                .RequireAuthorization();
         }
     }
 }

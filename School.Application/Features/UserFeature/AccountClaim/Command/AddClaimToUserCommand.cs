@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using School.Application.Abstractions.User;
+using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
+using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.AccountClaim.Command;
 
-public record AddClaimToUserCommand(AddClaimToUserRequest Request) : IRequest<Result<bool>>;
+public record AddClaimToUserCommand(AddClaimToUserRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class AddClaimToUserCommandHandler(IUserRepository userRepository, IAccountClaimRepository accountClaimRepository) : IRequestHandler<AddClaimToUserCommand, Result<bool>>
 {
