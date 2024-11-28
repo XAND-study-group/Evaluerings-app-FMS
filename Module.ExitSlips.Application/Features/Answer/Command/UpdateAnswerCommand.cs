@@ -24,7 +24,7 @@ public class UpdateAnswerCommandHandler : IRequestHandler<UpdateAnswerCommand, R
             var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(updateAnswerRequest.ExitSlipId);
 
             // Do
-            var answer = exitSlip.UpdateAnswer(updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
+            var answer = exitSlip.UpdateAnswerOnQuestion(updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
 
             // Save
             await _exitSlipRepository.UpdateAnswerAsync(answer,updateAnswerRequest.RowVersion);

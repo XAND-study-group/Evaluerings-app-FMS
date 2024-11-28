@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using AutoMapper;
 using Module.ExitSlip.Application.Abstractions;
 using SharedKernel.Dto.Features.Evaluering.Answer.Command;
 using SharedKernel.Interfaces;
@@ -24,10 +25,11 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, R
             var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(createAnswerRequest.ExitSlipId);
 
             // Do
-            var answer = exitSlip.AddAnswer(createAnswerRequest.userId, createAnswerRequest.QuestionId, createAnswerRequest.Text);
+            exitSlip.AddAnswerToQuestion(createAnswerRequest.userId, createAnswerRequest.QuestionId, createAnswerRequest.Text);
 
             // Save
-            await _exitSlipRepository.CreateAnswerAsync(answer);
+            await _exitSlipRepository.UpdateExitSlipAsync(exitSlip, exitSlip.RowVersion);
+
 
             return Result<bool>.Create("Svar blev oprettet", true, ResultStatus.Created);
         }
