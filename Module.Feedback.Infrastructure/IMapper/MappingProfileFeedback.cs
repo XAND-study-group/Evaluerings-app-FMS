@@ -18,20 +18,10 @@ namespace Module.Feedback.Infrastructure.IMapper
     {
         public MappingProfileFeedback()
         {
-            CreateMap<Domain.Feedback, ChangeFeedbackStatusRequest>();
-            CreateMap<Domain.Feedback, CreateFeedbackRequest>();
-            CreateMap<Domain.Feedback, DeleteFeedbackRequest>();
             CreateMap<Domain.Feedback, GetAllFeedbacksResponse>();
             CreateMap<Domain.Feedback, GetCommentResponse>();
             CreateMap<Domain.Feedback, GetVoteResponse>();
 
-            CreateMap<Room, AddClassToRoomRequest>();
-            CreateMap<Room, CreateRoomRequest>();
-            CreateMap<Room, DeleteRoomRequest>();
-            CreateMap<Room, RemoveClassIdFromRoomRequest>();
-            CreateMap<Room, SubscribeToRoomNotificationRequest>();
-            CreateMap<Room, UnsubscribeToRoomNotificationRequest>();
-            CreateMap<Room, UpdateRoomRequest>();
             CreateMap<Room, GetAllRoomsResponse>();
             CreateMap<Room, GetCommentResponse>();
             CreateMap<Room, GetFeedbackResponse>();
