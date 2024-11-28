@@ -8,13 +8,13 @@ using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.Login.Commands;
 
-public record AccountChangePasswordNotLoggedInCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
+public record AccountResetPasswordCommand(ResetPasswordRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class AccountChangePasswordNotLoggedInCommandHandler(
+public class AccountResetPasswordCommandHandler(
     IUserRepository userRepository,
-    IMemoryCache memoryCache) : IRequestHandler<AccountChangePasswordNotLoggedInCommand, Result<bool>>
+    IMemoryCache memoryCache) : IRequestHandler<AccountResetPasswordCommand, Result<bool>>
 {
-    public async Task<Result<bool>> Handle(AccountChangePasswordNotLoggedInCommand request, CancellationToken cancellationToken)
+    public async Task<Result<bool>> Handle(AccountResetPasswordCommand request, CancellationToken cancellationToken)
     {
         try
         {
