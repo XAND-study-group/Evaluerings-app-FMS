@@ -32,6 +32,10 @@ namespace School.Infrastructure.DbContext
             modelBuilder.Entity<User>()
                 .OwnsMany(u
                     => u.RefreshTokens);
+            
+            modelBuilder.Entity<User>()
+                .ComplexProperty(u
+                    => u.PasswordHash);
 
             modelBuilder.Entity<User>()
                 .Property(u => u.RowVersion)

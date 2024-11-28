@@ -8,7 +8,8 @@ using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.Login.Commands;
 
-public record AccountLoginCommand(AuthenticateAccountLoginRequest Request) : IRequest<Result<TokenResponse?>>, ITransactionalCommand;
+public record AccountLoginCommand(AuthenticateAccountLoginRequest Request)
+    : IRequest<Result<TokenResponse?>>, ITransactionalCommand;
 
 public class AccountLoginCommandHandler(
     IUserRepository userRepository,
@@ -28,17 +29,18 @@ public class AccountLoginCommandHandler(
 
             var correctCredentials = user.PasswordHash.Verify(authenticateRequest.Password);
 
+            if (!correctCredentials)
+                return Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error);
+
             var accessToken = tokenProvider.GenerateAccessToken(user);
             var refreshToken = tokenProvider.GenerateRefreshToken();
-            
+
             user.AddRefreshToken(refreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
 
             await userRepository.SetUserRefreshTokenAsync(user);
-            
-            return !correctCredentials
-                ? Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error)
-                : Result<TokenResponse?>.Create("Success", new TokenResponse(accessToken, refreshToken),
-                    ResultStatus.Success);
+
+            return Result<TokenResponse?>.Create("Success", new TokenResponse(accessToken, refreshToken),
+                ResultStatus.Success);
         }
         catch (Exception e)
         {
