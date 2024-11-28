@@ -57,6 +57,9 @@ public class Feedback : Entity
         return feedback;
     }
 
+    public void ChangeStatus(FeedbackStatus status)
+        => Status = status;
+
     #endregion Feedback Methods
 
     #region Feedback Business Logic Methods
@@ -79,7 +82,7 @@ public class Feedback : Entity
         IValidationServiceProxy validationServiceProxy)
     {
         AssureStatusIsNotSolved();
-        
+
         var comment = await Comment.CreateAsync(userId, commentText, validationServiceProxy);
         _comments.Add(comment);
 

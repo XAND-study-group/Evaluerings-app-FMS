@@ -1,7 +1,4 @@
-﻿using Module.Feedback.Domain.DomainServices.Interfaces;
-using Module.Feedback.Domain.Test.Fakes;
-using Moq;
-using SharedKernel.Dto.Features.Evaluering.Proxy;
+﻿using Module.Feedback.Domain.Test.Fakes;
 
 namespace Module.Feedback.Domain.Test;
 
@@ -118,7 +115,7 @@ public class RoomTests
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetTitle(new string('x', 101)));
     }
-    
+
     [Theory]
     [MemberData(nameof(ValidStringLengths))]
     public void Given_Valid_String_Length_Then_Void(string title)
@@ -185,31 +182,105 @@ public class RoomTests
     }
 
     #endregion Description Tests
-    
-    #region AddClass Tests
+
+    #region ClassIdList Tests
 
     [Theory]
-    [MemberData(nameof(InvalidAddClassData))]
-    public void Given_Duplicate_ClassIds_Then_Throw_ArgumentException(Guid classId, IEnumerable<Guid> currentClassIds)
+    [MemberData(nameof(NonUniqueClassIdData))]
+    public void Given_Duplicate_ClassIds_When_Add_Then_Throw_ArgumentException(Guid classId,
+        IEnumerable<Guid> currentClassIds)
+    {
+        // Arrange
+        var room = new FakeRoom();
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => room.AssureNoDuplicateClassIds(classId, currentClassIds));
+    }
+
+    [Theory]
+    [MemberData(nameof(UniqueClassIdData))]
+    public void Given_Unique_ClassIds_When_Add_Then_Void(Guid classId, IEnumerable<Guid> currentClassIds)
+    {
+        // Arrange
+        var room = new FakeRoom();
+
+        // Act
+        room.AssureNoDuplicateClassIds(classId, currentClassIds);
+    }
+
+    [Theory]
+    [MemberData(nameof(NonUniqueClassIdData))]
+    public void Given_Current_ClassId_When_Remove_Then_Void(Guid classId, IEnumerable<Guid> currentClassIds)
+    {
+        // Arrange
+        var room = new FakeRoom();
+
+        // Act
+        room.AssureClassIdIsInList(classId, currentClassIds);
+    }
+
+    [Theory]
+    [MemberData(nameof(UniqueClassIdData))]
+    public void Given_New_ClassId_When_Remove_Then_Throw_ArgumentException(Guid classId,
+        IEnumerable<Guid> currentClassIds)
+    {
+        // Arrange
+        var room = new FakeRoom();
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => room.AssureClassIdIsInList(classId, currentClassIds));
+    }
+
+    #endregion ClassIdList Tests
+
+    #region UserNotificationList Tests
+
+    [Theory]
+    [MemberData(nameof(UniqueUserIdData))]
+    public void Given_Unique_UserId_When_Add_Then_Void(Guid userId, IEnumerable<Guid> currentUserIds)
+    {
+        // Arrange
+        var room = new FakeRoom();
+
+        // Act
+        room.AssureNoDuplicateUserIds(userId, currentUserIds);
+    }
+
+    [Theory]
+    [MemberData(nameof(NonUniqueUserIdData))]
+    public void Given_NonUnique_UserId_When_Add_Then_Throw_ArgumentException(Guid userId,
+        IEnumerable<Guid> currentUserIds)
+    {
+        // Arrange
+        var room = new FakeRoom();
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => room.AssureNoDuplicateUserIds(userId, currentUserIds));
+    }
+
+    [Theory]
+    [MemberData(nameof(UniqueUserIdData))]
+    public void Given_Unique_UserId_When_Remove_Then_Throw_ArgumentException(Guid userId, IEnumerable<Guid> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
         
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => room.AssureNoDuplicateClassIds(classId, currentClassIds));
+        Assert.Throws<ArgumentException>(() => room.AssureUserIdIsInList(userId, currentUserIds));
     }
     
     [Theory]
-    [MemberData(nameof(ValidAddClassData))]
-    public void Given_Unique_ClassIds_Then_Void(Guid classId, IEnumerable<Guid> currentClassIds)
+    [MemberData(nameof(NonUniqueUserIdData))]
+    public void Given_Unique_UserId_When_Remove_Then_Void(Guid userId, IEnumerable<Guid> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
         
         // Act
-        room.AssureNoDuplicateClassIds(classId, currentClassIds);
+        room.AssureUserIdIsInList(userId, currentUserIds);
     }
-    #endregion AddClass Tests
+
+    #endregion UserNotificationList Tests
 
     #endregion Tests
 
@@ -257,7 +328,7 @@ public class RoomTests
         yield return [new string('x', 1)];
     }
 
-    public static IEnumerable<object[]> InvalidAddClassData()
+    public static IEnumerable<object[]> NonUniqueClassIdData()
     {
         var currentClassIds = GetCurrentClassIds();
         yield return
@@ -266,8 +337,8 @@ public class RoomTests
             currentClassIds
         ];
     }
-    
-    public static IEnumerable<object[]> ValidAddClassData()
+
+    public static IEnumerable<object[]> UniqueClassIdData()
     {
         var currentClassIds = GetCurrentClassIds();
         yield return
@@ -278,6 +349,37 @@ public class RoomTests
     }
 
     private static IEnumerable<Guid> GetCurrentClassIds()
+    {
+        return new[]
+        {
+            Guid.Parse("7b365a52-211f-48d2-8c5d-c7694f78f86f"),
+            Guid.Parse("447155e9-800c-4230-a7fe-ec1bd2f213a7")
+        };
+    }
+
+    public static IEnumerable<object[]> UniqueUserIdData()
+    {
+        var currentUserIds = GetCurrentUserIds();
+
+        yield return
+        [
+            Guid.NewGuid(),
+            currentUserIds
+        ];
+    }
+
+    public static IEnumerable<object[]> NonUniqueUserIdData()
+    {
+        var currentUserIds = GetCurrentUserIds();
+
+        yield return
+        [
+            Guid.Parse("7b365a52-211f-48d2-8c5d-c7694f78f86f"),
+            currentUserIds
+        ];
+    }
+
+    private static IEnumerable<Guid> GetCurrentUserIds()
     {
         return new[]
         {
