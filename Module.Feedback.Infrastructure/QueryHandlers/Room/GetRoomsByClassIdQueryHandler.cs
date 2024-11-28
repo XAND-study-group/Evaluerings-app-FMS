@@ -29,6 +29,7 @@ public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQu
         try
         {
             var rooms = await _feedbackDbContext.Rooms
+                .AsNoTracking()
                 .Where(r => r.ClassIds
                     .Any(c => c == request.ClassId))
                 .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)

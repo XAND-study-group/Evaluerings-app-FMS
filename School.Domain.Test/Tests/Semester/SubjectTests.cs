@@ -27,21 +27,21 @@ namespace School.Domain.Test.Tests.Semester
         public void Given_Description_Equal_To_WhiteSpace_Then_Throw_ArgumentException(string name, string description)
         {
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => FakeSubject.Create(new SubjectName(name), new SubjectDescription(description), Enumerable.Empty<Subject>()));
+            Assert.Throws<ArgumentException>(() => FakeSubject.Create(new SubjectName(name), new SubjectDescription(description), []));
         }
 
         [Fact]
         public void Given_Null_SubjectName_Then_Throw_ArgumentNullException()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(null!, new SubjectDescription("Valid description"), Enumerable.Empty<Subject>()));
+            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(null!, new SubjectDescription("Valid description"), []));
         }
 
         [Fact]
         public void Given_Null_SubjectDescription_Then_Throw_ArgumentNullException()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(new SubjectName("Valid name"), null!, Enumerable.Empty<Subject>()));
+            Assert.Throws<ArgumentNullException>(() => FakeSubject.Create(new SubjectName("Valid name"), null!, []));
         }
 
         #endregion CreationalTests
@@ -53,7 +53,7 @@ namespace School.Domain.Test.Tests.Semester
         public void Given_Valid_Data_When_Updated_Then_Properties_Updated(SubjectName initialName, SubjectDescription initialDescription, SubjectName newName, SubjectDescription newDescription)
         {
             // Arrange
-            var subjectSut = FakeSubject.Create(initialName, initialDescription, Enumerable.Empty<Subject>());
+            var subjectSut = FakeSubject.Create(initialName, initialDescription, []);
 
             // Act
             subjectSut.Update(newName, newDescription);
@@ -67,7 +67,7 @@ namespace School.Domain.Test.Tests.Semester
         public void Given_Null_SubjectName_When_Updated_Then_Throw_ArgumentNullException()
         {
             // Arrange
-            var subjectSut = FakeSubject.Create(new SubjectName("InitialName"), new SubjectDescription("InitialDescription"), Enumerable.Empty<Subject>());
+            var subjectSut = FakeSubject.Create(new SubjectName("InitialName"), new SubjectDescription("InitialDescription"), []);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => subjectSut.Update(null!, new SubjectDescription("UpdatedDescription")));
@@ -77,7 +77,7 @@ namespace School.Domain.Test.Tests.Semester
         public void Given_Null_SubjectDescription_When_Updated_Then_Throw_ArgumentNullException()
         {
             // Arrange
-            var subjectSut = FakeSubject.Create(new SubjectName("InitialName"), new SubjectDescription("InitialDescription"), Enumerable.Empty<Subject>());
+            var subjectSut = FakeSubject.Create(new SubjectName("InitialName"), new SubjectDescription("InitialDescription"), []);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => subjectSut.Update(new SubjectName("UpdatedName"), null!));
