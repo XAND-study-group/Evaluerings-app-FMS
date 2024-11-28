@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.Feedback.Application.Features.Room.Query;
@@ -12,10 +13,11 @@ public class GetRoomById : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapGet("/Room/{roomId:guid}",
-            async (Guid roomId, [FromBody] IMediator mediator) =>
+        app.MapGet(configuration["Routes:FeedbackModule:Room:GetRoomById"] ??
+                throw new Exception("Route is not added to config file"),
+            async (Guid roomId, [FromServices] IMediator mediator) =>
             (await mediator.Send(new GetRoomByIdQuery(roomId))).ReturnHttpResult())
-            .WithName("Room")
-            .RequireAuthorization();
+            .WithTags("Room")
+            .RequireAuthorization("ReadRoom");
     }
 }

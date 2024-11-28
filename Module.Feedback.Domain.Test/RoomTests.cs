@@ -35,18 +35,18 @@ public class RoomTests
     {
         // Act
         roomToUpdate.Update(expectedTitle, roomToUpdate.Description);
-        
+
         // Assert
         Assert.Equal(expectedTitle, roomToUpdate.Title);
     }
-    
+
     [Theory]
     [MemberData(nameof(ValidDescriptionUpdateData))]
     public void Given_Valid_Description_Then_Update_Success(FakeRoom roomToUpdate, string expectedDescription)
     {
         // Act
         roomToUpdate.Update(roomToUpdate.Title, expectedDescription);
-        
+
         // Assert
         Assert.Equal(expectedDescription, roomToUpdate.Description);
     }
@@ -58,7 +58,7 @@ public class RoomTests
         // Arrange
         var expectedTitle = roomToUpdate.Title;
         var expectedDescription = roomToUpdate.Description;
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => roomToUpdate.Update(title, description));
         Assert.Equal(roomToUpdate.Title, expectedTitle);
@@ -118,6 +118,17 @@ public class RoomTests
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.SetTitle(new string('x', 101)));
     }
+    
+    [Theory]
+    [MemberData(nameof(ValidStringLengths))]
+    public void Given_Valid_String_Length_Then_Void(string title)
+    {
+        // Arrange
+        var room = new FakeRoom();
+
+        // Act
+        room.SetTitle(title);
+    }
 
     #endregion Title Tests
 
@@ -175,29 +186,30 @@ public class RoomTests
 
     #endregion Description Tests
     
-    #region AddFeedback Tests
+    #region AddClass Tests
 
     [Theory]
-    [MemberData(nameof(ValidFeedbackData))]
-    public async Task Given_Valid_Feedback_Then_List_Count_Increased(Guid userId, string title, string problem, string solution)
+    [MemberData(nameof(InvalidAddClassData))]
+    public void Given_Duplicate_ClassIds_Then_Throw_ArgumentException(Guid classId, IEnumerable<Guid> currentClassIds)
     {
         // Arrange
-        var mockFeedbackService = new Mock<IValidationServiceProxy>();
-        mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(title,problem, solution)).ReturnsAsync(new GeminiResponse(true,""));
-
-        var mockHashIdService = new Mock<IHashIdService>();
-        mockHashIdService.Setup(h => h.Hash(userId)).Returns("FakeHashId");
-        
         var room = new FakeRoom();
-        var expectedCount = 1;
+        
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => room.AssureNoDuplicateClassIds(classId, currentClassIds));
+    }
+    
+    [Theory]
+    [MemberData(nameof(ValidAddClassData))]
+    public void Given_Unique_ClassIds_Then_Void(Guid classId, IEnumerable<Guid> currentClassIds)
+    {
+        // Arrange
+        var room = new FakeRoom();
         
         // Act
-        await room.AddFeedbackAsync(userId, title, problem, solution, mockHashIdService.Object, mockFeedbackService.Object);
-        
-        // Assert
-        Assert.Equal(expectedCount, room.Feedbacks.Count);
+        room.AssureNoDuplicateClassIds(classId, currentClassIds);
     }
-    #endregion AddFeedback Tests
+    #endregion AddClass Tests
 
     #endregion Tests
 
@@ -205,47 +217,72 @@ public class RoomTests
 
     public static IEnumerable<object[]> ValidTitleUpdateData()
     {
-        yield return new object[]
-        {
+        yield return
+        [
             new FakeRoom("ValidTitle", "ValidDescription"),
             "AnotherValidTitle"
-        };
+        ];
     }
-    
+
     public static IEnumerable<object[]> ValidDescriptionUpdateData()
     {
-        yield return new object[]
-        {
+        yield return
+        [
             new FakeRoom("ValidTitle", "ValidDescription"),
             "AnotherValidDescription"
-        };
+        ];
     }
-    
+
     public static IEnumerable<object[]> InvalidUpdateData()
     {
-        yield return new object[]
-        {
+        yield return
+        [
             new FakeRoom("ValidTitle", "ValidDescription"),
             " ",
             "ValidDescription"
-        };
-        
-        yield return new object[]
-        {
+        ];
+
+        yield return
+        [
             new FakeRoom("ValidTitle", "ValidDescription"),
             "ValidTitle",
             " "
-        };
+        ];
     }
 
-    public static IEnumerable<object[]> ValidFeedbackData()
+    public static IEnumerable<object[]> ValidStringLengths()
     {
-        yield return new object[]
-        {
+        yield return [new string('x', 100)];
+        yield return [new string('x', 50)];
+        yield return [new string('x', 1)];
+    }
+
+    public static IEnumerable<object[]> InvalidAddClassData()
+    {
+        var currentClassIds = GetCurrentClassIds();
+        yield return
+        [
+            Guid.Parse("447155e9-800c-4230-a7fe-ec1bd2f213a7"),
+            currentClassIds
+        ];
+    }
+    
+    public static IEnumerable<object[]> ValidAddClassData()
+    {
+        var currentClassIds = GetCurrentClassIds();
+        yield return
+        [
             Guid.NewGuid(),
-            "ValidTitle",
-            "ValidProblem",
-            "ValidSolution"
+            currentClassIds
+        ];
+    }
+
+    private static IEnumerable<Guid> GetCurrentClassIds()
+    {
+        return new[]
+        {
+            Guid.Parse("7b365a52-211f-48d2-8c5d-c7694f78f86f"),
+            Guid.Parse("447155e9-800c-4230-a7fe-ec1bd2f213a7")
         };
     }
 

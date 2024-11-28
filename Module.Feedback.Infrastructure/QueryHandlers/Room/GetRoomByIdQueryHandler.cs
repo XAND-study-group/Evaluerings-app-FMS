@@ -20,9 +20,6 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Domain.Room, GetRoomResponse>();
-            cfg.CreateMap<Domain.Feedback, GetFeedbackResponse>();
-            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-            cfg.CreateMap<Domain.Vote, GetVoteResponse>();
         }).CreateMapper();
     }
 
@@ -33,10 +30,6 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
         {
             var response = await _feedbackDbContext.Rooms
                 .AsNoTracking()
-                .Include(r => r.Feedbacks)
-                .ThenInclude(f => f.Comments)
-                .Include(f => f.Feedbacks)
-                .ThenInclude(f => f.Votes)
                 .Where(r => r.Id == request.RoomId)
                 .ProjectTo<GetRoomResponse>(_mapper.ConfigurationProvider)
                 .SingleAsync(cancellationToken);

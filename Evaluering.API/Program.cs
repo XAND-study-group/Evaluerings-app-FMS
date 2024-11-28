@@ -1,5 +1,6 @@
 using Evaluering.API;
 using MediatR;
+using Evaluering.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
@@ -8,11 +9,14 @@ using School.API.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthorizationWithPolicies();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMediatRModules();
+builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 
@@ -26,6 +30,8 @@ builder.Services.Configure<EvaluationSecrets>(builder.Configuration.GetSection(n
 
 var app = builder.Build();
 
+app.MapEndpoints(builder.Configuration);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -34,6 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 
 app.MapPost("TestGemini/Feedback",
     async ([FromBody] FeedbackContentDto content, [FromServices] IValidationServiceProxy validationServiceProxy) =>

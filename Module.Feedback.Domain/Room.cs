@@ -1,6 +1,4 @@
-﻿using Module.Feedback.Domain.DomainServices.Interfaces;
-using SharedKernel.Enums.Features.Vote;
-using SharedKernel.ValueObjects;
+﻿using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain;
 
@@ -10,10 +8,10 @@ public class Room : Entity
 
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
-    private readonly List<Feedback> _feedbacks = [];
     private readonly List<Guid> _classIds = [];
-    public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
     public IReadOnlyCollection<Guid> ClassIds => _classIds;
+    private readonly List<Guid> _notificationSubscribedUserIds = [];
+    public IReadOnlyCollection<Guid> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
 
     #endregion Properties
 
@@ -34,7 +32,7 @@ public class Room : Entity
     #region Room Methods
 
     public static Room Create(string title, string description)
-        => new Room(title, description);
+        => new (title, description);
 
     public void Update(string title, string description)
     {
@@ -46,39 +44,57 @@ public class Room : Entity
 
     #region Relational Methods
 
-    public async Task<Feedback> AddFeedbackAsync(Guid userId, string title, string problem, string solution,
-        IHashIdService hashIdService, IValidationServiceProxy iIValidationServiceProxy)
+    public void AddClassId(Guid classId)
     {
-        var feedback = await Feedback.CreateAsync(userId, title, problem, solution, hashIdService, iIValidationServiceProxy);
-
-        _feedbacks.Add(feedback);
-
-        return feedback;
-    }
-
-    public async Task AddClassIdAsync(Guid classId)
-    {
+        AssureNoDuplicateClassIds(classId, _classIds);
         _classIds.Add(classId);
     }
-    
-    public Vote AddVoteToFeedback(Guid feedbackId, Guid userId, VoteScale voteScale, IHashIdService hashIdService)
-    {
-        var feedback = _feedbacks.Single(f => f.Id == feedbackId);
 
-        AssureNoExistingVoteFromUser(feedback.Votes, userId, hashIdService);
-        
-        return feedback.AddVote(userId, voteScale, hashIdService);
+    public void RemoveClassId(Guid classId)
+    {
+        AssureClassIdIsInList(classId, _classIds);
+        _classIds.Remove(classId);
+    }
+
+    public void AddUserIdToNotificationList(Guid userId)
+    {
+        AssureNoDuplicateUserIds(userId, _notificationSubscribedUserIds);
+        _notificationSubscribedUserIds.Add(userId);
+    }
+
+    public void RemoveUserIdFromNotificationList(Guid userId)
+    {
+        AssureUserIdIsInList(userId, _notificationSubscribedUserIds);
+        _notificationSubscribedUserIds.Remove(userId);
     }
 
     #endregion Relational Methods
-    
+
     #region Relational Business Logic Methods
 
-    private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId, IHashIdService hashIdService)
+    protected void AssureNoDuplicateClassIds(Guid classId, IEnumerable<Guid> currentClassIds)
     {
-        var hashUserId = hashIdService.Hash(userId);
-        if (votes.Any(v => v.HashedId == hashUserId))
-            throw new ArgumentException("User has already voted for this feedback.");
+        if (currentClassIds.Any(cId => cId == classId))
+            throw new ArgumentException("Klasse er allerede tilføjet til forum");
     }
-    #endregion
+
+    protected void AssureClassIdIsInList(Guid classId, IEnumerable<Guid> currentClassIds)
+    {
+        if (currentClassIds.All(cId => cId != classId))
+            throw new ArgumentException("Klasse kunne ikke findes i rummet");
+    }
+
+    protected void AssureNoDuplicateUserIds(Guid userId, IEnumerable<Guid> currentUserIds)
+    {
+        if (currentUserIds.Any(cId => cId == userId))
+            throw new ArgumentException("Bruger er allerede tilføjet til notifikations listen");
+    }
+
+    protected void AssureUserIdIsInList(Guid userId, IEnumerable<Guid> currentUserIds)
+    {
+        if (currentUserIds.All(cId => cId != userId))
+            throw new ArgumentException("Bruger kunne ikke findes i notofikations listen");
+    }
+
+    #endregion Relational Business Logic Methods
 }
