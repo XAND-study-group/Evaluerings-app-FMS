@@ -26,6 +26,8 @@ public class AccountRefreshTokenCommandHandler(
         if (storedUser is null || storedUser.TryGetRefreshToken(refreshTokenRequest.RefreshToken).ExpirationDate < DateTime.Now)
             return Result<TokenResponse?>.Create("Din token er udløbet", null, ResultStatus.Error);
 
+        storedUser.RemoveRefreshToken(refreshTokenRequest.RefreshToken);
+        
         var newAccessToken = tokenProvider.GenerateAccessToken(storedUser);
         var newRefreshToken = tokenProvider.GenerateRefreshToken();
 

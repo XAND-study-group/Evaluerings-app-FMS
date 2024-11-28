@@ -25,7 +25,7 @@ public class MediatorPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWor
 
             return response;
         }
-        catch (Exception)
+        catch (Exception e)
         {
             if (isTransactionalCommand)
                 await unitOfWork.RollbackAsync();
