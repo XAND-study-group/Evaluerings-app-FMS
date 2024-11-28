@@ -22,7 +22,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region Methods
         public static Answer Create(string text, Guid userId)
-        => new Answer(text, userId);
+          => new Answer(text, userId);
 
         public void UpdateAnswer(string newText)
         {

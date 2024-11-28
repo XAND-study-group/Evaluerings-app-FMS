@@ -10,8 +10,6 @@
             Value = value;
         }
 
-        public static UserLastname Create(string value)
-            => new UserLastname(value);
 
         private void Validate(string value)
         {
@@ -49,6 +47,8 @@
 
         public static implicit operator string(UserLastname value)
             => value.Value;
+        public static implicit operator UserLastname(string value)
+            => new(value);
 
         public static bool operator ==(UserLastname left, UserLastname right)
         {

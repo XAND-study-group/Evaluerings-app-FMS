@@ -20,12 +20,12 @@ namespace School.Domain.Test.Fakes.User
 
         public void SetRefreshToken(string token, DateTime expirationDate)
             => RefreshToken = RefreshToken.Create(token, expirationDate);
-        
+
         public void SetUserFirstname(string firstname)
-            => Firstname = UserFirstname.Create(firstname);
-        
+            => Firstname = firstname;
+
         public void SetUserLastname(string lastname)
-            => Lastname = UserLastname.Create(lastname);
+            => Lastname = lastname;
 
         public void SetUserEmail(string email)
             => Email = UserEmail.Create(email);

@@ -23,7 +23,7 @@ public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository
             var createExitSlip = request.CreateExitSlipRequest;
 
             // Do
-            var exitSlip = Domain.Entities.ExitSlip.Create(createExitSlip.OwnerId, createExitSlip.LectureId, createExitSlip.Title,
+            var exitSlip = Domain.Entities.ExitSlip.Create(createExitSlip.SubjectId, createExitSlip.LectureId, createExitSlip.Title,
                 createExitSlip.MaxQuestionCount, createExitSlip.ActiveStatus);
 
             // Save 

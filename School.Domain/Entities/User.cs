@@ -37,9 +37,9 @@ namespace School.Domain.Entities
         {
             AssurePasswordCompliesWithRequirements(password);
 
-            Firstname = UserFirstname.Create(fristname);
-            Lastname = UserLastname.Create(lastname);
-            Email = UserEmail.Create(email);
+            Firstname =fristname;
+            Lastname =lastname;
+            Email = UserEmail.Create(email, otherUsersEmails);      
             PasswordHash = passwordHasher.Hash(password);
             UserRole = role;
         }

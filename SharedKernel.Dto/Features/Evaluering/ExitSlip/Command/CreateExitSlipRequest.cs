@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Command;
 public record CreateExitSlipRequest(
-    Guid OwnerId,
+    Guid SubjectId,
     Guid LectureId,
     string Title,
     int MaxQuestionCount,

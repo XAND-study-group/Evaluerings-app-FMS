@@ -1,4 +1,5 @@
-﻿using SharedKernel.Enums.Features.Evaluering.ExitSlip;
+﻿using Module.ExitSlip.Domain.ValueObjects;
+using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
@@ -8,10 +9,12 @@ namespace Module.ExitSlip.Domain.Entities
     {
         #region Properties
 
-        public Guid LectureId { get; set; }
+        public Guid? SubjectId { get; protected set; }
+        public Guid? LectureId { get; protected set; }
+
         public Title Title { get; protected set; }
 
-        public int MaxQuestionCount { get; protected set; }
+        public MaxQuestionCount MaxQuestionCount { get; protected set; }
         public ExitSlipActiveStatus ActiveStatus { get; protected set; }
 
         private readonly List<Question> _questions = [];
@@ -25,8 +28,10 @@ namespace Module.ExitSlip.Domain.Entities
         {
         }
 
-        private ExitSlip(Guid userId, Guid lectureId, string title, int maxQuestionCount, ExitSlipActiveStatus activeStatus)
+        private ExitSlip(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount, ExitSlipActiveStatus activeStatus)
         {
+            SubjectId = subjectId;
+            LectureId = lectureId;
             Title = title;
             MaxQuestionCount = maxQuestionCount;
             ActiveStatus = activeStatus;
@@ -36,10 +41,32 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region Methods
 
+        #region Exit Slip Methodes
+
+        public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount, ExitSlipActiveStatus activeStatus)
+            => new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
+
         #region Creation
 
-        public static ExitSlip Create(Guid userId, Guid lectureId, string title, int maxQuestionCount, ExitSlipActiveStatus activeStatus)
-            => new ExitSlip(userId, lectureId, title, maxQuestionCount, activeStatus);
+        public void Update(string title)
+        {
+            AssureExitSlipInactive();
+            Title = title;
+        }
+        public void Delete()
+        {
+            AssureExitSlipInactive();            
+        }
+
+        public void UpdateActiveStatus(ExitSlipActiveStatus activeStatus)
+        {
+            ActiveStatus = activeStatus;
+        }
+        private void AssureExitSlipInactive()
+        {
+            if (ActiveStatus == ExitSlipActiveStatus.Active)
+                throw new ArgumentException("ExitSlip skal være inaktiv, før de kan redigeres.");
+        }
 
         #endregion
 
@@ -127,3 +154,4 @@ namespace Module.ExitSlip.Domain.Entities
         #endregion
     }
 }
+

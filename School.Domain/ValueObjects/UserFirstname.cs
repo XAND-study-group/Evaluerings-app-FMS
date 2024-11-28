@@ -10,9 +10,6 @@
             Value = value;
         }
 
-        public static UserFirstname Create(string value)
-            => new UserFirstname(value);
-
         private void Validate(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -50,6 +47,7 @@
         }
 
         public static implicit operator string(UserFirstname value) => value.Value;
+        public static implicit operator UserFirstname(string value) => new(value);
 
         public static bool operator == (UserFirstname left, UserFirstname right)
         {

@@ -75,5 +75,29 @@ public class ExitSlipRepository(ExitSlipDbContext _context) : IExitSlipRepositor
         _context.Questions.Remove(question);
         await _context.SaveChangesAsync();
     }
+
+    async Task IExitSlipRepository.DeleteExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
+    {
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        exitSlipDbContext.ExitSlips.Remove(exitSlip);
+        await exitSlipDbContext.SaveChangesAsync();
+    }
+
+    async Task<Domain.Entities.ExitSlip> IExitSlipRepository.GetExitSlipByIdAsync(Guid id)
+    {
+        return await exitSlipDbContext.ExitSlips.SingleAsync(e => e.Id == id);
+    }
+
+    async Task IExitSlipRepository.UpdateExitSlipActiveStatusAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
+    {
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
+    }
+
+    async Task IExitSlipRepository.UpdateExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
+    {
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
+    }
 }
 
