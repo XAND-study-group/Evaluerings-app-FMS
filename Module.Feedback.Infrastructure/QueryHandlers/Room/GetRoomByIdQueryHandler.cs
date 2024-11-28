@@ -14,13 +14,10 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
-    public GetRoomByIdQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetRoomByIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Room, GetRoomResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<GetRoomResponse?>> IRequestHandler<GetRoomByIdQuery, Result<GetRoomResponse?>>.Handle(

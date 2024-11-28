@@ -32,7 +32,7 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                     .Include(e => e.Questions)
                     .ThenInclude(q => q.Answers.Where(a => a.UserId == request.userId))
                     .ProjectTo<GetExitSlipsWithAnswersResponse>(_mapper.ConfigurationProvider)
-                    .SingleAsync();
+                    .SingleAsync(cancellationToken);
 
                   return Result<GetExitSlipsWithAnswersResponse>.Create("ExitSLip er fundet", response, ResultStatus.Success);
             }

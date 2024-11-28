@@ -14,13 +14,10 @@ public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQu
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetRoomsByClassIdQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetRoomsByClassIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Room, GetAllRoomsResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
     async Task<Result<IEnumerable<GetAllRoomsResponse>?>>
         IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetAllRoomsResponse>?>>.Handle(
@@ -32,8 +29,8 @@ public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQu
                 .AsNoTracking()
                 .Where(r => r.ClassIds
                     .Any(c => c == request.ClassId))
-                .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .ProjectTo<IEnumerable<GetAllRoomsResponse>>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
         
             return Result<IEnumerable<GetAllRoomsResponse>?>.Create("Fandt forums tilknyttet klasse ID", rooms, ResultStatus.Success);
         }

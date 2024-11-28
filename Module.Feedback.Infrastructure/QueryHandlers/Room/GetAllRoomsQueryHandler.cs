@@ -14,11 +14,10 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetAllRoomsQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetAllRoomsQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg => 
-            { cfg.CreateMap<Domain.Room, GetAllRoomsResponse>(); }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<IEnumerable<GetAllRoomsResponse>>>
@@ -29,8 +28,8 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<
         {
             var response = await _feedbackDbContext.Rooms
                 .AsNoTracking()
-                .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .ProjectTo<IEnumerable<GetAllRoomsResponse>>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
 
             return Result<IEnumerable<GetAllRoomsResponse>>.Create("Forums fundet", response, ResultStatus.Success);
         }

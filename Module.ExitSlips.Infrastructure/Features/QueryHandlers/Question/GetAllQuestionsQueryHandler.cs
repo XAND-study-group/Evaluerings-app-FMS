@@ -27,8 +27,9 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
         public async Task<Result<IEnumerable<GetSimpleQuestionsResponse>>> Handle(GetAllQuestionsQuery query, CancellationToken cancellationToken)
         {
             var questions= await _exitSlipDbContext.Questions
-                .ProjectTo<GetSimpleQuestionsResponse>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .AsNoTracking()
+                .ProjectTo<IEnumerable<GetSimpleQuestionsResponse>>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
 
             if(questions is null)
                 return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Ingen spørgsmål blev fundet", null, ResultStatus.Error);

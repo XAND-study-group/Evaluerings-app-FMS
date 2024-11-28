@@ -26,6 +26,7 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
         public async Task<Result<IEnumerable<GetSimpleQuestionsResponse>>> Handle(GetQuestionsByExitSlipIdQuery query, CancellationToken cancellationToken)
         {
             var questions = await _exitSlipDbContext.ExitSlips
+                .AsNoTracking()
                 .Where(e=>e.Id==query.ExitSlipId)
                 .SelectMany(e => e.Questions)
                 .ProjectTo<GetSimpleQuestionsResponse>(_mapper.ConfigurationProvider)

@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Module.Feedback.Domain;
-using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Query;
-using SharedKernel.Dto.Features.Evaluering.Room.Command;
 using SharedKernel.Dto.Features.Evaluering.Room.Query;
 using GetCommentResponse = SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse;
 using GetVoteResponse = SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetVoteResponse;
 
-namespace Module.Feedback.Infrastructure.IMapper
+namespace Module.Feedback.Infrastructure.Mapper
 {
     public class MappingProfileFeedback:Profile
     {
