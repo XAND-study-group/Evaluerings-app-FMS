@@ -21,7 +21,8 @@ namespace School.Domain.Entities
         public IEnumerable<Semester> Semesters { get; protected set; }
         private List<AccountClaim> _accountClaims = [];
         public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
-        public RefreshToken RefreshToken { get; protected set; }
+        protected List<RefreshToken> _refreshTokens = [];
+        public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens;
 
         #endregion
 
@@ -74,13 +75,18 @@ namespace School.Domain.Entities
             _accountClaims.Add(claim);
         }
 
-        public void SetRefreshToken(string token, int days)
-        {
-            RefreshToken = RefreshToken.Create(token, DateTime.Now.AddDays(days));
-        }
+        public void AddRefreshToken(string token, int days)
+            => _refreshTokens.Add(RefreshToken.Create(token, DateTime.Now.AddDays(days)));
 
+        public void RemoveRefreshToken(string token)
+            => _refreshTokens.RemoveAll(t => t.Token == token);
+        
         public void ResetRefreshToken()
-            => RefreshToken = RefreshToken.Create(null, null);
+            => _refreshTokens.Clear();
+
+        public RefreshToken TryGetRefreshToken(string token)
+            => _refreshTokens.FirstOrDefault(t => t.Token == token) ??
+               throw new ArgumentException("Refresh token kunne ikke findes");
 
         public void ChangePassword(string newPassword)
         {

@@ -132,7 +132,7 @@ namespace School.Domain.Test.Tests.User
             var sut = new FakeUser(firstname, lastname, email);
 
             // Act & Assert
-            Assert.NotNull(() => sut.SetRefreshToken(It.IsAny<string>(), expirationDate));
+            Assert.NotNull(() => sut.AddRefreshToken(It.IsAny<string>(), expirationDate));
         }
 
         [Theory]
@@ -145,7 +145,7 @@ namespace School.Domain.Test.Tests.User
 
             // Act & Assert
             Assert.Throws<ArgumentException>(() =>
-                sut.SetRefreshToken(It.IsAny<string>(), DateTime.Now.AddDays(-daysInPast)));
+                sut.AddRefreshToken(It.IsAny<string>(), DateTime.Now.AddDays(-daysInPast)));
         }
 
         #endregion

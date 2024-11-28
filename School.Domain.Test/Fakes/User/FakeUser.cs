@@ -18,8 +18,8 @@ namespace School.Domain.Test.Fakes.User
         {
         }
 
-        public void SetRefreshToken(string token, DateTime expirationDate)
-            => RefreshToken = RefreshToken.Create(token, expirationDate);
+        public void AddRefreshToken(string token, DateTime expirationDate)
+            => _refreshTokens.Add(RefreshToken.Create(token, expirationDate));
 
         public void SetUserFirstname(string firstname)
             => Firstname = firstname;

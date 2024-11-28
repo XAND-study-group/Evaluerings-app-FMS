@@ -24,8 +24,4 @@
       <Folder Include="Features\School\" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="Features\School\Authentication\Command\ResetPasswordRequest.cs" />
-    </ItemGroup>
-
 </Project>

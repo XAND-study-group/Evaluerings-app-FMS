@@ -23,13 +23,13 @@ public class AccountRefreshTokenCommandHandler(
 
         var storedUser = await userRepository.GetUserByRefreshTokenAsync(refreshTokenRequest.RefreshToken);
 
-        if (storedUser is null || storedUser.RefreshToken.ExpirationDate < DateTime.Now)
+        if (storedUser is null || storedUser.TryGetRefreshToken(refreshTokenRequest.RefreshToken).ExpirationDate < DateTime.Now)
             return Result<TokenResponse?>.Create("Din token er udløbet", null, ResultStatus.Error);
 
         var newAccessToken = tokenProvider.GenerateAccessToken(storedUser);
         var newRefreshToken = tokenProvider.GenerateRefreshToken();
 
-        storedUser.SetRefreshToken(newRefreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
+        storedUser.AddRefreshToken(newRefreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
         await userRepository.SetUserRefreshTokenAsync(storedUser);
         
         return Result<TokenResponse?>.Create("Ny token blev genereret korrekt",

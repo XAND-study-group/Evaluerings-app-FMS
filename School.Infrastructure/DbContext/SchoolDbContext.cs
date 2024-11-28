@@ -30,8 +30,8 @@ namespace School.Infrastructure.DbContext
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<User>()
-                .OwnsOne(u
-                    => u.RefreshToken);
+                .OwnsMany(u
+                    => u.RefreshTokens);
 
             modelBuilder.Entity<User>()
                 .Property(u => u.RowVersion)
