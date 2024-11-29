@@ -28,8 +28,8 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, Result<
         {
             var response = await _feedbackDbContext.Rooms
                 .AsNoTracking()
-                .ProjectTo<IEnumerable<GetAllRoomsResponse>>(_mapper.ConfigurationProvider)
-                .SingleAsync(cancellationToken);
+                .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
             return Result<IEnumerable<GetAllRoomsResponse>>.Create("Forums fundet", response, ResultStatus.Success);
         }

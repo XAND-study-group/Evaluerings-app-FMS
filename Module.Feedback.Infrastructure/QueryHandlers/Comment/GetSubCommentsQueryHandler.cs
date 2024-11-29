@@ -31,8 +31,8 @@ public class GetSubCommentsQueryHandler : IRequestHandler<GetSubCommentsQuery, R
                 .AsNoTracking()
                 .Where(c => c.Id == request.CommentId)
                 .Select(c => c.SubComments)
-                .ProjectTo<IEnumerable<GetCommentResponse>>(_mapper.ConfigurationProvider)
-                .SingleAsync(cancellationToken);
+                .ProjectTo<GetCommentResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
             return Result<IEnumerable<GetCommentResponse>?>.Create("Fandt Sub Comments", comments,
                 ResultStatus.Success);

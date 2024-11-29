@@ -34,7 +34,7 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                     .Include(e => e.Questions)
                     .Where(e => e.Id == request.id)
                     .ProjectTo<GetDetailsExitSlipResponse?>(_mapper.ConfigurationProvider)
-                    .SingleAsync();
+                    .SingleAsync(cancellationToken);
 
                 return Result<GetDetailsExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);
             }
