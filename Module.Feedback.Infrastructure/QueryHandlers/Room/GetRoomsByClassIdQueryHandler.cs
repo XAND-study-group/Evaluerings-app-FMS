@@ -29,8 +29,8 @@ public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQu
                 .AsNoTracking()
                 .Where(r => r.ClassIds
                     .Any(c => c == request.ClassId))
-                .ProjectTo<IEnumerable<GetAllRoomsResponse>>(_mapper.ConfigurationProvider)
-                .SingleAsync(cancellationToken);
+                .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
         
             return Result<IEnumerable<GetAllRoomsResponse>?>.Create("Fandt forums tilknyttet klasse ID", rooms, ResultStatus.Success);
         }

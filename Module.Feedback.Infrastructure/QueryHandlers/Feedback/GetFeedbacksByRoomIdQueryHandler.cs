@@ -16,15 +16,10 @@ public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRo
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetFeedbacksByRoomIdQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetFeedbacksByRoomIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Feedback, GetAllFeedbacksResponse>();
-            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-            cfg.CreateMap<Domain.Vote, GetVoteResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
     async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>
         IRequestHandler<GetFeedbacksByRoomIdQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>.Handle(
@@ -33,6 +28,7 @@ public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRo
         try
         {
             var feedbacks = await _feedbackDbContext.Feedbacks
+                .AsNoTracking()
                 .Include(f => f.Room)
                 .Where(f => f.Room.Id == request.RoomId)
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)

@@ -25,8 +25,8 @@ public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContex
                 .Include(f => f.Votes)
                 .Where(f => f.Id == request.FeedbackId)
                 .Select(f => f.Votes)
-                .ProjectTo<IEnumerable<GetVoteResponse>>(mapper.ConfigurationProvider)
-                .SingleAsync(cancellationToken);
+                .ProjectTo<GetVoteResponse>(mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
 
             return Result<IEnumerable<GetVoteResponse>?>.Create("Votes fundet", votes, ResultStatus.Success);

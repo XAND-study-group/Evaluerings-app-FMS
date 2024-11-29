@@ -33,8 +33,8 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
                 .Include(q => q.Answers)
                 .Where(q => q.Id == query.QuestionId)
                 .Select(a => a.Answers)
-                .ProjectTo<IEnumerable<GetSimpleAnswerResponse>>(_mapper.ConfigurationProvider)
-                .SingleAsync(cancellationToken);
+                .ProjectTo<GetSimpleAnswerResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
             if (answers == null)
                 return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Ingen svar blev fundet udfra det gældende spørgsmål", null, ResultStatus.Error);
 

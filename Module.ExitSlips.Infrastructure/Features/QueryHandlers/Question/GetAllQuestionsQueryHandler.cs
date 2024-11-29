@@ -28,11 +28,8 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
         {
             var questions= await _exitSlipDbContext.Questions
                 .AsNoTracking()
-                .ProjectTo<IEnumerable<GetSimpleQuestionsResponse>>(_mapper.ConfigurationProvider)
-                .SingleAsync(cancellationToken);
-
-            if(questions is null)
-                return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Ingen spørgsmål blev fundet", null, ResultStatus.Error);
+                .ProjectTo<GetSimpleQuestionsResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
             
             return Result<IEnumerable<GetSimpleQuestionsResponse>>.Create("Success", questions, ResultStatus.Success);
         }

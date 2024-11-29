@@ -29,8 +29,8 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                 var response = await _exitSlipDbContext.ExitSlips
                     .AsNoTracking()
                     .Where(e => e.SubjectId == request.subjectId)
-                    .ProjectTo<IEnumerable<GetSimpleExitSlipsResponse>>(_mapper.ConfigurationProvider)
-                    .SingleAsync(cancellationToken);
+                    .ProjectTo<GetSimpleExitSlipsResponse>(_mapper.ConfigurationProvider)
+                    .ToListAsync(cancellationToken);
 
                 return Result<IEnumerable<GetSimpleExitSlipsResponse?>>.Create("ExitSlip fundet", response, ResultStatus.Success);
             }
