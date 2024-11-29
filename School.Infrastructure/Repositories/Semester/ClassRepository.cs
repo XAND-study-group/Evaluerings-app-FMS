@@ -26,7 +26,9 @@ public class ClassRepository : IClassRepository
         => await _semesterDbContext.Classes.ToListAsync();
 
     async Task<Class> IClassRepository.GetClassByIdAsync(Guid classId)
-        => await _semesterDbContext.Classes.SingleAsync(c => c.Id == classId);
+        => await _semesterDbContext.Classes
+            .Include(c => c.Students)
+            .SingleAsync(c => c.Id == classId);
 
     async Task<Domain.Entities.User> IClassRepository.GetUserByIdAsync(Guid studentId)
         => await _semesterDbContext.Users.SingleAsync(u => u.Id == studentId);

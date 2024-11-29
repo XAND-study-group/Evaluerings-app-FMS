@@ -14,7 +14,7 @@ namespace School.API.Endpoints.UserEndpoints.User
                     async (Guid userId, [FromServices] IMediator mediator) =>
                     await mediator.Send(new GetUserQuery(userId)))
                 .WithTags("User")
-                .RequireAuthorization();
+                .RequireAuthorization("AssureUserIsTheSame");
         }
     }
 }

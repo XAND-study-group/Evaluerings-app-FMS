@@ -15,6 +15,6 @@ public class ChangePassword : IEndpoint
                 async ([FromBody] ChangePasswordRequest request, [FromServices] IMediator mediator) =>
                 await mediator.Send(new AccountChangePasswordCommand(request)))
             .WithTags("Authentication")
-            .RequireAuthorization();
+            .RequireAuthorization("AssureUserIsTheSame");
     }
 }
