@@ -41,6 +41,7 @@ public class Feedback : Entity
         Solution = solution;
         Status = FeedbackStatus.Active;
         Room = room;
+        Created = DateTime.Now;
     }
 
     #endregion Constructors

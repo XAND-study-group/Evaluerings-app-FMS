@@ -44,9 +44,6 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
             .ComplexProperty(f => f.Solution);
         modelBuilder.Entity<Domain.Feedback>()
             .ComplexProperty(f => f.HashedUserUserId);
-        modelBuilder.Entity<Domain.Feedback>()
-            .Property(f => f.Created)
-            .ValueGeneratedOnAdd();
 
         #endregion Feedback OnModelCreating Configuration
 

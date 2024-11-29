@@ -1,19 +1,20 @@
 ﻿@page "/FeedbackFeed"
 @rendermode InteractiveServer
 <h3>FeedbackFeed</h3>
-<div class="modal fade"
+<div class="modal fade show"
      id="CreateFeedback"
      data-bs-backdrop="static"
      data-bs-keyboard="false"
-     tabindex="-1"
+     tabindex="1"
      aria-labelledby="CreateFeedbackLabel"
-     aria-hidden="true">
+     aria-hidden="true"
+     style="backdrop-filter: blur(); display: @(ShowModal ? "block" : "none")">
     <div class="modal-dialog">
         <div class="modal-content">
-            <EditForm model="@FeedbackViewModel" OnValidSubmit="CreateFeedback">
+            <EditForm model="@FeedbackViewModel" OnSubmit="CreateFeedback">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="CreateFeedbackLabel">Opret Evaluering</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
+                    <button type="button" class="btn-close" @onclick="CloseModal" aria-label="Luk"></button>
                 </div>
                 <div class="modal-body">
                     <DataAnnotationsValidator/>
@@ -26,44 +27,66 @@
                         <label>Problem</label>
                         <InputTextArea @bind-value="FeedbackViewModel.Problem"
                                        class="form-control"
-                                       style="height: 150px; max-height: 200px"/>
+                                       style="height: 80px; max-height: 200px"/>
                     </div>
                     <div class="mb-3">
                         <label>Løsning</label>
                         <InputTextArea @bind-value="FeedbackViewModel.Solution"
                                        class="form-control"
-                                       style="height: 150px; max-height: 200px"/>
+                                       style="height: 80px; max-height: 200px"/>
                     </div>
                     <div class="mb-3">
                         <label>Forum</label>
                         <InputSelect @bind-Value="FeedbackViewModel.RoomId" class="form-control">
+                            <option selected value="">Vælg et Forum</option>
                             @foreach (var room in Rooms)
                             {
-                                <option checked="@(FeedbackViewModel.RoomId == room.Id)"
-                                        value="@room.Id">
+                                <option value="@room.Id">
                                     @room.Title
                                 </option>
                             }
                         </InputSelect>
                     </div>
+                    <div class="text-center">
+                        <small class="text-danger">@FeedbackViewModel.ErrorMessage</small>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
-                    @if (IsValidInput)
-                    {
-                        <button type="submit" class="btn btn-primary">Gem ændringer</button>
-                    }
-                    else
-                    {
-                        <button type="button" class="btn btn-primary" onclick="@ValidateInput">Valider input</button>
-                    }
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Luk</button>
+                    <button type="submit" class="btn btn-primary">
+                        @if (StartLoading)
+                        {
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span role="status">Validating Post...</span>
+                        }
+                        else
+                        {
+                            <span>Post</span>
+                        }
+                    </button>
                 </div>
             </EditForm>
         </div>
     </div>
 </div>
+
+@if (ShowToast)
+{
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x" tabindex="-1">
+        <div class="toast fade show align-items-center text-white bg-success border-0" role="alert" aria-hidden="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Feedback Oprettet
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" @onclick="HideToast"
+                        aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+}
+
 <div>
-    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#CreateFeedback">
+    <button type="button" class="btn btn-outline-success" @onclick="OpenModal">
         Opret Evaluering
     </button>
 </div>

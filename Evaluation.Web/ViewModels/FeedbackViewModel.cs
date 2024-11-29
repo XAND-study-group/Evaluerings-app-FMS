@@ -12,4 +12,6 @@ public class FeedbackViewModel
     public string Solution { get; set; }
     [Required]
     public Guid RoomId { get; set; }
+    public string ErrorMessage { get; set; } = string.Empty;
+
 }

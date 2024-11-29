@@ -1,4 +1,5 @@
 ﻿using Evaluation.Web.Services.Interfaces;
+using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
 using SharedKernel.Dto.Features.Evaluering.Room.Query;
 using SharedKernel.Models;
 
@@ -22,10 +23,15 @@ public class EvaluationProxy : IEvaluationProxy
     {
         var response = await _httpClient.GetFromJsonAsync<Result<IEnumerable<GetSimpleRoomResponse>>>("/Room/AllRooms")
                ?? throw new ArgumentException("Der kunne ikke findes nogle forums");
-          
-        /*HttpResponseMessage response = await _httpClient.GetAsync($"/Room/AllRooms");
-        response.EnsureSuccessStatusCode();
-        string content = await response.Content.ReadAsStringAsync();*/
+
         return response.SuccessResult;
+    }
+
+    public async Task<Result<bool>> CreateFeedbackAsync(CreateFeedbackRequest request)
+    {
+        var response = await _httpClient.PostAsJsonAsync("/Room/CreateFeedback", request);
+
+        var responseContent = response.Content.ReadFromJsonAsync<Result<bool>>();
+        return responseContent.Result ?? Result<bool>.Create("Noget gik galt", false, ResultStatus.Error);
     }
 }

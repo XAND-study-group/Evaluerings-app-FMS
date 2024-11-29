@@ -6,7 +6,7 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Application.Features.Room.Command;
 
-public record CreateRoomCommand(CreateRoomRequest CreateRoomRequest) : IRequest<Result<bool>>;//, ITransactionalCommand;
+public record CreateRoomCommand(CreateRoomRequest CreateRoomRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class CreateRoomCommandHandler(IRoomRepository roomRepository) : IRequestHandler<CreateRoomCommand, Result<bool>>
 {

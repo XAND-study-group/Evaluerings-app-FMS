@@ -21,7 +21,6 @@ public static class FeedbackModuleInfrastructureExtension
                 optionsBuilder =>
                 {
                     optionsBuilder.MigrationsAssembly("Module.Feedback.Infrastructure");
-                    optionsBuilder.EnableRetryOnFailure();
                 }));
 
         serviceCollection.AddHttpClient<IValidationServiceProxy, ValidationServiceProxy>();
