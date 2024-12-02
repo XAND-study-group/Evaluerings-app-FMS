@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Dto.Features.Evaluering.Answer.Query;
 
-public record GetSimpleAnswerResponse(
+public record GetDetailedAnswerResponse(
     Guid AnswerId,
     string Text,
-    Guid UserId)
+    Guid QuestionId)
 {
-    public GetSimpleAnswerResponse() : this(Guid.Empty, string.Empty, Guid.Empty) { }
+    public GetDetailedAnswerResponse() : this(default, string.Empty, default) { }
 }
 

@@ -4,4 +4,7 @@ public record GetCommentResponse(
     Guid Id,
     Guid UserId,
     string CommentText,
-    DateTime Created);
+    DateTime Created)
+{
+    public GetCommentResponse() : this(default, default, string.Empty, DateTime.MinValue) { }
+}

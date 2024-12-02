@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using School.Application.Features.SemesterFeature.Subject.Query;
 using School.Domain.Extension;
@@ -8,27 +10,33 @@ using SharedKernel.Models;
 
 namespace School.Infrastructure.Features.Semester.Subject
 {
-    public class GetAllSubjectsQueryHandler(SchoolDbContext _semesterDbContext) : IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetSimpleSubjectResponse>>>
+    public class GetAllSubjectsQueryHandler : IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetSimpleSubjectResponse>>>
     {
-        
-        async Task<Result<IEnumerable<GetSimpleSubjectResponse>>> 
-        IRequestHandler<GetAllSubjectsQuery,Result<IEnumerable<GetSimpleSubjectResponse>>>.Handle(
+        private readonly SchoolDbContext _semesterDbContext;
+        private readonly IMapper _mapper;
+
+        public GetAllSubjectsQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
+        {
+            _semesterDbContext = semesterDbContext;
+            _mapper = mapper;
+        }
+
+        async Task<Result<IEnumerable<GetSimpleSubjectResponse>>> IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetSimpleSubjectResponse>>>.Handle(
             GetAllSubjectsQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var subjects = await _semesterDbContext.Subjects
+                    .AsNoTracking()
                     .Include(s => s.Lectures)
+                    .ProjectTo<GetSimpleSubjectResponse>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 
-                var subjectResponses = subjects.Select(s => s.MapToGetSimpleSubjectResponse());
-
-                return Result<IEnumerable<GetSimpleSubjectResponse>>.Create("Alle fag er fundet", subjectResponses, ResultStatus.Success);
+                return Result<IEnumerable<GetSimpleSubjectResponse>>.Create("Alle fag er fundet", subjects, ResultStatus.Success);
             }
             catch (Exception ex)
             {
-                return Result<IEnumerable<GetSimpleSubjectResponse>>.Create(ex.Message, [], ResultStatus.Error);
-
+                return Result<IEnumerable<GetSimpleSubjectResponse>>.Create(ex.Message, Enumerable.Empty<GetSimpleSubjectResponse>(), ResultStatus.Error);
             }
         }
     }

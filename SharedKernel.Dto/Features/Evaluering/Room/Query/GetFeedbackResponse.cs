@@ -6,4 +6,7 @@ public record GetFeedbackResponse(
     string Problem,
     string Solution,
     IEnumerable<GetCommentResponse> Comments,
-    IEnumerable<GetVoteResponse> Votes);
+    IEnumerable<GetVoteResponse> Votes)
+{
+    public GetFeedbackResponse() : this(default, string.Empty, string.Empty, string.Empty, Array.Empty<GetCommentResponse>(), Array.Empty<GetVoteResponse>()) { }
+}

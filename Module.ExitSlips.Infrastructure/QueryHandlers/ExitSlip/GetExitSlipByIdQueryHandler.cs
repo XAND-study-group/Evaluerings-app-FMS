@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
 {
-    public class GetExitSlipByIdQueryHandler : IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailsExitSlipResponse?>>
+    public class GetExitSlipByIdQueryHandler : IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailedExitSlipResponse?>>
     {
 
         private readonly ExitSlipDbContext _exitSlipDbContext;
@@ -25,7 +25,7 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
             _mapper = mapper;
         }
 
-        async Task<Result<GetDetailsExitSlipResponse?>> IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailsExitSlipResponse?>>.Handle(GetExitSlipByIdQuery request, CancellationToken cancellationToken)
+        async Task<Result<GetDetailedExitSlipResponse?>> IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailedExitSlipResponse?>>.Handle(GetExitSlipByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -33,15 +33,15 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                     .AsNoTracking()
                     .Include(e => e.Questions)
                     .Where(e => e.Id == request.id)
-                    .ProjectTo<GetDetailsExitSlipResponse?>(_mapper.ConfigurationProvider)
+                    .ProjectTo<GetDetailedExitSlipResponse?>(_mapper.ConfigurationProvider)
                     .SingleAsync(cancellationToken);
 
-                return Result<GetDetailsExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);
+                return Result<GetDetailedExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);
             }
             catch (Exception e)
             {
 
-                return Result<GetDetailsExitSlipResponse?>.Create(e.Message, null, ResultStatus.Error);
+                return Result<GetDetailedExitSlipResponse?>.Create(e.Message, null, ResultStatus.Error);
             }
         }
     }

@@ -15,14 +15,10 @@ namespace School.Infrastructure.Features.Semester.Subject
         private readonly SchoolDbContext _semesterDbContext;
         private readonly IMapper _mapper;
 
-        public GetSubjectQueryHandler(SchoolDbContext semesterDbContext)
+        public GetSubjectQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
         {
             _semesterDbContext = semesterDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.Subject, GetDetailedSubjectResponse>();
-                cfg.CreateMap<Domain.Entities.Lecture, GetSimpleLectureResponse>();
-            }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<GetDetailedSubjectResponse?>> IRequestHandler<GetSubjectQuery, Result<GetDetailedSubjectResponse?>>.Handle(

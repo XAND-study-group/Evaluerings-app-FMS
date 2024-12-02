@@ -8,8 +8,9 @@ public record GetSimpleExitSlipsResponse(
     Guid SubjectId,
     string Title,
     int MaxQuestionCount,
-    ExitSlipActiveStatus ActiveStatus);
-
-
+    ExitSlipActiveStatus ActiveStatus)
+{
+    public GetSimpleExitSlipsResponse() : this(Guid.Empty, Guid.Empty, string.Empty, 0, ExitSlipActiveStatus.Inactive) { }
+}
 
 

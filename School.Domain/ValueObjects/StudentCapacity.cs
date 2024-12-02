@@ -18,4 +18,6 @@ public record StudentCapacity
 
     public static implicit operator StudentCapacity(int value)
         => new(value);
+    public static implicit operator int(StudentCapacity capacity)
+        => capacity.Value;
 }

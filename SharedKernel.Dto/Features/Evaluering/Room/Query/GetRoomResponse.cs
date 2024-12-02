@@ -4,4 +4,7 @@ public record GetRoomResponse(
     Guid RoomId,
     byte[] RowVersion,
     string Title,
-    string Description);
+    string Description)
+{
+    public GetRoomResponse() : this(default, Array.Empty<byte>(), string.Empty, string.Empty) { }
+}

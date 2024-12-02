@@ -11,8 +11,16 @@ namespace Module.Feedback.Infrastructure.Mapper
     {
         public MappingProfileFeedback()
         {
-            CreateMap<Domain.Feedback, GetAllFeedbacksResponse>();
-            CreateMap<Domain.Feedback, GetCommentResponse>();
+            CreateMap<Domain.Feedback, GetAllFeedbacksResponse>()
+                .ForMember(dest => dest.HashedId, opt => opt.MapFrom(src => src.HashedUserId.Value))
+                .ForMember(dest => dest.Problem, opt => opt.MapFrom(src => src.Problem.Value))
+                .ForMember(dest => dest.Solution, opt => opt.MapFrom(src => src.Solution.Value));
+
+            CreateMap<Comment, GetCommentResponse>() // Map from Comment, not Feedback
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.CommentText, opt => opt.MapFrom(src => src.CommentText.Value));
+
+
             CreateMap<Domain.Feedback, GetVoteResponse>();
 
             CreateMap<Room, GetAllRoomsResponse>();

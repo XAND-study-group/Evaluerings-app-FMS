@@ -13,15 +13,19 @@ namespace Module.ExitSlip.Infrastructure.Mapper
     {
         public MappingProfileExitSlip()
         {
-            CreateMap<Answer, GetSimpleAnswerResponse>();
-            CreateMap<Answer, GetDetailsAnswerResponse>();
+            CreateMap<Answer, GetSimpleAnswerResponse>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value)); 
+            CreateMap<Answer, GetDetailedAnswerResponse>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value));
 
-            CreateMap<Question, GetSimpleQuestionsResponse>();
-            CreateMap<Question, GetDetailsQuestionsResponse>();
+            CreateMap<Question, GetSimpleQuestionsResponse>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value));
+            CreateMap<Question, GetDetailedQuestionsResponse>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value));
 
             CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>();
             CreateMap<Domain.Entities.ExitSlip, GetExitSlipsWithAnswersResponse>();
-            CreateMap<Domain.Entities.ExitSlip, GetDetailsExitSlipResponse>();
+            CreateMap<Domain.Entities.ExitSlip, GetDetailedExitSlipResponse>();
         }
     }
 }

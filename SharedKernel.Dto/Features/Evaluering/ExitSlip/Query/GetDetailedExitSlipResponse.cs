@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
 
-public record GetExitSlipsWithAnswersResponse(
+public record GetDetailedExitSlipResponse(
     Guid LectureId,
     Guid SubjectId,
     string Title,
+    int MaxQuestionCount,
     ExitSlipActiveStatus ActiveStatus,
-    IEnumerable<GetDetailedQuestionsResponse> Questions)
+    IEnumerable<GetSimpleQuestionsResponse> Questions)
 {
-    public GetExitSlipsWithAnswersResponse() : this(default, default, string.Empty, default, default) { }
+    public GetDetailedExitSlipResponse() : this(default, default, string.Empty, default, default, default) { }
 }
-    
+
 

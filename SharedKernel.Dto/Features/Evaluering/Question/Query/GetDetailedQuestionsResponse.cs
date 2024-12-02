@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedKernel.Dto.Features.Evaluering.Answer.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,16 +8,12 @@ using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 
 namespace SharedKernel.Dto.Features.Evaluering.Question.Query;
 
-public record GetSimpleQuestionsResponse(
+public record GetDetailedQuestionsResponse(
     Guid QuestionId,
     Guid ExitSlipId,
     string Text,
     IEnumerable<GetSimpleAnswerResponse> Answers)
 {
-    public GetSimpleQuestionsResponse() : this(Guid.Empty, Guid.Empty, string.Empty, Enumerable.Empty<GetSimpleAnswerResponse>()) { }
+    public GetDetailedQuestionsResponse() : this(default, default, string.Empty, default) { }
 }
 
-
-
-
-//Jeg er I gang med at lave Extesions til de EXitSLips og de to andre. skal finde ud af at mappe dem ordenligt. 
