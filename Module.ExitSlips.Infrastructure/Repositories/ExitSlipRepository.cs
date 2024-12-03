@@ -78,26 +78,26 @@ public class ExitSlipRepository(ExitSlipDbContext exitSlipDbContext) : IExitSlip
 
     async Task IExitSlipRepository.DeleteExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
     {
-        _context.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
-        _context.ExitSlips.Remove(exitSlip);
-        await _context.SaveChangesAsync();
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        exitSlipDbContext.ExitSlips.Remove(exitSlip);
+        await exitSlipDbContext.SaveChangesAsync();
     }
 
     async Task<Domain.Entities.ExitSlip> IExitSlipRepository.GetExitSlipByIdAsync(Guid id)
     {
-        return await _context.ExitSlips.SingleAsync(e => e.Id == id);
+        return await exitSlipDbContext.ExitSlips.SingleAsync(e => e.Id == id);
     }
 
     async Task IExitSlipRepository.UpdateExitSlipActiveStatusAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
     {
-        _context.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
-        await _context.SaveChangesAsync();
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
     }
 
     async Task IExitSlipRepository.UpdateExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
     {
-        _context.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
-        await _context.SaveChangesAsync();
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
     }
 }
 

@@ -50,5 +50,20 @@ namespace Module.ExitSlip.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        Task IAnswerRepository.AddAsync(Answer answer)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IAnswerRepository.UpdateAsync(Answer answer, byte[] rowVersion)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IAnswerRepository.DeleteAsync(Guid id, byte[] rowVersion)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
