@@ -11,7 +11,7 @@ public class Feedback : Entity
     #region Properties
 
     // General Properties
-    public HashedUserId HashedUserUserId { get; protected set; }
+    public HashedUserId HashedUserId { get; protected set; }
     public Title Title { get; protected set; }
     public Text Problem { get; protected set; }
     public Text Solution { get; protected set; }
@@ -34,9 +34,9 @@ public class Feedback : Entity
     {
     }
 
-    private Feedback(HashedUserId hashedUserUserUserId, string title, string problem, string solution, Room room)
+    private Feedback(HashedUserId hashedUserUserId, string title, string problem, string solution, Room room)
     {
-        HashedUserUserId = hashedUserUserUserId;
+        HashedUserId = hashedUserUserId;
         Title = title;
         Problem = problem;
         Solution = solution;
