@@ -19,6 +19,6 @@ public class CreateVote : IEndpoint
             async ([FromBody] CreateVoteRequest request, [FromServices] IMediator mediator) =>
             (await mediator.Send(new CreateVoteCommand(request))).ReturnHttpResult())
             .WithTags("Vote")
-            .RequireAuthorization("VoteOnFeedback");
+            .RequireAuthorization("VoteOnFeedback", "AssureUserInRoomOfFeedbackModification");
     }
 }

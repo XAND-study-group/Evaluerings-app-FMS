@@ -37,7 +37,7 @@ namespace School.Infrastructure.Repositories.User
                 .Include(user => user.AccountClaims)
                 .FirstOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == refreshToken));
 
-        async Task IUserRepository.SetUserRefreshTokenAsync(Domain.Entities.User user)
+        async Task IUserRepository.AddUserRefreshTokenAsync(Domain.Entities.User user)
         {
             await dbContext.SaveChangesAsync();
         }

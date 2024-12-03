@@ -12,9 +12,11 @@ public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : Db
     public DbSet<Question> Questions { get; set; }
 
     public DbSet<Answer> Answers { get; set; }
-
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("ExitSlipModule");
+        
         #region User OnModelCreating Configuration
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
             .Property(e => e.Id)
@@ -37,10 +39,3 @@ public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : Db
         #endregion
     }
 }
-
-
-
-
-
-
-

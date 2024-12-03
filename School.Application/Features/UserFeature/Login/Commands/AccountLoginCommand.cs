@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
+using School.Application.Abstractions.Semester;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
@@ -14,6 +15,7 @@ public record AccountLoginCommand(AuthenticateAccountLoginRequest Request)
 public class AccountLoginCommandHandler(
     IUserRepository userRepository,
     ITokenProvider tokenProvider,
+    IClassRepository classRepository,
     IConfiguration configuration) : IRequestHandler<AccountLoginCommand, Result<TokenResponse?>>
 {
     public async Task<Result<TokenResponse?>> Handle(AccountLoginCommand request, CancellationToken cancellationToken)
@@ -32,12 +34,14 @@ public class AccountLoginCommandHandler(
             if (!correctCredentials)
                 return Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error);
 
-            var accessToken = tokenProvider.GenerateAccessToken(user);
+            var userClasses = await classRepository.GetClassesByUserIdAsync(user.Id);
+            
+            var accessToken = tokenProvider.GenerateAccessToken(user, userClasses);
             var refreshToken = tokenProvider.GenerateRefreshToken();
 
             user.AddRefreshToken(refreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
 
-            await userRepository.SetUserRefreshTokenAsync(user);
+            await userRepository.AddUserRefreshTokenAsync(user);
 
             return Result<TokenResponse?>.Create("Success", new TokenResponse(accessToken, refreshToken),
                 ResultStatus.Success);
