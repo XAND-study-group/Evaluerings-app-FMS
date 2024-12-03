@@ -23,4 +23,6 @@ public record Text
         => new(value);
 
     public static implicit operator string(Text value) => value.Value;
+
+    public override string ToString() => Value;
 };

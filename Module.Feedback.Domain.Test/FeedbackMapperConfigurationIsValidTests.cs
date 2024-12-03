@@ -77,7 +77,7 @@ namespace Module.Feedback.Domain.Test
             var vote = feedback.AddVote(Guid.NewGuid(), voteScale);
 
             // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetVoteResponse>(feedback);
+            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetVoteResponse>(vote);
 
             // Assert
             Assert.Equal(vote.Id, result.Id);
