@@ -155,11 +155,12 @@ public class Feedback : Entity
         return vote;
     }
 
-    public Vote DeleteVote(Guid voteId)
+    public Vote DeleteVote(Guid voteId, Guid userId)
     {
         AssureStatusIsNotSolved();
-
-        return GetVoteById(voteId);
+        var vote = GetVoteById(voteId);
+        vote.Delete(userId);
+        return vote;
     }
 
     public Vote UpdateVote(Guid voteId, Guid userId, VoteScale voteScale)

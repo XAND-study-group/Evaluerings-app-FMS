@@ -39,9 +39,12 @@ public class Vote : Entity
         VoteScale = voteScale;
     }
 
+    public void Delete(Guid userId)
+        => AssureUserHasVote(userId, HashedUserId);
+
     private void AssureUserHasVote(Guid userId, HashedUserId hashedUserUserId)
     {
-        if (userId != hashedUserUserId) 
+        if (userId != hashedUserUserId)
             throw new ArgumentException("Bruger skal være ejer af vote for at ændre den");
     }
 
