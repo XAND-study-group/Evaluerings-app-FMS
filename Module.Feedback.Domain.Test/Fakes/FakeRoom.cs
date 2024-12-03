@@ -29,4 +29,19 @@ public class FakeRoom : Room
 
     public new void AssureUserIdIsInList(Guid userId, IEnumerable<Guid> currentUserIds)
         => base.AssureUserIdIsInList(userId, currentUserIds);
+
+    public FakeRoom CreateRoom(string title, string description)
+    {
+        return new FakeRoom
+        {
+            Title = title,
+            Description = description
+        };
+    }
+    public new void AddFeedback(Feedback feedback)
+    => base.AddFeedback(feedback);
+
+    public new void AddClassId(Guid classId)
+        => base.AddClassId(classId);
+
 }

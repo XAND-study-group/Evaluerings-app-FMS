@@ -18,4 +18,13 @@ public class FakeVote : Vote
     
     public void SetHashId(Guid userId)
     => HashedUserId = userId;
+
+    public FakeVote CreateVote(Guid userId, VoteScale voteScale)
+    {
+        return new FakeVote
+        {
+            HashedUserId = userId,
+            VoteScale = voteScale
+        };
+    }
 }
