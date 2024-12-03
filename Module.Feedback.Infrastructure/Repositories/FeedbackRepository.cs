@@ -8,7 +8,9 @@ namespace Module.Feedback.Infrastructure.Repositories;
 public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedbackRepository
 {
     public async Task<Room> GetRoomByIAsync(Guid roomId)
-        => await feedbackDbContext.Rooms.SingleAsync(r => r.Id == roomId);
+        => await feedbackDbContext.Rooms
+            .Include(r => r.ClassIds)
+            .SingleAsync(r => r.Id == roomId);
 
     public async Task CreateFeedbackAsync(Domain.Feedback feedback)
     {
@@ -17,7 +19,10 @@ public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedback
     }
 
     public async Task<Domain.Feedback> GetFeedbackByIdAsync(Guid feedbackId)
-    => await feedbackDbContext.Feedbacks.SingleAsync(f => f.Id == feedbackId);
+        => await feedbackDbContext.Feedbacks
+            .Include(f => f.Room)
+            .ThenInclude(r => r.ClassIds)
+            .SingleAsync(f => f.Id == feedbackId);
 
     public async Task DeleteFeedbackAsync(Domain.Feedback feedback, byte[] rowVersion)
     {

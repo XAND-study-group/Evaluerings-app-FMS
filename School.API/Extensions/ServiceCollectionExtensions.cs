@@ -78,13 +78,12 @@ internal static class ServiceCollectionExtensions
             #endregion
         });
 
-        serviceCollection.AddScoped<IAuthorizationHandler, AssureUserIsTheSame>();
-        serviceCollection.AddScoped<IAuthorizationHandler, AssureUserIsInClass>();
-        serviceCollection.AddScoped<IAuthorizationHandler, AssureUserIsInSemester>();
-        serviceCollection.AddScoped<IAuthorizationHandler, AssureUserHasSubject>();
-        serviceCollection.AddScoped<IAuthorizationHandler, AssureUserHasLecture>();
-
-        return serviceCollection;
+        return serviceCollection
+            .AddScoped<IAuthorizationHandler, AssureUserIsTheSame>()
+            .AddScoped<IAuthorizationHandler, AssureUserIsInClass>()
+            .AddScoped<IAuthorizationHandler, AssureUserIsInSemester>()
+            .AddScoped<IAuthorizationHandler, AssureUserHasSubject>()
+            .AddScoped<IAuthorizationHandler, AssureUserHasLecture>();
     }
 
     public static IServiceCollection AddSchool(this IServiceCollection serviceCollection,

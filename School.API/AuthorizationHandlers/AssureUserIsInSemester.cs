@@ -21,6 +21,12 @@ public class AssureUserIsInSemester(ISemesterRepository semesterRepository) : Au
         var userIdStr = context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
         var role = context.User.FindFirst("Role")?.Value ?? string.Empty;
 
+        if (requirement.Roles.Contains(role))
+        {
+            context.Succeed(requirement);
+            return;
+        }
+        
         var isUserIdParsed = Guid.TryParse(userIdStr, out var userId);
         
         var request = context.Resource as HttpContext;
@@ -36,7 +42,7 @@ public class AssureUserIsInSemester(ISemesterRepository semesterRepository) : Au
 
         var isUserInSemester = await semesterRepository.IsStudentInSemester(semesterId, userId);
 
-        if (!isUserInSemester && !requirement.Roles.Contains(role))
+        if (!isUserInSemester)
         {
             context.Fail();
             return;

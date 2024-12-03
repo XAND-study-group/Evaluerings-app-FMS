@@ -20,6 +20,12 @@ public class AssureUserHasSubject(ISubjectRepository subjectRepository) : Author
         var userIdStr = context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
         var role = context.User.FindFirst("Role")?.Value ?? string.Empty;
 
+        if (requirement.Roles.Contains(role))
+        {
+            context.Succeed(requirement);
+            return;
+        }
+        
         var isUserIdParsed = Guid.TryParse(userIdStr, out var userId);
         
         var request = context.Resource as HttpContext;
@@ -35,7 +41,7 @@ public class AssureUserHasSubject(ISubjectRepository subjectRepository) : Author
         
         var doesUserHaveSubject = await subjectRepository.DoesUserHaveSubject(subjectId, userId);
 
-        if (!doesUserHaveSubject && !requirement.Roles.Contains(role))
+        if (!doesUserHaveSubject)
         {
             context.Fail();
             return;

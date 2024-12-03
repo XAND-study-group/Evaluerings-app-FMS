@@ -24,6 +24,12 @@ public class AssureUserIsTheSame : AuthorizationHandler<AssureUserIsTheSameRequi
         var tokenUserIdStr = context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
         var role = context.User.FindFirst("Role")?.Value ?? string.Empty;
 
+        if (requirement.Roles.Contains(role))
+        {
+            context.Succeed(requirement);
+            return;
+        }
+        
         var request = context.Resource as HttpContext;
         
         var userId = request?.Request.RouteValues["userId"]?.ToString();
@@ -41,7 +47,7 @@ public class AssureUserIsTheSame : AuthorizationHandler<AssureUserIsTheSameRequi
             userId = JsonSerializer.Deserialize<UserIdRequest>(body, options)?.UserId.ToString();
         }
 
-        if (tokenUserIdStr != userId && !requirement.Roles.Contains(role))
+        if (tokenUserIdStr != userId)
         {
             context.Fail(new AuthorizationFailureReason(this, "Du prøver at ændre en anden brugers adgangskode."));
             return;

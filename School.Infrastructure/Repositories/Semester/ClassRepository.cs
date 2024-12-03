@@ -37,6 +37,11 @@ public class ClassRepository(SchoolDbContext dbContext) : IClassRepository
                 .FirstAsync(c => c.Id == classId))
             .Students.Any(s => s.Id == userId);
 
+    async Task<List<Class>> IClassRepository.GetClassesByUserIdAsync(Guid userId)
+        => await dbContext.Classes
+            .AsNoTracking()
+            .Where(s => s.Students.Any(st => st.Id == userId)).ToListAsync();
+
     public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
         => await dbContext.Semesters.SingleAsync(s => s.Id == semesterId);
 

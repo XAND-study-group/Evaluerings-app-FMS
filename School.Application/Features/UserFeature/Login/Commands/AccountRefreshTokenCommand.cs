@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
+using School.Application.Abstractions.Semester;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
@@ -13,6 +14,7 @@ public record AccountRefreshTokenCommand(TokenRequest Request) : IRequest<Result
 public class AccountRefreshTokenCommandHandler(
     ITokenProvider tokenProvider,
     IUserRepository userRepository,
+    IClassRepository classRepository,
     IConfiguration configuration)
     : IRequestHandler<AccountRefreshTokenCommand, Result<TokenResponse?>>
 {
@@ -27,8 +29,10 @@ public class AccountRefreshTokenCommandHandler(
             return Result<TokenResponse?>.Create("Din token er udløbet", null, ResultStatus.Error);
 
         storedUser.RemoveRefreshToken(refreshTokenRequest.RefreshToken);
+
+        var userClasses = await classRepository.GetClassesByUserIdAsync(storedUser.Id);
         
-        var newAccessToken = tokenProvider.GenerateAccessToken(storedUser);
+        var newAccessToken = tokenProvider.GenerateAccessToken(storedUser, userClasses);
         var newRefreshToken = tokenProvider.GenerateRefreshToken();
 
         storedUser.AddRefreshToken(newRefreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
