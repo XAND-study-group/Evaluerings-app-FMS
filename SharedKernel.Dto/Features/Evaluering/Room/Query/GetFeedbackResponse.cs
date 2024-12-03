@@ -2,11 +2,8 @@
 
 public record GetFeedbackResponse(
     Guid FeedbackId,
-    string HashedId,
+    string HashedUserId,
     string Problem,
     string Solution,
     IEnumerable<GetCommentResponse> Comments,
-    IEnumerable<GetVoteResponse> Votes)
-{
-    public GetFeedbackResponse() : this(default, string.Empty, string.Empty, string.Empty, Array.Empty<GetCommentResponse>(), Array.Empty<GetVoteResponse>()) { }
-}
+    IEnumerable<GetVoteResponse> Votes);

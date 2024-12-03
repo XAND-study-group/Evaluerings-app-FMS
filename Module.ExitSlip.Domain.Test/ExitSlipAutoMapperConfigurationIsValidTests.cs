@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Internal;
 using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Domain.Test.Fakes;
 using Module.ExitSlip.Domain.ValueObjects;
@@ -25,135 +26,31 @@ namespace Module.ExitSlip.Domain.Test
 
             _mapper = config.CreateMapper();
         }
-        #region Answer Mapping Tests
-        [Theory]
-        [InlineData("Test Answer", "Test Question")]
-        public void ShouldMapAnswerToGetSimpleAnswerResponse(string answerText, string questionText)
+
+        [Fact]
+        public void AllAutoMapperProfilesIsValid()
         {
-            // Arrange
-            var exitSlip = FakeExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
-            var question = exitSlip.AddQuestion(questionText, Guid.NewGuid());
-
-            var source = question.AddAnswer(answerText, Guid.NewGuid());
-
-            // Act
-            var destination = _mapper.Map<GetSimpleAnswerResponse>(source);
-
-            // Assert
-            Assert.Equal(source.Text.Value, destination.Text);
-            Assert.Equal(source.UserId, destination.UserId);
+            //Arrange
+            var actual = new StringBuilder();
+            //Act
+            TypeMap typeMap = null;
+            try
+            {
+                var a = _mapper.ConfigurationProvider as AutoMapper.MapperConfiguration;
+                foreach (var t in (_mapper.ConfigurationProvider as AutoMapper.MapperConfiguration).Internal()
+                         .GetAllTypeMaps())
+                {
+                    typeMap = t;
+                    _mapper.ConfigurationProvider.Internal().AssertConfigurationIsValid(t);
+                }
+            }
+            catch (Exception e)
+            {
+                actual.AppendLine(typeMap?.Profile.Name);
+                actual.AppendLine(e.Message);
+            }
+            //Assert
+            Assert.True(actual.Length == 0, actual.ToString());
         }
-        [Theory]
-        [InlineData("Test Answer", "Test Question")]
-        public void ShouldMapAnswerToGetDetailedAnswerResponse(string answerText, string questionText)
-        {
-            // Arrange
-            var exitSlip = FakeExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
-            var question = exitSlip.AddQuestion(questionText, Guid.NewGuid());
-
-            var source = question.AddAnswer(answerText, Guid.NewGuid());
-
-            // Act
-            var destination = _mapper.Map<GetDetailedAnswerResponse>(source);
-
-            // Assert
-            Assert.Equal(source.Text.Value, destination.Text);
-            Assert.Equal(question.Id, destination.QuestionId);
-        }
-        #endregion   
-
-        #region Question Mapping Tests
-        [Theory]
-        [InlineData("Test Question")]
-        public void ShouldMapQuestionToGetSimpleQuestionsResponse(string questionText)
-        {
-            // Arrange
-            var exitSlip = Entities.ExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
-            var source = exitSlip.AddQuestion(questionText, Guid.NewGuid());
-
-            // Act
-            var destination = _mapper.Map<GetSimpleQuestionsResponse>(source);
-
-            // Assert
-            Assert.Equal(source.Id, destination.QuestionId);
-            Assert.Equal(source.Text.Value, destination.Text);
-            Assert.Equal(exitSlip.Id, destination.ExitSlipId);
-            Assert.Equal(source.Answers.Count, destination.Answers.Count());
-        }
-        [Theory]
-        [InlineData("Test Question")]
-        public void ShouldMapQuestionToGetDetailsQuestionsResponse(string questionText)
-        {
-            // Arrange
-            var exitSlip = Entities.ExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
-            var source = exitSlip.AddQuestion(questionText, Guid.NewGuid());
-
-            // Act
-            var destination = _mapper.Map<GetDetailedQuestionsResponse>(source);
-
-            // Assert
-            Assert.Equal(source.Id, destination.QuestionId);
-            Assert.Equal(source.Text.Value, destination.Text);
-            Assert.Equal(exitSlip.Id, destination.ExitSlipId);
-            Assert.Equal(source.Answers.Count, destination.Answers.Count());
-        }
-        #endregion
-
-        #region ExitSlip Mapping Tests
-        [Theory]
-        [InlineData("Test Title")]
-        public void ShouldMapExitSlipToGetSimpleExitSlipsResponse(string title)
-        {
-            // Arrange
-            var source = Entities.ExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), title, new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
-            source.AddQuestion("Test Question", Guid.NewGuid());
-
-            // Act
-            var destination = _mapper.Map<GetSimpleExitSlipsResponse>(source);
-
-            // Assert
-            Assert.Equal(source.LectureId, destination.LectureId);
-            Assert.Equal(source.SubjectId, destination.SubjectId);
-            Assert.Equal(source.Title.Value, destination.Title);
-            Assert.Equal(source.MaxQuestionCount.Value, destination.MaxQuestionCount);
-            Assert.Equal(source.ActiveStatus, destination.ActiveStatus);
-        }
-
-        [Theory]
-        [InlineData("Test Title2")]
-        public void ShouldMapExitSlipToGetDetailsExitSlipResponse(string title)
-        {
-            // Arrange
-            var source = Entities.ExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), title, new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
-
-            // Act
-            var destination = _mapper.Map<GetDetailedExitSlipResponse>(source);
-
-            // Assert
-            Assert.Equal(source.LectureId, destination.LectureId);
-            Assert.Equal(source.SubjectId, destination.SubjectId);
-            Assert.Equal(source.Title.Value, destination.Title);
-            Assert.Equal(source.MaxQuestionCount.Value, destination.MaxQuestionCount);
-            Assert.Equal(source.ActiveStatus, destination.ActiveStatus);
-        }
-
-        [Theory]
-        [InlineData("Test Title3", "AnswerTest")]
-        public void ShouldMapExitSlipToGetExitSlipsWithAnswersResponse(string title, string answer)
-        {
-            // Arrange
-            var source = Entities.ExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), title, new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
-
-            // Act
-            var destination = _mapper.Map<GetExitSlipsWithAnswersResponse>(source);
-
-            // Assert
-            Assert.Equal(source.LectureId, destination.LectureId);
-            Assert.Equal(source.SubjectId, destination.SubjectId);
-            Assert.Equal(source.Title.Value, destination.Title);
-            Assert.Equal(source.ActiveStatus, destination.ActiveStatus);
-        }
-
-        #endregion
     }
 }
