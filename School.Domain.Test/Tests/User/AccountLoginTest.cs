@@ -33,7 +33,7 @@ public class AccountLoginTest
         passwordHasherMock.Setup(mock => mock.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
 
         // Act & Assert
-        Assert.NotNull(Entities.User.Create(It.IsAny<string>(), It.IsAny<string>(), email, password, It.IsAny<Role>(),
+        Assert.NotNull(Entities.User.Create("Xabur", "Andreasen", email, password, It.IsAny<Role>(),
             [], passwordHasherMock.Object));
     }
 
