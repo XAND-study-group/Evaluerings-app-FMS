@@ -11,12 +11,4 @@ public class FakeComment : Comment
     public void SetCommentText(string commentText)
         => CommentText = commentText;
 
-    public FakeComment CreateComment(Guid userId, string commentText)
-    {
-        return new FakeComment
-        {
-            UserId = userId,
-            CommentText = commentText
-        };
-    }
 }

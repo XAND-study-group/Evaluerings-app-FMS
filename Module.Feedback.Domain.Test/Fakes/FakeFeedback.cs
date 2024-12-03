@@ -19,17 +19,6 @@ public class FakeFeedback : Feedback
     public void SetSolution(string solution)
     => Solution = solution;
 
-    public FakeFeedback CreateFeedback(Guid userId, string title, string problem, string solution, Room room)
-    {
-        return new FakeFeedback
-        {
-            HashedUserId = userId,
-            Title = title,
-            Problem = problem,
-            Solution = solution,
-            Room = room
-        };
-    }
     public new void AddComment(Guid userId, string commentText, IValidationServiceProxy validationServiceProxy)
     => base.AddComment(userId, commentText, validationServiceProxy);
 

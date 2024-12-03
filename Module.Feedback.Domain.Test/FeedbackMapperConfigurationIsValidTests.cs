@@ -36,7 +36,7 @@ namespace Module.Feedback.Domain.Test
         {
             // Arrange
             var room = FakeRoom.Create(roomTitle, "Test Description");
-            var feedback = await Feedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
+            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
 
             // Act
             var result = _mapper.Map<GetAllFeedbacksResponse>(feedback);
@@ -54,8 +54,8 @@ namespace Module.Feedback.Domain.Test
         public async Task ShouldMapFeedbackToGetCommentResponse(string title, string problem, string solution, string roomTitle, string commentText)
         {
             // Arrange
-            var room = Room.Create(roomTitle, "Test Description");
-            var feedback = await Feedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
+            var room = FakeRoom.Create(roomTitle, "Test Description");
+            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
             var comment = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy);
 
             // Act
@@ -73,8 +73,8 @@ namespace Module.Feedback.Domain.Test
         public async Task ShouldMapFeedbackToGetVoteResponse(string title, string problem, string solution, string roomTitle, VoteScale voteScale)
         {
             // Arrange
-            var room = Room.Create(roomTitle, "Test Description");
-            var feedback = await Feedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
+            var room = FakeRoom.Create(roomTitle, "Test Description");
+            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
             var vote = feedback.AddVote(Guid.NewGuid(), voteScale);
 
             // Act
@@ -95,7 +95,7 @@ namespace Module.Feedback.Domain.Test
         public void ShouldMapRoomToGetAllRoomsResponse(string title, string description)
         {
             // Arrange
-            var room = Room.Create(title, description);
+            var room = FakeRoom.Create(title, description);
 
             // Act
             var result = _mapper.Map<GetAllRoomsResponse>(room);
@@ -111,12 +111,12 @@ namespace Module.Feedback.Domain.Test
         public async Task ShouldMapRoomToGetCommentResponse(string title, string problem, string solution, string roomTitle, string commentText)
         {
             // Arrange
-            var room = Room.Create(roomTitle, "Test Description");
-            var feedback = await Feedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy); 
+            var room = FakeRoom.Create(roomTitle, "Test Description");
+            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy); 
             var comment = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy); 
 
             // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Room.Query.GetCommentResponse>(comment); 
+            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse>(comment); 
 
             // Assert
             Assert.Equal(comment.Id, result.Id);
@@ -128,8 +128,8 @@ namespace Module.Feedback.Domain.Test
         public async Task ShouldMapRoomToGetFeedbackResponse(string title, string description, string feedbackTitle, string problem, string solution)
         {
             // Arrange
-            var room = Room.Create(title, description);
-            var feedback = await Feedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy); 
+            var room = FakeRoom.Create(title, description);
+            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy); 
             room.AddFeedback(feedback);
 
             // Act
@@ -147,7 +147,7 @@ namespace Module.Feedback.Domain.Test
         public void ShouldMapRoomToGetRoomResponse(string title, string description)
         {
             // Arrange
-            var room = Room.Create(title, description);
+            var room = FakeRoom.Create(title, description);
 
             // Act
             var result = _mapper.Map<GetRoomResponse>(room);
@@ -163,10 +163,10 @@ namespace Module.Feedback.Domain.Test
         //public async Task ShouldMapRoomToGetVoteResponse(string roomTitle, string roomDescription, string feedbackTitle, string problem, string solution, VoteScale voteScale)
         //{
         //    // Arrange
-        //    var room = Room.Create(roomTitle, roomDescription);
-        //    var feedback = await Feedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy);
+        //    var room = FakeRoom.Create(roomTitle, roomDescription);
+        //    var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy);
         //    room.AddFeedback(feedback); 
-        //    var vote = feedback.AddVote(Guid.NewGuid(), voteScale); // Add vote to Feedback
+        //    var vote = feedback.AddVote(Guid.NewGuid(), voteScale);
 
         //    // Act
         //    var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Room.Query.GetVoteResponse>(feedback); 
