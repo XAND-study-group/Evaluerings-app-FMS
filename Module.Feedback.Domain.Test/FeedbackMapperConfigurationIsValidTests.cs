@@ -36,17 +36,17 @@ namespace Module.Feedback.Domain.Test
         {
             // Arrange
             var room = FakeRoom.Create(roomTitle, "Test Description");
-            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
+            var source = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
 
             // Act
-            var result = _mapper.Map<GetAllFeedbacksResponse>(feedback);
+            var destination = _mapper.Map<GetAllFeedbacksResponse>(source);
 
             // Assert
-            Assert.Equal(feedback.Id, result.Id);
-            Assert.Equal(feedback.HashedUserId, result.HashedId);
-            Assert.Equal(feedback.Title, result.Title);
-            Assert.Equal(feedback.Problem, result.Problem);
-            Assert.Equal(feedback.Solution, result.Solution);
+            Assert.Equal(source.Id, destination.Id);
+            Assert.Equal(source.HashedUserId, destination.HashedId);
+            Assert.Equal(source.Title, destination.Title);
+            Assert.Equal(source.Problem, destination.Problem);
+            Assert.Equal(source.Solution, destination.Solution);
         }
 
         [Theory]
@@ -56,15 +56,15 @@ namespace Module.Feedback.Domain.Test
             // Arrange
             var room = FakeRoom.Create(roomTitle, "Test Description");
             var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
-            var comment = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy);
+            var source = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy);
 
             // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse>(comment);
+            var destination = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse>(source);
 
             // Assert
-            Assert.Equal(comment.Id, result.Id);
-            Assert.Equal(comment.UserId, result.UserId);
-            Assert.Equal(comment.CommentText, result.CommentText);
+            Assert.Equal(source.Id, destination.Id);
+            Assert.Equal(source.UserId, destination.UserId);
+            Assert.Equal(source.CommentText, destination.CommentText);
         }
 
 
@@ -75,15 +75,15 @@ namespace Module.Feedback.Domain.Test
             // Arrange
             var room = FakeRoom.Create(roomTitle, "Test Description");
             var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
-            var vote = feedback.AddVote(Guid.NewGuid(), voteScale);
+            var source = feedback.AddVote(Guid.NewGuid(), voteScale);
 
             // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetVoteResponse>(vote);
+            var destination = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetVoteResponse>(source);
 
             // Assert
-            Assert.Equal(vote.Id, result.Id);
-            Assert.Equal(vote.HashedUserId, result.HashedId);
-            Assert.Equal(vote.VoteScale, result.VoteScale);
+            Assert.Equal(source.Id, destination.Id);
+            Assert.Equal(source.HashedUserId, destination.HashedId);
+            Assert.Equal(source.VoteScale, destination.VoteScale);
         }
 
         #endregion
@@ -95,15 +95,15 @@ namespace Module.Feedback.Domain.Test
         public void ShouldMapRoomToGetAllRoomsResponse(string title, string description)
         {
             // Arrange
-            var room = FakeRoom.Create(title, description);
+            var source = FakeRoom.Create(title, description);
 
             // Act
-            var result = _mapper.Map<GetAllRoomsResponse>(room);
+            var destination = _mapper.Map<GetAllRoomsResponse>(source);
 
             // Assert
-            Assert.Equal(room.Id, result.RoomId);
-            Assert.Equal(room.Title, result.Title);
-            Assert.Equal(room.Description, result.Description);
+            Assert.Equal(source.Id, destination.RoomId);
+            Assert.Equal(source.Title, destination.Title);
+            Assert.Equal(source.Description, destination.Description);
         }
 
         [Theory]
@@ -113,14 +113,14 @@ namespace Module.Feedback.Domain.Test
             // Arrange
             var room = FakeRoom.Create(roomTitle, "Test Description");
             var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy); 
-            var comment = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy); 
+            var source = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy); 
 
             // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse>(comment); 
+            var destination = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse>(source); 
 
             // Assert
-            Assert.Equal(comment.Id, result.Id);
-            Assert.Equal(comment.CommentText, result.CommentText);
+            Assert.Equal(source.Id, destination.Id);
+            Assert.Equal(source.CommentText, destination.CommentText);
         }
 
         [Theory]
@@ -129,17 +129,17 @@ namespace Module.Feedback.Domain.Test
         {
             // Arrange
             var room = FakeRoom.Create(title, description);
-            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy); 
-            room.AddFeedback(feedback);
+            var source = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy); 
+            room.AddFeedback(source);
 
             // Act
-            var result = _mapper.Map<GetFeedbackResponse>(feedback); 
+            var destination = _mapper.Map<GetFeedbackResponse>(source); 
 
             // Assert
-            Assert.Equal(feedback.Id, result.FeedbackId);
-            Assert.Equal(feedback.HashedUserId, result.HashedId);
-            Assert.Equal(feedback.Problem, result.Problem);
-            Assert.Equal(feedback.Solution, result.Solution);
+            Assert.Equal(source.Id, destination.FeedbackId);
+            Assert.Equal(source.HashedUserId, destination.HashedId);
+            Assert.Equal(source.Problem, destination.Problem);
+            Assert.Equal(source.Solution, destination.Solution);
         }
 
         [Theory]
@@ -147,15 +147,15 @@ namespace Module.Feedback.Domain.Test
         public void ShouldMapRoomToGetRoomResponse(string title, string description)
         {
             // Arrange
-            var room = FakeRoom.Create(title, description);
+            var source = FakeRoom.Create(title, description);
 
             // Act
-            var result = _mapper.Map<GetRoomResponse>(room);
+            var destination = _mapper.Map<GetRoomResponse>(source);
 
             // Assert
-            Assert.Equal(room.Id, result.RoomId);
-            Assert.Equal(room.Title, result.Title);
-            Assert.Equal(room.Description, result.Description);
+            Assert.Equal(source.Id, destination.RoomId);
+            Assert.Equal(source.Title, destination.Title);
+            Assert.Equal(source.Description, destination.Description);
         }
 
         //[Theory]
@@ -164,16 +164,16 @@ namespace Module.Feedback.Domain.Test
         //{
         //    // Arrange
         //    var room = FakeRoom.Create(roomTitle, roomDescription);
-        //    var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy);
-        //    room.AddFeedback(feedback); 
-        //    var vote = feedback.AddVote(Guid.NewGuid(), voteScale);
+        //    var source = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy);
+        //    room.AddFeedback(source);
+        //    var vote = source.AddVote(Guid.NewGuid(), voteScale);
 
         //    // Act
-        //    var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Room.Query.GetVoteResponse>(feedback); 
+        //    var destination = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Room.Query.GetVoteResponse>(source);
 
         //    // Assert
-        //    Assert.Equal(vote.Id, result.Id);
-        //    Assert.Equal(vote.VoteScale, result.VoteScale);
+        //    Assert.Equal(vote.Id, destination.Id);
+        //    Assert.Equal(vote.VoteScale, destination.VoteScale);
         //}
 
         #endregion

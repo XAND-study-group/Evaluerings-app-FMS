@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Module.ExitSlip.Domain.Entities;
+using Module.ExitSlip.Domain.Test.Fakes;
 using Module.ExitSlip.Domain.ValueObjects;
 using Module.ExitSlip.Infrastructure.Mapper;
 using SharedKernel.Dto.Features.Evaluering.Answer.Query;
@@ -30,7 +31,7 @@ namespace Module.ExitSlip.Domain.Test
         public void ShouldMapAnswerToGetSimpleAnswerResponse(string answerText, string questionText)
         {
             // Arrange
-            var exitSlip = Entities.ExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
+            var exitSlip = FakeExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
             var question = exitSlip.AddQuestion(questionText, Guid.NewGuid());
 
             var source = question.AddAnswer(answerText, Guid.NewGuid());
@@ -47,7 +48,7 @@ namespace Module.ExitSlip.Domain.Test
         public void ShouldMapAnswerToGetDetailedAnswerResponse(string answerText, string questionText)
         {
             // Arrange
-            var exitSlip = Entities.ExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
+            var exitSlip = FakeExitSlip.Create(Guid.NewGuid(), Guid.NewGuid(), "Test ExitSlip", new MaxQuestionCount(5), ExitSlipActiveStatus.Active);
             var question = exitSlip.AddQuestion(questionText, Guid.NewGuid());
 
             var source = question.AddAnswer(answerText, Guid.NewGuid());
