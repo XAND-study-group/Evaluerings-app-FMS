@@ -1,36 +1,32 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 using Module.Feedback.Application.Services;
-using SharedKernel.Enums.Features.Vote;
 
 namespace Module.Feedback.Infrastructure.Proxy;
 
-public class EmailNotificationProxy: IEmailNotificationProxy
+public class EmailNotificationProxy : IEmailNotificationProxy
 {
-    async Task IEmailNotificationProxy.SendNotificationAsync(IEnumerable<string> emailsTo, string emailFrom, Domain.Feedback feedback)
+    async Task IEmailNotificationProxy.SendNotificationAsync(IEnumerable<string> emailsTo, string emailFrom,
+        Domain.Feedback feedback)
     {
         var client = new TcpClient("localhost", 2525);
         await using var stream = client.GetStream();
         using var reader = new StreamReader(stream, Encoding.ASCII);
         await using var writer = new StreamWriter(stream, Encoding.ASCII);
-        
+
         writer.AutoFlush = true;
         Console.WriteLine(await reader.ReadLineAsync());
 
-        var upVoteCount = feedback.Votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
-        var downVoteCount = feedback.Votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
-        var commentCount = feedback.Comments.Count + feedback.Comments.Select(c => c.SubComments).Count();
-
         foreach (var emailTo in emailsTo)
         {
-            await WriteMailContent(writer, reader, feedback, emailFrom, emailTo, upVoteCount, downVoteCount, commentCount);
+            await WriteMailContent(writer, reader, feedback, emailFrom, emailTo);
         }
-        
+
         client.Close();
     }
 
     private async Task WriteMailContent(StreamWriter writer, StreamReader reader, Domain.Feedback feedback,
-        string emailFrom, string emailTo, int upVoteCount, int downVoteCount, int commentCount)
+        string emailFrom, string emailTo)
     {
         await writer.WriteLineAsync("EHLO localhost");
         Console.WriteLine("1 " + await reader.ReadLineAsync());
@@ -48,14 +44,16 @@ public class EmailNotificationProxy: IEmailNotificationProxy
         Console.WriteLine("7 " + await reader.ReadLineAsync());
         await writer.WriteLineAsync("Content-Type: text/html; charset=UTF-8"); // Set content type
         await writer.WriteLineAsync("");
-        await writer.WriteLineAsync("<body>"); 
-        await writer.WriteLineAsync($"En Evalureing i forummet <b>{feedback.Room.Title}</b> har haft forhøjet aktivitet.<br>");
+        await writer.WriteLineAsync("<body>");
+        await writer.WriteLineAsync(
+            $"En Evalureing i forummet <b>{feedback.Room.Title}</b> har haft forhøjet aktivitet.<br>");
         await writer.WriteLineAsync("Der er tale om følgende Evaluering:<br>");
         await writer.WriteLineAsync($"<b>Title:</b>{feedback.Title}<br>");
         await writer.WriteLineAsync($"<b>Problem:</b> {feedback.Problem}<br>");
         await writer.WriteLineAsync($"<b>Løsning:</b> {feedback.Solution}<br>");
         await writer.WriteLineAsync("<br>");
-        await writer.WriteLineAsync($"Evalueringen har haft: <b>{upVoteCount}</b> Up Votes, <b>{downVoteCount}</b> Down Votes, <b>{commentCount}</b> Comments");
+        await writer.WriteLineAsync(
+            $"Evalueringen har haft: <b>{feedback.GetUpVoteCount()}</b> Up Votes, <b>{feedback.GetDownVoteCount()}</b> Down Votes, <b>{feedback.GetCommentsCount()}</b> Comments");
         Console.WriteLine(await reader.ReadLineAsync());
         await writer.WriteLineAsync(".");
         await writer.WriteLineAsync("</body>");

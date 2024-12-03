@@ -55,7 +55,7 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
             .Property(v => v.RowVersion)
             .IsRowVersion();
         modelBuilder.Entity<Vote>()
-            .ComplexProperty(v => v.HashedUserUserId);
+            .ComplexProperty(v => v.HashedUserId);
 
         #endregion Vote OnModelCreating Configuration
         

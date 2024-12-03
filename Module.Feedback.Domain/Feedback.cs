@@ -63,6 +63,18 @@ public class Feedback : Entity
     public void ChangeStatus(FeedbackState state)
         => State = state;
 
+    public int GetUpVoteCount()
+        => _votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
+
+    public int GetDownVoteCount()
+        => _votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
+
+    public int GetCommentsCount()
+        => _comments.Count + GetSubCommentsCount();
+
+    private int GetSubCommentsCount()
+        => _comments.Sum(comment => comment.SubComments.Count);
+
     #endregion Feedback Methods
 
     #region Feedback Business Logic Methods
@@ -84,13 +96,13 @@ public class Feedback : Entity
 
         // This variable would normally be calculated from the total count of users associated to a room + a percentage number.
         int minimumsActicityCount = 5;
-        
+
         var votesCount = Votes.Count;
         var commentsCount = Comments.Count;
         var subCommentsCount = Comments.Sum(c => c.SubComments.Count);
-        
+
         var totalActivityCount = votesCount + commentsCount + subCommentsCount;
-        
+
         return totalActivityCount >= minimumsActicityCount;
     }
 
@@ -150,12 +162,12 @@ public class Feedback : Entity
         return GetVoteById(voteId);
     }
 
-    public Vote UpdateVote(Guid voteId, VoteScale voteScale)
+    public Vote UpdateVote(Guid voteId, Guid userId, VoteScale voteScale)
     {
         AssureStatusIsNotSolved();
 
         var vote = GetVoteById(voteId);
-        vote.Update(voteScale);
+        vote.Update(userId, voteScale);
 
         return vote;
     }
@@ -172,7 +184,7 @@ public class Feedback : Entity
 
     private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId)
     {
-        if (votes.Any(v => v.HashedUserUserId == userId))
+        if (votes.Any(v => v.HashedUserId == userId))
             throw new ArgumentException("User has already voted for this feedback.");
     }
 
