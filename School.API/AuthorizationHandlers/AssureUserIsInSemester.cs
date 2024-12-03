@@ -34,9 +34,9 @@ public class AssureUserIsInSemester(ISemesterRepository semesterRepository) : Au
             return;
         }
 
-        var semester = await semesterRepository.IsStudentInSemester(semesterId, userId);
+        var isUserInSemester = await semesterRepository.IsStudentInSemester(semesterId, userId);
 
-        if (!semester && !requirement.Roles.Contains(role))
+        if (!isUserInSemester && !requirement.Roles.Contains(role))
         {
             context.Fail();
             return;

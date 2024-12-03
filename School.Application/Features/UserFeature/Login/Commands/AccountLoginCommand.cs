@@ -37,7 +37,7 @@ public class AccountLoginCommandHandler(
 
             user.AddRefreshToken(refreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
 
-            await userRepository.SetUserRefreshTokenAsync(user);
+            await userRepository.AddUserRefreshTokenAsync(user);
 
             return Result<TokenResponse?>.Create("Success", new TokenResponse(accessToken, refreshToken),
                 ResultStatus.Success);

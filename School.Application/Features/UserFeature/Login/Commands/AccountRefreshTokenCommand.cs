@@ -32,7 +32,7 @@ public class AccountRefreshTokenCommandHandler(
         var newRefreshToken = tokenProvider.GenerateRefreshToken();
 
         storedUser.AddRefreshToken(newRefreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
-        await userRepository.SetUserRefreshTokenAsync(storedUser);
+        await userRepository.AddUserRefreshTokenAsync(storedUser);
         
         return Result<TokenResponse?>.Create("Ny token blev genereret korrekt",
             new TokenResponse(newAccessToken, newRefreshToken), ResultStatus.Success);

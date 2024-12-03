@@ -33,9 +33,9 @@ public class AssureUserIsInClass(IClassRepository classRepository) : Authorizati
             return;
         }
 
-        var foundClass = await classRepository.GetClassByIdAsync(classId);
+        var isUserInClass = await classRepository.IsUserInClass(classId, userId);
 
-        if (foundClass.Students.Any(student => student.Id != userId) && !requirement.Roles.Contains(role))
+        if (!isUserInClass && !requirement.Roles.Contains(role))
         {
             context.Fail();
             return;

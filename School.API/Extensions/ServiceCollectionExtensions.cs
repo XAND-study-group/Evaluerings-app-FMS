@@ -70,6 +70,10 @@ internal static class ServiceCollectionExtensions
                 policy => policy.Requirements.Add(new AssureUserIsInClassRequirement("Admin", "Teacher")));
             options.AddPolicy("AssureUserIsInSemester",
                 policy => policy.Requirements.Add(new AssureUserIsInSemesterRequirement("Admin", "Teacher")));
+            options.AddPolicy("AssureUserHasSubject",
+                policy => policy.Requirements.Add(new AssureUserHasSubjectRequirement("Admin", "Teacher")));
+            options.AddPolicy("AssureUserHasLecture",
+                policy => policy.Requirements.Add(new AssureUserHasLectureRequirement("Admin", "Teacher")));
 
             #endregion
         });
@@ -77,6 +81,8 @@ internal static class ServiceCollectionExtensions
         serviceCollection.AddScoped<IAuthorizationHandler, AssureUserIsTheSame>();
         serviceCollection.AddScoped<IAuthorizationHandler, AssureUserIsInClass>();
         serviceCollection.AddScoped<IAuthorizationHandler, AssureUserIsInSemester>();
+        serviceCollection.AddScoped<IAuthorizationHandler, AssureUserHasSubject>();
+        serviceCollection.AddScoped<IAuthorizationHandler, AssureUserHasLecture>();
 
         return serviceCollection;
     }

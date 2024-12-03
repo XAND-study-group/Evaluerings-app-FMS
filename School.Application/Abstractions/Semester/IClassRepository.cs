@@ -13,4 +13,5 @@ public interface IClassRepository
     #endregion
 
     Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId);
+    Task<bool> IsUserInClass(Guid classId, Guid userId);
 }
