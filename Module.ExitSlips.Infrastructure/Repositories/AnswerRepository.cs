@@ -21,7 +21,7 @@ namespace Module.ExitSlip.Infrastructure.Repositories
 
         public async Task<Answer> GetByIdAsync(Guid id)
         {
-            return await _context.Answers.FindAsync(id);
+            return await _context.Answers.SingleAsync(a => a.Id == id);
         }
 
         public async Task<IEnumerable<Answer>> GetAllAsync()

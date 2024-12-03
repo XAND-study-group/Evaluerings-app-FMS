@@ -11,9 +11,6 @@ namespace SharedKernel.Dto.Features.Evaluering.Question.Query
             Guid QuestionId,
             Guid ExitSlipId,
             string Text,
-            IEnumerable<GetSimpleAnswerResponse> Answers);
+            IEnumerable<GetSimpleAnswerResponse> Answers,
+            byte[] RowVersion);
 }
-
-
-
-//Jeg er I gang med at lave Extesions til de EXitSLips og de to andre. skal finde ud af at mappe dem ordenligt. 

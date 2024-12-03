@@ -10,7 +10,7 @@ namespace Module.ExitSlip.Application.Abstractions
     public interface IAnswerRepository
     {
         Task AddAsync(Answer answer);
-        Task UpdateAsync(Answer answer);
-        Task DeleteAsync(Guid id);
+        Task UpdateAsync(Answer answer, byte[] rowVersion);
+        Task DeleteAsync(Guid id, byte[] rowVersion);
     }
 }

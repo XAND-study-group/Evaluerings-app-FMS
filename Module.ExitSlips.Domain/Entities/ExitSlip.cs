@@ -44,7 +44,7 @@ namespace Module.ExitSlip.Domain.Entities
         public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount, ExitSlipActiveStatus activeStatus)
             => new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
 
-        #region Creation
+        #region ExitSlipsHandling
 
         public void Update(string title)
         {
@@ -53,18 +53,14 @@ namespace Module.ExitSlip.Domain.Entities
         }
         public void Delete()
         {
-            AssureExitSlipInactive();            
+            AssureExitSlipInactive();
         }
 
         public void UpdateActiveStatus(ExitSlipActiveStatus activeStatus)
         {
             ActiveStatus = activeStatus;
         }
-        private void AssureExitSlipInactive()
-        {
-            if (ActiveStatus == ExitSlipActiveStatus.Active)
-                throw new ArgumentException("ExitSlip skal være inaktiv, før de kan redigeres.");
-        }
+
 
         #endregion
 
@@ -73,7 +69,7 @@ namespace Module.ExitSlip.Domain.Entities
         public Question AddQuestion(string text, Guid userId)
         {
             if (_questions.Count >= MaxQuestionCount)
-                throw new InvalidOperationException("Kan ikke tilføje flere spørgsmål end det maksimalt tilladte.");
+                throw new ArgumentException("Kan ikke tilføje flere spørgsmål end det maksimalt tilladte.");
 
             var question = Question.Create(text);
             _questions.Add(question);
@@ -82,7 +78,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         public void DeleteQuestion(Guid questionId)
         {
-            EnsureInactiveStatus();
+            AssureExitSlipInactive();
 
             var question = GetQuestionById(questionId);
 
@@ -91,7 +87,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         public Question UpdateQuestion(Guid questionId, string newText)
         {
-            EnsureInactiveStatus();
+            AssureExitSlipInactive();
 
             var question = GetQuestionById(questionId);
 
@@ -105,7 +101,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         public Answer AddAnswer(Guid userId, Guid questionId, string text)
         {
-            EnsureActiveStatus();
+            AssureExitSlipActive();
 
             var question = GetQuestionById(questionId);
 
@@ -115,7 +111,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         public Answer UpdateAnswer(Guid questionId, Guid answerId, string newText)
         {
-            EnsureActiveStatus();
+            AssureExitSlipActive();
 
             var question = GetQuestionById(questionId);
 
@@ -124,17 +120,17 @@ namespace Module.ExitSlip.Domain.Entities
 
         #endregion
 
-        #region StatusHandling
+        #region EXitSlip StatusHandling
 
-        private void EnsureInactiveStatus()
+        private void AssureExitSlipInactive()
         {
-            if(ActiveStatus!=ExitSlipActiveStatus.Inactive)
-                throw new InvalidOperationException("Kan ikke ændre spørgsmål på en aktiv ExitSlip.");
+            if (ActiveStatus == ExitSlipActiveStatus.Active)
+                throw new ArgumentException("ExitSlip skal være inaktiv, før de kan redigeres.");
         }
-        private void EnsureActiveStatus()
+        private void AssureExitSlipActive()
         {
             if (ActiveStatus != ExitSlipActiveStatus.Active)
-                throw new InvalidOperationException("Kan ikke tilføje svar til en inaktiv ExitSlip.");
+                throw new ArgumentException("Kan ikke tilføje svar til en inaktiv ExitSlip.");
         }
         #endregion
 
@@ -144,7 +140,7 @@ namespace Module.ExitSlip.Domain.Entities
         {
             var question = _questions.FirstOrDefault(q => q.Id == questionId);
             if (question is null)
-                throw new InvalidOperationException("Spørgsmål ikke fundet.");
+                throw new ArgumentException("Spørgsmål ikke fundet.");
             return question;
         }
         #endregion

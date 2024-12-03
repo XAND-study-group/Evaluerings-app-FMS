@@ -14,6 +14,7 @@ namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query
         Guid SubjectId,
         string Title,
         ExitSlipActiveStatus ActiveStatus,
-        IEnumerable<GetDetailsQuestionsResponse> Questions);
+        IEnumerable<GetDetailsQuestionsResponse> Questions,
+        byte[] RowVersion);
     
 }

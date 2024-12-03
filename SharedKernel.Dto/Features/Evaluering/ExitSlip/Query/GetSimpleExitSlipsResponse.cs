@@ -8,7 +8,8 @@ public record GetSimpleExitSlipsResponse(
     Guid SubjectId,
     string Title,
     int MaxQuestionCount,
-    ExitSlipActiveStatus ActiveStatus);
+    ExitSlipActiveStatus ActiveStatus,
+    byte[] RowVersion);
 
 
 

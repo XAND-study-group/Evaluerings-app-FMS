@@ -14,7 +14,8 @@ namespace Module.ExitSlip.Infrastructure.Extensions
 {
     public static class ExitSlipModuleInfrastructureExtensions
     {
-        public static IServiceCollection AddExitSlipModuleInfrastructure(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static IServiceCollection AddExitSlipModuleInfrastructure(this IServiceCollection serviceCollection,
+            IConfiguration configuration)
         {
             serviceCollection.AddDbContext<IExitSlipDbContext, ExitSlipDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
@@ -25,6 +26,9 @@ namespace Module.ExitSlip.Infrastructure.Extensions
             }));
 
             serviceCollection.AddScoped<IExitSlipRepository, ExitSlipRepository>();
+            serviceCollection.AddScoped<IQuestionRepository, QuestionRepository>();
+            serviceCollection.AddScoped<IAnswerRepository, AnswerRepository>();
+
             return serviceCollection;
         }
 
