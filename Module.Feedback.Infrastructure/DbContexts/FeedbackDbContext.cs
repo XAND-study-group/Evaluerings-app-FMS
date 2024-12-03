@@ -9,10 +9,12 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Domain.Feedback> Feedbacks { get; set; }
     public DbSet<Comment> Comments { get; set; }
-    public DbSet<Vote> Votes { get; set; }
+    public DbSet<Vote> Votes { set; get; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("FeedbackModule");
+        
         #region Room OnModelCreating Configuration
 
         modelBuilder.Entity<Room>()

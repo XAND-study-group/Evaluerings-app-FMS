@@ -15,6 +15,8 @@ public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : Db
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("ExitSlipModule");
+        
         #region User OnModelCreating Configuration
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
             .Property(e => e.Id)
