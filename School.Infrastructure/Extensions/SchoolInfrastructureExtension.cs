@@ -29,6 +29,7 @@ namespace School.Infrastructure.Extensions
                 .AddScoped<IClassRepository, ClassRepository>()
                 .AddScoped<ISemesterRepository, SemesterRepository>()
                 .AddScoped<ILectureRepository, LectureRepository>()
+                .AddScoped<ISubjectRepository, SubjectRepository>()
                 .AddScoped<IUnitOfWork, UnitOfWork<SchoolDbContext>>()
                 .AddScoped<IUserDomainService, UserDomainService>();
 
