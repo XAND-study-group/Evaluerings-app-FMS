@@ -85,7 +85,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.ComplexProperty<Dictionary<string, object>>("HashedUserUserId", "Module.Feedback.Domain.Feedback.HashedUserUserId#HashedUserId", b1 =>

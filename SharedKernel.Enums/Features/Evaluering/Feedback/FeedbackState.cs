@@ -1,6 +1,6 @@
 ﻿namespace SharedKernel.Enums.Features.Evaluering.Feedback;
 
-public enum FeedbackStatus
+public enum FeedbackState
 {
     Active,
     Solved
