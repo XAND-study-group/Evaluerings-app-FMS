@@ -9,11 +9,11 @@ public class SchoolApiProxy (IConfiguration configuration, HttpClient httpClient
 {
     public async Task<IEnumerable<string>> GetEmailsByUserIdsAsync(IEnumerable<Guid> userIds)
     {
-        var url = configuration["SchoolApiUrl"] + "/GetEmailsByUserIds";
+        var url = configuration["SchoolApiUrl:GetEmailsByUserIds"];
 
         var response = await httpClient.PostAsJsonAsync(url, new GetEmailsByUserIdsRequest(userIds));
         
         var responseContent = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
-        return responseContent;
+        return responseContent ?? throw new Exception("Kunne ikke få fat i nogle emails");
     }
 }
