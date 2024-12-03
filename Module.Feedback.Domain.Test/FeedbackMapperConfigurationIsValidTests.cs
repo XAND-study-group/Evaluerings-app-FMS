@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Module.Feedback.Domain.Test.Fakes;
 using Xunit;
 
 namespace Module.Feedback.Domain.Test
@@ -34,7 +35,7 @@ namespace Module.Feedback.Domain.Test
         public async Task ShouldMapFeedbackToGetAllFeedbacksResponse(string title, string problem, string solution, string roomTitle)
         {
             // Arrange
-            var room = Room.Create(roomTitle, "Test Description");
+            var room = FakeRoom.Create(roomTitle, "Test Description");
             var feedback = await Feedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
 
             // Act
