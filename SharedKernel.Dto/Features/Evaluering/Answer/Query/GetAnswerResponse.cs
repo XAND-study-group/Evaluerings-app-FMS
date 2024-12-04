@@ -9,8 +9,5 @@ namespace SharedKernel.Dto.Features.Evaluering.Answer.Query;
 public record GetAnswerResponse(
     Guid AnswerId,
     string Text,
-    Guid UserId)
-{
-    public GetAnswerResponse() : this(Guid.Empty, string.Empty, Guid.Empty) { }
-}
+    Guid UserId);
 

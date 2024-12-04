@@ -15,9 +15,6 @@ public record GetDetailedExitSlipResponse(
     string Title,
     int MaxQuestionCount,
     ExitSlipActiveStatus ActiveStatus,
-    IEnumerable<GetSimpleQuestionsResponse> Questions)
-{
-    public GetDetailedExitSlipResponse() : this(default, default, string.Empty, default, default, default) { }
-}
+    IEnumerable<GetSimpleQuestionsResponse> Questions);
 
 

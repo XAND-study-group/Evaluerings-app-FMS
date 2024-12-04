@@ -10,7 +10,4 @@ public record GetAllFeedbacksResponse(
     string Problem,
     string Solution,
     IEnumerable<GetCommentResponse> Comments,
-    IEnumerable<GetVoteResponse> Votes)
-{
-    public GetAllFeedbacksResponse() : this(default, Array.Empty<byte>(), string.Empty, string.Empty, string.Empty, string.Empty, Array.Empty<GetCommentResponse>(), Array.Empty<GetVoteResponse>()) { }
-}
+    IEnumerable<GetVoteResponse> Votes);

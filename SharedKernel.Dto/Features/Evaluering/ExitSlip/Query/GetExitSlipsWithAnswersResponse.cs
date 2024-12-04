@@ -14,9 +14,6 @@ public record GetExitSlipsWithAnswersResponse(
     Guid SubjectId,
     string Title,
     ExitSlipActiveStatus ActiveStatus,
-    IEnumerable<GetDetailedQuestionsResponse> Questions)
-{
-    public GetExitSlipsWithAnswersResponse() : this(default, default, string.Empty, default, default) { }
-}
+    IEnumerable<GetDetailedQuestionsResponse> Questions);
     
 

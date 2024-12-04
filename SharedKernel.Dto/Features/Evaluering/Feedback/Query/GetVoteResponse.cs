@@ -6,7 +6,4 @@ public record GetVoteResponse(
     Guid Id,
     byte[] RowVersion,
     string HashedId,
-    VoteScale VoteScale)
-{
-    public GetVoteResponse() : this(default, Array.Empty<byte>(), string.Empty, default) { }
-}
+    VoteScale VoteScale);

@@ -10,11 +10,7 @@ namespace SharedKernel.Dto.Features.Evaluering.Question.Query;
 public record GetSimpleQuestionsResponse(
     Guid QuestionId,
     Guid ExitSlipId,
-    string Text,
-    IEnumerable<GetAnswerResponse> Answers)
-{
-    public GetSimpleQuestionsResponse() : this(Guid.Empty, Guid.Empty, string.Empty, Enumerable.Empty<GetAnswerResponse>()) { }
-}
+    string Text);
 
 
 

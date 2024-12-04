@@ -3,7 +3,4 @@
 public record GetAllRoomsResponse(
     Guid RoomId,
     string Title,
-    string Description)
-{
-    public GetAllRoomsResponse() : this(default, string.Empty, string.Empty) { }
-}
+    string Description);
