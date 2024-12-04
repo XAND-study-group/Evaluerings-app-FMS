@@ -72,15 +72,6 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 
-builder.Services.AddRateLimiter(rateLimiterOptions =>
-{
-    rateLimiterOptions.AddFixedWindowLimiter(policyName: "baseLimit", options =>
-    {
-        options.PermitLimit = 5;
-        options.Window = TimeSpan.FromMinutes(10);
-    });
-});
-
 var app = builder.Build();
 
 app.UseRateLimiter();
