@@ -11,9 +11,9 @@ public record GetSimpleQuestionsResponse(
     Guid QuestionId,
     Guid ExitSlipId,
     string Text,
-    IEnumerable<GetSimpleAnswerResponse> Answers)
+    IEnumerable<GetAnswerResponse> Answers)
 {
-    public GetSimpleQuestionsResponse() : this(Guid.Empty, Guid.Empty, string.Empty, Enumerable.Empty<GetSimpleAnswerResponse>()) { }
+    public GetSimpleQuestionsResponse() : this(Guid.Empty, Guid.Empty, string.Empty, Enumerable.Empty<GetAnswerResponse>()) { }
 }
 
 

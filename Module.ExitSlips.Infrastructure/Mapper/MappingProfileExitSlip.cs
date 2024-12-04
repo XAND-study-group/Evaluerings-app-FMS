@@ -13,14 +13,9 @@ namespace Module.ExitSlip.Infrastructure.Mapper
     {
         public MappingProfileExitSlip()
         {
-            CreateMap<Answer, GetSimpleAnswerResponse>()
+            CreateMap<Answer, GetAnswerResponse>()
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
                 .ForMember(dest=> dest.AnswerId, opt => opt.MapFrom(src => src.Id));
-
-            CreateMap<Answer, GetDetailedAnswerResponse>()
-                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
-                .ForMember(dest => dest.AnswerId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<Question, GetSimpleQuestionsResponse>()
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))

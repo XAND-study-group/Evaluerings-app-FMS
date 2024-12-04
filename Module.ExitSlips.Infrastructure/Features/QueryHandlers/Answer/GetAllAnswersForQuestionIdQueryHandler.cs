@@ -15,7 +15,7 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
 {
-    public class GetAllAnswersForQuestionIdQueryHandler : IRequestHandler<GetAllAnswersForQuestionIdQuery, Result<IEnumerable<GetSimpleAnswerResponse>>>
+    public class GetAllAnswersForQuestionIdQueryHandler : IRequestHandler<GetAllAnswersForQuestionIdQuery, Result<IEnumerable<GetAnswerResponse>>>
     {
         private readonly IExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
@@ -26,19 +26,19 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Answer
             _mapper = mapper;
         }
 
-        public async Task<Result<IEnumerable<GetSimpleAnswerResponse>>> Handle(GetAllAnswersForQuestionIdQuery query, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<GetAnswerResponse>>> Handle(GetAllAnswersForQuestionIdQuery query, CancellationToken cancellationToken)
         {
             var answers = await _exitSlipDbContext.Questions
                 .AsNoTracking()
                 .Include(q => q.Answers)
                 .Where(q => q.Id == query.QuestionId)
                 .Select(a => a.Answers)
-                .ProjectTo<GetSimpleAnswerResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetAnswerResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
             if (answers == null)
-                return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Ingen svar blev fundet udfra det gældende spørgsmål", null, ResultStatus.Error);
+                return Result<IEnumerable<GetAnswerResponse>>.Create("Ingen svar blev fundet udfra det gældende spørgsmål", null, ResultStatus.Error);
 
-            return Result<IEnumerable<GetSimpleAnswerResponse>>.Create("Success", answers, ResultStatus.Success);
+            return Result<IEnumerable<GetAnswerResponse>>.Create("Success", answers, ResultStatus.Success);
         }
     }
 }

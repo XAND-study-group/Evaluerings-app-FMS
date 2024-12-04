@@ -12,7 +12,7 @@ public record GetDetailedQuestionsResponse(
     Guid QuestionId,
     Guid ExitSlipId,
     string Text,
-    IEnumerable<GetSimpleAnswerResponse> Answers)
+    IEnumerable<GetAnswerResponse> Answers)
 {
     public GetDetailedQuestionsResponse() : this(default, default, string.Empty, default) { }
 }

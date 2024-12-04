@@ -1,7 +1,9 @@
 using Evaluering.API;
-using MediatR;
 using Evaluering.API.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Module.ExitSlip.Infrastructure.DbContexts;
 using Module.ExitSlip.Infrastructure.Mapper;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
@@ -21,11 +23,6 @@ builder.Services.AddMediatRModules();
 builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
-
-builder.Services.AddAutoMapper(
-    typeof(MappingProfileFeedback).Assembly,
-    typeof(MappingProfileExitSlip).Assembly
-    );
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
