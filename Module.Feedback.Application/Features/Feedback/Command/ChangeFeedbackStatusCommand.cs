@@ -16,11 +16,11 @@ public class ChangeFeedbackStatusCommandHandler(IFeedbackRepository feedbackRepo
         var feedback = await feedbackRepository.GetFeedbackByIdAsync(changeFeedbackStatusReuquest.FeedbackId);
         
         // Do
-        feedback.ChangeStatus(changeFeedbackStatusReuquest.Status);
+        feedback.ChangeStatus(changeFeedbackStatusReuquest.State);
         
         // Save
         await feedbackRepository.UpdateFeedbackAsync(feedback, changeFeedbackStatusReuquest.RowVersion);
 
-        return Result<bool>.Create("Status for feedback opdateret", true, ResultStatus.Updated);
+        return Result<bool>.Create("State for feedback opdateret", true, ResultStatus.Updated);
     }
 }

@@ -11,12 +11,13 @@ public class Feedback : Entity
     #region Properties
 
     // General Properties
-    public HashedId HashedUserId { get; protected set; }
+    public HashedUserId HashedUserId { get; protected set; }
     public Title Title { get; protected set; }
     public Text Problem { get; protected set; }
     public Text Solution { get; protected set; }
     public DateTime Created { get; init; }
-    public FeedbackStatus Status { get; protected set; }
+    public FeedbackState State { get; protected set; }
+    public NotificationStatus NotificationStatus { get; protected set; }
     public Room Room { get; protected set; }
 
     // List Properties
@@ -33,14 +34,16 @@ public class Feedback : Entity
     {
     }
 
-    private Feedback(HashedId hashedUserUserId, string title, string problem, string solution, Room room)
+    private Feedback(HashedUserId hashedUserUserId, string title, string problem, string solution, Room room)
     {
         HashedUserId = hashedUserUserId;
         Title = title;
         Problem = problem;
         Solution = solution;
-        Status = FeedbackStatus.Active;
+        State = FeedbackState.Active;
+        NotificationStatus = NotificationStatus.NotSent;
         Room = room;
+        Created = DateTime.Now;
     }
 
     #endregion Constructors
@@ -57,8 +60,20 @@ public class Feedback : Entity
         return feedback;
     }
 
-    public void ChangeStatus(FeedbackStatus status)
-        => Status = status;
+    public void ChangeStatus(FeedbackState state)
+        => State = state;
+
+    public int GetUpVoteCount()
+        => _votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
+
+    public int GetDownVoteCount()
+        => _votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
+
+    public int GetCommentsCount()
+        => _comments.Count + GetSubCommentsCount();
+
+    private int GetSubCommentsCount()
+        => _comments.Sum(comment => comment.SubComments.Count);
 
     #endregion Feedback Methods
 
@@ -70,6 +85,25 @@ public class Feedback : Entity
         var isAcceptable = await iValidationServiceProxy.IsAcceptableContentAsync(title, problem, solution);
         if (!isAcceptable.Valid)
             throw new ArgumentException(isAcceptable.Reason);
+    }
+
+    public bool ShouldSendNotification()
+    {
+        if (State == FeedbackState.Solved)
+            return false;
+        if (NotificationStatus == NotificationStatus.Sent)
+            return false;
+
+        // This variable would normally be calculated from the total count of users associated to a room + a percentage number.
+        int minimumsActicityCount = 5;
+
+        var votesCount = Votes.Count;
+        var commentsCount = Comments.Count;
+        var subCommentsCount = Comments.Sum(c => c.SubComments.Count);
+
+        var totalActivityCount = votesCount + commentsCount + subCommentsCount;
+
+        return totalActivityCount >= minimumsActicityCount;
     }
 
     #endregion Feedback Business Logic Methods
@@ -121,19 +155,20 @@ public class Feedback : Entity
         return vote;
     }
 
-    public Vote DeleteVote(Guid voteId)
+    public Vote DeleteVote(Guid voteId, Guid userId)
     {
         AssureStatusIsNotSolved();
-
-        return GetVoteById(voteId);
+        var vote = GetVoteById(voteId);
+        vote.Delete(userId);
+        return vote;
     }
 
-    public Vote UpdateVote(Guid voteId, VoteScale voteScale)
+    public Vote UpdateVote(Guid voteId, Guid userId, VoteScale voteScale)
     {
         AssureStatusIsNotSolved();
 
         var vote = GetVoteById(voteId);
-        vote.Update(voteScale);
+        vote.Update(userId, voteScale);
 
         return vote;
     }
@@ -156,7 +191,7 @@ public class Feedback : Entity
 
     private void AssureStatusIsNotSolved()
     {
-        if (Status == FeedbackStatus.Solved)
+        if (State == FeedbackState.Solved)
             throw new ArgumentException("Evalueringen er allerede løst.");
     }
 

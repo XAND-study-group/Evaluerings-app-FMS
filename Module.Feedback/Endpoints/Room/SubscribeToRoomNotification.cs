@@ -14,7 +14,7 @@ public class SubscribeToRoomNotification : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPut(configuration["Routes:FeedbackModule:Room:SubscribeToRoomNotificaiton"] ??
+        app.MapPut(configuration["Routes:FeedbackModule:Room:SubscribeToRoomNotification"] ??
                    throw new Exception("Rute ikke tilføjet til config filen"),
                 async ([FromBody] SubscribeToRoomNotificationRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new SubscribeToRoomNotificationCommand(request))).ReturnHttpResult()
