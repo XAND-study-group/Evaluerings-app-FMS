@@ -32,7 +32,8 @@ public class SemesterRepository : ISemesterRepository
         => await _dbContext.SaveChangesAsync();
 
     public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
-        => await _dbContext.Semesters.SingleAsync(s => s.Id == semesterId);
+        => await _dbContext.Semesters.FirstOrDefaultAsync(s => s.Id == semesterId) ??
+           throw new ArgumentException("Semester ikke fundet");
 
     public async Task<Domain.Entities.User> GetUserById(Guid userId)
         => await _dbContext.Users.SingleAsync(u => u.Id == userId);
