@@ -18,7 +18,7 @@ public class CreateFeedback : IEndpoint
                 throw new Exception("Route is not added to config file"),
                 async ([FromBody] CreateFeedbackRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new CreateFeedbackCommand(request))).ReturnHttpResult())
-            .WithTags("Feedback");
-            //TODO: .RequireAuthorization("PostFeedback");
+            .WithTags("Feedback")
+            .RequireAuthorization("PostFeedback");
     }
 }

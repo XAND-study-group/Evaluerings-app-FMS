@@ -23,11 +23,16 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IEvaluationProxy, EvaluationProxy>();
 
-var httpClientName = builder.Configuration["HttpClientName:EvaluationProxy"];
-builder.Services.AddHttpClient(httpClientName,
-    client => { client.BaseAddress = new Uri("http://localhost:5213"); })
+var evaluationApiUrl = builder.Configuration["Api:EvaluationUrl"] ?? throw new Exception("EvaluationApiUrl configuration is missing");
+builder.Services.AddHttpClient<IEvaluationProxy, EvaluationProxy>
+        (client => { client.BaseAddress = new Uri(evaluationApiUrl); })
     .AddHttpMessageHandler<AuthorizationHeaderHandler>();
 
+var schoolApiUrl = builder.Configuration["Api:SchoolUrl"] ?? throw new Exception("SchoolApiUrl configuration is missing");
+builder.Services.AddHttpClient<ISchoolApiProxy, SchoolApiProxy>(client =>
+{
+    client.BaseAddress = new Uri(schoolApiUrl);
+});
 builder.Services.AddScoped<AuthorizationHeaderHandler>();
 var app = builder.Build();
 

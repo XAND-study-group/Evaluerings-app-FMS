@@ -16,8 +16,7 @@ public class GetAllRooms : IEndpoint
         app.MapGet(configuration["Routes:FeedbackModule:Room:GetAllRooms"] ??
                 throw new Exception("Route is not added to config file"),
             async ([FromServices] IMediator mediator) => (await mediator.Send(new GetAllRoomsQuery())).ReturnHttpResult())
-            .WithTags("Room");
-        
-        // TODO: REMEMBER ADD REQUIRE AUTHORIZATION
+            .WithTags("Room")
+            .RequireAuthorization("Admin");
     }
 }

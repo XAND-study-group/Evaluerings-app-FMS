@@ -13,9 +13,6 @@ public class AuthorizationHeaderHandler : DelegatingHandler
     
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var absolutePath = request.RequestUri.AbsolutePath;
-        if (absolutePath.Contains("Login") || absolutePath.Contains("SignUp"))
-            return await base.SendAsync(request, cancellationToken);
         // Get the JWT token from the provider
         var user = _httpContextAccessor.HttpContext.User;
         var token = user.FindFirst("JWT")?.Value;

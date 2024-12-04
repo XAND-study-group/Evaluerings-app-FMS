@@ -18,7 +18,7 @@ public class CreateRoom : IEndpoint
                 throw new Exception("Route is not added to config file"),
             async ([FromBody] CreateRoomRequest createRoomRequest, [FromServices] IMediator mediator) =>
             (await mediator.Send(new CreateRoomCommand(createRoomRequest))).ReturnHttpResult())
-            .WithTags("Room");
-            //TODO: .RequireAuthorization("RoomManagement");
+            .WithTags("Room")
+            .RequireAuthorization("RoomManagement");
     }
 }
