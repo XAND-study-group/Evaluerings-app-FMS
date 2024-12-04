@@ -8,7 +8,7 @@ using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Infrastructure.DbContexts;
 using Module.Feedback.Infrastructure.Proxy;
 using Module.Feedback.Infrastructure.Repositories;
-using SharedKernel.Interfaces.UOF;
+using SharedKernel.Interfaces.UOW;
 
 namespace Module.Feedback.Infrastructure.Extensions;
 

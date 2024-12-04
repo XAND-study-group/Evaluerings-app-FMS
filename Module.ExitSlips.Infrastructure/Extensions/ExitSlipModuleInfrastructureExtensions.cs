@@ -9,24 +9,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharedKernel.Interfaces.UOW;
 
 namespace Module.ExitSlip.Infrastructure.Extensions
 {
     public static class ExitSlipModuleInfrastructureExtensions
     {
-        public static IServiceCollection AddExitSlipModuleInfrastructure(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static IServiceCollection AddExitSlipModuleInfrastructure(this IServiceCollection serviceCollection,
+            IConfiguration configuration)
         {
             serviceCollection.AddDbContext<IExitSlipDbContext, ExitSlipDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-            optionsBuilder =>
-            {
-                optionsBuilder.MigrationsAssembly("Module.ExitSlip.Infrastructure");
-                optionsBuilder.EnableRetryOnFailure();
-            }));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                    optionsBuilder =>
+                    {
+                        optionsBuilder.MigrationsAssembly("Module.ExitSlip.Infrastructure");
+                        optionsBuilder.EnableRetryOnFailure();
+                    }));
 
             serviceCollection.AddScoped<IExitSlipRepository, ExitSlipRepository>();
+            serviceCollection.AddScoped<IUnitOfWork, UnitOfWork<ExitSlipDbContext>>();
             return serviceCollection;
         }
-
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace SharedKernel.Interfaces.UOF;
+namespace SharedKernel.Interfaces.UOW;
 
 public class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
 {

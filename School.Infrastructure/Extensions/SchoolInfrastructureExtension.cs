@@ -8,7 +8,7 @@ using School.Infrastructure.DbContext;
 using School.Infrastructure.Repositories.Semester;
 using School.Infrastructure.Repositories.User;
 using School.Infrastructure.Services;
-using SharedKernel.Interfaces.UOF;
+using SharedKernel.Interfaces.UOW;
 
 namespace School.Infrastructure.Extensions
 {

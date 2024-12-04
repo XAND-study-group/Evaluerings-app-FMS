@@ -41,7 +41,7 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
                     .Any(g => g == request.ClassId))
                 .OrderBy(f => f.Created)
                 .AsSplitQuery()
-                .Skip(request.ItemsPerPage*(request.Page - 1))
+                .Skip(request.ItemsPerPage * (request.Page - 1))
                 .Take(request.ItemsPerPage)
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
