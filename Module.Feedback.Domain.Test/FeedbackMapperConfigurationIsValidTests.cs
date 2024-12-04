@@ -14,181 +14,42 @@ using System.Linq;
 using System.Threading.Tasks;
 using Module.Feedback.Domain.Test.Fakes;
 using Xunit;
+using AutoMapper.Internal;
+using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit.Sdk;
+using Xunit.Abstractions;
 
 namespace Module.Feedback.Domain.Test
 {
-    public class FeedbackAutoMapperConfigurationIsValidTests
+    public class FeedbackAutoMapperConfigurationIsValidTests(IMapper mapper)
     {
-        private readonly IMapper _mapper;
-        private readonly IValidationServiceProxy _validationServiceProxy = new MockValidationServiceProxy();
-
-        public FeedbackAutoMapperConfigurationIsValidTests()
+        
+        [Fact]
+        public void AllAutoMapperProfilesIsValid()
         {
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfileFeedback>(); });
-            _mapper = config.CreateMapper();
-        }
-
-        #region Feedback Mappings
-
-        [Theory]
-        [InlineData("Test Title", "Test Problem", "Test Solution", "Test Room")]
-        public async Task ShouldMapFeedbackToGetAllFeedbacksResponse(string title, string problem, string solution, string roomTitle)
-        {
-            // Arrange
-            var room = FakeRoom.Create(roomTitle, "Test Description");
-            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
-
-            // Act
-            var result = _mapper.Map<GetAllFeedbacksResponse>(feedback);
-
-            // Assert
-            Assert.Equal(feedback.Id, result.Id);
-            Assert.Equal(feedback.HashedUserId, result.HashedId);
-            Assert.Equal(feedback.Title, result.Title);
-            Assert.Equal(feedback.Problem, result.Problem);
-            Assert.Equal(feedback.Solution, result.Solution);
-        }
-
-        [Theory]
-        [InlineData("Test Title", "Test Problem", "Test Solution", "Test Room", "Test Comment")]
-        public async Task ShouldMapFeedbackToGetCommentResponse(string title, string problem, string solution, string roomTitle, string commentText)
-        {
-            // Arrange
-            var room = FakeRoom.Create(roomTitle, "Test Description");
-            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
-            var comment = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy);
-
-            // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse>(comment);
-
-            // Assert
-            Assert.Equal(comment.Id, result.Id);
-            Assert.Equal(comment.UserId, result.UserId);
-            Assert.Equal(comment.CommentText, result.CommentText);
-        }
-
-
-        [Theory]
-        [InlineData("Test Title", "Test Problem", "Test Solution", "Test Room", VoteScale.UpVote)]
-        public async Task ShouldMapFeedbackToGetVoteResponse(string title, string problem, string solution, string roomTitle, VoteScale voteScale)
-        {
-            // Arrange
-            var room = FakeRoom.Create(roomTitle, "Test Description");
-            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy);
-            var vote = feedback.AddVote(Guid.NewGuid(), voteScale);
-
-            // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetVoteResponse>(vote);
-
-            // Assert
-            Assert.Equal(vote.Id, result.Id);
-            Assert.Equal(vote.HashedUserId, result.HashedId);
-            Assert.Equal(vote.VoteScale, result.VoteScale);
-        }
-
-        #endregion
-
-        #region Room Mappings
-
-        [Theory]
-        [InlineData("Test Room", "Test Description")]
-        public void ShouldMapRoomToGetAllRoomsResponse(string title, string description)
-        {
-            // Arrange
-            var room = FakeRoom.Create(title, description);
-
-            // Act
-            var result = _mapper.Map<GetAllRoomsResponse>(room);
-
-            // Assert
-            Assert.Equal(room.Id, result.RoomId);
-            Assert.Equal(room.Title, result.Title);
-            Assert.Equal(room.Description, result.Description);
-        }
-
-        [Theory]
-        [InlineData("Test Title", "Test Problem", "Test Solution", "Test Room", "Test Comment")]
-        public async Task ShouldMapRoomToGetCommentResponse(string title, string problem, string solution, string roomTitle, string commentText)
-        {
-            // Arrange
-            var room = FakeRoom.Create(roomTitle, "Test Description");
-            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), title, problem, solution, room, _validationServiceProxy); 
-            var comment = await feedback.AddComment(Guid.NewGuid(), commentText, _validationServiceProxy); 
-
-            // Act
-            var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Feedback.Query.GetCommentResponse>(comment); 
-
-            // Assert
-            Assert.Equal(comment.Id, result.Id);
-            Assert.Equal(comment.CommentText, result.CommentText);
-        }
-
-        [Theory]
-        [InlineData("Test Room", "Test Description", "Test Title", "Test Problem", "Test Solution")]
-        public async Task ShouldMapRoomToGetFeedbackResponse(string title, string description, string feedbackTitle, string problem, string solution)
-        {
-            // Arrange
-            var room = FakeRoom.Create(title, description);
-            var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy); 
-            room.AddFeedback(feedback);
-
-            // Act
-            var result = _mapper.Map<GetFeedbackResponse>(feedback); 
-
-            // Assert
-            Assert.Equal(feedback.Id, result.FeedbackId);
-            Assert.Equal(feedback.HashedUserId, result.HashedId);
-            Assert.Equal(feedback.Problem, result.Problem);
-            Assert.Equal(feedback.Solution, result.Solution);
-        }
-
-        [Theory]
-        [InlineData("Test Room", "Test Description")]
-        public void ShouldMapRoomToGetRoomResponse(string title, string description)
-        {
-            // Arrange
-            var room = FakeRoom.Create(title, description);
-
-            // Act
-            var result = _mapper.Map<GetRoomResponse>(room);
-
-            // Assert
-            Assert.Equal(room.Id, result.RoomId);
-            Assert.Equal(room.Title, result.Title);
-            Assert.Equal(room.Description, result.Description);
-        }
-
-        //[Theory]
-        //[InlineData("Test Room", "Test Description", "Test Title", "Test Problem", "Test Solution", VoteScale.UpVote)]
-        //public async Task ShouldMapRoomToGetVoteResponse(string roomTitle, string roomDescription, string feedbackTitle, string problem, string solution, VoteScale voteScale)
-        //{
-        //    // Arrange
-        //    var room = FakeRoom.Create(roomTitle, roomDescription);
-        //    var feedback = await FakeFeedback.CreateAsync(Guid.NewGuid(), feedbackTitle, problem, solution, room, _validationServiceProxy);
-        //    room.AddFeedback(feedback); 
-        //    var vote = feedback.AddVote(Guid.NewGuid(), voteScale);
-
-        //    // Act
-        //    var result = _mapper.Map<SharedKernel.Dto.Features.Evaluering.Room.Query.GetVoteResponse>(feedback); 
-
-        //    // Assert
-        //    Assert.Equal(vote.Id, result.Id);
-        //    Assert.Equal(vote.VoteScale, result.VoteScale);
-        //}
-
-        #endregion
-    }
-
-    public class MockValidationServiceProxy : IValidationServiceProxy
-    {
-        public Task<GeminiResponse> IsAcceptableCommentAsync(string commentText)
-        {
-            return Task.FromResult(new GeminiResponse(true, ""));
-        }
-
-        public Task<GeminiResponse> IsAcceptableContentAsync(string title, string problem, string solution)
-        {
-            return Task.FromResult(new GeminiResponse(true, ""));
+            //Arrange
+            var actual = new StringBuilder();
+            
+            //Act
+            TypeMap? typeMap = null;
+            try
+            {
+                var a = mapper.ConfigurationProvider as AutoMapper.MapperConfiguration;
+                foreach (var t in (mapper.ConfigurationProvider as AutoMapper.MapperConfiguration).Internal()
+                         .GetAllTypeMaps())
+                {
+                    typeMap = t;
+                    mapper.ConfigurationProvider.Internal().AssertConfigurationIsValid(t);
+                }
+            }
+            catch (Exception e)
+            {
+                actual.AppendLine(typeMap?.Profile.Name);
+                actual.AppendLine(e.Message);
+            }
+            //Assert
+            Assert.True(actual.Length == 0, actual.ToString());
         }
     }
 }

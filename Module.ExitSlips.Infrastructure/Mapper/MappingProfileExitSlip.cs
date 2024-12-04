@@ -13,15 +13,18 @@ namespace Module.ExitSlip.Infrastructure.Mapper
     {
         public MappingProfileExitSlip()
         {
-            CreateMap<Answer, GetSimpleAnswerResponse>()
-                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value)); 
-            CreateMap<Answer, GetDetailedAnswerResponse>()
-                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value));
+            CreateMap<Answer, GetAnswerResponse>()
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
+                .ForMember(dest=> dest.AnswerId, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<Question, GetSimpleQuestionsResponse>()
-                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value));
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
+                .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.ExitSlipId, opt => opt.MapFrom(src => src.Id));
             CreateMap<Question, GetDetailedQuestionsResponse>()
-                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value));
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
+                .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.ExitSlipId, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>();
             CreateMap<Domain.Entities.ExitSlip, GetExitSlipsWithAnswersResponse>();

@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.DomainServices;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Infrastructure.DbContexts;
+using Module.Feedback.Infrastructure.Mapper;
 using Module.Feedback.Infrastructure.Proxy;
 using Module.Feedback.Infrastructure.Repositories;
 using SharedKernel.Interfaces.UOF;
@@ -32,6 +34,8 @@ public static class FeedbackModuleInfrastructureExtension
         serviceCollection.AddScoped<IValidationServiceProxy, ValidationServiceProxy>()
             .AddScoped<IUnitOfWork, UnitOfWork<FeedbackDbContext>>()
             .AddScoped<IVoteRepository, VoteRepository>();
+
+        serviceCollection.AddAutoMapper(typeof(MappingProfileFeedback));
 
         return serviceCollection;
     }
