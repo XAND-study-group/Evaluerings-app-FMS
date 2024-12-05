@@ -9,7 +9,7 @@ public class EmailNotificationProxy : IEmailNotificationProxy
     async Task IEmailNotificationProxy.SendNotificationAsync(IEnumerable<string> emailsTo, string emailFrom,
         Domain.Feedback feedback)
     {
-        var client = new TcpClient("localhost", 2525);
+        var client = new TcpClient("localhost", 1025);
         await using var stream = client.GetStream();
         using var reader = new StreamReader(stream, Encoding.ASCII);
         await using var writer = new StreamWriter(stream, Encoding.ASCII);
