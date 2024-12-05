@@ -14,7 +14,8 @@ public class LectureRepository(SchoolDbContext dbContext) : ILectureRepository
     }
 
     async Task<Domain.Entities.Semester> ILectureRepository.GetSemesterById(Guid semesterId)
-        => await dbContext.Semesters.SingleAsync(s => s.Id == semesterId);
+        => await _dbContext.Semesters.FirstOrDefaultAsync(s => s.Id == semesterId) ??
+           throw new ArgumentException("Semester ikke fundet");
 
     public async Task<bool> DoesUserHaveLecture(Guid lectureId, Guid userId)
         => (await dbContext.Classes

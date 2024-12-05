@@ -14,13 +14,10 @@ namespace School.Infrastructure.Features.User
         private readonly SchoolDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public GetUserQueryHandler(SchoolDbContext dbContext)
+        public GetUserQueryHandler(SchoolDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.User, GetSimpleUserResponse>();
-            }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<GetDetailedUserResponse?>> IRequestHandler<GetUserQuery, Result<GetDetailedUserResponse?>>.Handle(

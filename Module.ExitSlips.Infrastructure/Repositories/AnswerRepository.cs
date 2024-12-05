@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Infrastructure.DbContexts;
@@ -20,9 +15,9 @@ namespace Module.ExitSlip.Infrastructure.Repositories
         }
 
         public async Task<Answer> GetByIdAsync(Guid id)
-        {
-            return await _context.Answers.FindAsync(id);
-        }
+            => await _context.Answers.FirstOrDefaultAsync(a => a.Id == id) ??
+               throw new ArgumentException("Answer not found");
+
 
         public async Task<IEnumerable<Answer>> GetAllAsync()
         {

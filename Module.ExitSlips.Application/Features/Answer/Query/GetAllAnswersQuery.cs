@@ -4,4 +4,4 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.Answer.Query;
 
-public sealed record GetAllAnswersQuery() : IRequest<Result<IEnumerable<GetSimpleAnswerResponse>>>;
+public sealed record GetAllAnswersQuery() : IRequest<Result<IEnumerable<GetAnswerResponse>>>;

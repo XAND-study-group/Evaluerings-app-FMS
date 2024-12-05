@@ -11,11 +11,13 @@ public class FakeVote : Vote
         
     }
     
-    public FakeVote(VoteScale voteScale)
+    public FakeVote(Guid userId, VoteScale voteScale)
     {
+        HashedUserId = userId;
         VoteScale = voteScale;
     }
     
     public void SetHashId(Guid userId)
     => HashedUserId = userId;
+
 }

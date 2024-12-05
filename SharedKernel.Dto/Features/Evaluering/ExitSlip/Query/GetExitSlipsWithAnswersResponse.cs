@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query
-{
-    public record GetExitSlipsWithAnswersResponse(
-         Guid LectureId,
-        Guid SubjectId,
-        string Title,
-        ExitSlipActiveStatus ActiveStatus,
-        IEnumerable<GetDetailsQuestionsResponse> Questions);
+namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
+
+public record GetExitSlipsWithAnswersResponse(
+    Guid LectureId,
+    Guid SubjectId,
+    string Title,
+    ExitSlipActiveStatus ActiveStatus,
+    IEnumerable<GetDetailedQuestionsResponse> Questions);
     
-}
+

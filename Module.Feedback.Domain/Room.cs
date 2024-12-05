@@ -11,7 +11,10 @@ public class Room : Entity
     private readonly List<Guid> _classIds = [];
     public IReadOnlyCollection<Guid> ClassIds => _classIds;
     private readonly List<Guid> _notificationSubscribedUserIds = [];
+
     public IReadOnlyCollection<Guid> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
+    private readonly List<Feedback> _feedbacks = [];
+    public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
 
     #endregion Properties
 
@@ -66,6 +69,11 @@ public class Room : Entity
     {
         AssureUserIdIsInList(userId, _notificationSubscribedUserIds);
         _notificationSubscribedUserIds.Remove(userId);
+    }
+
+    public void AddFeedback(Feedback feedback)
+    {
+        _feedbacks.Add(feedback);
     }
 
     #endregion Relational Methods

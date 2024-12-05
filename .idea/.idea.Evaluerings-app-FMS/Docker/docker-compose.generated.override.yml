@@ -4,6 +4,7 @@ services:
     build:
       context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
       dockerfile: "Evaluering.API/Dockerfile"
+      target: "base"
     command: []
     entrypoint:
     - "dotnet"

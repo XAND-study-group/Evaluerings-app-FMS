@@ -11,5 +11,3 @@ public record GetSimpleExitSlipsResponse(
     ExitSlipActiveStatus ActiveStatus);
 
 
-
-

@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using School.API;
 using School.API.Extensions;
 using School.API.Helper;
+using School.Infrastructure.Mapping;
+using SharedKernel.Interfaces.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorizationWithPolicies();
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
+
+builder.Services.AddAutoMapper(
+    typeof(MappingProfileSchool).Assembly
+);
 
 builder.Configuration.AddEnvironmentVariables();
 

@@ -16,8 +16,9 @@ public class GetFeedbacksByRoomId : IEndpoint
     {
         app.MapGet(configuration["Routes:FeedbackModule:Feedback:GetFeedbacksByRoomId"] ??
                 throw new Exception("Route is not added to config file"),
-                async (Guid roomId, [FromServices] IMediator mediator) =>
-                (await mediator.Send(new GetFeedbacksByRoomIdQuery(roomId))).ReturnHttpResult())
+                async ([FromRoute] Guid roomId, [FromQuery(Name = "p")] int page, 
+                        [FromQuery(Name = "perPage")] int itemPerPage, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new GetFeedbacksByRoomIdQuery(roomId, page, itemPerPage))).ReturnHttpResult())
             .WithTags("Feedback")
             .RequireAuthorization("ReadFeedback");
     }

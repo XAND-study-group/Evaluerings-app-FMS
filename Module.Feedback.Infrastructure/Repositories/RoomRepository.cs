@@ -16,7 +16,8 @@ public class RoomRepository(FeedbackDbContext feedbackDbContext) : IRoomReposito
     async Task<Room> IRoomRepository.GetRoomByIdAsync(Guid roomId)
         => await feedbackDbContext.Rooms
             .Include(r => r.ClassIds)
-            .SingleAsync(r => r.Id == roomId);
+            .FirstOrDefaultAsync(r => r.Id == roomId) ??
+           throw new ArgumentException("Room not found");
 
     async Task IRoomRepository.UpdateRoomAsync(Room room, byte[] rowVersion)
     {

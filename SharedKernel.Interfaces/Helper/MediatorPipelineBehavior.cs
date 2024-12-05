@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using SharedKernel.Interfaces;
-using SharedKernel.Interfaces.UOF;
+using SharedKernel.Interfaces.UOW;
 
-namespace School.API.Helper;
+namespace SharedKernel.Interfaces.Helper;
 
 public class MediatorPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork)
     : IPipelineBehavior<TRequest, TResponse>

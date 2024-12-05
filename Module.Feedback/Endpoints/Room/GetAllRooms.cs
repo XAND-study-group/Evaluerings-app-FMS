@@ -17,6 +17,6 @@ public class GetAllRooms : IEndpoint
                 throw new Exception("Route is not added to config file"),
             async ([FromServices] IMediator mediator) => (await mediator.Send(new GetAllRoomsQuery())).ReturnHttpResult())
             .WithTags("Room")
-            .RequireAuthorization("ReadRoom");
+            .RequireAuthorization("Admin");
     }
 }

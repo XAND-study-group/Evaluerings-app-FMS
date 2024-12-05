@@ -14,13 +14,10 @@ public class GetSubCommentsQueryHandler : IRequestHandler<GetSubCommentsQuery, R
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetSubCommentsQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetSubCommentsQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<IEnumerable<GetCommentResponse>?>>

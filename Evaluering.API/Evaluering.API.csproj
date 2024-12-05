@@ -13,7 +13,7 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
-        <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0"/>
+        <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Module.ExitSlips.Infrastructure\Module.ExitSlip.Infrastructure.csproj" />
       <ProjectReference Include="..\Module.Feedback.Domain\Module.Feedback.Domain.csproj" />
       <ProjectReference Include="..\Module.Feedback\Module.Feedback.csproj" />
     </ItemGroup>

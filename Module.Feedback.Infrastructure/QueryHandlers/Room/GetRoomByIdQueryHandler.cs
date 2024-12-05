@@ -10,20 +10,17 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Room;
 
-public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<GetRoomResponse?>>
+public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<GetDetailedRoomResponse?>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
-    public GetRoomByIdQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetRoomByIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Room, GetRoomResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
-    async Task<Result<GetRoomResponse?>> IRequestHandler<GetRoomByIdQuery, Result<GetRoomResponse?>>.Handle(
+    async Task<Result<GetDetailedRoomResponse?>> IRequestHandler<GetRoomByIdQuery, Result<GetDetailedRoomResponse?>>.Handle(
         GetRoomByIdQuery request, CancellationToken cancellationToken)
     {
         try
@@ -31,14 +28,14 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
             var response = await _feedbackDbContext.Rooms
                 .AsNoTracking()
                 .Where(r => r.Id == request.RoomId)
-                .ProjectTo<GetRoomResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetDetailedRoomResponse>(_mapper.ConfigurationProvider)
                 .SingleAsync(cancellationToken);
         
-            return Result<GetRoomResponse?>.Create("Forum Fundet", response, ResultStatus.Success);
+            return Result<GetDetailedRoomResponse?>.Create("Forum Fundet", response, ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<GetRoomResponse?>.Create(e.Message, null, ResultStatus.Error);
+            return Result<GetDetailedRoomResponse?>.Create(e.Message, null, ResultStatus.Error);
         }
     }
         

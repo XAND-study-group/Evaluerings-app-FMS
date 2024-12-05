@@ -25,7 +25,7 @@ namespace School.Infrastructure.Repositories.User
             => await dbContext.Users
                 .Include(user => user.RefreshTokens)
                 .Include(user => user.AccountClaims)
-                .SingleAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByEmailAsync(string email)
             => await dbContext.Users

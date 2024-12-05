@@ -73,8 +73,10 @@ namespace Module.Feedback.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("NotificationStatus")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("RoomId")
                         .HasColumnType("uniqueidentifier");
@@ -85,7 +87,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.ComplexProperty<Dictionary<string, object>>("HashedUserId", "Module.Feedback.Domain.Feedback.HashedUserId#HashedUserId", b1 =>
@@ -208,7 +210,8 @@ namespace Module.Feedback.Infrastructure.Migrations
 
                     b.HasOne("Module.Feedback.Domain.Feedback", null)
                         .WithMany("Comments")
-                        .HasForeignKey("FeedbackId");
+                        .HasForeignKey("FeedbackId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Module.Feedback.Domain.Feedback", b =>
@@ -226,7 +229,8 @@ namespace Module.Feedback.Infrastructure.Migrations
                 {
                     b.HasOne("Module.Feedback.Domain.Feedback", null)
                         .WithMany("Votes")
-                        .HasForeignKey("FeedbackId");
+                        .HasForeignKey("FeedbackId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Module.Feedback.Domain.Comment", b =>

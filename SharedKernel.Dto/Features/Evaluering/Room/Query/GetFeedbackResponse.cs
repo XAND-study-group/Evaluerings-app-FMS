@@ -2,7 +2,7 @@
 
 public record GetFeedbackResponse(
     Guid FeedbackId,
-    string HashedId,
+    string HashedUserId,
     string Problem,
     string Solution,
     IEnumerable<GetCommentResponse> Comments,

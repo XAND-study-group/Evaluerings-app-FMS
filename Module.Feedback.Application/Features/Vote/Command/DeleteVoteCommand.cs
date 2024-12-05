@@ -19,7 +19,7 @@ public class DeleteVoteCommandHandler(IVoteRepository voteRepository) : IRequest
             var feedback = await voteRepository.GetFeedbackByIdAsync(deleteVoteRequest.FeedbackId);
 
             // Do
-            var vote = feedback.DeleteVote(deleteVoteRequest.VoteId);
+            var vote = feedback.DeleteVote(deleteVoteRequest.VoteId, deleteVoteRequest.UserId);
             
             // Save
             await voteRepository.DeleteVoteAsync(vote, deleteVoteRequest.RowVersion);

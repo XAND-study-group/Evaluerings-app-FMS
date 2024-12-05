@@ -8,7 +8,8 @@ namespace Module.Feedback.Infrastructure.Repositories;
 public class VoteRepository(FeedbackDbContext feedbackDbContext) : IVoteRepository
 {
     async Task<Domain.Feedback> IVoteRepository.GetFeedbackByIdAsync(Guid feedbackId)
-    => await feedbackDbContext.Feedbacks.SingleAsync(f => f.Id == feedbackId);
+    => await feedbackDbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id == feedbackId) ??
+       throw new ArgumentException("Feedback not found");
 
     async Task IVoteRepository.CreateVoteAsync(Vote vote)
     {

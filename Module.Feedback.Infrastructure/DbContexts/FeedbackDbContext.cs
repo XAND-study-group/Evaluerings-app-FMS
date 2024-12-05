@@ -47,8 +47,13 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
         modelBuilder.Entity<Domain.Feedback>()
             .ComplexProperty(f => f.HashedUserId);
         modelBuilder.Entity<Domain.Feedback>()
-            .Property(f => f.Created)
-            .ValueGeneratedOnAdd();
+            .HasMany(f => f.Comments)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Domain.Feedback>()
+            .HasMany(f => f.Votes)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
 
         #endregion Feedback OnModelCreating Configuration
 
