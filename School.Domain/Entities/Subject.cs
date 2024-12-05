@@ -11,7 +11,7 @@ namespace School.Domain.Entities
         public Guid Id { get; protected set; }
         public SubjectName Name { get; protected set; }
         public SubjectDescription Description { get; protected set; }
-        private readonly List<Lecture> _lectures = new();
+        private readonly List<Lecture> _lectures = [];
         public IReadOnlyCollection<Lecture> Lectures => _lectures;
 
         #endregion

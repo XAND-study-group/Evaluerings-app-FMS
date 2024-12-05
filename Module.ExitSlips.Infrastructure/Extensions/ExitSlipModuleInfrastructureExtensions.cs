@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Module.ExitSlip.Infrastructure.Mapper;
 using SharedKernel.Interfaces.UOW;
 
 namespace Module.ExitSlip.Infrastructure.Extensions
@@ -27,6 +28,7 @@ namespace Module.ExitSlip.Infrastructure.Extensions
                     }));
 
             serviceCollection.AddScoped<IExitSlipRepository, ExitSlipRepository>();
+            serviceCollection.AddAutoMapper(typeof(MappingProfileExitSlip));
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork<ExitSlipDbContext>>();
             return serviceCollection;
         }

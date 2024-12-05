@@ -5,6 +5,7 @@ using School.Application.Abstractions.Semester;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
 using School.Infrastructure.DbContext;
+using School.Infrastructure.Mapping;
 using School.Infrastructure.Repositories.Semester;
 using School.Infrastructure.Repositories.User;
 using School.Infrastructure.Services;
@@ -31,6 +32,8 @@ namespace School.Infrastructure.Extensions
                 .AddScoped<ILectureRepository, LectureRepository>()
                 .AddScoped<IUnitOfWork, UnitOfWork<SchoolDbContext>>()
                 .AddScoped<IUserDomainService, UserDomainService>();
+
+            serviceCollection.AddAutoMapper(typeof(MappingProfileSchool));
 
             return serviceCollection;
         }

@@ -15,11 +15,10 @@ public class
     private readonly SchoolDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetLecturesByUserIdQueryHandler(SchoolDbContext dbContext)
+    public GetLecturesByUserIdQueryHandler(SchoolDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
-        _mapper = new MapperConfiguration(cfg => { cfg.CreateMap<Domain.Entities.Lecture, GetSimpleLectureResponse>(); })
-            .CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<IEnumerable<GetSimpleLectureResponse>>>

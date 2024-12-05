@@ -19,4 +19,5 @@ public class FakeVote : Vote
     
     public void SetHashId(Guid userId)
     => HashedUserId = userId;
+
 }

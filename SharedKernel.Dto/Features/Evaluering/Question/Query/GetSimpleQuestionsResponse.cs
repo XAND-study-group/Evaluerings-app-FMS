@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 
-namespace SharedKernel.Dto.Features.Evaluering.Question.Query
-{
-    public record GetSimpleQuestionsResponse(
-            Guid QuestionId,
-            Guid ExitSlipId,
-            string Text,
-            IEnumerable<GetSimpleAnswerResponse> Answers);
-}
+namespace SharedKernel.Dto.Features.Evaluering.Question.Query;
+
+public record GetSimpleQuestionsResponse(
+    Guid QuestionId,
+    Guid ExitSlipId,
+    string Text);
+
 
 
 

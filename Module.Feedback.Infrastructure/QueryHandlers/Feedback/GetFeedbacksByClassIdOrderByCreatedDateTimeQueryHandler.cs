@@ -16,15 +16,10 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Feedback, GetAllFeedbacksResponse>();
-            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-            cfg.CreateMap<Domain.Vote, GetVoteResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>

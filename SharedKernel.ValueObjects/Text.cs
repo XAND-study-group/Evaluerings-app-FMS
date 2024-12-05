@@ -26,5 +26,7 @@ public record Text
 
     public static implicit operator Text(string value) => new(value);
 
-    public static implicit operator string(Text text) => text.Value;
+    public static implicit operator string(Text value) => value.Value;
+
+    public override string ToString() => Value;
 };

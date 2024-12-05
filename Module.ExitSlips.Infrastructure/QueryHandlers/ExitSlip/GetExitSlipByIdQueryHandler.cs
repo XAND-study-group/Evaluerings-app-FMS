@@ -14,22 +14,18 @@ using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
 {
-    public class GetExitSlipByIdQueryHandler : IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailsExitSlipResponse?>>
+    public class GetExitSlipByIdQueryHandler : IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailedExitSlipResponse?>>
     {
 
         private readonly ExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
-        public GetExitSlipByIdQueryHandler(ExitSlipDbContext exitSlipDbContext)
+        public GetExitSlipByIdQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.ExitSlip, GetDetailsExitSlipResponse>();
-                cfg.CreateMap<Domain.Entities.Question, GetSimpleExitSlipsResponse>();
-            }).CreateMapper();
+            _mapper = mapper;
         }
 
-        async Task<Result<GetDetailsExitSlipResponse?>> IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailsExitSlipResponse?>>.Handle(GetExitSlipByIdQuery request, CancellationToken cancellationToken)
+        async Task<Result<GetDetailedExitSlipResponse?>> IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailedExitSlipResponse?>>.Handle(GetExitSlipByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -37,15 +33,15 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                     .AsNoTracking()
                     .Include(e => e.Questions)
                     .Where(e => e.Id == request.id)
-                    .ProjectTo<GetDetailsExitSlipResponse?>(_mapper.ConfigurationProvider)
-                    .SingleAsync();
+                    .ProjectTo<GetDetailedExitSlipResponse?>(_mapper.ConfigurationProvider)
+                    .SingleAsync(cancellationToken);
 
-                return Result<GetDetailsExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);
+                return Result<GetDetailedExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);
             }
             catch (Exception e)
             {
 
-                return Result<GetDetailsExitSlipResponse?>.Create(e.Message, null, ResultStatus.Error);
+                return Result<GetDetailedExitSlipResponse?>.Create(e.Message, null, ResultStatus.Error);
             }
         }
     }

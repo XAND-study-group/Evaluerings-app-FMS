@@ -14,15 +14,10 @@ public class GetClassQueryHandler : IRequestHandler<GetClassQuery, Result<GetDet
     private readonly SchoolDbContext _semesterDbContext;
     private readonly IMapper _mapper;
 
-    public GetClassQueryHandler(SchoolDbContext semesterDbContext)
+    public GetClassQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
     {
         _semesterDbContext = semesterDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Entities.Class, GetDetailedClassResponse>();
-            cfg.CreateMap<Domain.Entities.User, GetClassUserResponse>();
-            cfg.CreateMap<Domain.Entities.Subject, GetClassSubjectResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<GetDetailedClassResponse?>> IRequestHandler<GetClassQuery, Result<GetDetailedClassResponse?>>.Handle(

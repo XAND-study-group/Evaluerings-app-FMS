@@ -1,4 +1,6 @@
-﻿namespace Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+
+namespace Module.Feedback.Domain.Test.Fakes;
 
 public class FakeComment : Comment
 {
@@ -8,4 +10,5 @@ public class FakeComment : Comment
 
     public void SetCommentText(string commentText)
         => CommentText = commentText;
+
 }

@@ -16,15 +16,10 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
         private readonly ExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
 
-        public GetExitSlipWithAnswersForUserQueryHandler(ExitSlipDbContext exitSlipDbContext)
+        public GetExitSlipWithAnswersForUserQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.ExitSlip, GetExitSlipsWithAnswersResponse>();
-                cfg.CreateMap<Domain.Entities.Question, GetDetailsQuestionsResponse>();
-                cfg.CreateMap<Domain.Entities.Answer, GetSimpleAnswerResponse>();
-            }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<GetExitSlipsWithAnswersResponse>> IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipsWithAnswersResponse>>.Handle(GetExitSlipWithAnswersForUserQuery request, CancellationToken cancellationToken)
@@ -37,7 +32,7 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                     .Include(e => e.Questions)
                     .ThenInclude(q => q.Answers.Where(a => a.UserId == request.userId))
                     .ProjectTo<GetExitSlipsWithAnswersResponse>(_mapper.ConfigurationProvider)
-                    .SingleAsync();
+                    .SingleAsync(cancellationToken);
 
                   return Result<GetExitSlipsWithAnswersResponse>.Create("ExitSLip er fundet", response, ResultStatus.Success);
             }
