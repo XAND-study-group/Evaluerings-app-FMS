@@ -15,14 +15,14 @@ namespace School.Domain.Entities
         public UserLastname Lastname { get; protected set; }
         public UserEmail Email { get; protected set; }
         
-        // TODO: Make into value object
-        public string PasswordHash { get; protected set; }
+        public PasswordHash PasswordHash { get; protected set; }
         public Role UserRole { get; protected set; }
 
         public IEnumerable<Semester> Semesters { get; protected set; }
         private List<AccountClaim> _accountClaims = [];
         public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
-        public RefreshToken RefreshToken { get; protected set; }
+        protected List<RefreshToken> _refreshTokens = [];
+        public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens;
 
         #endregion
 
@@ -32,15 +32,14 @@ namespace School.Domain.Entities
         {
         }
 
-        private User(string fristname, string lastname, string email, string password, Role role,
-            IPasswordHasher passwordHasher)
+        private User(string fristname, string lastname, string email, string password, Role role)
         {
             AssurePasswordCompliesWithRequirements(password);
 
             Firstname =fristname;
             Lastname =lastname;
-            Email = UserEmail.Create(email);      
-            PasswordHash = passwordHasher.Hash(password);
+            Email = UserEmail.Create(email);
+            PasswordHash = password;
             UserRole = role;
         }
 
@@ -49,18 +48,18 @@ namespace School.Domain.Entities
         #region User Methodes
 
         public static User Create(string firstname, string lastname, string email, string password, Role role,
-            IEnumerable<User> otherUsers, IPasswordHasher passwordHasher) =>
-            new User(firstname, lastname, email, password, role, passwordHasher);
+            IEnumerable<User> otherUsers) =>
+            new User(firstname, lastname, email, password, role);
 
         public static async Task<User> CreateAsync(string firstname, string lastname, string email, string password,
             Role role,
-            IUserDomainService userDomainService, IPasswordHasher passwordHasher,
+            IUserDomainService userDomainService,
             IAccountClaimRepository accountClaimRepository)
         {
             if (userDomainService.DoesUserEmailExist(email))
                 throw new ArgumentException($"A User with email '{email}' already exists.");
 
-            var user = new User(firstname, lastname, email, password, role, passwordHasher);
+            var user = new User(firstname, lastname, email, password, role);
             await accountClaimRepository.CreateClaimForRoleAsync(user, role);
 
             return user;
@@ -76,15 +75,23 @@ namespace School.Domain.Entities
             _accountClaims.Add(claim);
         }
 
-        public void SetRefreshToken(string token, int days)
-        {
-            RefreshToken = RefreshToken.Create(token, DateTime.Now.AddDays(days));
-        }
+        public void AddRefreshToken(string token, int days)
+            => _refreshTokens.Add(RefreshToken.Create(token, DateTime.Now.AddDays(days)));
 
-        public void ChangePassword(string newPassword, IPasswordHasher passwordHasher)
+        public void RemoveRefreshToken(string token)
+            => _refreshTokens.RemoveAll(t => t.Token == token);
+        
+        public void ResetRefreshToken()
+            => _refreshTokens.Clear();
+
+        public RefreshToken TryGetRefreshToken(string token)
+            => _refreshTokens.FirstOrDefault(t => t.Token == token) ??
+               throw new ArgumentException("Refresh token kunne ikke findes");
+
+        public void ChangePassword(string newPassword)
         {
             AssurePasswordCompliesWithRequirements(newPassword);
-            PasswordHash = passwordHasher.Hash(newPassword);
+            PasswordHash = newPassword;
         }
 
         #region User BusinessLogic Methodes

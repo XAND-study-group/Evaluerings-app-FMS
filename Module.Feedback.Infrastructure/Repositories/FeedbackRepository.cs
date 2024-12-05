@@ -7,8 +7,10 @@ namespace Module.Feedback.Infrastructure.Repositories;
 
 public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedbackRepository
 {
-    async Task<Room> IFeedbackRepository.GetRoomByIAsync(Guid roomId)
-        => await feedbackDbContext.Rooms.FirstOrDefaultAsync(r => r.Id == roomId) ??
+    public async Task<Room> GetRoomByIAsync(Guid roomId)
+        => await feedbackDbContext.Rooms
+            .Include(r => r.ClassIds)
+            .FirstOrDefaultAsync(r => r.Id == roomId) ??
            throw new ArgumentException("Room not found");
 
     async Task IFeedbackRepository.CreateFeedbackAsync(Domain.Feedback feedback)
@@ -17,8 +19,11 @@ public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedback
         await feedbackDbContext.SaveChangesAsync();
     }
 
-    async Task<Domain.Feedback> IFeedbackRepository.GetFeedbackByIdAsync(Guid feedbackId)
-    => await feedbackDbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id == feedbackId) ??
+    public async Task<Domain.Feedback> GetFeedbackByIdAsync(Guid feedbackId)
+        => await feedbackDbContext.Feedbacks
+            .Include(f => f.Room)
+            .ThenInclude(r => r.ClassIds)
+            .FirstOrDefaultAsync(f => f.Id == feedbackId) ??
        throw new ArgumentException("Feedback not found");
 
     async Task IFeedbackRepository.DeleteFeedbackAsync(Domain.Feedback feedback, byte[] rowVersion)

@@ -11,8 +11,9 @@ namespace School.Domain.DomainServices;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
-    public string GenerateAccessToken(User user)
+    public string GenerateAccessToken(User user, IEnumerable<Class> classes)
     {
+        
         var secretKey = configuration["Jwt:Secret"];
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
@@ -26,6 +27,8 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
         ];
         
         claims.AddRange(user.AccountClaims.Select(claim => new Claim(claim.ClaimName, claim.ClaimValue)));
+        
+        claims.AddRange(classes.Select(c => new Claim("Class", c.Id.ToString())));
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {

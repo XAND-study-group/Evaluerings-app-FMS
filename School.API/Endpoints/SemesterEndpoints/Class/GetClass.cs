@@ -15,6 +15,6 @@ public class GetClass : IEndpoint
                 async ([FromRoute] Guid classId, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetClassQuery(classId))).ReturnHttpResult())
             .WithTags("Class")
-            .RequireAuthorization();
+            .RequireAuthorization("AssureUserIsInClass");
     }
 }

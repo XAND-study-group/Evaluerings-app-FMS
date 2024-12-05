@@ -44,6 +44,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddMediatRModules();
+// builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -77,15 +78,6 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 
-builder.Services.AddRateLimiter(rateLimiterOptions =>
-{
-    rateLimiterOptions.AddFixedWindowLimiter(policyName: "baseLimit", options =>
-    {
-        options.PermitLimit = 5;
-        options.Window = TimeSpan.FromMinutes(10);
-    });
-});
-
 var app = builder.Build();
 
 app.UseRateLimiter();
@@ -100,6 +92,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Enable request body buffering 
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

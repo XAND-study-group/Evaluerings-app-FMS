@@ -19,6 +19,6 @@ public class CreateSubComment : IEndpoint
                 async ([FromBody] CreateSubCommentRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new CreateSubCommentCommand(request))).ReturnHttpResult())
             .WithTags("Comment")
-            .RequireAuthorization("CommentOnFeedBack");
+            .RequireAuthorization("CommentOnFeedBack", "AssureUserInRoomOfFeedbackModification");
     }
 }

@@ -8,4 +8,5 @@ public interface ISemesterRepository
     Task AddResponsibleToSemester();
     Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId);
     Task<Domain.Entities.User> GetUserById(Guid userId);
+    Task<bool> IsStudentInSemester(Guid semesterId, Guid userId);
 }
