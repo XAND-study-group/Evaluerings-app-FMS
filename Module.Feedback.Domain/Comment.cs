@@ -32,7 +32,7 @@ public class Comment : Entity
 
     #region Comment Methods
 
-    public static async Task<Comment> CreateAsync(Guid userId, string commentText, IValidationServiceProxy iIValidationServiceProxy)
+    internal static async Task<Comment> CreateAsync(Guid userId, string commentText, IValidationServiceProxy iIValidationServiceProxy)
     {
         await AssureAcceptableContent(commentText, iIValidationServiceProxy);
 

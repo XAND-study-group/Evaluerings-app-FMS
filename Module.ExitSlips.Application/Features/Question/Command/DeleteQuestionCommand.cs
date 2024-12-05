@@ -14,27 +14,23 @@ namespace Module.ExitSlip.Application.Features.Question.Command;
 public record DeleteQuestionCommand(DeleteQuestionRequest DeleteQuestionRequest)
         : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionCommand, Result<bool>>
+public class DeleteQuestionCommandHandler(IQuestionRepository questionRepository) :
+    IRequestHandler<DeleteQuestionCommand, Result<bool>>
 {
-    private readonly IExitSlipRepository _exitSlipRepository;
 
-    public DeleteQuestionCommandHandler(IExitSlipRepository exitSlipRepository)
-    {
-        _exitSlipRepository = exitSlipRepository;
-    }
     public async Task<Result<bool>> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
     {
         try
         {
             // Load
             var deleteQuestionRequest = request.DeleteQuestionRequest;
-            var question = await _exitSlipRepository.GetQuestionByIdAsync(deleteQuestionRequest.QuestionId);
+            var exitSlip = await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(deleteQuestionRequest.ExitSlipId);
 
-            // Do & Save
-            var exitSlip = await _exitSlipRepository.GetExitSlipByQuestionIdAsync(deleteQuestionRequest.QuestionId);
-            exitSlip.DeleteQuestion(deleteQuestionRequest.QuestionId);
-            await _exitSlipRepository.DeleteQuestionAsync(question, question.RowVersion);
+            // Do
+            var question = exitSlip.DeleteQuestion(deleteQuestionRequest.QuestionId);
 
+            // Save
+            await questionRepository.DeleteQuestionAsync(question, deleteQuestionRequest.RowVersion);
             return Result<bool>.Create("Spørgsmål blev slettet", true, ResultStatus.Deleted);
         }
         catch (Exception e)

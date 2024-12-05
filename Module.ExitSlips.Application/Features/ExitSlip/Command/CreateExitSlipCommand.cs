@@ -13,9 +13,11 @@ namespace Module.ExitSlip.Application.Features.ExitSlip.Command;
 
 public record CreateExitSlipCommand(CreateExitSlipRequest CreateExitSlipRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) : IRequestHandler<CreateExitSlipCommand, Result<bool>>
+public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) :
+    IRequestHandler<CreateExitSlipCommand, Result<bool>>
 {
-    async Task<Result<bool>> IRequestHandler<CreateExitSlipCommand, Result<bool>>.Handle(CreateExitSlipCommand request, CancellationToken cancellationToken)
+    async Task<Result<bool>> IRequestHandler<CreateExitSlipCommand, Result<bool>>
+        .Handle(CreateExitSlipCommand request, CancellationToken cancellationToken)
     {
         try
         {

@@ -4,4 +4,5 @@ public record GetCommentResponse(
     Guid Id,
     Guid UserId,
     string CommentText,
-    DateTime Created);
+    DateTime Created,
+    byte[] RowVersion);

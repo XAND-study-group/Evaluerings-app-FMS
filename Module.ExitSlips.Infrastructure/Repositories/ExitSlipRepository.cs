@@ -10,70 +10,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Module.ExitSlip.Infrastructure.Repositories;
 
-public class ExitSlipRepository(ExitSlipDbContext _context) : IExitSlipRepository
+public class ExitSlipRepository(ExitSlipDbContext exitSlipDbContext) : IExitSlipRepository
 {
-
-    public async Task CreateExitSlipAsync(Domain.Entities.ExitSlip exitSlip)
-    {
-        await _context.ExitSlips.AddAsync(exitSlip);
-        await _context.SaveChangesAsync();
-    }
     public async Task<Domain.Entities.ExitSlip> GetExitSlipByIdAsync(Guid exitSlipId)
     {
-        return await _context.ExitSlips
-                .Include(e => e.Questions)
-                .ThenInclude(q => q.Answers)
-                .SingleAsync(i => i.Id == exitSlipId);
+        return await exitSlipDbContext.ExitSlips
+                .FirstOrDefaultAsync(e => e.Id == exitSlipId) ??
+                throw new ArgumentException("Kunne ikke finde ExitSlip");
     }
-    public async Task<Domain.Entities.Question> GetQuestionByIdAsync(Guid questionId)
+    async Task<Domain.Entities.ExitSlip> IExitSlipRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(Guid id)
     {
-        return await _context.Questions
-                .Include(q => q.Answers)
-                .SingleAsync(i => i.Id == questionId);
-    }
-
-    public async Task<Domain.Entities.ExitSlip> GetExitSlipByQuestionIdAsync(Guid questionId)
-    {
-        return await _context.ExitSlips
-            .Include(e => e.Questions)
-            .ThenInclude(q => q.Answers)
-            .SingleAsync(e => e.Questions.Any(q => q.Id == questionId));
+        return await exitSlipDbContext.ExitSlips
+             .Include(e => e.Questions)
+             .ThenInclude(q => q.Answers)
+             .FirstOrDefaultAsync(e => e.Id == id) ??
+             throw new ArgumentException("Kunne ikke finde ExitSlip");
     }
 
-    public async Task UpdateAnswerAsync(Answer answer, byte[] rowVersion)
+    async Task IExitSlipRepository.CreateExitSlipAsync(Domain.Entities.ExitSlip exitSlip)
     {
-        _context.Entry(answer).Property(nameof(Answer.RowVersion)).OriginalValue = rowVersion;
-        _context.Answers.Update(answer);
-        await _context.SaveChangesAsync();
+        await exitSlipDbContext.ExitSlips.AddAsync(exitSlip);
+        await exitSlipDbContext.SaveChangesAsync();
     }
-
-    public async Task CreateAnswerAsync(Answer answer)
+    async Task IExitSlipRepository.UpdateExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
     {
-        await _context.Answers.AddAsync(answer);
-        await _context.SaveChangesAsync();
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
     }
-
-    public async Task UpdateQuestionAsync(Question question, byte[] rowVersion)
+    async Task IExitSlipRepository.UpdateExitSlipActiveStatusAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
     {
-        _context.Entry(question).Property(nameof(Question.RowVersion)).OriginalValue = rowVersion;
-        _context.Questions.Update(question);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task CreateQuestionAsync(Question question)
-    {
-        await _context.Questions.AddAsync(question);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task DeleteQuestionAsync(Question question, byte[] RowVersion)
-    {
-        if (question is null)
-            throw new InvalidOperationException("Spørgsmål ikke fundet.");
-
-        _context.Entry(question).Property(nameof(Question.RowVersion)).OriginalValue = RowVersion;
-        _context.Questions.Remove(question);
-        await _context.SaveChangesAsync();
+        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
     }
 
     async Task IExitSlipRepository.DeleteExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
@@ -82,22 +49,6 @@ public class ExitSlipRepository(ExitSlipDbContext _context) : IExitSlipRepositor
         exitSlipDbContext.ExitSlips.Remove(exitSlip);
         await exitSlipDbContext.SaveChangesAsync();
     }
-
-    async Task<Domain.Entities.ExitSlip> IExitSlipRepository.GetExitSlipByIdAsync(Guid id)
-    {
-        return await exitSlipDbContext.ExitSlips.SingleAsync(e => e.Id == id);
-    }
-
-    async Task IExitSlipRepository.UpdateExitSlipActiveStatusAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
-    {
-        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
-        await exitSlipDbContext.SaveChangesAsync();
-    }
-
-    async Task IExitSlipRepository.UpdateExitSlipAsync(Domain.Entities.ExitSlip exitSlip, byte[] rowVersion)
-    {
-        exitSlipDbContext.Entry(exitSlip).Property(nameof(Domain.Entities.ExitSlip.RowVersion)).OriginalValue = rowVersion;
-        await exitSlipDbContext.SaveChangesAsync();
-    }
+   
 }
 

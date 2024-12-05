@@ -13,7 +13,8 @@ namespace Module.ExitSlip.Application.Features.ExitSlip.Command
 {
     public record UpdateExitSlipCommand(UpdateExitSlipRequest UpdateExitSlipRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
-    public class UpdateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) : IRequestHandler<UpdateExitSlipCommand, Result<bool>>
+    public class UpdateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) : 
+        IRequestHandler<UpdateExitSlipCommand, Result<bool>>
     {
         async Task<Result<bool>> IRequestHandler<UpdateExitSlipCommand, Result<bool>>.Handle(UpdateExitSlipCommand request, CancellationToken cancellationToken)
         {

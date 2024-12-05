@@ -9,8 +9,8 @@ namespace Module.ExitSlip.Application.Abstractions
 {
     public interface IAnswerRepository
     {
-        Task AddAsync(Answer answer);
-        Task UpdateAsync(Answer answer);
-        Task DeleteAsync(Guid id);
+        Task<Domain.Entities.ExitSlip> GetExitSlipWithQuestionsAndAnswersByIdAsync(Guid id);
+        Task CreateAnswerAsync(Answer answer);
+        Task UpdateAnswerAsync(Answer answer, byte[] rowVersion);
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Query
 {
-    public sealed record GetExitSlipWithAnswersForUserQuery(Guid userId, Guid ExitSlipId) : IRequest<Result<GetExitSlipsWithAnswersResponse>>;
+    public sealed record GetExitSlipWithAnswersForUserQuery(Guid userId, Guid ExitSlipId) :
+        IRequest<Result<GetExitSlipWithAnswersResponse>>;
 }
 
