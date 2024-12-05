@@ -10,19 +10,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.ExitSlip.Endpoints.ExitSlip
+namespace Module.ExitSlip.Endpoints.ExitSlip.Queries
 {
-    public class GetAllExitSlipsForSubject : IEndpoint
+    public class GetExitSlipById : IEndpoint
     {
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            // TODO: FLytte Url til ConfigFil og tilføje Policies. 
-
-            app.MapGet("/ExitSlips/SubjectExitSLips/{subjectId:guid}",
-                async (Guid subjectId, [FromServices] IMediator mediator) =>
+            app.MapGet(configuration["Routes:ExitSlipModule:ExitSlip:GetExitSlipById"] ??
+                       throw new ArgumentException("Route is not added to config file"),
+                async (Guid exitSlipId, [FromServices] IMediator mediator) =>
                 {
-                    await mediator.Send(new GetAllExitSlipsforSubjectQuery(subjectId));
+                    await mediator.Send(new GetExitSlipByIdQuery(exitSlipId));
                 });
+
         }
     }
 }

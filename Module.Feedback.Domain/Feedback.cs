@@ -124,8 +124,12 @@ public class Feedback : Entity
     public Vote DeleteVote(Guid voteId)
     {
         AssureStatusIsNotSolved();
+      
+        var vote = GetVoteById(voteId);
 
-        return GetVoteById(voteId);
+        _votes.Remove(vote);
+
+        return vote;
     }
 
     public Vote UpdateVote(Guid voteId, VoteScale voteScale)

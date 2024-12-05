@@ -27,7 +27,7 @@ namespace Module.ExitSlip.Domain.Entities
             Text = text;
         }
 
-        public static Question Create(string text)
+        internal static Question Create(string text)
             => new Question(text);
 
         #endregion
@@ -36,21 +36,21 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region AnswerHandling
 
-        public Answer AddAnswer(string text, Guid userId)
+        internal Answer AddAnswer(string text, Guid userId)
         {
             var answer = Answer.Create(text, userId);
             _answers.Add(answer);
             return answer;
         }
 
-        public Answer UpdateAnswer(Guid answerId, string newText)
+        internal Answer UpdateAnswer(Guid answerId, string newText)
         {
             var answer = GetAnswerById(answerId);
             answer.UpdateAnswer(newText);
             return answer;
         }
 
-        public void DeleteAnswer(Guid answerId)
+        internal void DeleteAnswer(Guid answerId)
         {
             var answer = GetAnswerById(answerId);
             _answers.Remove(answer);
@@ -60,20 +60,26 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region QuestionHandling
 
-        public void UpdateQuestion(string newText)
+        internal void UpdateQuestion(string newText)
         {
             Text = newText;
+            _answers.Clear();
+        }
+
+        internal void DeleteQuestion()
+        {
+            _answers.Clear();
         }
 
         #endregion
 
         #region HelperMethods
 
-        private Answer GetAnswerById(Guid answerId)
+        internal Answer GetAnswerById(Guid answerId)
         {
-            var answer = _answers.FirstOrDefault(a => a.Id == answerId);
-            if (answer is null)
-                throw new InvalidOperationException("Svar ikke fundet.");
+            var answer = _answers.FirstOrDefault(a => a.Id == answerId)
+                ?? throw new ArgumentException("Svar ikke fundet.");
+
             return answer;
         }
 

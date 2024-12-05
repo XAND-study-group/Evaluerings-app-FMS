@@ -29,10 +29,10 @@ public class Vote : Entity
 
     #region Vote Methods
 
-    public static Vote Create(Guid userId, VoteScale voteScale)
+    internal static Vote Create(Guid userId, VoteScale voteScale)
         => new(userId, voteScale);
 
-    public void Update(VoteScale voteScale)
+    internal void Update(VoteScale voteScale)
         => VoteScale = voteScale;
 
     #endregion Vote Methods

@@ -12,19 +12,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.ExitSlip.Endpoints.ExitSlip
+namespace Module.ExitSlip.Endpoints.ExitSlip.Commands
 {
     public class DeleteExitSlip : IEndpoint
     {
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            // TODO: FLytte Url til ConfigFil og tilføje Policies.
-
-            app.MapDelete("/ExitSlip",
+            app.MapDelete(configuration["Routes:ExitSlipModule:ExitSlip:DeleteExitSlip"] ??
+                       throw new ArgumentException("Route is not added to config file"),
                 async ([FromBody] DeleteExitSlipRequest deleteExitSlipRequest, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new DeleteExitSlipCommand(deleteExitSlipRequest))).ReturnHttpResult())
                 .WithName("ExitSlip")
-                .RequireAuthorization();                
+                .RequireAuthorization();
         }
     }
 }

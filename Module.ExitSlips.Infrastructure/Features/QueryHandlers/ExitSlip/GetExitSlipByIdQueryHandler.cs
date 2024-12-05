@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
+namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
 {
     public class GetExitSlipByIdQueryHandler : IRequestHandler<GetExitSlipByIdQuery, Result<GetDetailsExitSlipResponse?>>
     {
@@ -38,7 +38,7 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                     .Include(e => e.Questions)
                     .Where(e => e.Id == request.id)
                     .ProjectTo<GetDetailsExitSlipResponse?>(_mapper.ConfigurationProvider)
-                    .SingleAsync();
+                    .FirstOrDefaultAsync();
 
                 return Result<GetDetailsExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);
             }

@@ -7,7 +7,7 @@ using Module.ExitSlip.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
 using SharedKernel.Models;
 
-namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
+namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
 {
     public class GetAllExitSlipsForLectureQueryHandler : IRequestHandler<GetAllExitSlipsForLectureQuery, Result<IEnumerable<GetSimpleExitSlipsResponse?>>>
     {

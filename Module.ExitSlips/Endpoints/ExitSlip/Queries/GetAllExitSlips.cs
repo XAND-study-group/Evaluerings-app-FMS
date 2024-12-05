@@ -12,14 +12,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.ExitSlip.Endpoints.ExitSlip
+namespace Module.ExitSlip.Endpoints.ExitSlip.Queries
 {
     public class GetAllExitSlips : IEndpoint
     {
-        // TODO: FLytte Url til ConfigFil og tilføje Policies.
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapGet("ExitSlip",
+            app.MapGet(configuration["Routes:ExitSlipModule:ExitSlip:GetAllExitSlips"] ??
+                       throw new ArgumentException("Route is not added to config file"),
                 async ([FromServices] IMediator mediator) => (await mediator.Send(new GetAllExitSlipsQuery())).ReturnHttpResult())
                   .WithTags("ExitSlip")
                   .RequireAuthorization();

@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query
 {
-    public record GetExitSlipsWithAnswersResponse(
-         Guid LectureId,
+    public record GetExitSlipWithAnswersResponse(
+        Guid LectureId,
         Guid SubjectId,
         string Title,
         ExitSlipActiveStatus ActiveStatus,
         IEnumerable<GetDetailsQuestionsResponse> Questions,
         byte[] RowVersion);
-    
+
 }

@@ -4,5 +4,6 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Query
 {
-    public sealed record GetAllExitSlipsQuery() : IRequest<Result<IEnumerable<GetSimpleExitSlipsResponse?>>>;
+    public sealed record GetAllExitSlipsQuery() :
+        IRequest<Result<IEnumerable<GetSimpleExitSlipsResponse?>>>;
 }

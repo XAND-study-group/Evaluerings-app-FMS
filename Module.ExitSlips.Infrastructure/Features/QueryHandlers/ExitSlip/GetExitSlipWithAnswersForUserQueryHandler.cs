@@ -9,10 +9,12 @@ using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
 using SharedKernel.Dto.Features.Evaluering.Question.Query;
 using SharedKernel.Models;
 
-namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
+namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
 {
-    public class GetExitSlipWithAnswersForUserQueryHandler : IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipsWithAnswersResponse>>
+    public class GetExitSlipWithAnswersForUserQueryHandler : 
+        IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipWithAnswersResponse>>
     {
+        // TODO: Når automapperen er sat op, skal disse flyttes i primary Ctor. 
         private readonly ExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
 
@@ -21,13 +23,14 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
             _exitSlipDbContext = exitSlipDbContext;
             _mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Domain.Entities.ExitSlip, GetExitSlipsWithAnswersResponse>();
+                cfg.CreateMap<Domain.Entities.ExitSlip, GetExitSlipWithAnswersResponse>();
                 cfg.CreateMap<Domain.Entities.Question, GetDetailsQuestionsResponse>();
                 cfg.CreateMap<Domain.Entities.Answer, GetSimpleAnswerResponse>();
             }).CreateMapper();
         }
 
-        async Task<Result<GetExitSlipsWithAnswersResponse>> IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipsWithAnswersResponse>>.Handle(GetExitSlipWithAnswersForUserQuery request, CancellationToken cancellationToken)
+        async Task<Result<GetExitSlipWithAnswersResponse>> IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipWithAnswersResponse>>
+            .Handle(GetExitSlipWithAnswersForUserQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -36,17 +39,19 @@ namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
                     .Where(e => e.Id == request.ExitSlipId)
                     .Include(e => e.Questions)
                     .ThenInclude(q => q.Answers.Where(a => a.UserId == request.userId))
-                    .ProjectTo<GetExitSlipsWithAnswersResponse>(_mapper.ConfigurationProvider)
-                    .SingleAsync();
+                    .ProjectTo<GetExitSlipWithAnswersResponse>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync() ??
+                    throw new ArgumentException("Kunne ikke finde ExitSlip for denne bruger");
 
-                  return Result<GetExitSlipsWithAnswersResponse>.Create("ExitSLip er fundet", response, ResultStatus.Success);
+                return Result<GetExitSlipWithAnswersResponse>.Create("ExitSLip er fundet", response, ResultStatus.Success);
             }
             catch (Exception e)
             {
-                return Result<GetExitSlipsWithAnswersResponse>.Create(e.Message, null!, ResultStatus.Error);
+                return Result<GetExitSlipWithAnswersResponse>.Create(e.Message, null!, ResultStatus.Error);
             }
 
 
         }
     }
 }
+

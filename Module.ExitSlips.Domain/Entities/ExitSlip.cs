@@ -44,8 +44,6 @@ namespace Module.ExitSlip.Domain.Entities
         public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount, ExitSlipActiveStatus activeStatus)
             => new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
 
-        #region ExitSlipsHandling
-
         public void Update(string title)
         {
             AssureExitSlipInactive();
@@ -55,18 +53,16 @@ namespace Module.ExitSlip.Domain.Entities
         {
             AssureExitSlipInactive();
         }
-
         public void UpdateActiveStatus(ExitSlipActiveStatus activeStatus)
         {
             ActiveStatus = activeStatus;
         }
 
-
         #endregion
 
         #region QuestionHandling
 
-        public Question AddQuestion(string text, Guid userId)
+        public Question AddQuestion(string text)
         {
             if (_questions.Count >= MaxQuestionCount)
                 throw new ArgumentException("Kan ikke tilføje flere spørgsmål end det maksimalt tilladte.");
@@ -76,13 +72,15 @@ namespace Module.ExitSlip.Domain.Entities
             return question;
         }
 
-        public void DeleteQuestion(Guid questionId)
+        public Question DeleteQuestion(Guid questionId)
         {
             AssureExitSlipInactive();
 
             var question = GetQuestionById(questionId);
 
+            question.DeleteQuestion();
             _questions.Remove(question);
+            return question;
         }
 
         public Question UpdateQuestion(Guid questionId, string newText)
@@ -138,14 +136,14 @@ namespace Module.ExitSlip.Domain.Entities
 
         private Question GetQuestionById(Guid questionId)
         {
-            var question = _questions.FirstOrDefault(q => q.Id == questionId);
-            if (question is null)
-                throw new ArgumentException("Spørgsmål ikke fundet.");
+            var question = _questions.FirstOrDefault(q => q.Id == questionId)
+                ?? throw new ArgumentException("Spørgsmål ikke fundet.");
+
             return question;
         }
         #endregion
 
-        #endregion
+
     }
 }
 

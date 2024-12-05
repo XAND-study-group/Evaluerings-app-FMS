@@ -13,15 +13,14 @@ using Module.ExitSlip.Application.Features.ExitSlip.Command;
 using SharedKernel.Models.Extensions;
 using Microsoft.AspNetCore.Http;
 
-namespace Module.ExitSlip.Endpoints.ExitSlip
+namespace Module.ExitSlip.Endpoints.ExitSlip.Commands
 {
     public class CreateExitSlip : IEndpoint
     {
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            // TODO: FLytte Url til ConfigFil og tilføje Policies. 
-
-            app.MapPost("/ExitSlip",
+            app.MapPost(configuration["Routes:ExitSlipModule:ExitSlip:CreateExitSlip"] ??
+                       throw new ArgumentException("Route is not added to config file"),
                 async ([FromBody] CreateExitSlipRequest createExitSlipRequest, [FromServices] IMediator mediator) =>
                (await mediator.Send(new CreateExitSlipCommand(createExitSlipRequest))).ReturnHttpResult())
                 .WithTags("ExitSlip")

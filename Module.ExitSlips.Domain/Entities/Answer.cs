@@ -21,13 +21,15 @@ namespace Module.ExitSlip.Domain.Entities
         #endregion
 
         #region Methods
-        public static Answer Create(string text, Guid userId)
+        internal static Answer Create(string text, Guid userId)
           => new Answer(text, userId);
 
-        public void UpdateAnswer(string newText)
+        internal void UpdateAnswer(string newText)
         {
             Text = newText;
         }
+
+
         #endregion
     }
 }

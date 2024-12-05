@@ -13,14 +13,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.ExitSlip.Endpoints.ExitSlip
+namespace Module.ExitSlip.Endpoints.ExitSlip.Commands
 {
     public class UpdateExitSlipActiveStatus : IEndpoint
     {
-        // TODO: FLytte Url til ConfigFil og tilføje Policies.
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
-            app.MapPut("ExitSlip",
+            app.MapPut(configuration["Routes:ExitSlipModule:ExitSlip:UpdateExitSlipActiveStatus"] ??
+                       throw new ArgumentException("Route is not added to config file"),
                 async ([FromBody] UpdateExitSlipActiveStatusRequest updateExitSLipActiveStatusRequest, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new UpdateExitSlipActiveStatusCommand(updateExitSLipActiveStatusRequest))).ReturnHttpResult())
                 .WithTags("ExitSlip")
