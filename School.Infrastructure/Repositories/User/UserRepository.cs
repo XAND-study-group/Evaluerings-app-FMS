@@ -22,7 +22,7 @@ namespace School.Infrastructure.Repositories.User
             => await dbContext.Users.ToListAsync();
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByIdAsync(Guid id)
-            => await dbContext.Users.SingleAsync(u => u.Id == id);
+            => await dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByEmailAsync(string email)
             => await dbContext.Users.Include(user => user.AccountClaims).FirstOrDefaultAsync(user => user.Email.Value == email);

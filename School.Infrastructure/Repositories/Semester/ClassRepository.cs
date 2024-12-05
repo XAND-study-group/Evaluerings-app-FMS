@@ -26,10 +26,12 @@ public class ClassRepository : IClassRepository
         => await _semesterDbContext.Classes.ToListAsync();
 
     async Task<Class> IClassRepository.GetClassByIdAsync(Guid classId)
-        => await _semesterDbContext.Classes.SingleAsync(c => c.Id == classId);
+        => await _semesterDbContext.Classes.FirstOrDefaultAsync(c => c.Id == classId) ??
+           throw new ArgumentException("Klasse ikke fundet");
 
     async Task<Domain.Entities.User> IClassRepository.GetUserByIdAsync(Guid studentId)
-        => await _semesterDbContext.Users.SingleAsync(u => u.Id == studentId);
+        => await _semesterDbContext.Users.FirstOrDefaultAsync(u => u.Id == studentId) ??
+           throw new ArgumentException("Bruger ikke fundet");
 
     async Task IClassRepository.AddUserToClassAsync()
     {
@@ -37,7 +39,8 @@ public class ClassRepository : IClassRepository
     }
 
     public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
-        => await _semesterDbContext.Semesters.SingleAsync(s => s.Id == semesterId);
+        => await _semesterDbContext.Semesters.FirstOrDefaultAsync(s => s.Id == semesterId) ??
+           throw new ArgumentException("Semester ikke fundet");
 
     #endregion
 }
