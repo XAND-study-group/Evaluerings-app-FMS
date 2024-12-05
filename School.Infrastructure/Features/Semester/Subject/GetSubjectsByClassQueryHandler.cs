@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using School.Application.Features.SemesterFeature.Subject.Query;
 using School.Infrastructure.DbContext;
-using SharedKernel.Dto.Features.School.Lecture.Query;
 using SharedKernel.Dto.Features.School.Subject.Query;
 using SharedKernel.Models;
 

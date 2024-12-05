@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Module.Feedback.Domain.DomainServices;
-using Module.Feedback.Domain.DomainServices.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Module.Feedback.Domain.Extensions;
 

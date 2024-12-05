@@ -3,11 +3,9 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Features.Feedback.Query;
-using Module.Feedback.Domain;
 using Module.Feedback.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 using SharedKernel.Models;
-using GetVoteResponse = SharedKernel.Dto.Features.Evaluering.Room.Query.GetVoteResponse;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Feedback;
 

@@ -1,9 +1,8 @@
 ﻿using School.Domain.ValueObjects;
-using SharedKernel.ValueObjects;
 
 namespace School.Domain.Test.Fakes.User
 {
-    public class FakeUser : Domain.Entities.User
+    public class FakeUser : Entities.User
     {
         public FakeUser(string email)
         {

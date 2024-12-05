@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
-using SharedKernel.ValueObjects;
 
 namespace Module.ExitSlip.Infrastructure.DbContexts;
 

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using AutoMapper;
 using Module.ExitSlip.Application.Abstractions;
 using SharedKernel.Dto.Features.Evaluering.Answer.Command;
 using SharedKernel.Interfaces;

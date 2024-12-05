@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using School.Application.Abstractions.User;
-using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;

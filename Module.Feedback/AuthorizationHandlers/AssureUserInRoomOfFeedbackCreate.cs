@@ -1,10 +1,8 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Module.Feedback.Application.Abstractions;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
-using SharedKernel.Dto.Features.School.User.Command;
 
 namespace Module.Feedback.AuthorizationHandlers;
 

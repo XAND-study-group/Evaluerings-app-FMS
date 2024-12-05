@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using School.Application.Abstractions.Semester;
 
 namespace School.API.AuthorizationHandlers;

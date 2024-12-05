@@ -1,6 +1,4 @@
 ﻿using School.Domain.Entities;
-using School.Domain.ValueObjects;
-using SharedKernel.ValueObjects;
 
 namespace School.Domain.Test.Fakes.Semester
 {

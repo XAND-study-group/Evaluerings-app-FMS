@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using AutoMapper;
 using AutoMapper.Internal;
-using Module.ExitSlip.Domain.Entities;
-using Module.ExitSlip.Domain.Test.Fakes;
-using Module.ExitSlip.Domain.ValueObjects;
 using Module.ExitSlip.Infrastructure.Mapper;
-using SharedKernel.Dto.Features.Evaluering.Answer.Query;
-using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
-using SharedKernel.Dto.Features.Evaluering.Question.Query;
-using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 
 namespace Module.ExitSlip.Domain.Test
 {
@@ -36,8 +25,8 @@ namespace Module.ExitSlip.Domain.Test
             TypeMap typeMap = null;
             try
             {
-                var a = _mapper.ConfigurationProvider as AutoMapper.MapperConfiguration;
-                foreach (var t in (_mapper.ConfigurationProvider as AutoMapper.MapperConfiguration).Internal()
+                var a = _mapper.ConfigurationProvider as MapperConfiguration;
+                foreach (var t in (_mapper.ConfigurationProvider as MapperConfiguration).Internal()
                          .GetAllTypeMaps())
                 {
                     typeMap = t;

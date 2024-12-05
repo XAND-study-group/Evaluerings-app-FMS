@@ -1,5 +1,4 @@
 ﻿using Evaluation.Web.Services.Interfaces;
-using Microsoft.AspNetCore.Identity.Data;
 using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Models;
 

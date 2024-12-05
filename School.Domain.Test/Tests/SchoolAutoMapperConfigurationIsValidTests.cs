@@ -1,23 +1,9 @@
-﻿using AutoMapper;
-using School.Domain.Entities;
-using School.Domain.ValueObjects;
+﻿using System.Text;
+using AutoMapper;
+using AutoMapper.Internal;
 using School.Infrastructure.Mapping;
-using SharedKernel.Dto.Features.School.Class.Query;
-using SharedKernel.Dto.Features.School.Lecture.Query;
-using SharedKernel.Dto.Features.School.Semester.Query;
-using SharedKernel.Dto.Features.School.Subject.Query;
-using SharedKernel.Dto.Features.School.User.Query;
-using SharedKernel.Enums.Features.Semester;
-using System;
-using System.Collections.Generic;
-using Moq;
-using School.Domain.DomainServices.Interfaces;
-using School.Domain.Test.Fakes.Semester;
-using SharedKernel.Enums.Features.Authentication;
 using Xunit;
 using Assert = Xunit.Assert;
-using AutoMapper.Internal;
-using System.Text;
 
 namespace School.Domain.Test
 {
@@ -39,8 +25,8 @@ namespace School.Domain.Test
             TypeMap typeMap = null;
             try
             {
-                var a = _mapper.ConfigurationProvider as AutoMapper.MapperConfiguration;
-                foreach (var t in (_mapper.ConfigurationProvider as AutoMapper.MapperConfiguration).Internal()
+                var a = _mapper.ConfigurationProvider as MapperConfiguration;
+                foreach (var t in (_mapper.ConfigurationProvider as MapperConfiguration).Internal()
                          .GetAllTypeMaps())
                 {
                     typeMap = t;

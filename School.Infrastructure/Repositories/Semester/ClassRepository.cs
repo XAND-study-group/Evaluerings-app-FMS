@@ -45,7 +45,7 @@ public class ClassRepository(SchoolDbContext dbContext) : IClassRepository
             .Where(s => s.Students.Any(st => st.Id == userId)).ToListAsync();
 
     public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
-        => await _semesterDbContext.Semesters.FirstOrDefaultAsync(s => s.Id == semesterId) ??
+        => await dbContext.Semesters.FirstOrDefaultAsync(s => s.Id == semesterId) ??
            throw new ArgumentException("Semester ikke fundet");
     #endregion
 }

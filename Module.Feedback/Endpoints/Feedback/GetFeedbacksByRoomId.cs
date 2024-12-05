@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.Feedback.Application.Features.Feedback.Query;
-using SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
 

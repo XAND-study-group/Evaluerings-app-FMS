@@ -6,11 +6,6 @@ using Module.ExitSlip.Application.Features.ExitSlip.Query;
 using Module.ExitSlip.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
 using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip
 {

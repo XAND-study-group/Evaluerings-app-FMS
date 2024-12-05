@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Module.Feedback.Application.Abstractions;
-using Module.Feedback.Infrastructure.Repositories;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
 
 namespace Module.Feedback.AuthorizationHandlers;

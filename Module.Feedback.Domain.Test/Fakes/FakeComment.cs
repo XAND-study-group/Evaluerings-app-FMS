@@ -1,6 +1,4 @@
-﻿using Module.Feedback.Domain.DomainServices.Interfaces;
-
-namespace Module.Feedback.Domain.Test.Fakes;
+﻿namespace Module.Feedback.Domain.Test.Fakes;
 
 public class FakeComment : Comment
 {

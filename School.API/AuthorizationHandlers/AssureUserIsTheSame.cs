@@ -1,7 +1,5 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using SharedKernel.Dto.Features.School.User.Command;
 
 namespace School.API.AuthorizationHandlers;

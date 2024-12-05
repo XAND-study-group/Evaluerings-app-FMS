@@ -1,6 +1,5 @@
 ﻿using School.Domain.ValueObjects;
 using SharedKernel.Models;
-using SharedKernel.ValueObjects;
 
 namespace School.Domain.Entities
 {

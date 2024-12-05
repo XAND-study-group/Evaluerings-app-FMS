@@ -1,5 +1,4 @@
 ﻿using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
-using SharedKernel.Dto.Features.Evaluering.Room.Command;
 using SharedKernel.Dto.Features.Evaluering.Room.Query;
 using SharedKernel.Models;
 

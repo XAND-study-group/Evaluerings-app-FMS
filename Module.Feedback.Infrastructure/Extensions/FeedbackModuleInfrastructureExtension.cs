@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Application.Services;
-using Module.Feedback.Domain.DomainServices;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Infrastructure.DbContexts;
 using Module.Feedback.Infrastructure.Mapper;

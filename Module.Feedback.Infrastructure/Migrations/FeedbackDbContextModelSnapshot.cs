@@ -25,7 +25,7 @@ namespace Module.Feedback.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.Feedback.Domain.Comment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -57,7 +57,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("CommentId");
 
@@ -68,7 +68,7 @@ namespace Module.Feedback.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.Feedback.Domain.Feedback", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -126,7 +126,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("RoomId");
 
@@ -135,7 +135,7 @@ namespace Module.Feedback.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.Feedback.Domain.Room", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -163,14 +163,14 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Module.Feedback.Domain.Vote", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -195,7 +195,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("FeedbackId");
 

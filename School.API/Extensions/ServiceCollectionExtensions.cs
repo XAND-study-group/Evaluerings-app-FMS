@@ -1,5 +1,4 @@
-﻿using Azure.Core.GeoJson;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using School.API.AuthorizationHandlers;

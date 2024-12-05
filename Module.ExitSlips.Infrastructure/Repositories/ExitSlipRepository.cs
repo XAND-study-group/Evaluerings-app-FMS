@@ -1,12 +1,7 @@
-﻿using Module.ExitSlip.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Infrastructure.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Module.ExitSlip.Infrastructure.Repositories;
 
@@ -25,7 +20,7 @@ public class ExitSlipRepository(ExitSlipDbContext exitSlipDbContext) : IExitSlip
                 .ThenInclude(q => q.Answers)
                 .SingleAsync(i => i.Id == exitSlipId);
     }
-    public async Task<Domain.Entities.Question> GetQuestionByIdAsync(Guid questionId)
+    public async Task<Question> GetQuestionByIdAsync(Guid questionId)
     {
         return await exitSlipDbContext.Questions
                 .Include(q => q.Answers)

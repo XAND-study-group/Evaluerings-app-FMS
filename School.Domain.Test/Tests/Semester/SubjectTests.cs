@@ -1,7 +1,6 @@
 ﻿using School.Domain.Entities;
 using School.Domain.Test.Fakes.Semester;
 using School.Domain.ValueObjects;
-using SharedKernel.ValueObjects;
 using Xunit;
 using Assert = Xunit.Assert;
 

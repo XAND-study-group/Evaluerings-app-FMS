@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Application.Features.Question.Query;
 using SharedKernel.Dto.Features.Evaluering.Question.Query;
 using SharedKernel.Models;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.Question
 {

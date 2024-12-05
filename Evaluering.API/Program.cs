@@ -1,17 +1,13 @@
 using System.Text;
 using Evaluering.API;
 using Evaluering.API.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Module.ExitSlip.Infrastructure.DbContexts;
-using Module.ExitSlip.Infrastructure.Mapper;
+using Module.Feedback;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
-using Module.Feedback.Infrastructure.Mapper;
 using Module.Feedback.Infrastructure.Options;
 using SharedKernel.Interfaces.Helper;
 
@@ -37,7 +33,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatRModules();
-builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
+builder.Services.AddEndpoints(AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 

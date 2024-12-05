@@ -4,9 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Features.ExitSlip.Query;
 using Module.ExitSlip.Infrastructure.DbContexts;
-using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
-using SharedKernel.Dto.Features.Evaluering.Question.Query;
 using SharedKernel.Models;
 
 namespace Module.ExitSlip.Infrastructure.QueryHandlers.ExitSlip

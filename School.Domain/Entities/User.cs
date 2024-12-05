@@ -3,7 +3,6 @@ using School.Domain.DomainServices.Interfaces;
 using School.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Authentication;
 using SharedKernel.Models;
-using SharedKernel.ValueObjects;
 
 namespace School.Domain.Entities
 {

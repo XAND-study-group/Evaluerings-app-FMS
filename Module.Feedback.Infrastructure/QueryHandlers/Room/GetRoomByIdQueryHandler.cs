@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Features.Room.Query;
-using Module.Feedback.Domain;
 using Module.Feedback.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.Room.Query;
 using SharedKernel.Models;

@@ -1,10 +1,4 @@
 ﻿using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 using SharedKernel.ValueObjects;
 
 namespace Module.ExitSlip.Domain.Entities

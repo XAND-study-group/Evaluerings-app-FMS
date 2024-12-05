@@ -46,7 +46,7 @@ namespace School.Infrastructure.Migrations
                         name: "FK_Classes_Semesters_SemesterId",
                         column: x => x.SemesterId,
                         principalTable: "Semesters",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                 });
 
             migrationBuilder.CreateTable(
@@ -66,7 +66,7 @@ namespace School.Infrastructure.Migrations
                         name: "FK_Subjects_Classes_ClassId",
                         column: x => x.ClassId,
                         principalTable: "Classes",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                 });
 
             migrationBuilder.CreateTable(
@@ -91,7 +91,7 @@ namespace School.Infrastructure.Migrations
                         name: "FK_Lectures_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                 });
 
             migrationBuilder.CreateTable(
@@ -116,17 +116,17 @@ namespace School.Infrastructure.Migrations
                         name: "FK_Users_Classes_ClassIdStudent",
                         column: x => x.ClassIdStudent,
                         principalTable: "Classes",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                     table.ForeignKey(
                         name: "FK_Users_Classes_ClassIdTeacher",
                         column: x => x.ClassIdTeacher,
                         principalTable: "Classes",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                     table.ForeignKey(
                         name: "FK_Users_Lectures_LectureId",
                         column: x => x.LectureId,
                         principalTable: "Lectures",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                 });
 
             migrationBuilder.CreateTable(
@@ -146,7 +146,7 @@ namespace School.Infrastructure.Migrations
                         name: "FK_AccountClaims_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                 });
 
             migrationBuilder.CreateTable(
@@ -166,7 +166,7 @@ namespace School.Infrastructure.Migrations
                         name: "FK_RefreshToken_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "RoomId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -184,13 +184,13 @@ namespace School.Infrastructure.Migrations
                         name: "FK_SemesterUser_Semesters_SemestersId",
                         column: x => x.SemestersId,
                         principalTable: "Semesters",
-                        principalColumn: "Id",
+                        principalColumn: "RoomId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SemesterUser_Users_SemesterResponsiblesId",
                         column: x => x.SemesterResponsiblesId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "RoomId",
                         onDelete: ReferentialAction.Cascade);
                 });
 

@@ -1,6 +1,4 @@
-﻿using Moq;
-using School.Domain.DomainServices;
-using School.Domain.Test.Fakes.User;
+﻿using School.Domain.Test.Fakes.User;
 using Xunit;
 using Assert = Xunit.Assert;
 

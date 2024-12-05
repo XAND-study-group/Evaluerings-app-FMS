@@ -47,7 +47,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                         name: "FK_Feedbacks_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "Id",
+                        principalColumn: "RoomId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -70,12 +70,12 @@ namespace Module.Feedback.Infrastructure.Migrations
                         name: "FK_Comments_Comments_CommentId",
                         column: x => x.CommentId,
                         principalTable: "Comments",
-                        principalColumn: "Id");
+                        principalColumn: "RoomId");
                     table.ForeignKey(
                         name: "FK_Comments_Feedbacks_FeedbackId",
                         column: x => x.FeedbackId,
                         principalTable: "Feedbacks",
-                        principalColumn: "Id",
+                        principalColumn: "RoomId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -96,7 +96,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                         name: "FK_Votes_Feedbacks_FeedbackId",
                         column: x => x.FeedbackId,
                         principalTable: "Feedbacks",
-                        principalColumn: "Id",
+                        principalColumn: "RoomId",
                         onDelete: ReferentialAction.Cascade);
                 });
 

@@ -1,11 +1,4 @@
-﻿using Module.ExitSlip.Domain.Entities;
-using Module.ExitSlip.Domain.ValueObjects;
-using SharedKernel.Enums.Features.Evaluering.ExitSlip;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 
 namespace Module.ExitSlip.Domain.Test.Fakes
 {

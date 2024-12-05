@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Module.Feedback.Domain.DomainServices.Interfaces;
-using Module.Feedback.Domain.ValueObjects;
+﻿using Module.Feedback.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Vote;
 
 namespace Module.Feedback.Domain;

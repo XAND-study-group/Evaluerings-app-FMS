@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
-using School.Domain.Entities;
 using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Enums.Features.Authentication;
 using SharedKernel.Interfaces;

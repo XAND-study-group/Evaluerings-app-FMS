@@ -1,11 +1,9 @@
-﻿using System.Reflection.Metadata;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Evaluation.Web.Services.Interfaces;
 using Evaluation.Web.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
 using SharedKernel.Dto.Features.Evaluering.Room.Query;
 using SharedKernel.Dto.Features.School.Authentication.Command;

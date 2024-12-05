@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Application.Features.Answer.Query;
-using Module.ExitSlip.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 using SharedKernel.Models;
 

@@ -3,11 +3,6 @@ using Module.ExitSlip.Application.Abstractions;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Command
 {

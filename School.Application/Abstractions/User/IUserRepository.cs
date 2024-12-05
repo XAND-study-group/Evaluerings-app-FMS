@@ -1,6 +1,4 @@
-﻿using SharedKernel.ValueObjects;
-
-namespace School.Application.Abstractions.User
+﻿namespace School.Application.Abstractions.User
 {
     public interface IUserRepository
     {

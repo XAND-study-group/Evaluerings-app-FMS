@@ -1,7 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using School.Application.Abstractions.User;
 using SharedKernel.Dto.Features.School.Authentication.Command;
 using SharedKernel.Models;

@@ -25,7 +25,7 @@ namespace School.Infrastructure.Migrations
 
             modelBuilder.Entity("School.Domain.Entities.AccountClaim", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -46,7 +46,7 @@ namespace School.Infrastructure.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("UserId");
 
@@ -55,7 +55,7 @@ namespace School.Infrastructure.Migrations
 
             modelBuilder.Entity("School.Domain.Entities.Class", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -89,7 +89,7 @@ namespace School.Infrastructure.Migrations
                                 .HasColumnType("int");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("SemesterId");
 
@@ -98,7 +98,7 @@ namespace School.Infrastructure.Migrations
 
             modelBuilder.Entity("School.Domain.Entities.Lecture", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -160,7 +160,7 @@ namespace School.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("SubjectId");
 
@@ -169,7 +169,7 @@ namespace School.Infrastructure.Migrations
 
             modelBuilder.Entity("School.Domain.Entities.Semester", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -210,14 +210,14 @@ namespace School.Infrastructure.Migrations
                                 .HasColumnType("int");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.ToTable("Semesters");
                 });
 
             modelBuilder.Entity("School.Domain.Entities.Subject", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -248,7 +248,7 @@ namespace School.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("ClassId");
 
@@ -257,7 +257,7 @@ namespace School.Infrastructure.Migrations
 
             modelBuilder.Entity("School.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -315,7 +315,7 @@ namespace School.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("ClassIdStudent");
 
@@ -388,11 +388,11 @@ namespace School.Infrastructure.Migrations
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<int>("Id")
+                            b1.Property<int>("RoomId")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
 
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("RoomId"));
 
                             b1.Property<DateTime?>("ExpirationDate")
                                 .HasColumnType("datetime2");
@@ -400,7 +400,7 @@ namespace School.Infrastructure.Migrations
                             b1.Property<string>("Token")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("UserId", "Id");
+                            b1.HasKey("UserId", "RoomId");
 
                             b1.ToTable("RefreshToken");
 
