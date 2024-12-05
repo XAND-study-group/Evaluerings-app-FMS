@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Module.Feedback.Application.Abstractions;
+using Module.Feedback.Application.Services;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.Evaluering.Comment.Command;
 using SharedKernel.Models;
@@ -10,7 +11,9 @@ public record CreateSubCommentCommand(CreateSubCommentRequest CreateSubCommentRe
 
 public class CreateSubCommentCommandHandler(
     ICommentRepository commentRepository,
-    IValidationServiceProxy iValidationServiceProxy) : IRequestHandler<CreateSubCommentCommand, Result<bool>>
+    IValidationServiceProxy iValidationServiceProxy,
+    ISchoolApiProxy schoolApiProxy,
+    IEmailNotificationProxy emailNotificationProxy) : IRequestHandler<CreateSubCommentCommand, Result<bool>>
 {
     async Task<Result<bool>> IRequestHandler<CreateSubCommentCommand, Result<bool>>.Handle(
         CreateSubCommentCommand request, CancellationToken cancellationToken)
@@ -26,6 +29,12 @@ public class CreateSubCommentCommandHandler(
                 createSubCommentRequest.UserId,
                 createSubCommentRequest.CommentText,
                 iValidationServiceProxy);
+            
+            if (feedback.ShouldSendNotification())
+            {
+                var emails = await schoolApiProxy.GetEmailsByUserIdsAsync(feedback.Room.NotificationSubscribedUserIds);
+                await emailNotificationProxy.SendNotificationAsync(emails, "XAND@gmail.com", feedback);
+            }
 
             // Save
             await commentRepository.CreateCommentAsync(subComment);

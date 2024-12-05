@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace SharedKernel.Interfaces.UOF;
+namespace SharedKernel.Interfaces.UOW;
 
 public interface IUnitOfWork
 {

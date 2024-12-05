@@ -9,7 +9,7 @@ using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
 using Module.Feedback.Infrastructure.Mapper;
 using Module.Feedback.Infrastructure.Options;
-using School.API.Helper;
+using SharedKernel.Interfaces.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 

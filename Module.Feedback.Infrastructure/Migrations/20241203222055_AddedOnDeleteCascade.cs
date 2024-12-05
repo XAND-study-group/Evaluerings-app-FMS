@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Module.Feedback.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddedOnDeleteCascade : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,9 +31,10 @@ namespace Module.Feedback.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    NotificationStatus = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    HashedId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HashedUserId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Problem_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Solution_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Title_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -74,7 +75,8 @@ namespace Module.Feedback.Infrastructure.Migrations
                         name: "FK_Comments_Feedbacks_FeedbackId",
                         column: x => x.FeedbackId,
                         principalTable: "Feedbacks",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,7 +86,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VoteScale = table.Column<int>(type: "int", nullable: false),
                     FeedbackId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    HashedId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HashedUserId_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
@@ -94,7 +96,8 @@ namespace Module.Feedback.Infrastructure.Migrations
                         name: "FK_Votes_Feedbacks_FeedbackId",
                         column: x => x.FeedbackId,
                         principalTable: "Feedbacks",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

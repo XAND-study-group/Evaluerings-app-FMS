@@ -4,5 +4,5 @@ namespace SharedKernel.Dto.Features.Evaluering.Feedback.Command;
 
 public record ChangeFeedbackStatusRequest(
     Guid FeedbackId,
-    FeedbackStatus Status,
+    FeedbackState State,
     byte[] RowVersion);

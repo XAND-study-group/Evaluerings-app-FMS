@@ -2,20 +2,20 @@
 
 namespace Module.Feedback.Domain.ValueObjects;
 
-public record HashedId
+public record HashedUserId
 {
-    public string Value { get; init; }
+    public string Value { get; private set; }
 
-    private HashedId(Guid value)
+    private HashedUserId(string value)
     {
-        Value = Hash(value);
+        Value = value;
     }
     
-    public static HashedId Create(Guid value)
+    public static HashedUserId Create(Guid value)
     => new(value);
     
     
-    private string Hash(Guid id)
+    private static string Hash(Guid id)
     {
         // Convert GUID to byte array
         byte[] guidBytes = id.ToByteArray();
@@ -38,6 +38,10 @@ public record HashedId
         return CryptographicOperations.FixedTimeEquals(requestHashBytes, storedHash);
     }
     
-    public static implicit operator string(HashedId hashedId) => hashedId.Value;
-    public static implicit operator HashedId(Guid value) => new(value);
+    public static implicit operator string(HashedUserId hashedUserId) => hashedUserId.Value;
+    public static implicit operator HashedUserId(Guid value)
+    {
+        var hashedId = Hash(value);
+        return new HashedUserId(hashedId);
+    }
 }

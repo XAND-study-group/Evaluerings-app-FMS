@@ -5,7 +5,7 @@
       context: .
       dockerfile: School.API/Dockerfile
     networks:
-      - backend
+      - evaluationDatabaseNetwork
         
   evaluation.api:
     image: evaluation.api
@@ -13,7 +13,7 @@
       context: .
       dockerfile: Evaluering.API/Dockerfile
     networks:
-      - backend
+      - evaluationDatabaseNetwork
       
   schooldb:
     image: mcr.microsoft.com/mssql/server:latest
@@ -25,7 +25,7 @@
     ports:
       - "8090:1433"
     networks:
-      - backend
+      - evaluationDatabaseNetwork
   
   evaluationdb:
     image: mcr.microsoft.com/mssql/server:latest
@@ -37,10 +37,21 @@
     ports:
       - "9090:1433"
     networks:
-      - backend
+      - evaluationDatabaseNetwork
+      
+  fakemailserver:
+    image: reachfive/fake-smtp-server:latest
+    ports:
+      - "1025:1025"
+      - "1080:1080"
+    volumes:
+      - ./emails:/tmp/fakemail
+    networks:
+      - evaluationDatabaseNetwork
+    
         
 networks:
-  frontend:
+  evaluationApiNetwork:
     driver: bridge
-  backend:
+  evaluationDatabaseNetwork:
     driver: bridge

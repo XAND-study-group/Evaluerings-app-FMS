@@ -31,6 +31,8 @@ public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRo
                 .AsNoTracking()
                 .Include(f => f.Room)
                 .Where(f => f.Room.Id == request.RoomId)
+                .Skip(request.ItemsPerPage * (request.Page - 1))
+                .Take(request.ItemsPerPage)
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

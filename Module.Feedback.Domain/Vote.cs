@@ -1,4 +1,5 @@
-﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+﻿using System.Reflection.Metadata.Ecma335;
+using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Vote;
 
@@ -8,7 +9,7 @@ public class Vote : Entity
 {
     #region Properties
 
-    public HashedId HashedUserId { get; protected set; }
+    public HashedUserId HashedUserId { get; protected set; }
     public VoteScale VoteScale { get; protected set; }
 
     #endregion Properties
@@ -19,7 +20,7 @@ public class Vote : Entity
     {
     }
 
-    private Vote(HashedId hashedUserId, VoteScale voteScale)
+    private Vote(HashedUserId hashedUserId, VoteScale voteScale)
     {
         HashedUserId = hashedUserId;
         VoteScale = voteScale;
@@ -32,8 +33,20 @@ public class Vote : Entity
     public static Vote Create(Guid userId, VoteScale voteScale)
         => new(userId, voteScale);
 
-    public void Update(VoteScale voteScale)
-        => VoteScale = voteScale;
+    public void Update(Guid userId, VoteScale voteScale)
+    {
+        AssureUserHasVote(userId, HashedUserId);
+        VoteScale = voteScale;
+    }
+
+    public void Delete(Guid userId)
+        => AssureUserHasVote(userId, HashedUserId);
+
+    private void AssureUserHasVote(Guid userId, HashedUserId hashedUserUserId)
+    {
+        if (userId != hashedUserUserId)
+            throw new ArgumentException("Bruger skal være ejer af vote for at ændre den");
+    }
 
     #endregion Vote Methods
 }

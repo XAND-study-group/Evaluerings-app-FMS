@@ -9,6 +9,7 @@ using School.API;
 using School.API.Extensions;
 using School.API.Helper;
 using School.Infrastructure.Mapping;
+using SharedKernel.Interfaces.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 

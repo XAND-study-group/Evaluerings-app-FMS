@@ -49,8 +49,7 @@ public class Lecture : Entity
 
     public void AddTeacher(User user)
     {
-        // TODO: Check if User has CLAIM => Teacher
-        
+        AssureCorrectRole("Teacher", user);
         AssureNoDuplicates(user, _teachers);
         
         _teachers.Add(user);
@@ -60,6 +59,13 @@ public class Lecture : Entity
     {
         if (teachersList.Any(t => t.Id == user.Id))
             throw new InvalidOperationException("User already exists in the teachers list.");
+    }
+    
+    protected void AssureCorrectRole(string roleValueName, User user)
+    {
+        if(user.AccountClaims.All(c => c.ClaimValue != roleValueName))
+            throw new ArgumentException($"Brugeren har ikke den korrekte rolle");
+
     }
 
     #endregion Relational Methods
