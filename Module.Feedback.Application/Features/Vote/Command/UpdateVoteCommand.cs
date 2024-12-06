@@ -10,7 +10,8 @@ public record UpdateVoteCommand(UpdateVoteRequest UpdateVoteRequest) : IRequest<
 
 public class UpdateVoteCommandHandler(IVoteRepository voteRepository) : IRequestHandler<UpdateVoteCommand, Result<bool>>
 {
-    async Task<Result<bool>> IRequestHandler<UpdateVoteCommand, Result<bool>>.Handle(UpdateVoteCommand request, CancellationToken cancellationToken)
+    async Task<Result<bool>> IRequestHandler<UpdateVoteCommand, Result<bool>>.Handle(UpdateVoteCommand request,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -19,7 +20,8 @@ public class UpdateVoteCommandHandler(IVoteRepository voteRepository) : IRequest
             var feedback = await voteRepository.GetFeedbackByIdAsync(updateVoteRequest.FeedbackId);
 
             // Do
-            var vote = feedback.UpdateVote(updateVoteRequest.VoteId, updateVoteRequest.VoteScale);
+            var vote = feedback.UpdateVote(updateVoteRequest.VoteId, updateVoteRequest.UserId,
+                updateVoteRequest.VoteScale);
 
             // Save
             await voteRepository.UpdateVoteAsync(vote, updateVoteRequest.RowVersion);

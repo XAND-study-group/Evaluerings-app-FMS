@@ -25,7 +25,7 @@ namespace Module.Feedback.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.Feedback.Domain.Comment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -57,7 +57,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("CommentId");
 
@@ -68,13 +68,15 @@ namespace Module.Feedback.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.Feedback.Domain.Feedback", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("NotificationStatus")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("RoomId")
                         .HasColumnType("uniqueidentifier");
@@ -85,7 +87,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.ComplexProperty<Dictionary<string, object>>("HashedUserId", "Module.Feedback.Domain.Feedback.HashedUserId#HashedUserId", b1 =>
@@ -124,7 +126,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("RoomId");
 
@@ -133,7 +135,7 @@ namespace Module.Feedback.Infrastructure.Migrations
 
             modelBuilder.Entity("Module.Feedback.Domain.Room", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -161,14 +163,14 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Module.Feedback.Domain.Vote", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -193,7 +195,7 @@ namespace Module.Feedback.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(max)");
                         });
 
-                    b.HasKey("Id");
+                    b.HasKey("RoomId");
 
                     b.HasIndex("FeedbackId");
 
@@ -208,7 +210,8 @@ namespace Module.Feedback.Infrastructure.Migrations
 
                     b.HasOne("Module.Feedback.Domain.Feedback", null)
                         .WithMany("Comments")
-                        .HasForeignKey("FeedbackId");
+                        .HasForeignKey("FeedbackId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Module.Feedback.Domain.Feedback", b =>
@@ -226,7 +229,8 @@ namespace Module.Feedback.Infrastructure.Migrations
                 {
                     b.HasOne("Module.Feedback.Domain.Feedback", null)
                         .WithMany("Votes")
-                        .HasForeignKey("FeedbackId");
+                        .HasForeignKey("FeedbackId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Module.Feedback.Domain.Comment", b =>

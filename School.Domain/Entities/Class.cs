@@ -6,6 +6,16 @@ namespace School.Domain.Entities;
 
 public class Class : Entity
 {
+    #region Class Business Logic Methods
+
+    protected void AssureNameIsUnique(string name, IEnumerable<Class> otherClassNames)
+    {
+        if (otherClassNames.Any(s => s.Name == name))
+            throw new ArgumentException($"A Class with name '{name}' already exists.");
+    }
+
+    #endregion
+
     #region Properties
 
     // List & IReadOnlyCollections
@@ -37,36 +47,35 @@ public class Class : Entity
 
         AssureNameIsUnique(Name, otherClassNames);
     }
-    
-    private Class(string name, string description, int studentCapacity, IEnumerable<User> students, IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames)
+
+    private Class(string name, string description, int studentCapacity, IEnumerable<User> students,
+        IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames)
     {
         Name = name;
         Description = description;
         StudentCapacity = studentCapacity;
-        
-        // TODO: check if students are over capacity
         _students = students.ToList();
         _subjects = subjects.ToList();
 
+        AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity);
         AssureNameIsUnique(Name, otherClassNames);
     }
-    
+
     #endregion
 
     #region Class Methods
-    public static Class Create(string name, string description, int capacity, IEnumerable<Class> otherClassNames)
-        => new Class(name, description, capacity, otherClassNames);
-    
-    public static Class Create(string name, string description, int capacity, IEnumerable<User> students, IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames)
-        => new Class(name, description, capacity, students, subjects, otherClassNames);
-    #endregion
 
-    #region Class Business Logic Methods
-    protected void AssureNameIsUnique(string name, IEnumerable<Class> otherClassNames)
+    public static Class Create(string name, string description, int capacity, IEnumerable<Class> otherClassNames)
     {
-        if (otherClassNames.Any(s => s.Name == name))
-            throw new ArgumentException($"A Class with name '{name}' already exists.");
+        return new Class(name, description, capacity, otherClassNames);
     }
+
+    public static Class Create(string name, string description, int capacity, IEnumerable<User> students,
+        IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames)
+    {
+        return new Class(name, description, capacity, students, subjects, otherClassNames);
+    }
+
     #endregion
 
     #region Relational Methods
@@ -78,7 +87,7 @@ public class Class : Entity
 
     public void AddStudent(User student)
     {
-        // TODO: Check if user has CLAIM as Student
+        AssureCorrectRole("User", student);
         AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity.Value);
 
         _students.Add(student);
@@ -86,7 +95,7 @@ public class Class : Entity
 
     public void AddTeacher(User teacher)
     {
-        // TODO: Check if user has CLAIM as Teacher
+        AssureCorrectRole("Teacher", teacher);
         _teachers.Add(teacher);
     }
 
@@ -97,13 +106,22 @@ public class Class : Entity
 
         return subject.AddLecture(lectureTitle, description, startTime, endTime, date, classRoom);
     }
+
     #endregion
 
     #region Relation Business Logic Methods
+
     protected void AssureMaxCapacityIsNotReached(int studentsCount, int studentCapacity)
     {
         if (studentsCount >= studentCapacity)
             throw new ArgumentException("Maximum number of students reached.");
     }
+
+    protected void AssureCorrectRole(string roleValueName, User user)
+    {
+        if (user.AccountClaims.All(c => c.ClaimValue != roleValueName))
+            throw new ArgumentException("Brugeren har ikke den korrekte rolle");
+    }
+
     #endregion
 }

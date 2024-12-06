@@ -1,4 +1,5 @@
 ﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+using Module.Feedback.Domain.Entities;
 using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Dto.Features.Evaluering.Proxy;
@@ -7,6 +8,16 @@ namespace Module.Feedback.Domain.Test;
 
 public class CommentTests
 {
+    #region MemberData Methods
+
+    public static IEnumerable<object[]> ValidCreationData()
+    {
+        yield return [Guid.NewGuid(), "ValidCommentText"];
+        yield return [Guid.NewGuid(), "ValidCommentText"];
+    }
+
+    #endregion MemberData Methods
+
     #region Tests
 
     #region Creational Tests
@@ -17,7 +28,8 @@ public class CommentTests
     {
         // Arrange
         var mockFeedbackAiService = new Mock<IValidationServiceProxy>();
-        mockFeedbackAiService.Setup(f => f.IsAcceptableCommentAsync(commentText)).ReturnsAsync(new GeminiResponse(true,""));
+        mockFeedbackAiService.Setup(f => f.IsAcceptableCommentAsync(commentText))
+            .ReturnsAsync(new GeminiResponse(true, ""));
 
         // Act
         var comment = Comment.CreateAsync(userId, commentText, mockFeedbackAiService.Object);
@@ -57,14 +69,4 @@ public class CommentTests
     #endregion CommentText Tests
 
     #endregion Tests
-
-    #region MemberData Methods
-
-    public static IEnumerable<object[]> ValidCreationData()
-    {
-        yield return [Guid.NewGuid(), "ValidCommentText"];
-        yield return [Guid.NewGuid(), "ValidCommentText"];
-    }
-
-    #endregion MemberData Methods
 }

@@ -6,4 +6,10 @@ public record GetSimpleLectureResponse(
     TimeOnly From,
     TimeOnly To,
     DateOnly Date,
-    string ClassRoom);
+    string ClassRoom)
+{
+    public GetSimpleLectureResponse() : this(string.Empty, string.Empty, TimeOnly.MinValue, TimeOnly.MinValue,
+        DateOnly.MinValue, string.Empty)
+    {
+    }
+}

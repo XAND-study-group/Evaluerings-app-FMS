@@ -9,18 +9,17 @@ using SharedKernel.Models;
 
 namespace School.Infrastructure.Features.Semester.Class;
 
-public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserIdQuery, Result<IEnumerable<GetSimpleClassResponse>>>
+public class
+    GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserIdQuery,
+    Result<IEnumerable<GetSimpleClassResponse>>>
 {
-    private readonly SchoolDbContext _semesterDbContext;
     private readonly IMapper _mapper;
+    private readonly SchoolDbContext _semesterDbContext;
 
-    public GetClassesByUserIdQueryHandler(SchoolDbContext semesterDbContext)
+    public GetClassesByUserIdQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
     {
         _semesterDbContext = semesterDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Entities.Class, GetSimpleClassResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
 
@@ -36,7 +35,8 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
                 .ProjectTo<GetSimpleClassResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetSimpleClassResponse>>.Create("Klasser tilhørende bruger fundet", getClassesResponse,
+            return Result<IEnumerable<GetSimpleClassResponse>>.Create("Klasser tilhørende bruger fundet",
+                getClassesResponse,
                 ResultStatus.Success);
         }
         catch (Exception e)
@@ -45,5 +45,4 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
                 ResultStatus.Error);
         }
     }
-        
 }

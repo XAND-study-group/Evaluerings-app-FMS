@@ -7,4 +7,10 @@ public record GetDetailedUserResponse(
     string Firstname,
     string Lastname,
     string Email,
-    IEnumerable<GetSimpleSemesterResponse> Semesters);
+    IEnumerable<GetSimpleSemesterResponse> Semesters)
+{
+    public GetDetailedUserResponse() : this(Guid.Empty, string.Empty, string.Empty, string.Empty,
+        new List<GetSimpleSemesterResponse>())
+    {
+    }
+}

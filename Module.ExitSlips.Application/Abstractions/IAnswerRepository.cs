@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Module.ExitSlip.Domain.Entities;
+﻿using Module.ExitSlip.Domain.Entities;
 
-namespace Module.ExitSlip.Application.Abstractions
+namespace Module.ExitSlip.Application.Abstractions;
+
+public interface IAnswerRepository
 {
-    public interface IAnswerRepository
-    {
-        Task AddAsync(Answer answer);
-        Task UpdateAsync(Answer answer);
-        Task DeleteAsync(Guid id);
-    }
+    Task<Domain.Entities.ExitSlip> GetExitSlipWithQuestionsAndAnswersByIdAsync(Guid id);
+    Task CreateAnswerAsync(Answer answer);
+    Task UpdateAnswerAsync(Answer answer, byte[] rowVersion);
 }

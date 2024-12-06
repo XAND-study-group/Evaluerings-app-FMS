@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 
-namespace Module.Feedback.Domain
+[assembly: InternalsVisibleTo("Module.Feedback.Domain.Test")]
+
+namespace Module.Feedback.Domain;
+
+public class AssemblyReference
 {
-    public class AssemblyReference
-    {
-        public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
-    }
+    public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
 }

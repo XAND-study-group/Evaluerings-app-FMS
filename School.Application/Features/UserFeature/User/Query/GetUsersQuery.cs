@@ -4,4 +4,4 @@ using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.User.Query;
 
-public sealed record GetUsersQuery() : IRequest<Result<IEnumerable<GetSimpleUserResponse?>>>;
+public sealed record GetUsersQuery : IRequest<Result<IEnumerable<GetSimpleUserResponse?>>>;

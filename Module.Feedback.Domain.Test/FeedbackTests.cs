@@ -20,17 +20,19 @@ public class FeedbackTests
         var room = new FakeRoom();
 
         var mockFeedbackService = new Mock<IValidationServiceProxy>();
-        mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(title,problem, solution)).ReturnsAsync(new GeminiResponse(true,""));
+        mockFeedbackService.Setup(x => x.IsAcceptableContentAsync(title, problem, solution))
+            .ReturnsAsync(new GeminiResponse(true, ""));
 
         // Act
-        var feedback = await Feedback.CreateAsync(guid, title, problem, solution, room, mockFeedbackService.Object);
+        var feedback =
+            await Entities.Feedback.CreateAsync(guid, title, problem, solution, room, mockFeedbackService.Object);
 
         // Assert
         Assert.NotNull(feedback);
     }
 
     #endregion Creational Tests
-    
+
     #region Title Tests
 
     [Fact]
@@ -38,7 +40,7 @@ public class FeedbackTests
     {
         // Arrange
         var feedback = new FakeFeedback();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => feedback.SetTitle(null!));
     }
@@ -48,7 +50,7 @@ public class FeedbackTests
     {
         // Arrange
         var feedback = new FakeFeedback();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => feedback.SetTitle(string.Empty));
     }
@@ -58,7 +60,7 @@ public class FeedbackTests
     {
         // Arrange
         var feedback = new FakeFeedback();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => feedback.SetTitle(" "));
     }
@@ -68,10 +70,11 @@ public class FeedbackTests
     {
         // Arrange
         var feedback = new FakeFeedback();
-        
+
         // Act
         feedback.SetTitle("ValidTitle");
     }
+
     #endregion Title Tests
 
     #region Problem & Solution Tests
@@ -84,11 +87,11 @@ public class FeedbackTests
     {
         // Arrange
         var feedback = new FakeFeedback();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => feedback.SetProblem(problem!));
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -97,7 +100,7 @@ public class FeedbackTests
     {
         // Arrange
         var feedback = new FakeFeedback();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => feedback.SetSolution(solution!));
     }
@@ -107,13 +110,13 @@ public class FeedbackTests
     {
         // Arrange
         var feedback = new FakeFeedback();
-        
+
         // Act
         feedback.SetProblem("ValidProblem");
         feedback.SetSolution("ValidSolution");
     }
-    
+
     #endregion Problem & Solution Tests
-    
+
     #endregion Tests
 }

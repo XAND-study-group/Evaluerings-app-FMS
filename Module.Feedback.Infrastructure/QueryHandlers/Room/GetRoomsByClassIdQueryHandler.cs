@@ -9,21 +9,20 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Room;
 
-public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetAllRoomsResponse>?>>
+public class
+    GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetSimpleRoomResponse>?>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetRoomsByClassIdQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetRoomsByClassIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Room, GetAllRoomsResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
-    async Task<Result<IEnumerable<GetAllRoomsResponse>?>>
-        IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetAllRoomsResponse>?>>.Handle(
+
+    async Task<Result<IEnumerable<GetSimpleRoomResponse>?>>
+        IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetSimpleRoomResponse>?>>.Handle(
             GetRoomsByClassIdQuery request, CancellationToken cancellationToken)
     {
         try
@@ -32,14 +31,15 @@ public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQu
                 .AsNoTracking()
                 .Where(r => r.ClassIds
                     .Any(c => c == request.ClassId))
-                .ProjectTo<GetAllRoomsResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetSimpleRoomResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
-        
-            return Result<IEnumerable<GetAllRoomsResponse>?>.Create("Fandt forums tilknyttet klasse ID", rooms, ResultStatus.Success);
+
+            return Result<IEnumerable<GetSimpleRoomResponse>?>.Create("Fandt forums tilknyttet klasse ID", rooms,
+                ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<IEnumerable<GetAllRoomsResponse>?>.Create(e.Message, null, ResultStatus.Error);
+            return Result<IEnumerable<GetSimpleRoomResponse>?>.Create(e.Message, null, ResultStatus.Error);
         }
     }
 }

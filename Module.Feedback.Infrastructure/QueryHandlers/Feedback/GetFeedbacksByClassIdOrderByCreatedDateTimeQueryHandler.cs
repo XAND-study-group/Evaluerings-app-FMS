@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Features.Feedback.Query;
-using Module.Feedback.Domain;
 using Module.Feedback.Infrastructure.DbContexts;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 using SharedKernel.Models;
@@ -16,15 +15,10 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
 
-    public GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler(FeedbackDbContext feedbackDbContext)
+    public GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Feedback, GetAllFeedbacksResponse>();
-            cfg.CreateMap<Domain.Comment, GetCommentResponse>();
-            cfg.CreateMap<Domain.Vote, GetVoteResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>
@@ -41,7 +35,7 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
                     .Any(g => g == request.ClassId))
                 .OrderBy(f => f.Created)
                 .AsSplitQuery()
-                .Skip(request.ItemsPerPage*(request.Page - 1))
+                .Skip(request.ItemsPerPage * (request.Page - 1))
                 .Take(request.ItemsPerPage)
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);

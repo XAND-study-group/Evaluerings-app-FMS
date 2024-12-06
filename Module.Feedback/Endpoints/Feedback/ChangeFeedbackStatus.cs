@@ -14,11 +14,11 @@ public class ChangeFeedbackStatus : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPut(configuration["Route:FeedbackModule:Feedback:ChangeFeedbackStatus"] ??
+        app.MapPut(configuration["Routes:FeedbackModule:Feedback:ChangeFeedbackStatus"] ??
                    throw new Exception("Rute ikke tilføjet til konfig filen"),
-            async ([FromBody] ChangeFeedbackStatusRequest request, [FromServices] IMediator mediator) =>
-            (await mediator.Send(new ChangeFeedbackStatusCommand(request))).ReturnHttpResult()
-        ).WithTags("Feedback")
-        .RequireAuthorization("Admin");
+                async ([FromBody] ChangeFeedbackStatusRequest request, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new ChangeFeedbackStatusCommand(request))).ReturnHttpResult()
+            ).WithTags("Feedback")
+            .RequireAuthorization("Admin");
     }
 }

@@ -3,4 +3,5 @@
 public record DeleteVoteRequest(
     Guid FeedbackId,
     Guid VoteId,
+    Guid UserId,
     byte[] RowVersion);

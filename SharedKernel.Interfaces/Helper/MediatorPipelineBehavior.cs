@@ -1,15 +1,15 @@
 ﻿using MediatR;
-using SharedKernel.Interfaces;
-using SharedKernel.Interfaces.UOF;
+using SharedKernel.Interfaces.UOW;
 
-namespace School.API.Helper;
+namespace SharedKernel.Interfaces.Helper;
 
 public class MediatorPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork)
     : IPipelineBehavior<TRequest, TResponse>
 {
     private readonly Type _commandMarkerInterface = typeof(ITransactionalCommand);
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         var isTransactionalCommand = _commandMarkerInterface.IsAssignableFrom(typeof(TRequest));
 
@@ -25,7 +25,7 @@ public class MediatorPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWor
 
             return response;
         }
-        catch (Exception)
+        catch (Exception e)
         {
             if (isTransactionalCommand)
                 await unitOfWork.RollbackAsync();

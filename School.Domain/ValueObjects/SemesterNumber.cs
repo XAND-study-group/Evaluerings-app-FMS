@@ -2,13 +2,13 @@
 
 public record SemesterNumber
 {
-    public int Value { get; init; }
-
     public SemesterNumber(int value)
     {
         Validate(value);
         Value = value;
     }
+
+    public int Value { get; init; }
 
     private void Validate(int value)
     {
@@ -21,6 +21,13 @@ public record SemesterNumber
         }
     }
 
-    public static implicit operator int(SemesterNumber number) => number.Value;
-    public static implicit operator SemesterNumber(int number) => new(number);
+    public static implicit operator int(SemesterNumber number)
+    {
+        return number.Value;
+    }
+
+    public static implicit operator SemesterNumber(int number)
+    {
+        return new SemesterNumber(number);
+    }
 }

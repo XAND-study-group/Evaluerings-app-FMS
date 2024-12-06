@@ -1,21 +1,25 @@
-﻿namespace Evaluering.API.Extensions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Module.Feedback.AuthorizationHandlers;
+
+namespace Evaluering.API.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-        internal static IServiceCollection AddAuthorizationWithPolicies(this IServiceCollection serviceCollection)
-        => serviceCollection.AddAuthorization(options =>
+    internal static IServiceCollection AddAuthorizationWithPolicies(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddAuthorization(options =>
         {
             #region EvaluationApp policies
-            
-            options.AddPolicy("ReadFeedback", 
+
+            options.AddPolicy("ReadFeedback",
                 policy => policy.RequireClaim("Permission", "ReadFeedback"));
             options.AddPolicy("ReadInteractedFeedback",
                 policy => policy.RequireClaim("Permission", "ReadInteractedFeedback"));
-            options.AddPolicy("PostFeedback", 
+            options.AddPolicy("PostFeedback",
                 policy => policy.RequireClaim("Permission", "PostFeedback"));
-            options.AddPolicy("CommentOnFeedback", 
+            options.AddPolicy("CommentOnFeedback",
                 policy => policy.RequireClaim("Permission", "CommentOnFeedback"));
-            options.AddPolicy("AnswerExitSlip", 
+            options.AddPolicy("AnswerExitSlip",
                 policy => policy.RequireClaim("Permission", "AnswerExitSlip"));
             options.AddPolicy("ReadExitSlipAnswers",
                 policy => policy.RequireClaim("Permission", "ReadExistSlipAnswers"));
@@ -31,11 +35,16 @@ public static class ServiceCollectionExtensions
                 policy => policy.RequireClaim("Permission", "RoomManagement"));
             options.AddPolicy("ReadRoom",
                 policy => policy.RequireClaim("Permission", "ReadRoom"));
-            
+
+            options.AddPolicy("AssureUserInRoomOfFeedbackCreate",
+                policy => policy.Requirements.Add(new AssureUserInRoomOfFeedbackCreateRequirement("Admin")));
+            options.AddPolicy("AssureUserInRoomOfFeedbackModification",
+                policy => policy.Requirements.Add(new AssureUserInRoomOfFeedbackModificationRequirement("Admin")));
+
             #endregion
 
             #region School policies
-            
+
             options.AddPolicy("Admin",
                 policy => policy.RequireClaim("Role", "Admin"));
             options.AddPolicy("AdminOrTeacher",
@@ -48,6 +57,10 @@ public static class ServiceCollectionExtensions
                 policy => policy.RequireRole("Role", "User"));
 
             #endregion
-            
         });
+
+        return serviceCollection
+            .AddScoped<IAuthorizationHandler, AssureUserInRoomOfFeedbackCreate>()
+            .AddScoped<IAuthorizationHandler, AssureUserInRoomOfFeedbackModification>();
+    }
 }

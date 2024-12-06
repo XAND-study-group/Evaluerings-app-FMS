@@ -8,7 +8,7 @@ namespace School.Domain.Test.Tests.Semester;
 public class LectureTests
 {
     #region Tests
-    
+
     #region CreationalTests
 
     [Theory]
@@ -18,10 +18,11 @@ public class LectureTests
     {
         // Act
         var lecture = Lecture.Create(lectureTitle, description, start, end, date, classRoom);
-        
+
         // Assert
         Assert.NotNull(lecture);
     }
+
     #endregion CreationalTests
 
     #region LectureTitleTests
@@ -151,23 +152,24 @@ public class LectureTests
         // Arrange
         var lecture = new FakeLecture();
         var whiteSpaceClassRoom = " ";
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => lecture.SetClassRoom(whiteSpaceClassRoom));
     }
-    
+
     [Fact]
     public void Given_Valid_ClassRoom_Then_Void()
     {
         // Arrange
         var lecture = new FakeLecture();
         var classRoom = "ValidClassRoom";
-        
+
         // Act
         lecture.SetClassRoom(classRoom);
     }
+
     #endregion ClassRoomTests
-    
+
     #region TeachersListTests
 
     [Theory]
@@ -177,28 +179,30 @@ public class LectureTests
         // Arrange
         var lecture = new FakeLecture();
         var expected = 1;
-        
+
         // Act
         lecture.AddTeacher(teacher);
-        
+
         // Assert
         Assert.Equal(expected, lecture.Teachers.Count);
     }
 
     [Theory]
     [MemberData(nameof(NotUniqueTeacherData))]
-    public void Given_Not_Unique_Teacher_Then_Throw_InvalidOperationException(FakeUser teacher, IEnumerable<Entities.User> teachers)
+    public void Given_Not_Unique_Teacher_Then_Throw_InvalidOperationException(FakeUser teacher,
+        IEnumerable<Entities.User> teachers)
     {
         // Arrange
         var lecture = new FakeLecture();
-        
+
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() => lecture.AssureNoDuplicates(teacher, teachers.ToList()));
     }
+
     #endregion TeachersListTests
 
     #endregion Tests
-    
+
     #region MemberData Methods
 
     public static IEnumerable<object[]> ValidCreateData()
@@ -233,11 +237,13 @@ public class LectureTests
     }
 
     private static IEnumerable<Entities.User> GetCurrentTeachers()
-        =>
+    {
+        return
         [
             new FakeUser(Guid.Parse("6e70b105-2bce-42c9-b9df-c89f1617a9a2")),
             new FakeUser(Guid.Parse("512b72cf-dc45-4d68-9f9d-68ea0d6d35f2"))
         ];
+    }
 
     #endregion MemberData Methods
 }

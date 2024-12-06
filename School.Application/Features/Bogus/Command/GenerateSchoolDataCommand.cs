@@ -11,13 +11,12 @@ using SharedKernel.Models;
 
 namespace School.Application.Features.Bogus.Command;
 
-public record GenerateSchoolDataCommand() : IRequest<Result<bool>>, ITransactionalCommand;
+public record GenerateSchoolDataCommand : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class GenerateSchoolDataCommandHandler(
     IUserRepository userRepository,
     ISemesterRepository semesterRepository,
     IAccountClaimRepository accountClaimRepository,
-    IPasswordHasher passwordHasher,
     IUserDomainService userDomainService) : IRequestHandler<GenerateSchoolDataCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(GenerateSchoolDataCommand request, CancellationToken cancellationToken)
@@ -28,10 +27,10 @@ public class GenerateSchoolDataCommandHandler(
             var classId = 1;
             Role[] roles = [Role.User, Role.User, Role.User, Role.User, Role.Teacher];
             string[] subject = ["Matematik", "Fysik", "Termodynamik", "Mekanik", "Elektroteknik"];
-            var subjectAndLecture = new Dictionary<string, List<string>>()
+            var subjectAndLecture = new Dictionary<string, List<string>>
             {
                 {
-                    "Matematik", new List<string>()
+                    "Matematik", new List<string>
                     {
                         "Introduktion til lineær algebra",
                         "Differentialregning",
@@ -46,7 +45,7 @@ public class GenerateSchoolDataCommandHandler(
                     }
                 },
                 {
-                    "Fysik", new List<string>()
+                    "Fysik", new List<string>
                     {
                         "Klassisk mekanik",
                         "Elektromagnetisme",
@@ -61,7 +60,7 @@ public class GenerateSchoolDataCommandHandler(
                     }
                 },
                 {
-                    "Termodynamik", new List<string>()
+                    "Termodynamik", new List<string>
                     {
                         "Termodynamiske systemer og processer",
                         "Varmelære",
@@ -76,7 +75,7 @@ public class GenerateSchoolDataCommandHandler(
                     }
                 },
                 {
-                    "Mekanik", new List<string>()
+                    "Mekanik", new List<string>
                     {
                         "Statik",
                         "Dynamik",
@@ -91,7 +90,7 @@ public class GenerateSchoolDataCommandHandler(
                     }
                 },
                 {
-                    "Elektroteknik", new List<string>()
+                    "Elektroteknik", new List<string>
                     {
                         "Elektriske kredsløb",
                         "Ohms lov",
@@ -106,7 +105,7 @@ public class GenerateSchoolDataCommandHandler(
                     }
                 }
             };
-            
+
             var userFake = new Faker<User>()
                 .CustomInstantiator(f =>
                     User.CreateAsync(
@@ -116,7 +115,6 @@ public class GenerateSchoolDataCommandHandler(
                         "Password123.",
                         f.PickRandom(roles),
                         userDomainService,
-                        passwordHasher,
                         accountClaimRepository).Result).UseSeed(420);
 
             var subjectFake = new Faker<Subject>()
@@ -128,7 +126,8 @@ public class GenerateSchoolDataCommandHandler(
                             Lecture.Create(
                                 f2.PickRandom(subjectAndLecture[chosenSubject]),
                                 "Dette er en lektions beskrivelse",
-                                new TimeOnly(12, 00), new TimeOnly(13, 00), DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
+                                new TimeOnly(12, 00), new TimeOnly(13, 00),
+                                DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
                                 "CR420"));
                     return Subject.Create(chosenSubject, "Dette er en subject beskrivelse",
                         lectureFake.GenerateLazy(10), []);
@@ -138,8 +137,8 @@ public class GenerateSchoolDataCommandHandler(
                 .CustomInstantiator(f =>
                     Class.Create(
                         "MM" + classId++,
-                        "Dette er en klasse beskrivelse", 
-                        15, 
+                        "Dette er en klasse beskrivelse",
+                        15,
                         userFake.GenerateLazy(5),
                         subjectFake.GenerateLazy(5),
                         [])).UseSeed(420);
@@ -152,7 +151,7 @@ public class GenerateSchoolDataCommandHandler(
                         "FMS" + semesterId++,
                         semesterNum,
                         DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
-                        DateOnly.FromDateTime(DateTime.Today.AddMonths(6 * 6 - semesterNum * 6)), SchoolType.Fredericia, 
+                        DateOnly.FromDateTime(DateTime.Today.AddMonths(6 * 6 - semesterNum * 6)), SchoolType.Fredericia,
                         classFake.GenerateLazy(3),
                         []);
                 }).UseSeed(420);
@@ -167,11 +166,10 @@ public class GenerateSchoolDataCommandHandler(
                         "Password123.",
                         Role.Admin,
                         userDomainService,
-                        passwordHasher,
                         accountClaimRepository).Result).UseSeed(50);
 
             await semesterRepository.CreateSemestersAsync(semesterFake.GenerateLazy(2));
-            
+
             await userRepository.CreateUsersAsync(adminFake.GenerateLazy(5));
 
             return Result<bool>.Create("Data has been seeded", true, ResultStatus.Success);

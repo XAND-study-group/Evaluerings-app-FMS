@@ -6,7 +6,8 @@ using SharedKernel.Models;
 
 namespace School.Application.Features.SemesterFeature.Semester.Command;
 
-public record CreateSemesterCommand(CreateSemesterRequest CreateSemesterRequest) : IRequest<Result<bool>>, ITransactionalCommand;
+public record CreateSemesterCommand(CreateSemesterRequest CreateSemesterRequest)
+    : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class CreateSemesterCommandHandler : IRequestHandler<CreateSemesterCommand, Result<bool>>
 {
@@ -16,24 +17,25 @@ public class CreateSemesterCommandHandler : IRequestHandler<CreateSemesterComman
     {
         _semesterRepository = semesterRepository;
     }
-    async Task<Result<bool>> IRequestHandler<CreateSemesterCommand, Result<bool>>.Handle(CreateSemesterCommand request, CancellationToken cancellationToken)
+
+    async Task<Result<bool>> IRequestHandler<CreateSemesterCommand, Result<bool>>.Handle(CreateSemesterCommand request,
+        CancellationToken cancellationToken)
     {
         try
         {
-
             // Load
             var otherSemesters = await _semesterRepository.GetAllSemesters();
             var createSemesterRequest = request.CreateSemesterRequest;
-        
+
             // Do
             var semester = Domain.Entities.Semester.Create(
-                createSemesterRequest.Name, 
+                createSemesterRequest.Name,
                 createSemesterRequest.SemesterNumber,
                 createSemesterRequest.StartDate,
                 createSemesterRequest.EndDate,
                 createSemesterRequest.School,
                 otherSemesters);
-        
+
             // Save
             await _semesterRepository.CreateSemesterAsync(semester);
 

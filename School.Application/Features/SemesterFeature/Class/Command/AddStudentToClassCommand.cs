@@ -32,7 +32,7 @@ public class AddStudentToClassCommandHandler : IRequestHandler<AddStudentToClass
 
             // Save
             await _classRepository.AddUserToClassAsync();
-            
+
             return Result<bool>.Create("Elev tilføjet", false, ResultStatus.Added);
         }
         catch (ArgumentException e)

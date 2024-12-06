@@ -1,54 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Infrastructure.DbContexts;
 
-namespace Module.ExitSlip.Infrastructure.Repositories
+namespace Module.ExitSlip.Infrastructure.Repositories;
+
+public class AnswerRepository(ExitSlipDbContext exitSlipDbContext) : IAnswerRepository
 {
-    public class AnswerRepository : IAnswerRepository
+    async Task<Domain.Entities.ExitSlip> IAnswerRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(Guid id)
     {
-        private readonly ExitSlipDbContext _context;
+        return await exitSlipDbContext.ExitSlips
+                   .Include(e => e.Questions)
+                   .ThenInclude(q => q.Answers)
+                   .FirstOrDefaultAsync(e => e.Id == id) ??
+               throw new ArgumentException("Kunne ikke finde ExitSlip");
+    }
 
-        public AnswerRepository(ExitSlipDbContext context)
-        {
-            _context = context;
-        }
+    async Task IAnswerRepository.CreateAnswerAsync(Answer answer)
+    {
+        await exitSlipDbContext.AddAsync(answer);
+        await exitSlipDbContext.SaveChangesAsync();
+    }
 
-        public async Task<Answer> GetByIdAsync(Guid id)
-        {
-            return await _context.Answers.FindAsync(id);
-        }
 
-        public async Task<IEnumerable<Answer>> GetAllAsync()
-        {
-            return await _context.Answers.ToListAsync();
-        }
-
-        public async Task AddAsync(Answer answer)
-        {
-            await _context.Answers.AddAsync(answer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Answer answer)
-        {
-            _context.Answers.Update(answer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            var answer = await GetByIdAsync(id);
-            if (answer != null)
-            {
-                _context.Answers.Remove(answer);
-                await _context.SaveChangesAsync();
-            }
-        }
+    async Task IAnswerRepository.UpdateAnswerAsync(Answer answer, byte[] rowVersion)
+    {
+        exitSlipDbContext.Entry(answer).Property(nameof(Answer.RowVersion)).OriginalValue = rowVersion;
+        await exitSlipDbContext.SaveChangesAsync();
     }
 }

@@ -10,4 +10,10 @@ public record GetDetailedSemesterResponse(
     DateOnly StartDate,
     DateOnly EndDate,
     SchoolType School,
-    IEnumerable<GetSemesterUserResponse> Responsibles);
+    IEnumerable<GetSemesterUserResponse> Responsibles)
+{
+    public GetDetailedSemesterResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, 0, new DateOnly(),
+        new DateOnly(), SchoolType.Fredericia, new List<GetSemesterUserResponse>())
+    {
+    }
+}

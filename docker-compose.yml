@@ -5,16 +5,8 @@
       context: .
       dockerfile: School.API/Dockerfile
     networks:
-      - backend
-        
-  evaluation.api:
-    image: evaluation.api
-    build:
-      context: .
-      dockerfile: Evaluering.API/Dockerfile
-    networks:
-      - backend
-      
+      - schoolNetwork
+  
   schooldb:
     image: mcr.microsoft.com/mssql/server:latest
     volumes:
@@ -25,7 +17,36 @@
     ports:
       - "8090:1433"
     networks:
-      - backend
+      - schoolNetwork
+  
+  reverseproxy.api:
+    image: reverseproxy.api
+    build:
+      context: .
+      dockerfile: ReverseProxy.API/Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      ASPNETCORE_HTTP_PORTS: 9000
+    depends_on:
+      evaluation.api:
+        condition: service_started
+    networks:
+      - evaluationApiNetwork
+  
+  evaluation.api:
+    image: evaluation.api
+    build:
+      context: .
+      dockerfile: Evaluering.API/Dockerfile
+    depends_on:
+      evaluationdb:
+        condition: service_started
+      fakemailserver:
+        condition: service_started
+    networks:
+      - evaluationApiNetwork
+      - evaluationDatabaseNetwork
   
   evaluationdb:
     image: mcr.microsoft.com/mssql/server:latest
@@ -37,10 +58,23 @@
     ports:
       - "9090:1433"
     networks:
-      - backend
-        
+      - evaluationDatabaseNetwork
+  
+  fakemailserver:
+    image: reachfive/fake-smtp-server:latest
+    ports:
+      - "1025:1025"
+      - "1080:1080"
+    volumes:
+      - ./emails:/tmp/fakemail
+    networks:
+      - evaluationDatabaseNetwork
+
+
 networks:
-  frontend:
+  evaluationApiNetwork:
     driver: bridge
-  backend:
+  evaluationDatabaseNetwork:
+    driver: bridge
+  schoolNetwork:
     driver: bridge

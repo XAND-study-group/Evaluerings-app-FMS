@@ -7,41 +7,37 @@ using School.Infrastructure.DbContext;
 using SharedKernel.Dto.Features.School.User.Query;
 using SharedKernel.Models;
 
-namespace School.Infrastructure.Features.User
+namespace School.Infrastructure.Features.User;
+
+public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<IEnumerable<GetSimpleUserResponse?>>>
 {
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Result<IEnumerable<GetSimpleUserResponse?>>>
+    private readonly SchoolDbContext _dbContext;
+    private readonly IMapper _mapper;
+
+    public GetUsersQueryHandler(SchoolDbContext dbContext, IMapper mapper)
     {
-        private readonly SchoolDbContext _dbContext;
-        private readonly IMapper _mapper;
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
 
-        public GetUsersQueryHandler(SchoolDbContext dbContext)
-        {
-            _dbContext = dbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.User, GetSimpleUserResponse>();
-            }).CreateMapper();
-        }
-
-        async Task<Result<IEnumerable<GetSimpleUserResponse?>>> IRequestHandler<GetUsersQuery, Result<IEnumerable<GetSimpleUserResponse?>>>.Handle(
+    async Task<Result<IEnumerable<GetSimpleUserResponse?>>>
+        IRequestHandler<GetUsersQuery, Result<IEnumerable<GetSimpleUserResponse?>>>.Handle(
             GetUsersQuery request, CancellationToken cancellationToken)
+    {
+        try
         {
-            try
-            {
-                var getUsersResponse = await _dbContext.Users
-                 .AsNoTracking()
-                 .ProjectTo<GetSimpleUserResponse>(_mapper.ConfigurationProvider)
-                 .ToListAsync(cancellationToken);
+            var getUsersResponse = await _dbContext.Users
+                .AsNoTracking()
+                .ProjectTo<GetSimpleUserResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
-                return Result<IEnumerable<GetSimpleUserResponse?>>.Create("Efterspurgte Users er fundet", getUsersResponse,
-                    ResultStatus.Success);
-
-            }
-            catch (Exception e)
-            {
-                return Result<IEnumerable<GetSimpleUserResponse?>>.Create(e.Message, [],
-                    ResultStatus.Error);
-            }
+            return Result<IEnumerable<GetSimpleUserResponse?>>.Create("Efterspurgte Users er fundet", getUsersResponse,
+                ResultStatus.Success);
+        }
+        catch (Exception e)
+        {
+            return Result<IEnumerable<GetSimpleUserResponse?>>.Create(e.Message, [],
+                ResultStatus.Error);
         }
     }
 }

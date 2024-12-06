@@ -15,6 +15,6 @@ public class GetSemester : IEndpoint
                 async (Guid semesterId, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetSemesterQuery(semesterId))).ReturnHttpResult())
             .WithTags("Semester")
-            .RequireAuthorization();
+            .RequireAuthorization("AssureUserIsInSemester");
     }
 }

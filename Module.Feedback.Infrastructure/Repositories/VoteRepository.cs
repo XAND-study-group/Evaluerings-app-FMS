@@ -1,14 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
-using Module.Feedback.Domain;
+using Module.Feedback.Domain.Entities;
 using Module.Feedback.Infrastructure.DbContexts;
 
 namespace Module.Feedback.Infrastructure.Repositories;
 
 public class VoteRepository(FeedbackDbContext feedbackDbContext) : IVoteRepository
 {
-    async Task<Domain.Feedback> IVoteRepository.GetFeedbackByIdAsync(Guid feedbackId)
-    => await feedbackDbContext.Feedbacks.SingleAsync(f => f.Id == feedbackId);
+    async Task<Domain.Entities.Feedback> IVoteRepository.GetFeedbackByIdAsync(Guid feedbackId)
+    {
+        return await feedbackDbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id == feedbackId) ??
+               throw new ArgumentException("Feedback not found");
+    }
 
     async Task IVoteRepository.CreateVoteAsync(Vote vote)
     {

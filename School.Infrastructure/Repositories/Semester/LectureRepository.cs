@@ -5,20 +5,29 @@ using School.Infrastructure.DbContext;
 
 namespace School.Infrastructure.Repositories.Semester;
 
-public class LectureRepository : ILectureRepository
+public class LectureRepository(SchoolDbContext dbContext) : ILectureRepository
 {
-    private readonly SchoolDbContext _dbContext;
-
-    public LectureRepository(SchoolDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
     async Task ILectureRepository.CreateLecture(Lecture lecture)
     {
-        await _dbContext.Lectures.AddAsync(lecture);
-        await _dbContext.SaveChangesAsync();
+        await dbContext.Lectures.AddAsync(lecture);
+        await dbContext.SaveChangesAsync();
     }
 
     async Task<Domain.Entities.Semester> ILectureRepository.GetSemesterById(Guid semesterId)
-        => await _dbContext.Semesters.SingleAsync(s => s.Id == semesterId);
+    {
+        return await dbContext.Semesters.FirstOrDefaultAsync(s => s.Id == semesterId) ??
+               throw new ArgumentException("Semester ikke fundet");
+    }
+
+    public async Task<bool> DoesUserHaveLecture(Guid lectureId, Guid userId)
+    {
+        return (await dbContext.Classes
+                .Include(c => c.Students)
+                .Include(c => c.Subjects)
+                .ThenInclude(s => s.Lectures)
+                .FirstAsync(c => c.Subjects
+                    .Any(s => s.Lectures
+                        .Any(l => l.Id == lectureId))))
+            .Students.Any(s => s.Id == userId);
+    }
 }

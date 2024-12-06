@@ -12,8 +12,8 @@ public class Signup : IEndpoint
     {
         app.MapPost(configuration["Routes:UserModule:Authentication:Signup"] ??
                     throw new Exception("Route is not added to config file"),
-            async ([FromBody] CreateAccountLoginRequest request, [FromServices] IMediator mediator) =>
-            await mediator.Send(new AccountSignUpCommand(request))).WithTags("Authentication")
+                async ([FromBody] CreateAccountLoginRequest request, [FromServices] IMediator mediator) =>
+                await mediator.Send(new AccountSignUpCommand(request))).WithTags("Authentication")
             .RequireAuthorization();
     }
 }

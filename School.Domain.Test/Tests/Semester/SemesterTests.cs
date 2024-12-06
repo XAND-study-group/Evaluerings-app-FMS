@@ -74,7 +74,7 @@ public class SemesterTests
         // Arrange
         var semester = new FakeSemester();
         var semesterNumber = -1;
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => semester.SetSemesterNumber(semesterNumber));
     }
@@ -132,7 +132,7 @@ public class SemesterTests
     {
         // Arrange
         var semester = new FakeSemester();
-        
+
         // Act
         semester.SetSemesterName("ValidName", []);
     }
@@ -143,29 +143,29 @@ public class SemesterTests
         // Arrange
         var semester = new FakeSemester();
         var whiteSpaceString = " ";
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => semester.SetSemesterName(whiteSpaceString, []));
     }
-    
+
     [Fact]
     public void Given_Null_string_Then_Throw_ArgumentException()
     {
         // Arrange
         var semester = new FakeSemester();
         string? nullString = null;
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => semester.SetSemesterName(nullString!, []));
     }
-    
+
     [Fact]
     public void Given_string_With_Length_51_Then_Throw_ArgumentException()
     {
         // Arrange
         var semester = new FakeSemester();
         var name = new string('a', 51);
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => semester.SetSemesterName(name, []));
     }
@@ -191,7 +191,8 @@ public class SemesterTests
 
     [Theory]
     [MemberData(nameof(DuplicateResponsibleData))]
-    public void Given_Duplicate_User_Then_Throw_ArgumentException(FakeUser teacher, IEnumerable<Entities.User> otherResponsibles)
+    public void Given_Duplicate_User_Then_Throw_ArgumentException(FakeUser teacher,
+        IEnumerable<Entities.User> otherResponsibles)
     {
         // Arrange
         var semester = new FakeSemester();
@@ -270,11 +271,13 @@ public class SemesterTests
     }
 
     private static IEnumerable<string> GetOtherSemesters()
-        => new[]
+    {
+        return new[]
         {
             "NotUniqueName",
-            "UniqueName",
+            "UniqueName"
         };
+    }
 
     public static IEnumerable<object[]> ValidResponsibleData()
     {
@@ -295,11 +298,13 @@ public class SemesterTests
     }
 
     private static IEnumerable<FakeUser> GetResponsibles()
-        => new[]
+    {
+        return new[]
         {
             new FakeUser(Guid.Parse("b2d214ea-c5ea-419c-8498-0a023c27f514")),
-            new FakeUser(Guid.Parse("99bf6d44-620a-4820-829d-a9444590e1d5")),
+            new FakeUser(Guid.Parse("99bf6d44-620a-4820-829d-a9444590e1d5"))
         };
+    }
 
     public static IEnumerable<object[]> DuplicateClassData()
     {
@@ -312,11 +317,13 @@ public class SemesterTests
     }
 
     private static IEnumerable<FakeClass> GetOtherClasses()
-        =>
+    {
+        return
         [
             new FakeClass(Guid.Parse("80d1ffdd-b31d-4183-bcc6-6709e7177de7"), "TestClass"),
             new FakeClass(Guid.Parse("501b49fd-9428-456e-8fe7-95c24bbc8a88"), "OtherTestClass")
         ];
+    }
 
     #endregion
 }

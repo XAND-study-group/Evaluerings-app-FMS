@@ -1,34 +1,39 @@
 ﻿using School.Domain.ValueObjects;
-using SharedKernel.ValueObjects;
 
-namespace School.Domain.Test.Fakes.User
+namespace School.Domain.Test.Fakes.User;
+
+public class FakeUser : Entities.User
 {
-    public class FakeUser : Domain.Entities.User
+    public FakeUser(string email)
     {
-        public FakeUser(string email)
-        {
-            Email = UserEmail.Create(email);
-        }
+        Email = UserEmail.Create(email);
+    }
 
-        public FakeUser()
-        {
-        }
+    public FakeUser()
+    {
+    }
 
-        public FakeUser(string firstname, string lastname, string email)
-        {
-        }
+    public FakeUser(string firstname, string lastname, string email)
+    {
+    }
 
-        public void SetRefreshToken(string token, DateTime expirationDate)
-            => RefreshToken = RefreshToken.Create(token, expirationDate);
+    public void AddRefreshToken(string token, DateTime expirationDate)
+    {
+        _refreshTokens.Add(RefreshToken.Create(token, expirationDate));
+    }
 
-        public void SetUserFirstname(string firstname)
-            => Firstname = firstname;
+    public void SetUserFirstname(string firstname)
+    {
+        Firstname = firstname;
+    }
 
-        public void SetUserLastname(string lastname)
-            => Lastname = lastname;
+    public void SetUserLastname(string lastname)
+    {
+        Lastname = lastname;
+    }
 
-        public void SetUserEmail(string email)
-            => Email = UserEmail.Create(email);
-
+    public void SetUserEmail(string email)
+    {
+        Email = UserEmail.Create(email);
     }
 }

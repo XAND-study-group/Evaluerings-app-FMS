@@ -2,8 +2,9 @@
 
 public record GetFeedbackResponse(
     Guid FeedbackId,
-    string HashedId,
+    string HashedUserId,
     string Problem,
     string Solution,
     IEnumerable<GetCommentResponse> Comments,
-    IEnumerable<GetVoteResponse> Votes);
+    IEnumerable<GetVoteResponse> Votes,
+    byte[] RowVersion);

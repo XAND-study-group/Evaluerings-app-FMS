@@ -2,13 +2,13 @@
 
 public record Text
 {
-    public string Value { get; init; }
-
     public Text(string value)
     {
         Validate(value);
         Value = value;
     }
+
+    public string Value { get; init; }
 
     private void Validate(string value)
     {
@@ -20,7 +20,17 @@ public record Text
     }
 
     public static implicit operator Text(string value)
-        => new(value);
+    {
+        return new Text(value);
+    }
 
-    public static implicit operator string(Text value) => value.Value;
-};
+    public static implicit operator string(Text value)
+    {
+        return value.Value;
+    }
+
+    public override string ToString()
+    {
+        return Value;
+    }
+}

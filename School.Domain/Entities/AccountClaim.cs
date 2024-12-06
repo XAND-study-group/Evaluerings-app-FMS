@@ -16,7 +16,6 @@ public class AccountClaim : Entity
 
     protected AccountClaim()
     {
-
     }
 
     private AccountClaim(string claimName, string claimValue)
@@ -47,5 +46,4 @@ public class AccountClaim : Entity
     }
 
     #endregion
-
 }

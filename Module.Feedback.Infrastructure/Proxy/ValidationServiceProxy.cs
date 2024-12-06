@@ -8,7 +8,10 @@ using SharedKernel.Dto.Features.Evaluering.Proxy;
 
 namespace Module.Feedback.Infrastructure.Proxy;
 
-public class ValidationServiceProxy(IConfiguration configuration, HttpClient httpClient, IOptions<EvaluationSecrets> evaluationSecrets) : IValidationServiceProxy
+public class ValidationServiceProxy(
+    IConfiguration configuration,
+    HttpClient httpClient,
+    IOptions<EvaluationSecrets> evaluationSecrets) : IValidationServiceProxy
 {
     async Task<GeminiResponse> IValidationServiceProxy.IsAcceptableContentAsync(string title, string problem,
         string solution)
@@ -37,7 +40,7 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
 
     private async Task<GeminiResponse> SendRequest(string prompt)
     {
-        var url = configuration["GeminiApiURL"]+evaluationSecrets.Value.GeminiApiKey;
+        var url = configuration["GeminiApiURL"] + evaluationSecrets.Value.GeminiApiKey;
         var theContent = new StringContent($"{{\"contents\":[{{\"parts\":[{{\"text\":\"{prompt}\"}}]}}]}}",
             Encoding.UTF8, "application/json");
 
@@ -56,7 +59,9 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
                new GeminiResponse(false, "Invalid response");
     }
 
-    private IEnumerable<string> GetDefaultGuideLines() =>
+    private IEnumerable<string> GetDefaultGuideLines()
+    {
+        return
         [
             "Indholdet må ikke indeholde bandeord.",
             "Indholdet må ikke henvise eller opfordre til nogen voldshandlinger.",
@@ -67,29 +72,38 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
             "Indholdet skal være specifikt og undgå generaliseringer.",
             "Indholdet skal være relevant for skolearbejde og undervisning. Feedback må ikke handle om personlige emner, byttehandler eller andre irrelevante ting."
         ];
+    }
 
-    private IEnumerable<string> GetFeedbackSpecificGuideLines() =>
+    private IEnumerable<string> GetFeedbackSpecificGuideLines()
+    {
+        return
         [
             "Indholdet skal være konstruktiv feedback. Det betyder, at det skal beskrive et problem og en løsning på dette problem. Det skal være lovligt at skrive man ingen løsning har på problemet."
         ];
+    }
 
-    private IEnumerable<string> GetCommentSpecificGuideLines() =>
+    private IEnumerable<string> GetCommentSpecificGuideLines()
+    {
+        return
         [
         ];
-    
-    private string GetDefaultPrompt() =>
-            "Din opgave er at validere følgende indhold: " +
-            "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i en kodeblok og brug ikke markdown." +
-            "'Valid' skal være sandt, hvis indholdet følger retningslinjerne, og falsk, hvis indholdet ikke følger retningslinjerne " +
-            "'Reason' skal specificere, hvorfor 'Valid' er sat til falsk. Dette skal gøres i maksimalt 10 ord. Hvis 'Valid' er sandt, skal 'Reason' være tom " +
-            "I din validering skal du følge mindst disse retningslinjer:";
+    }
+
+    private string GetDefaultPrompt()
+    {
+        return "Din opgave er at validere følgende indhold: " +
+               "Dit svar skal være i JSON-format som følger: { Valid: 'boolean', Reason: 'string' } Formatter ikke svaret i en kodeblok og brug ikke markdown." +
+               "'Valid' skal være sandt, hvis indholdet følger retningslinjerne, og falsk, hvis indholdet ikke følger retningslinjerne " +
+               "'Reason' skal specificere, hvorfor 'Valid' er sat til falsk. Dette skal gøres i maksimalt 10 ord. Hvis 'Valid' er sandt, skal 'Reason' være tom " +
+               "I din validering skal du følge mindst disse retningslinjer:";
+    }
 
     private string InsertGuildeLines(string currentPrompt, IEnumerable<string> defaultGuideLines,
         IEnumerable<string> specificGuideLines)
     {
         var prompt = currentPrompt;
         var guidelineCounter = 1;
-        
+
         prompt = defaultGuideLines.Aggregate(prompt,
             (current, guideLine) => current + $" Retningslinje {guidelineCounter++} -> " + guideLine);
 
@@ -98,5 +112,4 @@ public class ValidationServiceProxy(IConfiguration configuration, HttpClient htt
 
         return prompt;
     }
-
 }

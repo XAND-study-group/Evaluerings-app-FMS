@@ -15,9 +15,9 @@ public class UpdateRoom : IEndpoint
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
         app.MapPut(configuration["Routes:FeedbackModule:Room:UpdateRoom"] ??
-                throw new Exception("Route is not added to config file"),
-            async ([FromBody] UpdateRoomRequest updateRoomRequest, [FromServices] IMediator mediator) =>
-            (await mediator.Send(new UpdateRoomCommand(updateRoomRequest))).ReturnHttpResult())
+                   throw new Exception("Route is not added to config file"),
+                async ([FromBody] UpdateRoomRequest updateRoomRequest, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new UpdateRoomCommand(updateRoomRequest))).ReturnHttpResult())
             .WithTags("Room")
             .RequireAuthorization("RoomManagement");
     }

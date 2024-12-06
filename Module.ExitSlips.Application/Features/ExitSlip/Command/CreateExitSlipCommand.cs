@@ -3,19 +3,17 @@ using Module.ExitSlip.Application.Abstractions;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Command;
 
-public record CreateExitSlipCommand(CreateExitSlipRequest CreateExitSlipRequest) : IRequest<Result<bool>>, ITransactionalCommand;
+public record CreateExitSlipCommand(CreateExitSlipRequest CreateExitSlipRequest)
+    : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) : IRequestHandler<CreateExitSlipCommand, Result<bool>>
+public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) :
+    IRequestHandler<CreateExitSlipCommand, Result<bool>>
 {
-    async Task<Result<bool>> IRequestHandler<CreateExitSlipCommand, Result<bool>>.Handle(CreateExitSlipCommand request, CancellationToken cancellationToken)
+    async Task<Result<bool>> IRequestHandler<CreateExitSlipCommand, Result<bool>>
+        .Handle(CreateExitSlipCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -23,7 +21,8 @@ public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository
             var createExitSlip = request.CreateExitSlipRequest;
 
             // Do
-            var exitSlip = Domain.Entities.ExitSlip.Create(createExitSlip.SubjectId, createExitSlip.LectureId, createExitSlip.Title,
+            var exitSlip = Domain.Entities.ExitSlip.Create(createExitSlip.SubjectId, createExitSlip.LectureId,
+                createExitSlip.Title,
                 createExitSlip.MaxQuestionCount, createExitSlip.ActiveStatus);
 
             // Save 
@@ -35,7 +34,5 @@ public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository
             return Result<bool>.Create(e.Message, false, ResultStatus.Error);
             throw;
         }
-
-
     }
 }

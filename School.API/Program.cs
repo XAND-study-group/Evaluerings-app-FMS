@@ -1,13 +1,12 @@
-using Microsoft.AspNetCore.RateLimiting;
 using System.Text;
 using System.Threading.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using School.API;
 using School.API.Extensions;
-using School.API.Helper;
+using School.Infrastructure.Mapping;
+using SharedKernel.Interfaces.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +27,10 @@ builder.Services.AddAuthorizationWithPolicies();
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 
+builder.Services.AddAutoMapper(
+    typeof(MappingProfileSchool).Assembly
+);
+
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddMemoryCache();
@@ -38,6 +41,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddMediatRModules();
+// builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -49,35 +53,26 @@ builder.Services.AddSchool(builder.Configuration);
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-    
+
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            factory: _ => new FixedWindowRateLimiterOptions
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
             {
                 AutoReplenishment = true,
-                PermitLimit = 50,     // 50 requests per student per window
-                QueueLimit = 10,       // Allow some queuing for network issues
+                PermitLimit = 50, // 50 requests per student per window
+                QueueLimit = 10, // Allow some queuing for network issues
                 Window = TimeSpan.FromHours(1) // Reset every hour
             }));
-    
+
     options.AddPolicy("LowFrequencyEndpoint", httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            factory: _ => new FixedWindowRateLimiterOptions
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
             {
                 PermitLimit = 5,
                 Window = TimeSpan.FromMinutes(15)
             }));
-});
-
-builder.Services.AddRateLimiter(rateLimiterOptions =>
-{
-    rateLimiterOptions.AddFixedWindowLimiter(policyName: "baseLimit", options =>
-    {
-        options.PermitLimit = 5;
-        options.Window = TimeSpan.FromMinutes(10);
-    });
 });
 
 var app = builder.Build();
@@ -94,6 +89,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Enable request body buffering 
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -122,8 +124,8 @@ app.Run();
 
 namespace School.API
 {
-    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
     {
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public int TemperatureF => 32 + (int) (TemperatureC / 0.5556);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
-using SharedKernel.ValueObjects;
 
 namespace Module.ExitSlip.Infrastructure.DbContexts;
 
@@ -15,7 +14,10 @@ public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : Db
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("ExitSlipModule");
+
         #region User OnModelCreating Configuration
+
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
             .Property(e => e.Id)
             .ValueGeneratedOnAdd();
@@ -24,23 +26,16 @@ public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : Db
             .Property(e => e.RowVersion)
             .IsRowVersion();
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
-          .Property(e => e.SubjectId);
+            .Property(e => e.SubjectId);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
-        .Property(e => e.LectureId);
+            .Property(e => e.LectureId);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
             .ComplexProperty(e => e.Title);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
             .ComplexProperty(e => e.MaxQuestionCount);
         modelBuilder.Entity<Domain.Entities.ExitSlip>()
-           .ComplexProperty(e => e.ActiveStatus);
+            .ComplexProperty(e => e.ActiveStatus);
 
         #endregion
     }
 }
-
-
-
-
-
-
-

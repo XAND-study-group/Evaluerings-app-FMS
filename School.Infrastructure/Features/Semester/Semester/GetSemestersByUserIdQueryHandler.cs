@@ -9,21 +9,22 @@ using SharedKernel.Models;
 
 namespace School.Infrastructure.Features.Semester.Semester;
 
-public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>
+public class
+    GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery,
+    Result<IEnumerable<GetSimpleSemesterResponse>>>
 {
     private readonly SchoolDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetSemestersByUserIdQueryHandler(SchoolDbContext dbContext)
+    public GetSemestersByUserIdQueryHandler(SchoolDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Entities.Semester, GetSimpleSemesterResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
-    async Task<Result<IEnumerable<GetSimpleSemesterResponse>>> IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>.Handle(GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
+    async Task<Result<IEnumerable<GetSimpleSemesterResponse>>>
+        IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>.Handle(
+            GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
     {
         try
         {

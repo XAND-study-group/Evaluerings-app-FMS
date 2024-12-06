@@ -14,15 +14,15 @@ public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, Result<
     private readonly SchoolDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetSemesterQueryHandler(SchoolDbContext dbContext)
+    public GetSemesterQueryHandler(SchoolDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
-        _mapper = new MapperConfiguration(cfg => { cfg.CreateMap<Domain.Entities.Semester, GetDetailedSemesterResponse>(); })
-            .CreateMapper();
+        _mapper = mapper;
     }
 
-    async Task<Result<GetDetailedSemesterResponse?>> IRequestHandler<GetSemesterQuery, Result<GetDetailedSemesterResponse?>>.Handle(
-        GetSemesterQuery request, CancellationToken cancellationToken)
+    async Task<Result<GetDetailedSemesterResponse?>>
+        IRequestHandler<GetSemesterQuery, Result<GetDetailedSemesterResponse?>>.Handle(
+            GetSemesterQuery request, CancellationToken cancellationToken)
     {
         try
         {

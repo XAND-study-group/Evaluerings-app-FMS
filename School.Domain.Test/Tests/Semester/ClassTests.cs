@@ -1,4 +1,5 @@
-﻿using School.Domain.Test.Fakes.Semester;
+﻿using School.Domain.Entities;
+using School.Domain.Test.Fakes.Semester;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -15,7 +16,7 @@ public class ClassTests
     public void Given_Valid_Data_Then_Class_Created(string name, string description, int studentCapacity)
     {
         // Act
-        var classSut = Entities.Class.Create(name, description, studentCapacity, []);
+        var classSut = Class.Create(name, description, studentCapacity, []);
 
         // Assert
         Assert.NotNull(classSut);
@@ -168,7 +169,9 @@ public class ClassTests
     }
 
     private static IEnumerable<FakeClass> OtherClassesNameNotUnique()
-        => new FakeClass[] { new FakeClass("NotUnique") };
+    {
+        return new[] {new FakeClass("NotUnique")};
+    }
 
     #endregion
 }

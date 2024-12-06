@@ -1,11 +1,7 @@
 ﻿namespace School.Domain.ValueObjects;
 
-
 public record EducationRange
 {
-    public DateOnly Start { get; protected set; }
-    public DateOnly End { get; protected set; }
-
     private EducationRange(DateOnly start, DateOnly end)
     {
         var now = DateOnly.FromDateTime(DateTime.Now);
@@ -15,8 +11,13 @@ public record EducationRange
         End = end;
     }
 
+    public DateOnly Start { get; protected set; }
+    public DateOnly End { get; protected set; }
+
     public static EducationRange Create(DateOnly start, DateOnly end)
-        => new EducationRange(start, end);
+    {
+        return new EducationRange(start, end);
+    }
 
     private void Validate(DateOnly start, DateOnly end, DateOnly now)
     {

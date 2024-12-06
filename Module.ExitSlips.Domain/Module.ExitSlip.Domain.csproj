@@ -1,20 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
-    <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
-    <ProjectReference Include="..\SharedKernel.Models\SharedKernel.Models.csproj" />
-    <ProjectReference Include="..\SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj"/>
+        <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj"/>
+        <ProjectReference Include="..\SharedKernel.Models\SharedKernel.Models.csproj"/>
+        <ProjectReference Include="..\SharedKernel.ValueObjects\SharedKernel.ValueObjects.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Extensions\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+    </ItemGroup>
 
 </Project>
