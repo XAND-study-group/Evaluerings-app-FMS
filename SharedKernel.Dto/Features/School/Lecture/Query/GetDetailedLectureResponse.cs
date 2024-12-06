@@ -1,4 +1,5 @@
 ﻿using SharedKernel.Dto.Features.School.User.Query;
+using SharedKernel.Dto.Features.School.ValueObjects;
 
 namespace SharedKernel.Dto.Features.School.Lecture.Query;
 
@@ -7,9 +8,7 @@ public record GetDetailedLectureResponse(
     byte[] RowVersion,
     string Title,
     string Description,
-    TimeOnly FromTime,
-    TimeOnly ToTime,
-    TimeSpan Duration,
+    TimePeriodResponse TimePeriod,
     DateOnly LectureDate,
     string ClassRoom,
     IEnumerable<GetSimpleUserResponse> Teachers);

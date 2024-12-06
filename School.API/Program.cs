@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using School.API;
 using School.API.Extensions;
-using School.Infrastructure.Mapping;
+using School.Infrastructure.Mapper;
 using SharedKernel.Interfaces.Helper;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using School.Infrastructure.Mapping;
+using School.Infrastructure.Mapper;
 
 namespace School.Domain.Test.Tests;
 
