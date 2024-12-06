@@ -97,7 +97,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region AnswerHandling
 
-        public Answer AddAnswer(Guid userId, Guid questionId, string text)
+        public Answer AddAnswerToQuestion(Guid userId, Guid questionId, string text)
         {
             AssureExitSlipActive();
 
@@ -107,7 +107,7 @@ namespace Module.ExitSlip.Domain.Entities
             return answer;
         }
 
-        public Answer UpdateAnswer(Guid questionId, Guid answerId, string newText)
+        public Answer UpdateAnswerOnQuestion(Guid questionId, Guid answerId, string newText)
         {
             AssureExitSlipActive();
 

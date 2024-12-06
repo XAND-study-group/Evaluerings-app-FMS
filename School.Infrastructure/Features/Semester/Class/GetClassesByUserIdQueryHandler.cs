@@ -14,13 +14,10 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
     private readonly SchoolDbContext _semesterDbContext;
     private readonly IMapper _mapper;
 
-    public GetClassesByUserIdQueryHandler(SchoolDbContext semesterDbContext)
+    public GetClassesByUserIdQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
     {
         _semesterDbContext = semesterDbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Entities.Class, GetSimpleClassResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
 

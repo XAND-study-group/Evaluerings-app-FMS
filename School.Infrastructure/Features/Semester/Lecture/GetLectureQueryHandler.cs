@@ -14,14 +14,10 @@ public class GetLectureQueryHandler : IRequestHandler<GetLectureQuery, Result<Ge
     private readonly SchoolDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetLectureQueryHandler(SchoolDbContext dbContext)
+    public GetLectureQueryHandler(SchoolDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
-        _mapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Domain.Entities.Lecture, GetDetailedLectureResponse>();
-            cfg.CreateMap<Domain.Entities.User, GetLectureUserResponse>();
-        }).CreateMapper();
+        _mapper = mapper;
     }
 
     async Task<Result<GetDetailedLectureResponse?>> IRequestHandler<GetLectureQuery, Result<GetDetailedLectureResponse?>>.Handle(GetLectureQuery request,

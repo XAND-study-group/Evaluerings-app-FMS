@@ -1,6 +1,4 @@
-﻿using SharedKernel.Dto.Features.Evaluering.Room.Query;
-
-namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
+﻿namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 
 public record GetAllFeedbacksResponse(
     Guid Id,

@@ -17,8 +17,7 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
         public GetAllExitSlipsForSubjectQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            { cfg.CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>(); }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<IEnumerable<GetSimpleExitSlipsResponse?>>>
@@ -31,7 +30,7 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
                     .AsNoTracking()
                     .Where(e => e.SubjectId == request.subjectId)
                     .ProjectTo<GetSimpleExitSlipsResponse>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
 
                 return Result<IEnumerable<GetSimpleExitSlipsResponse?>>.Create("ExitSlip fundet", response, ResultStatus.Success);
             }

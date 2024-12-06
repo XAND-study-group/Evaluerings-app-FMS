@@ -1,7 +1,6 @@
 ﻿namespace SharedKernel.Dto.Features.School.Authentication.Command;
 
 public record ChangePasswordRequest(
-    Guid AccountLoginId,
+    Guid UserId,
     string NewPassword,
-    string Code,
-    byte[] RpwVersion);
+    byte[] RowVersion);

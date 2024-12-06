@@ -17,8 +17,7 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
         public GetAllExitSlipsQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            { cfg.CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>(); }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<IEnumerable<GetSimpleExitSlipsResponse?>>> IRequestHandler<GetAllExitSlipsQuery, Result<IEnumerable<GetSimpleExitSlipsResponse?>>>.Handle(GetAllExitSlipsQuery request, CancellationToken cancellationToken)

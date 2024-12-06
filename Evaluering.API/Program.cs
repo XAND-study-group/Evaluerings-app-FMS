@@ -1,13 +1,30 @@
+using System.Text;
 using Evaluering.API;
-using MediatR;
 using Evaluering.API.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Module.Feedback;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
 using Module.Feedback.Infrastructure.Options;
-using School.API.Helper;
+using SharedKernel.Interfaces.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+    {
+        o.RequireHttpsMetadata = false;
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"])),
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 builder.Services.AddAuthorizationWithPolicies();
 // Add services to the container.
@@ -16,7 +33,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatRModules();
-builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
+builder.Services.AddEndpoints(AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 

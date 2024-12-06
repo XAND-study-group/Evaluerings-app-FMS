@@ -54,17 +54,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.ExitSlip.Infrastruct
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B4997CDC-6B90-4B35-8C7D-74F758484B7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.Application", "School.Application\School.Application.csproj", "{7AF99363-C59F-4946-A890-402EB4129D6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Application", "School.Application\School.Application.csproj", "{7AF99363-C59F-4946-A890-402EB4129D6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.Domain", "School.Domain\School.Domain.csproj", "{799A2651-DC75-4A52-818D-4D4E80C8FD41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Domain", "School.Domain\School.Domain.csproj", "{799A2651-DC75-4A52-818D-4D4E80C8FD41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.Infrastructure", "School.Infrastructure\School.Infrastructure.csproj", "{104C7D7B-9218-4156-A5E7-389843A159F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Infrastructure", "School.Infrastructure\School.Infrastructure.csproj", "{104C7D7B-9218-4156-A5E7-389843A159F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.Domain.Test", "School.Domain.Test\School.Domain.Test.csproj", "{4F8FCF28-2698-4CAE-B0EB-D3C6F14D4577}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Domain.Test", "School.Domain.Test\School.Domain.Test.csproj", "{4F8FCF28-2698-4CAE-B0EB-D3C6F14D4577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.ExitSlip.Domain.Test", "Module.ExitSlip.Domain.Test\Module.ExitSlip.Domain.Test.csproj", "{94B0152F-CA6B-4BA5-87B5-6D8831D8FBA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.ExitSlip.Domain.Test", "Module.ExitSlip.Domain.Test\Module.ExitSlip.Domain.Test.csproj", "{94B0152F-CA6B-4BA5-87B5-6D8831D8FBA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "School.API", "School.API\School.API.csproj", "{F39BC8DF-4289-4AB2-92AA-7057BC48ED33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{CEF5141A-A02B-46B4-AE59-F8C06F959A08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evaluation.Web", "Evaluation.Web\Evaluation.Web.csproj", "{7EF00A67-25B0-41C0-BC88-0268F4D6D0E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReverseProxy", "ReverseProxy", "{7045425B-0A0B-40A2-9181-CBB049058AFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReverseProxy.API", "ReverseProxy.API\ReverseProxy.API.csproj", "{4096C49B-01B6-4C18-89F3-DD2BA7EC2299}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -160,6 +168,14 @@ Global
 		{F39BC8DF-4289-4AB2-92AA-7057BC48ED33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F39BC8DF-4289-4AB2-92AA-7057BC48ED33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F39BC8DF-4289-4AB2-92AA-7057BC48ED33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF00A67-25B0-41C0-BC88-0268F4D6D0E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF00A67-25B0-41C0-BC88-0268F4D6D0E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF00A67-25B0-41C0-BC88-0268F4D6D0E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF00A67-25B0-41C0-BC88-0268F4D6D0E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4096C49B-01B6-4C18-89F3-DD2BA7EC2299}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4096C49B-01B6-4C18-89F3-DD2BA7EC2299}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4096C49B-01B6-4C18-89F3-DD2BA7EC2299}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4096C49B-01B6-4C18-89F3-DD2BA7EC2299}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,6 +206,8 @@ Global
 		{4F8FCF28-2698-4CAE-B0EB-D3C6F14D4577} = {5A472689-1566-4FDF-B5AF-F0056F82D7AD}
 		{94B0152F-CA6B-4BA5-87B5-6D8831D8FBA4} = {AA18B1CA-5A1B-4F41-8F76-7D68A9E20324}
 		{F39BC8DF-4289-4AB2-92AA-7057BC48ED33} = {5A472689-1566-4FDF-B5AF-F0056F82D7AD}
+		{7EF00A67-25B0-41C0-BC88-0268F4D6D0E3} = {CEF5141A-A02B-46B4-AE59-F8C06F959A08}
+		{4096C49B-01B6-4C18-89F3-DD2BA7EC2299} = {7045425B-0A0B-40A2-9181-CBB049058AFF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		{561377D1-8E58-4D06-BCE2-1FA16F3F7381} = {7DE2A09E-F545-4D71-9611-533C84BDB837}

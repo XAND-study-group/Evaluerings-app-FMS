@@ -4,11 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Infrastructure.DbContexts;
 using Module.ExitSlip.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Infrastructure.Extensions
 {
@@ -18,19 +13,19 @@ namespace Module.ExitSlip.Infrastructure.Extensions
             IConfiguration configuration)
         {
             serviceCollection.AddDbContext<IExitSlipDbContext, ExitSlipDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-            optionsBuilder =>
-            {
-                optionsBuilder.MigrationsAssembly("Module.ExitSlip.Infrastructure");
-                optionsBuilder.EnableRetryOnFailure();
-            }));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                    optionsBuilder =>
+                    {
+                        optionsBuilder.MigrationsAssembly("Module.ExitSlip.Infrastructure");
+                    }));
 
             serviceCollection.AddScoped<IExitSlipRepository, ExitSlipRepository>();
             serviceCollection.AddScoped<IQuestionRepository, QuestionRepository>();
             serviceCollection.AddScoped<IAnswerRepository, AnswerRepository>();
 
+            serviceCollection.AddAutoMapper(typeof(MappingProfileExitSlip));
+            serviceCollection.AddScoped<IUnitOfWork, UnitOfWork<ExitSlipDbContext>>();
             return serviceCollection;
         }
-
     }
 }

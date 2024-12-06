@@ -1,6 +1,8 @@
-﻿namespace School.Domain.Test.Fakes.Semester;
+﻿using School.Domain.Entities;
 
-public class FakeClass : Entities.Class
+namespace School.Domain.Test.Fakes.Semester;
+
+public class FakeClass : Class
 {
     #region Constructors
 

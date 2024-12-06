@@ -14,8 +14,8 @@ public class UnsubscribeFromRoomNotification : IEndpoint
 {
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        app.MapPut(configuration["Routes:FeedbackModule:Room:UnsubscribeToRoomNotificaiton"] ??
-                   throw new Exception("Rute ikke tilføjet til config fil"), async (
+        app.MapPut(configuration["Routes:FeedbackModule:Room:UnsubscribeToRoomNotification"] ??
+                   throw new Exception("Rute ikke tilføjet til konfig fil"), async (
                     [FromBody] UnsubscribeToRoomNotificationRequest request, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new UnsubscribeFromRoomNotificationCommand(request))).ReturnHttpResult())
             .WithTags("Room")

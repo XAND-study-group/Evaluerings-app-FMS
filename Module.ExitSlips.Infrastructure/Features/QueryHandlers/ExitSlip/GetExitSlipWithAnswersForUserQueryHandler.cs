@@ -4,9 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Features.ExitSlip.Query;
 using Module.ExitSlip.Infrastructure.DbContexts;
-using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
-using SharedKernel.Dto.Features.Evaluering.Question.Query;
 using SharedKernel.Models;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
@@ -18,15 +16,10 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
         private readonly ExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
 
-        public GetExitSlipWithAnswersForUserQueryHandler(ExitSlipDbContext exitSlipDbContext)
+        public GetExitSlipWithAnswersForUserQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.ExitSlip, GetExitSlipWithAnswersResponse>();
-                cfg.CreateMap<Domain.Entities.Question, GetDetailsQuestionsResponse>();
-                cfg.CreateMap<Domain.Entities.Answer, GetSimpleAnswerResponse>();
-            }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<GetExitSlipWithAnswersResponse>> IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipWithAnswersResponse>>
@@ -40,7 +33,7 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
                     .Include(e => e.Questions)
                     .ThenInclude(q => q.Answers.Where(a => a.UserId == request.userId))
                     .ProjectTo<GetExitSlipWithAnswersResponse>(_mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync() ??
+                    .FirstOrDefaultAsync(cancellationToken: cancellationToken) ??
                     throw new ArgumentException("Kunne ikke finde ExitSlip for denne bruger");
 
                 return Result<GetExitSlipWithAnswersResponse>.Create("ExitSLip er fundet", response, ResultStatus.Success);

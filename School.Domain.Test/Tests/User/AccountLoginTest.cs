@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Moq;
-using School.Domain.DomainServices.Interfaces;
-using School.Domain.Entities;
+﻿using Moq;
 using SharedKernel.Enums.Features.Authentication;
 using Xunit;
 using Assert = Xunit.Assert;
@@ -16,11 +13,10 @@ public class AccountLoginTest
     {
         // Arrange
         var email = "test@example.com";
-        var passwordHasherMock = new Mock<IPasswordHasher>();
 
         // Act & Assert
         var exception = Assert.Throws<ArgumentException>(() => Entities.User.Create(It.IsAny<string>(),
-            It.IsAny<string>(), email, password, It.IsAny<Role>(), [], passwordHasherMock.Object));
+            It.IsAny<string>(), email, password, It.IsAny<Role>(), []));
         Assert.Equal(expectedMessage, exception.Message);
     }
 
@@ -29,12 +25,10 @@ public class AccountLoginTest
     public void Create_ShouldNotThrowExceptions_WhenValidDataIsGiven(string email, string password)
     {
         // Arrange
-        var passwordHasherMock = new Mock<IPasswordHasher>();
-        passwordHasherMock.Setup(mock => mock.Hash(It.IsAny<string>())).Returns(It.IsAny<string>());
 
         // Act & Assert
         Assert.NotNull(Entities.User.Create("Xabur", "Andreasen", email, password, It.IsAny<Role>(),
-            [], passwordHasherMock.Object));
+            []));
     }
 
     #region MemberData

@@ -6,7 +6,7 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.Answer.Command;
 
-public record CreateAnswerCommand(CreateAnswerRequest createAnswerRequest) : IRequest<Result<bool>>, ITransactionalCommand;
+public record CreateAnswerCommand(CreateAnswerRequest CreateAnswerRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class CreateAnswerCommandHandler(IAnswerRepository answerRepository) :
     IRequestHandler<CreateAnswerCommand, Result<bool>>
@@ -17,7 +17,7 @@ public class CreateAnswerCommandHandler(IAnswerRepository answerRepository) :
         try
         {
             // Load
-            var createAnswerRequest = request.createAnswerRequest;
+            var createAnswerRequest = request.CreateAnswerRequest;
             var exitSlip = await answerRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(createAnswerRequest.ExitSlipId);
 
             // Do

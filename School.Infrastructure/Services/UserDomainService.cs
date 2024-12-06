@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using School.Domain.DomainServices.Interfaces;
+﻿using School.Domain.DomainServices.Interfaces;
 using School.Infrastructure.DbContext;
 
 namespace School.Infrastructure.Services;

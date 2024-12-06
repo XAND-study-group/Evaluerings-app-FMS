@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Moq;
+﻿using Moq;
 using School.Domain.DomainServices.Interfaces;
 using School.Domain.Test.Fakes.User;
 using SharedKernel.Enums.Features.Authentication;
@@ -23,10 +22,6 @@ namespace School.Domain.Test.Tests.User
             domainServiceMock.Setup(mock => mock.DoesUserEmailExist(It.IsAny<string>()))
                 .Returns(false);
 
-            var passwordHasherMock = new Mock<IPasswordHasher>();
-            passwordHasherMock.Setup(mock => mock.Hash(password))
-                .Returns(It.IsAny<string>());
-
             var accountClaimRepositoryMock = new Mock<IAccountClaimRepository>();
             accountClaimRepositoryMock
                 .Setup(mock => mock.CreateClaimForRoleAsync(It.IsAny<Entities.User>(), It.IsAny<Role>()))
@@ -34,7 +29,7 @@ namespace School.Domain.Test.Tests.User
 
             // Act
             var user = await Entities.User.CreateAsync(firstname, lastname, email, password, It.IsAny<Role>(),
-                domainServiceMock.Object, passwordHasherMock.Object, accountClaimRepositoryMock.Object);
+                domainServiceMock.Object, accountClaimRepositoryMock.Object);
 
             // Assert
             Assert.NotNull(user);
@@ -136,7 +131,7 @@ namespace School.Domain.Test.Tests.User
             var sut = new FakeUser(firstname, lastname, email);
 
             // Act & Assert
-            Assert.NotNull(() => sut.SetRefreshToken(It.IsAny<string>(), expirationDate));
+            Assert.NotNull(() => sut.AddRefreshToken(It.IsAny<string>(), expirationDate));
         }
 
         [Theory]
@@ -149,7 +144,7 @@ namespace School.Domain.Test.Tests.User
 
             // Act & Assert
             Assert.Throws<ArgumentException>(() =>
-                sut.SetRefreshToken(It.IsAny<string>(), DateTime.Now.AddDays(-daysInPast)));
+                sut.AddRefreshToken(It.IsAny<string>(), DateTime.Now.AddDays(-daysInPast)));
         }
 
         #endregion

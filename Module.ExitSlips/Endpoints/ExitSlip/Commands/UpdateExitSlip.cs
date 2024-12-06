@@ -7,11 +7,6 @@ using Module.ExitSlip.Application.Features.ExitSlip.Command;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Endpoints.ExitSlip.Commands
 {

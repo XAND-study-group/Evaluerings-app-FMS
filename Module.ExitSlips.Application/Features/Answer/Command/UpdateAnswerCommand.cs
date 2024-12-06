@@ -21,7 +21,7 @@ public class UpdateAnswerCommandHandler(IAnswerRepository answerRepository) :
             var exitSlip = await answerRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(updateAnswerRequest.ExitSlipId);
 
             // Do
-            var answer = exitSlip.UpdateAnswer(updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
+            var answer = exitSlip.UpdateAnswerOnQuestion(updateAnswerRequest.QuestionId, updateAnswerRequest.AnswerId, updateAnswerRequest.Text);
 
             // Save
             await answerRepository.UpdateAnswerAsync(answer, updateAnswerRequest.RowVersion);

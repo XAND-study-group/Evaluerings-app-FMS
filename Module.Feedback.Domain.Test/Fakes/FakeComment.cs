@@ -8,4 +8,5 @@ public class FakeComment : Comment
 
     public void SetCommentText(string commentText)
         => CommentText = commentText;
+
 }

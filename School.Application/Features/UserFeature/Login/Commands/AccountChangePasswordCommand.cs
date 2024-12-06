@@ -1,49 +1,48 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Caching.Memory;
 using School.Application.Abstractions.User;
-using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
-using SharedKernel.Interfaces;
 using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.Login.Commands;
 
-public record AccountChangePasswordCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
+public record AccountChangePasswordCommand(ChangePasswordRequest Request) : IRequest<Result<bool>>;
 
-public class AccountChangePasswordCommandHandler(
-    IUserRepository userRepository,
-    IPasswordHasher passwordHasher,
-    IMemoryCache memoryCache) : IRequestHandler<AccountChangePasswordCommand, Result<bool>>
+public class AccountChangePasswordCommandHandler(IUserRepository userRepository) : IRequestHandler<AccountChangePasswordCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(AccountChangePasswordCommand request, CancellationToken cancellationToken)
     {
         try
         {
             var changePasswordRequest = request.Request;
-
-            var user =
-                await userRepository.GetUserByIdAsync(changePasswordRequest.AccountLoginId);
-            
+            // var httpContext = httpContextAccessor.HttpContext;
+            //
+            // if (httpContext is null)
+            //     throw new Exception();
+            //
+            // var value = httpContext?.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
+            // var sid = Guid.Parse(value);
+            // var role = httpContext?.User.FindFirst("Role")?.Value ?? string.Empty;
+            //
+            // if (sid != changePasswordRequest.UserId && role != "Admin")
+            //     return Result<bool>.Create("Du prøver at ændre adgangskoden på en anden profil", false, ResultStatus.Error);
+        
+            // Get
+            var user = await userRepository.GetUserByIdAsync(changePasswordRequest.UserId);
+        
+            // Do
             if (user is null)
                 return Result<bool>.Create("Brugeren eksistere ikke", false, ResultStatus.Error);
+        
+            user.ChangePassword(changePasswordRequest.NewPassword);
+        
+            // Save
+            await userRepository.ChangeUserPasswordAsync(user, changePasswordRequest.rowVersion);
             
-            // TODO: Update so code is given as key to get userId & move to top
-            var code = memoryCache.Get(changePasswordRequest.AccountLoginId) as string;
-            
-            if (code == null || code != changePasswordRequest.Code)
-                return Result<bool>.Create("Du kan ikke ændre adgangskoden lige nu", false, ResultStatus.Error);
-            
-            memoryCache.Remove(changePasswordRequest.AccountLoginId);
-            
-            user.ChangePassword(changePasswordRequest.NewPassword, passwordHasher);
-
-            await userRepository.ChangeUserPasswordAsync();
-
-            return Result<bool>.Create("Adgangskode er blevet ændret", true, ResultStatus.Success);
+            return Result<bool>.Create("Adgangskoden er blevet ændre", true, ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<bool>.Create(e.Message, false, ResultStatus.Error);
+            return Result<bool>.Create("Der skete en fejl", false, ResultStatus.Error);
         }
     }
 }

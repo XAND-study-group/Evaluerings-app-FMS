@@ -22,27 +22,39 @@ namespace School.Infrastructure.Repositories.User
             => await dbContext.Users.ToListAsync();
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByIdAsync(Guid id)
-            => await dbContext.Users.SingleAsync(u => u.Id == id);
+            => await dbContext.Users
+                .Include(user => user.RefreshTokens)
+                .Include(user => user.AccountClaims)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByEmailAsync(string email)
-            => await dbContext.Users.Include(user => user.AccountClaims).FirstOrDefaultAsync(user => user.Email.Value == email);
+            => await dbContext.Users
+                .Include(user => user.AccountClaims)
+                .FirstOrDefaultAsync(user => user.Email.Value == email);
 
         async Task<Domain.Entities.User?> IUserRepository.GetUserByRefreshTokenAsync(string refreshToken)
-            => await dbContext.Users.Include(user => user.AccountClaims)
-                .FirstOrDefaultAsync(user => user.RefreshToken.Token == refreshToken);
+            => await dbContext.Users
+                .Include(user => user.AccountClaims)
+                .FirstOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == refreshToken));
 
-        async Task IUserRepository.SetUserRefreshTokenAsync(Domain.Entities.User user)
+        async Task IUserRepository.AddUserRefreshTokenAsync(Domain.Entities.User user)
         {
             await dbContext.SaveChangesAsync();
         }
 
-        async Task IUserRepository.ChangeUserPasswordAsync()
+        async Task IUserRepository.ChangeUserPasswordAsync(Domain.Entities.User user, byte[] rowVersion)
         {
-            // TODO: Reset refresh token
+            user.ResetRefreshToken();
+            dbContext.Entry(user).Property(nameof(user.RowVersion)).OriginalValue = rowVersion;
             await dbContext.SaveChangesAsync();
         }
 
         async Task<bool> IUserRepository.DoesUserEmailExistAsync(string createRequestEmail)
             => await dbContext.Users.AnyAsync(user => user.Email.Value == createRequestEmail);
+
+        public async Task SignOutUserAsync()
+        {
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

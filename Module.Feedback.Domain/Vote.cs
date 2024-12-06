@@ -1,5 +1,4 @@
-﻿using Module.Feedback.Domain.DomainServices.Interfaces;
-using Module.Feedback.Domain.ValueObjects;
+﻿using Module.Feedback.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Vote;
 
 namespace Module.Feedback.Domain;
@@ -8,7 +7,7 @@ public class Vote : Entity
 {
     #region Properties
 
-    public HashedId HashedUserId { get; protected set; }
+    public HashedUserId HashedUserId { get; protected set; }
     public VoteScale VoteScale { get; protected set; }
 
     #endregion Properties
@@ -19,7 +18,7 @@ public class Vote : Entity
     {
     }
 
-    private Vote(HashedId hashedUserId, VoteScale voteScale)
+    private Vote(HashedUserId hashedUserId, VoteScale voteScale)
     {
         HashedUserId = hashedUserId;
         VoteScale = voteScale;

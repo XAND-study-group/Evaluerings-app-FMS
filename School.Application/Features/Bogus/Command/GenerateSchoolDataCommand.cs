@@ -17,7 +17,6 @@ public class GenerateSchoolDataCommandHandler(
     IUserRepository userRepository,
     ISemesterRepository semesterRepository,
     IAccountClaimRepository accountClaimRepository,
-    IPasswordHasher passwordHasher,
     IUserDomainService userDomainService) : IRequestHandler<GenerateSchoolDataCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(GenerateSchoolDataCommand request, CancellationToken cancellationToken)
@@ -116,7 +115,6 @@ public class GenerateSchoolDataCommandHandler(
                         "Password123.",
                         f.PickRandom(roles),
                         userDomainService,
-                        passwordHasher,
                         accountClaimRepository).Result).UseSeed(420);
 
             var subjectFake = new Faker<Subject>()
@@ -167,7 +165,6 @@ public class GenerateSchoolDataCommandHandler(
                         "Password123.",
                         Role.Admin,
                         userDomainService,
-                        passwordHasher,
                         accountClaimRepository).Result).UseSeed(50);
 
             await semesterRepository.CreateSemestersAsync(semesterFake.GenerateLazy(2));

@@ -1,12 +1,7 @@
-﻿using Module.ExitSlip.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Infrastructure.DbContexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Module.ExitSlip.Infrastructure.Repositories;
 

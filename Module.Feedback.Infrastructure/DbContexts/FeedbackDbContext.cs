@@ -9,10 +9,12 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Domain.Feedback> Feedbacks { get; set; }
     public DbSet<Comment> Comments { get; set; }
-    public DbSet<Vote> Votes { get; set; }
+    public DbSet<Vote> Votes { set; get; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("FeedbackModule");
+        
         #region Room OnModelCreating Configuration
 
         modelBuilder.Entity<Room>()
@@ -45,8 +47,13 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
         modelBuilder.Entity<Domain.Feedback>()
             .ComplexProperty(f => f.HashedUserId);
         modelBuilder.Entity<Domain.Feedback>()
-            .Property(f => f.Created)
-            .ValueGeneratedOnAdd();
+            .HasMany(f => f.Comments)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Domain.Feedback>()
+            .HasMany(f => f.Votes)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
 
         #endregion Feedback OnModelCreating Configuration
 

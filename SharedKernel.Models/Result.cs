@@ -12,6 +12,9 @@ public class Result<TResult>
         SuccessResult = successResult;
         Status = status;
     }
+    
+    // Had to make a public Constructor to be able to Deserialize a JSON String into the Entity
+    public Result(){}
 
     public static Result<TResult> Create(string message, TResult successResult, ResultStatus status) =>
         new(message, successResult, status);

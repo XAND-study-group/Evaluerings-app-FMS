@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
+using School.Application.Abstractions.Semester;
 using School.Application.Abstractions.User;
 using School.Domain.DomainServices.Interfaces;
 using SharedKernel.Dto.Features.School.Authentication.Command;
@@ -13,6 +14,7 @@ public record AccountRefreshTokenCommand(TokenRequest Request) : IRequest<Result
 public class AccountRefreshTokenCommandHandler(
     ITokenProvider tokenProvider,
     IUserRepository userRepository,
+    IClassRepository classRepository,
     IConfiguration configuration)
     : IRequestHandler<AccountRefreshTokenCommand, Result<TokenResponse?>>
 {
@@ -23,14 +25,18 @@ public class AccountRefreshTokenCommandHandler(
 
         var storedUser = await userRepository.GetUserByRefreshTokenAsync(refreshTokenRequest.RefreshToken);
 
-        if (storedUser is null || storedUser.RefreshToken.ExpirationDate < DateTime.Now)
+        if (storedUser is null || storedUser.TryGetRefreshToken(refreshTokenRequest.RefreshToken).ExpirationDate < DateTime.Now)
             return Result<TokenResponse?>.Create("Din token er udløbet", null, ResultStatus.Error);
 
-        var newAccessToken = tokenProvider.GenerateAccessToken(storedUser);
+        storedUser.RemoveRefreshToken(refreshTokenRequest.RefreshToken);
+
+        var userClasses = await classRepository.GetClassesByUserIdAsync(storedUser.Id);
+        
+        var newAccessToken = tokenProvider.GenerateAccessToken(storedUser, userClasses);
         var newRefreshToken = tokenProvider.GenerateRefreshToken();
 
-        storedUser.SetRefreshToken(newRefreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
-        await userRepository.SetUserRefreshTokenAsync(storedUser);
+        storedUser.AddRefreshToken(newRefreshToken, configuration.GetValue<int>("Jwt:RefreshTokenExpirationInDays"));
+        await userRepository.AddUserRefreshTokenAsync(storedUser);
         
         return Result<TokenResponse?>.Create("Ny token blev genereret korrekt",
             new TokenResponse(newAccessToken, newRefreshToken), ResultStatus.Success);

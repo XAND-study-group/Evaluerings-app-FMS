@@ -5,39 +5,47 @@ using School.Infrastructure.DbContext;
 
 namespace School.Infrastructure.Repositories.Semester;
 
-public class ClassRepository : IClassRepository
+public class ClassRepository(SchoolDbContext dbContext) : IClassRepository
 {
-    private readonly SchoolDbContext _semesterDbContext;
-
-    public ClassRepository(SchoolDbContext semesterDbContext)
-    {
-        _semesterDbContext = semesterDbContext;
-    }
-
     #region Class
 
     async Task IClassRepository.CreateClassAsync(Class newClass)
     {
-        await _semesterDbContext.Classes.AddAsync(newClass);
-        await _semesterDbContext.SaveChangesAsync();
+        await dbContext.Classes.AddAsync(newClass);
+        await dbContext.SaveChangesAsync();
     }
 
     async Task<IEnumerable<Class>> IClassRepository.GetAllClassesAsync()
-        => await _semesterDbContext.Classes.ToListAsync();
+        => await dbContext.Classes.ToListAsync();
 
     async Task<Class> IClassRepository.GetClassByIdAsync(Guid classId)
-        => await _semesterDbContext.Classes.SingleAsync(c => c.Id == classId);
+        => await dbContext.Classes
+            .Include(c => c.Students)
+            .FirstOrDefaultAsync(c => c.Id == classId) ??
+           throw new ArgumentException("Klasse ikke fundet");
 
     async Task<Domain.Entities.User> IClassRepository.GetUserByIdAsync(Guid studentId)
-        => await _semesterDbContext.Users.SingleAsync(u => u.Id == studentId);
+        => await dbContext.Users.FirstOrDefaultAsync(u => u.Id == studentId) ??
+           throw new ArgumentException("Bruger ikke fundet");
 
     async Task IClassRepository.AddUserToClassAsync()
     {
-        await _semesterDbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
-    public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
-        => await _semesterDbContext.Semesters.SingleAsync(s => s.Id == semesterId);
+    async Task<bool> IClassRepository.IsUserInClass(Guid classId, Guid userId)
+        => (await dbContext.Classes
+                .Include(@class => @class.Students)
+                .FirstAsync(c => c.Id == classId))
+            .Students.Any(s => s.Id == userId);
 
+    async Task<List<Class>> IClassRepository.GetClassesByUserIdAsync(Guid userId)
+        => await dbContext.Classes
+            .AsNoTracking()
+            .Where(s => s.Students.Any(st => st.Id == userId)).ToListAsync();
+
+    public async Task<Domain.Entities.Semester> GetSemesterById(Guid semesterId)
+        => await dbContext.Semesters.FirstOrDefaultAsync(s => s.Id == semesterId) ??
+           throw new ArgumentException("Semester ikke fundet");
     #endregion
 }

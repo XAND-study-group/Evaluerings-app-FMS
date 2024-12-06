@@ -1,11 +1,10 @@
-﻿using SharedKernel.Dto.Features.Evaluering.Answer.Query;
+using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 
-namespace SharedKernel.Dto.Features.Evaluering.Question.Query
-{
-    public record GetSimpleQuestionsResponse(
-            Guid QuestionId,
-            Guid ExitSlipId,
-            string Text,
-            IEnumerable<GetSimpleAnswerResponse> Answers,
-            byte[] RowVersion);
-}
+namespace SharedKernel.Dto.Features.Evaluering.Question.Query;
+
+public record GetSimpleQuestionsResponse(
+    Guid QuestionId,
+    Guid ExitSlipId,
+    string Text,
+    IEnumerable<GetSimpleAnswerResponse> Answers,
+    byte[] RowVersion);

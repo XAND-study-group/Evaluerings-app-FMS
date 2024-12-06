@@ -15,9 +15,9 @@ public class ModuleFeedbackArchitectureTests
 {
     private static readonly Architecture Architecture = new ArchLoader()
         .LoadAssemblies(Module.Feedback.AssemblyReference.Assembly,
-            Module.Feedback.Application.AssemblyReference.Assembly,
-            Module.Feedback.Domain.AssemblyReference.Assembly,
-            Module.Feedback.Infrastructure.AssemblyReference.Assembly)
+            Application.AssemblyReference.Assembly,
+            AssemblyReference.Assembly,
+            Infrastructure.AssemblyReference.Assembly)
         .Build();
 
     #region Layer Setup
@@ -26,13 +26,13 @@ public class ModuleFeedbackArchitectureTests
         Types().That().ResideInAssembly(Module.Feedback.AssemblyReference.Assembly).As("Presentation Layer");
 
     private readonly IObjectProvider<IType> _applicationLayer =
-        Types().That().ResideInAssembly(Module.Feedback.Application.AssemblyReference.Assembly).As("Application Layer");
+        Types().That().ResideInAssembly(Application.AssemblyReference.Assembly).As("Application Layer");
 
     private readonly IObjectProvider<IType> _domainLayer =
-        Types().That().ResideInAssembly(Module.Feedback.Domain.AssemblyReference.Assembly).As("Domain Layer");
+        Types().That().ResideInAssembly(AssemblyReference.Assembly).As("Domain Layer");
 
     private readonly IObjectProvider<IType> _infrastructureLayer =
-        Types().That().ResideInAssembly(Module.Feedback.Infrastructure.AssemblyReference.Assembly).As("Infrastructure Layer");
+        Types().That().ResideInAssembly(Infrastructure.AssemblyReference.Assembly).As("Infrastructure Layer");
 
     #endregion Layer Setup
 

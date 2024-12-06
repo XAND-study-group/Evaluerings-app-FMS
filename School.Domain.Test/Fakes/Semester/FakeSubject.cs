@@ -1,6 +1,4 @@
 ﻿using School.Domain.Entities;
-using School.Domain.ValueObjects;
-using SharedKernel.ValueObjects;
 
 namespace School.Domain.Test.Fakes.Semester
 {
@@ -8,31 +6,27 @@ namespace School.Domain.Test.Fakes.Semester
     {
         #region Constructors
 
-        public FakeSubject(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
-            : base(name, description, otherSubjects)
+        public FakeSubject(string name, string description)
         {
+            Name = name;
+            Description = description;
         }
 
         #endregion
 
         #region Subject Business Logic Methods
 
-        public static new Subject Create(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)
-        {
-            return Subject.Create(name, description, otherSubjects);
-        }
-
-        public void SetSubjectName(SubjectName name)
+        public void SetSubjectName(string name)
         {
             Name = name;
         }
 
-        public void SetSubjectDescription(SubjectDescription description)
+        public void SetSubjectDescription(string description)
         {
             Description = description;
         }
 
-        public new void Update(SubjectName name, SubjectDescription description)
+        public new void Update(string name, string description)
         {
             base.Update(name, description);
         }

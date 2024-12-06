@@ -43,11 +43,10 @@ public class Class : Entity
         Name = name;
         Description = description;
         StudentCapacity = studentCapacity;
-        
-        // TODO: check if students are over capacity
         _students = students.ToList();
         _subjects = subjects.ToList();
 
+        AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity);
         AssureNameIsUnique(Name, otherClassNames);
     }
     
@@ -78,7 +77,7 @@ public class Class : Entity
 
     public void AddStudent(User student)
     {
-        // TODO: Check if user has CLAIM as Student
+        AssureCorrectRole("User", student);
         AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity.Value);
 
         _students.Add(student);
@@ -86,7 +85,7 @@ public class Class : Entity
 
     public void AddTeacher(User teacher)
     {
-        // TODO: Check if user has CLAIM as Teacher
+        AssureCorrectRole("Teacher", teacher);
         _teachers.Add(teacher);
     }
 
@@ -104,6 +103,13 @@ public class Class : Entity
     {
         if (studentsCount >= studentCapacity)
             throw new ArgumentException("Maximum number of students reached.");
+    }
+
+    protected void AssureCorrectRole(string roleValueName, User user)
+    {
+        if(user.AccountClaims.All(c => c.ClaimValue != roleValueName))
+            throw new ArgumentException($"Brugeren har ikke den korrekte rolle");
+
     }
     #endregion
 }

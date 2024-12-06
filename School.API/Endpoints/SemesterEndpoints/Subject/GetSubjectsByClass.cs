@@ -13,8 +13,8 @@ namespace School.API.Endpoints.SemesterEndpoints.Subject
         {
             app.MapGet(configuration["Routes:SemesterModule:Subject:GetSubjectsByClass"] ??
                        throw new Exception("Route is not added to config file"),
-                    async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
-                    (await mediator.Send(new GetSubjectsByClassQuery(new GetSubjectsByClassRequest(id)))).ReturnHttpResult())
+                    async ([FromRoute] Guid classId, [FromServices] IMediator mediator) =>
+                    (await mediator.Send(new GetSubjectsByClassQuery(new GetSubjectsByClassRequest(classId)))).ReturnHttpResult())
                 .WithTags("Class")
                 .RequireAuthorization();
         }

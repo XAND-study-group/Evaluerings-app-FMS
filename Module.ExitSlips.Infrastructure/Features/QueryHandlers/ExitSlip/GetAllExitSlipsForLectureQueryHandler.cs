@@ -13,11 +13,10 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
     {
         private readonly ExitSlipDbContext _exitSlipDbContext;
         private readonly IMapper _mapper;
-        public GetAllExitSlipsForLectureQueryHandler(ExitSlipDbContext exitSlipDbContext)
+        public GetAllExitSlipsForLectureQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
         {
             _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            { cfg.CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>(); }).CreateMapper();
+            _mapper = mapper;
         }
 
         async Task<Result<IEnumerable<GetSimpleExitSlipsResponse?>>>

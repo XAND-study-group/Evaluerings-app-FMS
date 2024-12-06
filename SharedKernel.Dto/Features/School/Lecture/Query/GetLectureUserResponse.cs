@@ -3,4 +3,7 @@
 public record GetLectureUserResponse(
     Guid Id,
     string Firstname,
-    string Lastname);
+    string Lastname)
+{
+    public GetLectureUserResponse() : this(Guid.Empty, string.Empty, string.Empty) { }
+}

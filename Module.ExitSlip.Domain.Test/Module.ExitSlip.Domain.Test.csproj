@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="coverlet.collector" Version="6.0.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,12 +43,8 @@
 		</PackageReference>
 		<ProjectReference Include="..\Module.ExitSlips.Domain\Module.ExitSlip.Domain.csproj" />
 		<ProjectReference Include="..\Module.ExitSlips\Module.ExitSlip.csproj" />
+		<ProjectReference Include="..\Module.ExitSlips.Infrastructure\Module.ExitSlip.Infrastructure.csproj" />
 		<ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
-		<Using Include="Xunit" />
-	</ItemGroup>
-
-
-	<ItemGroup>
 		<Using Include="Xunit" />
 	</ItemGroup>
 

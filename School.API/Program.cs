@@ -1,13 +1,12 @@
-using Microsoft.AspNetCore.RateLimiting;
 using System.Text;
 using System.Threading.RateLimiting;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using School.API;
 using School.API.Extensions;
-using School.API.Helper;
+using School.Infrastructure.Mapping;
+using SharedKernel.Interfaces.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +27,10 @@ builder.Services.AddAuthorizationWithPolicies();
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 
+builder.Services.AddAutoMapper(
+    typeof(MappingProfileSchool).Assembly
+);
+
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddMemoryCache();
@@ -38,6 +41,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddMediatRModules();
+// builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -71,15 +75,6 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 
-builder.Services.AddRateLimiter(rateLimiterOptions =>
-{
-    rateLimiterOptions.AddFixedWindowLimiter(policyName: "baseLimit", options =>
-    {
-        options.PermitLimit = 5;
-        options.Window = TimeSpan.FromMinutes(10);
-    });
-});
-
 var app = builder.Build();
 
 app.UseRateLimiter();
@@ -94,6 +89,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Enable request body buffering 
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
