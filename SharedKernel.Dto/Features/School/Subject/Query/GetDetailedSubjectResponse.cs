@@ -6,10 +6,4 @@ public record GetDetailedSubjectResponse(
     Guid Id,
     string Name,
     string Description,
-    IEnumerable<GetDetailedLectureResponse> Lectures)
-{
-    public GetDetailedSubjectResponse() : this(Guid.Empty, string.Empty, string.Empty,
-        new List<GetDetailedLectureResponse>())
-    {
-    }
-}
+    IEnumerable<GetDetailedLectureResponse> Lectures);

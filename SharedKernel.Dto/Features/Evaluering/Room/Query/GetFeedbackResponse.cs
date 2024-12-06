@@ -1,10 +1,10 @@
 ﻿namespace SharedKernel.Dto.Features.Evaluering.Room.Query;
 
 public record GetFeedbackResponse(
-    Guid FeedbackId,
+    Guid Id,
     string HashedUserId,
     string Problem,
     string Solution,
-    IEnumerable<GetCommentResponse> Comments,
-    IEnumerable<GetVoteResponse> Votes,
+    IEnumerable<Feedback.Query.GetCommentResponse> Comments,
+    IEnumerable<Feedback.Query.GetVoteResponse> Votes,
     byte[] RowVersion);

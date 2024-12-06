@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Abstractions;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;
+using Xunit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
 namespace Module.ExitSlip.Domain.Test;

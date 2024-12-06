@@ -5,5 +5,5 @@ namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 public record GetVoteResponse(
     Guid Id,
     byte[] RowVersion,
-    string HashedId,
+    string HashedUserId,
     VoteScale VoteScale);

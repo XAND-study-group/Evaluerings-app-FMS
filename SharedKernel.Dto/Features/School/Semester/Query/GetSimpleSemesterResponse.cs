@@ -9,10 +9,4 @@ public record GetSimpleSemesterResponse(
     int SemesterNumber,
     DateOnly StartDate,
     DateOnly EndDate,
-    SchoolType School)
-{
-    public GetSimpleSemesterResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, 0, new DateOnly(),
-        new DateOnly(), SchoolType.Fredericia)
-    {
-    }
-}
+    SchoolType School);

@@ -16,13 +16,7 @@ public class LectureDate
             throw new ArgumentException("Lecture date cannot be earlier than today.");
     }
 
-    public static implicit operator DateOnly(LectureDate value)
-    {
-        return value.Value;
-    }
+    public static implicit operator DateOnly(LectureDate value) => value.Value;
 
-    public static implicit operator LectureDate(DateOnly value)
-    {
-        return new LectureDate(value);
-    }
+    public static implicit operator LectureDate(DateOnly value) => new(value);
 }

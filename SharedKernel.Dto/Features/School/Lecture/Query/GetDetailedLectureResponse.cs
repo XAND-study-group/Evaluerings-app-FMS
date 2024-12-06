@@ -5,16 +5,11 @@ namespace SharedKernel.Dto.Features.School.Lecture.Query;
 public record GetDetailedLectureResponse(
     Guid Id,
     byte[] RowVersion,
-    string LectureTitle,
+    string Title,
     string Description,
     TimeOnly FromTime,
     TimeOnly ToTime,
-    DateOnly Date,
+    TimeSpan Duration,
+    DateOnly LectureDate,
     string ClassRoom,
-    IEnumerable<GetSimpleUserResponse> Teachers)
-{
-    public GetDetailedLectureResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty,
-        TimeOnly.MinValue, TimeOnly.MinValue, DateOnly.MinValue, string.Empty, new List<GetSimpleUserResponse>())
-    {
-    }
-}
+    IEnumerable<GetSimpleUserResponse> Teachers);

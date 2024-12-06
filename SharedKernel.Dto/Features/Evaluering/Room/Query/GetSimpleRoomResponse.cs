@@ -1,7 +1,7 @@
 ﻿namespace SharedKernel.Dto.Features.Evaluering.Room.Query;
 
 public record GetSimpleRoomResponse(
-    Guid RoomId,
+    Guid Id,
     string Title,
     string Description,
     byte[] RowVersion);

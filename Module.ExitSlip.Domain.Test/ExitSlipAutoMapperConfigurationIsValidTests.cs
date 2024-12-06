@@ -2,6 +2,7 @@
 using AutoMapper;
 using AutoMapper.Internal;
 using Module.ExitSlip.Infrastructure.Mapper;
+using Xunit;
 
 namespace Module.ExitSlip.Domain.Test;
 

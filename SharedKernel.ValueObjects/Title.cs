@@ -31,15 +31,9 @@ public record Title
             throw new ArgumentException("Title cannot be longer than 100 characters.", nameof(value));
     }
 
-    public static implicit operator string(Title title)
-    {
-        return title.Value;
-    }
+    public static implicit operator string(Title title) => title.Value;
 
-    public static implicit operator Title(string value)
-    {
-        return new Title(value);
-    }
+    public static implicit operator Title(string value) => new(value);
 
     public override int GetHashCode()
     {

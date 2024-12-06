@@ -20,7 +20,6 @@
     <ItemGroup>
         <Folder Include="Features\Evaluering\Answer\Command\"/>
         <Folder Include="Features\Evaluering\Question\Command\"/>
-        <Folder Include="Features\Evaluering\Vote\Query\"/>
         <Folder Include="Features\School\"/>
     </ItemGroup>
 

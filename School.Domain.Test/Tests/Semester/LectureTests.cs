@@ -222,7 +222,7 @@ public class LectureTests
     {
         yield return new object[]
         {
-            new FakeUser(new Guid())
+            new FakeUser(new Guid(), "Teacher")
         };
     }
 
@@ -231,7 +231,7 @@ public class LectureTests
         var currentTeachers = GetCurrentTeachers();
         yield return new object[]
         {
-            new FakeUser(Guid.Parse("6e70b105-2bce-42c9-b9df-c89f1617a9a2")),
+            new FakeUser(Guid.Parse("6e70b105-2bce-42c9-b9df-c89f1617a9a2"), "Teacher"),
             currentTeachers
         };
     }
@@ -240,8 +240,8 @@ public class LectureTests
     {
         return
         [
-            new FakeUser(Guid.Parse("6e70b105-2bce-42c9-b9df-c89f1617a9a2")),
-            new FakeUser(Guid.Parse("512b72cf-dc45-4d68-9f9d-68ea0d6d35f2"))
+            new FakeUser(Guid.Parse("6e70b105-2bce-42c9-b9df-c89f1617a9a2"), "Teacher"),
+            new FakeUser(Guid.Parse("512b72cf-dc45-4d68-9f9d-68ea0d6d35f2"), "Teacher")
         ];
     }
 
