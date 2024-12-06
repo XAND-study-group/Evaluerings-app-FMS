@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.ExitSlip.Application.Features.ExitSlip.Query;
@@ -16,6 +17,7 @@ public class GetAllExitSlipsForSubject : IEndpoint
             async (Guid subjectId, [FromServices] IMediator mediator) =>
             {
                 await mediator.Send(new GetAllExitSlipsforSubjectQuery(subjectId));
-            });
+            })
+            .WithTags("ExitSlip");
     }
 }

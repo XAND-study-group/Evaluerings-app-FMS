@@ -26,9 +26,9 @@ public static class FeedbackModuleInfrastructureExtension
         serviceCollection.AddScoped<IRoomRepository, RoomRepository>();
         serviceCollection.AddScoped<IFeedbackRepository, FeedbackRepository>();
         serviceCollection.AddScoped<ICommentRepository, CommentRepository>();
-        serviceCollection.AddScoped<IValidationServiceProxy, ValidationServiceProxy>();
         serviceCollection.AddScoped<IUnitOfWork, UnitOfWork<FeedbackDbContext>>();
         serviceCollection.AddScoped<IVoteRepository, VoteRepository>();
+        serviceCollection.AddScoped<IValidationServiceProxy, ValidationServiceProxy>();
         serviceCollection.AddScoped<IEmailNotificationProxy, EmailNotificationProxy>();
         serviceCollection.AddScoped<ISchoolApiProxy, SchoolApiProxy>();
 

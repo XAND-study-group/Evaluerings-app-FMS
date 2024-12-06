@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.Entities;
+using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Infrastructure.DbContexts;
 
@@ -23,10 +24,11 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
         modelBuilder.Entity<Room>()
             .Property(r => r.RowVersion)
             .IsRowVersion();
-        modelBuilder.Entity<Room>()
-            .ComplexProperty(r => r.Title);
-        modelBuilder.Entity<Room>()
-            .ComplexProperty(r => r.Description);
+        modelBuilder.Entity<Room>(r =>
+        {
+            r.ComplexProperty(room => room.Title, room => room.IsRequired());
+            r.ComplexProperty(room => room.Description, room => room.IsRequired());
+        });
 
         #endregion Room OnModelCreating Configuration
 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.ExitSlip.Application.Features.ExitSlip.Query;
@@ -13,9 +14,10 @@ public class GetExitSlipWithAnswersForUser : IEndpoint
     {
         app.MapGet(configuration["Routes:ExitSlipModule:ExitSlip:GetExitSlipWithAnswersForUser"] ??
                    throw new ArgumentException("Route is not added to config file"),
-            async (Guid userId, Guid exitSlipId, [FromServices] IMediator mediator) =>
-            {
-                await mediator.Send(new GetExitSlipWithAnswersForUserQuery(userId, exitSlipId));
-            });
+                async (Guid userId, Guid exitSlipId, [FromServices] IMediator mediator) =>
+                {
+                    await mediator.Send(new GetExitSlipWithAnswersForUserQuery(userId, exitSlipId));
+                })
+            .WithTags("ExitSlip");
     }
 }
