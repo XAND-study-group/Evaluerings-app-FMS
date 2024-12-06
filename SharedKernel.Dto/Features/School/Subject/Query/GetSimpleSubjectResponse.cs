@@ -6,10 +6,4 @@ public record GetSimpleSubjectResponse(
     Guid Id,
     string Name,
     string Description,
-    IEnumerable<GetSimpleLectureResponse> Lectures)
-{
-    public GetSimpleSubjectResponse() : this(Guid.Empty, string.Empty, string.Empty,
-        new List<GetSimpleLectureResponse>())
-    {
-    }
-}
+    IEnumerable<GetSimpleLectureResponse> Lectures);

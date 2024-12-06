@@ -5,9 +5,4 @@ public record GetSimpleClassResponse(
     byte[] RowVersion,
     string Name,
     string Description,
-    int StudentCapacity)
-{
-    public GetSimpleClassResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty, 0)
-    {
-    }
-}
+    int StudentCapacity);

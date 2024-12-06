@@ -3,7 +3,7 @@
 public record GetAllFeedbacksResponse(
     Guid Id,
     byte[] RowVersion,
-    string HashedId,
+    string HashedUserId,
     string Title,
     string Problem,
     string Solution,

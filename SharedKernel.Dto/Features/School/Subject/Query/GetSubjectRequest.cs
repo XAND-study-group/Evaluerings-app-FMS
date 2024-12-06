@@ -1,8 +1,3 @@
 ﻿namespace SharedKernel.Dto.Features.School.Subject.Query;
 
-public record GetSubjectRequest(Guid Id)
-{
-    public GetSubjectRequest() : this(Guid.Empty)
-    {
-    }
-}
+public record GetSubjectRequest(Guid Id);

@@ -8,5 +8,5 @@ public record GetExitSlipWithAnswersResponse(
     Guid SubjectId,
     string Title,
     ExitSlipActiveStatus ActiveStatus,
-    IEnumerable<GetDetailsQuestionsResponse> Questions,
+    IEnumerable<GetDetailedQuestionsResponse> Questions,
     byte[] RowVersion);

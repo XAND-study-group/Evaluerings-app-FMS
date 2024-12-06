@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using Module.ExitSlip.Domain.Entities;
 using SharedKernel.Dto.Features.Evaluering.Answer.Query;
 using SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
@@ -10,19 +11,9 @@ public class MappingProfileExitSlip : Profile
 {
     public MappingProfileExitSlip()
     {
-        CreateMap<Answer, GetAnswerResponse>()
-            .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
-            .ForMember(dest => dest.AnswerId, opt => opt.MapFrom(src => src.Id));
-
-        CreateMap<Question, GetSimpleQuestionsResponse>()
-            .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
-            .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.ExitSlipId, opt => opt.MapFrom(src => src.Id));
-        CreateMap<Question, GetDetailedQuestionsResponse>()
-            .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text.Value))
-            .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.ExitSlipId, opt => opt.MapFrom(src => src.Id));
-
+        CreateMap<Question, GetSimpleQuestionsResponse>();
+        CreateMap<Question, GetDetailedQuestionsResponse>();
+        CreateMap<Answer, GetDetailedAnswerResponse>();
         CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>();
         CreateMap<Domain.Entities.ExitSlip, GetExitSlipWithAnswersResponse>();
         CreateMap<Domain.Entities.ExitSlip, GetDetailedExitSlipResponse>();

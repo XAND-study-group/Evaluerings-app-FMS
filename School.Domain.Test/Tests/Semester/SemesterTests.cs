@@ -283,7 +283,7 @@ public class SemesterTests
     {
         yield return new object[]
         {
-            new FakeUser(new Guid())
+            new FakeUser(new Guid(), "Teacher")
         };
     }
 
@@ -292,7 +292,7 @@ public class SemesterTests
         var otherResponsibles = GetResponsibles();
         yield return new object[]
         {
-            new FakeUser(Guid.Parse("b2d214ea-c5ea-419c-8498-0a023c27f514")),
+            new FakeUser(Guid.Parse("b2d214ea-c5ea-419c-8498-0a023c27f514"), "Teacher"),
             otherResponsibles
         };
     }
@@ -301,8 +301,8 @@ public class SemesterTests
     {
         return new[]
         {
-            new FakeUser(Guid.Parse("b2d214ea-c5ea-419c-8498-0a023c27f514")),
-            new FakeUser(Guid.Parse("99bf6d44-620a-4820-829d-a9444590e1d5"))
+            new FakeUser(Guid.Parse("b2d214ea-c5ea-419c-8498-0a023c27f514"), "Teacher"),
+            new FakeUser(Guid.Parse("99bf6d44-620a-4820-829d-a9444590e1d5"), "Teacher")
         };
     }
 

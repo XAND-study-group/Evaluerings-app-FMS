@@ -3,7 +3,7 @@
 namespace SharedKernel.Dto.Features.Evaluering.Question.Query;
 
 public record GetDetailedQuestionsResponse(
-    Guid QuestionId,
-    Guid ExitSlipId,
+    Guid Id,
     string Text,
-    IEnumerable<GetAnswerResponse> Answers);
+    IEnumerable<GetDetailedAnswerResponse> Answers,
+    byte[] RowVersion);
