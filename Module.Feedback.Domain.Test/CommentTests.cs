@@ -3,6 +3,7 @@ using Module.Feedback.Domain.Entities;
 using Module.Feedback.Domain.Test.Fakes;
 using Moq;
 using SharedKernel.Dto.Features.Evaluering.Proxy;
+using Xunit;
 
 namespace Module.Feedback.Domain.Test;
 

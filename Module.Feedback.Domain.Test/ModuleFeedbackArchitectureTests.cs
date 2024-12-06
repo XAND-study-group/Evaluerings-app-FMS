@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.Entities;
 using SharedKernel.Interfaces;
+using Xunit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
 // ReSharper disable RedundantNameQualifier

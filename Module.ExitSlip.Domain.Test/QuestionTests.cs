@@ -1,5 +1,6 @@
 ﻿using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Domain.Test.Fakes;
+using Xunit;
 
 namespace Module.ExitSlip.Domain.Test;
 

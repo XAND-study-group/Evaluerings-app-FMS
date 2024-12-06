@@ -1,5 +1,6 @@
 ﻿using Module.ExitSlip.Domain.Test.Fakes;
 using SharedKernel.Enums.Features.Evaluering.ExitSlip;
+using Xunit;
 
 namespace Module.ExitSlip.Domain.Test;
 
