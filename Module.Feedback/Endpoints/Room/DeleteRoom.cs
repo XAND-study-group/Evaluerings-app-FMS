@@ -15,9 +15,9 @@ public class DeleteRoom : IEndpoint
     public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
         app.MapDelete(configuration["Routes:FeedbackModule:Room:DeleteRoom"] ??
-                throw new Exception("Route is not added to config file"),
-            async ([FromBody] DeleteRoomRequest deleteRoomRequest, [FromServices] IMediator mediator) =>
-            (await mediator.Send(new DeleteRoomCommand(deleteRoomRequest))).ReturnHttpResult())
+                      throw new Exception("Route is not added to config file"),
+                async ([FromBody] DeleteRoomRequest deleteRoomRequest, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new DeleteRoomCommand(deleteRoomRequest))).ReturnHttpResult())
             .WithTags("Room")
             .RequireAuthorization("RoomManagement");
     }

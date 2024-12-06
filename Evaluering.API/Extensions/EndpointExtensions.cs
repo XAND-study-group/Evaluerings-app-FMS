@@ -10,24 +10,21 @@ public static class EndpointExtensions
     {
         var endpointServiceDescriptors = assembly
             .DefinedTypes.Where(type =>
-                type is { IsAbstract: false, IsInterface: false } &&
+                type is {IsAbstract: false, IsInterface: false} &&
                 type.IsAssignableTo(typeof(IEndpoint)))
             .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
             .ToArray();
-        
+
         services.TryAddEnumerable(endpointServiceDescriptors);
-        
+
         return services;
     }
-        
+
     public static IApplicationBuilder MapEndpoints(this WebApplication app, IConfiguration configuration)
     {
         var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
-        foreach (var endpoint in endpoints)
-        {
-            endpoint.MapEndpoint(app, configuration);
-        }
-        
+        foreach (var endpoint in endpoints) endpoint.MapEndpoint(app, configuration);
+
         return app;
     }
 }

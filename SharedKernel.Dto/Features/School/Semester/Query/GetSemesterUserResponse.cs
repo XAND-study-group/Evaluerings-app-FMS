@@ -3,5 +3,7 @@
 public record GetSemesterUserResponse(
     Guid Id)
 {
-    public GetSemesterUserResponse() : this(Guid.Empty) { }
+    public GetSemesterUserResponse() : this(Guid.Empty)
+    {
+    }
 }

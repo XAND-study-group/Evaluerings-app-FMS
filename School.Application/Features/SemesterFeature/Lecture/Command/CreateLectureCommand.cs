@@ -22,7 +22,6 @@ public class CreateLectureCommandHandler : IRequestHandler<CreateLectureCommand,
     {
         try
         {
-
             // Load
             var semester = await _lectureRepository.GetSemesterById(request.Request.SemesterId);
             var createLectureRequest = request.Request;
@@ -35,9 +34,9 @@ public class CreateLectureCommandHandler : IRequestHandler<CreateLectureCommand,
                 createLectureRequest.EndTime,
                 createLectureRequest.Date,
                 createLectureRequest.ClassRoom,
-                createLectureRequest.ClassId, 
+                createLectureRequest.ClassId,
                 createLectureRequest.SubjectId);
-        
+
             // Save
             await _lectureRepository.CreateLecture(lecture);
 

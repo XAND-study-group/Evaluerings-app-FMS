@@ -11,7 +11,8 @@ public record SubscribeToRoomNotificationCommand(SubscribeToRoomNotificationRequ
 public class SubscribeToRoomNotificationCommandHandler(IRoomRepository roomRepository)
     : IRequestHandler<SubscribeToRoomNotificationCommand, Result<bool>>
 {
-    public async Task<Result<bool>> Handle(SubscribeToRoomNotificationCommand request, CancellationToken cancellationToken)
+    public async Task<Result<bool>> Handle(SubscribeToRoomNotificationCommand request,
+        CancellationToken cancellationToken)
     {
         try
         {

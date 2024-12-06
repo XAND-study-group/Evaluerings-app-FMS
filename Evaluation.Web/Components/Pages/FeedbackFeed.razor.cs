@@ -25,7 +25,7 @@ public partial class FeedbackFeed : ComponentBase
     private async Task CreateFeedback()
     {
         await Authenticate();
-        
+
         StartLoading = true;
         var userId = Guid.NewGuid();
         if (FeedbackViewModel.RoomId == Guid.Empty)
@@ -46,6 +46,7 @@ public partial class FeedbackFeed : ComponentBase
         {
             FeedbackViewModel.ErrorMessage = response.Message;
         }
+
         StartLoading = false;
     }
 
@@ -56,19 +57,25 @@ public partial class FeedbackFeed : ComponentBase
     }
 
     private void CloseModal()
-        => ShowModal = false;
+    {
+        ShowModal = false;
+    }
 
     private void HideToast()
-        => ShowToast = false;
+    {
+        ShowToast = false;
+    }
 
     private void OpenToast()
-        => ShowToast = true;
-    
+    {
+        ShowToast = true;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         Rooms = await EvaluationProxy.GetAllRoomsAsync();
     }
-    
+
     private async Task Authenticate()
     {
         var account = new AuthenticateAccountLoginRequest("Timothy14@yahoo.com", "Password123.");
@@ -76,10 +83,10 @@ public partial class FeedbackFeed : ComponentBase
 
         var claims = new List<Claim>
         {
-            new Claim("JWT", user.SuccessResult.AccessToken),
-            new Claim("RefreshToken", user.SuccessResult.RefreshToken)
+            new("JWT", user.SuccessResult.AccessToken),
+            new("RefreshToken", user.SuccessResult.RefreshToken)
         };
-        
+
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
         await HttpContext.SignInAsync(principal);

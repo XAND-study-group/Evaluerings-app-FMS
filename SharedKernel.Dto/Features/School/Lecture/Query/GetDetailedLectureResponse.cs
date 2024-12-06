@@ -13,5 +13,8 @@ public record GetDetailedLectureResponse(
     string ClassRoom,
     IEnumerable<GetSimpleUserResponse> Teachers)
 {
-    public GetDetailedLectureResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty, TimeOnly.MinValue, TimeOnly.MinValue, DateOnly.MinValue, string.Empty, new List<GetSimpleUserResponse>()) { }
+    public GetDetailedLectureResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty,
+        TimeOnly.MinValue, TimeOnly.MinValue, DateOnly.MinValue, string.Empty, new List<GetSimpleUserResponse>())
+    {
+    }
 }

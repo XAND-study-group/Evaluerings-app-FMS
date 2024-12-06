@@ -26,13 +26,13 @@ public class QuestionTests
     {
         // Act
         question.UpdateQuestion(newText);
-        
+
         // Assert
         Assert.Equal(newText, question.Text);
     }
 
     #endregion Command Tests
-    
+
     #region Text Tests
 
     [Theory]
@@ -41,12 +41,11 @@ public class QuestionTests
     {
         // Arrange
         var question = new FakeQuestion();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => question.SetText(text));
     }
-    
-    
+
     #endregion Text Tests
 
     #endregion Tests

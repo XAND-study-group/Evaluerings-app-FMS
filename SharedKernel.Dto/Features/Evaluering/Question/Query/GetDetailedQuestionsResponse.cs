@@ -7,4 +7,3 @@ public record GetDetailedQuestionsResponse(
     Guid ExitSlipId,
     string Text,
     IEnumerable<GetAnswerResponse> Answers);
-

@@ -18,11 +18,11 @@ public class GetEmailsByUserIdsQueryHandler(SchoolDbContext dbContext, IMapper m
         var responseData = await dbContext.Users.Where(user => request.Request.UserIds.Contains(user.Id))
             .Select(user => user.Email)
             .ProjectTo<GetEmailsByUserIdsResponse>(mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken: cancellationToken);
+            .ToListAsync(cancellationToken);
 
         return Result<IEnumerable<GetEmailsByUserIdsResponse>>.Create(
             "Alle emails på brugere er skaffet",
-            responseData, 
+            responseData,
             ResultStatus.Success);
     }
 }

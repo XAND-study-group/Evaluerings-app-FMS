@@ -9,7 +9,8 @@ namespace Module.Feedback.Application.Features.Vote.Command;
 
 public record CreateVoteCommand(CreateVoteRequest CreateVoteRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class CreateVoteCommandHandler(IVoteRepository voteRepository,
+public class CreateVoteCommandHandler(
+    IVoteRepository voteRepository,
     ISchoolApiProxy schoolApiProxy,
     IEmailNotificationProxy emailNotificationProxy)
     : IRequestHandler<CreateVoteCommand, Result<bool>>
@@ -27,7 +28,7 @@ public class CreateVoteCommandHandler(IVoteRepository voteRepository,
             var vote = feedback.AddVote(
                 createVoteRequest.UserId,
                 createVoteRequest.VoteScale);
-            
+
             if (feedback.ShouldSendNotification())
             {
                 var emails = await schoolApiProxy.GetEmailsByUserIdsAsync(feedback.Room.NotificationSubscribedUserIds);

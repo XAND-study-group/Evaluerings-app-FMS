@@ -32,18 +32,18 @@ public class Semester : Entity
         SchoolType school, IEnumerable<Semester> otherSemesters)
     {
         var otherSemesterNames = otherSemesters.Select(s => s.Name.Value);
-        
+
         Name = SemesterName.Create(name, otherSemesterNames);
         SemesterNumber = semesterNumber;
         EducationRange = EducationRange.Create(startDate, endDate);
         School = school;
     }
-    
+
     private Semester(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
         SchoolType school, IEnumerable<Class> classes, IEnumerable<Semester> otherSemesters)
     {
         var otherSemesterNames = otherSemesters.Select(s => s.Name.Value);
-        
+
         Name = SemesterName.Create(name, otherSemesterNames);
         SemesterNumber = semesterNumber;
         EducationRange = EducationRange.Create(startDate, endDate);
@@ -57,11 +57,15 @@ public class Semester : Entity
 
     public static Semester Create(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
         SchoolType school, IEnumerable<Semester> otherSemesters)
-        => new Semester(name, semesterNumber, startDate, endDate, school, otherSemesters);
-    
+    {
+        return new Semester(name, semesterNumber, startDate, endDate, school, otherSemesters);
+    }
+
     public static Semester Create(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
         SchoolType school, IEnumerable<Class> classes, IEnumerable<Semester> otherSemesters)
-        => new Semester(name, semesterNumber, startDate, endDate, school, classes, otherSemesters);
+    {
+        return new Semester(name, semesterNumber, startDate, endDate, school, classes, otherSemesters);
+    }
 
     #endregion
 
@@ -69,10 +73,8 @@ public class Semester : Entity
 
     public void AddResponsible(User teacher)
     {
-        //TODO: Check User has Claim "Teacher"
-
         AssureNoDuplicateUser(teacher, _semesterResponsibles);
-        
+        AssureCorrectRole("Teacher", teacher);
 
         _semesterResponsibles.Add(teacher);
     }
@@ -96,7 +98,8 @@ public class Semester : Entity
         Guid subjectId)
     {
         var classToFind = _classes.Single(c => c.Id == classId);
-        return classToFind.AddLectureToSubject(lectureTitle, description, startTime, endTime, date, classRoom, subjectId);
+        return classToFind.AddLectureToSubject(lectureTitle, description, startTime, endTime, date, classRoom,
+            subjectId);
     }
 
     #endregion
@@ -114,6 +117,12 @@ public class Semester : Entity
     {
         if (classes.Any(c => c.Id == classToCreate.Id))
             throw new ArgumentException("This class has already been added to this Semester.");
+    }
+
+    protected void AssureCorrectRole(string roleValueName, User user)
+    {
+        if (user.AccountClaims.All(c => c.ClaimValue != roleValueName))
+            throw new ArgumentException("Brugeren har ikke den korrekte rolle");
     }
 
     #endregion

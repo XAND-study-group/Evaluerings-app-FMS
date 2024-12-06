@@ -1,4 +1,5 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.Entities;
+using Module.Feedback.Domain.Test.Fakes;
 using SharedKernel.Enums.Features.Vote;
 
 namespace Module.Feedback.Domain.Test;

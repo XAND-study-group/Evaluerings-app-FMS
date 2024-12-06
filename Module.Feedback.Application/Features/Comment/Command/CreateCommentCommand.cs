@@ -8,10 +8,14 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Application.Features.Comment.Command;
 
-public record CreateCommentCommand(CreateCommentRequest CreateCommentRequest) : IRequest<Result<bool>>, IApplcationClass;
+public record CreateCommentCommand(CreateCommentRequest CreateCommentRequest)
+    : IRequest<Result<bool>>, IApplcationClass;
 
-public class CreateCommentCommandHandler(ICommentRepository commentRepository, IValidationServiceProxy iValidationServiceProxy, 
-    IEmailNotificationProxy emailNotificationProxy, ISchoolApiProxy schoolAPIProxy)
+public class CreateCommentCommandHandler(
+    ICommentRepository commentRepository,
+    IValidationServiceProxy iValidationServiceProxy,
+    IEmailNotificationProxy emailNotificationProxy,
+    ISchoolApiProxy schoolAPIProxy)
     : IRequestHandler<CreateCommentCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(CreateCommentCommand request, CancellationToken cancellationToken)

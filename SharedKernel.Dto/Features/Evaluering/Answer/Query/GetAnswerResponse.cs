@@ -4,4 +4,3 @@ public record GetAnswerResponse(
     Guid AnswerId,
     string Text,
     Guid UserId);
-

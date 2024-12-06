@@ -9,5 +9,8 @@ public record GetDetailedUserResponse(
     string Email,
     IEnumerable<GetSimpleSemesterResponse> Semesters)
 {
-    public GetDetailedUserResponse() : this(Guid.Empty, string.Empty, string.Empty, string.Empty, new List<GetSimpleSemesterResponse>()) { }
+    public GetDetailedUserResponse() : this(Guid.Empty, string.Empty, string.Empty, string.Empty,
+        new List<GetSimpleSemesterResponse>())
+    {
+    }
 }

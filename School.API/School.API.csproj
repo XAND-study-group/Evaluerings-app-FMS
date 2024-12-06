@@ -8,33 +8,33 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="12.4.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
+        <PackageReference Include="MediatR" Version="12.4.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Abstractions\" />
-      <Folder Include="Endpoints\SemesterEndpoints\" />
-      <Folder Include="Endpoints\UserEndpoints\" />
-      <Folder Include="Helpers\" />
+        <Folder Include="Abstractions\"/>
+        <Folder Include="Endpoints\SemesterEndpoints\"/>
+        <Folder Include="Endpoints\UserEndpoints\"/>
+        <Folder Include="Helpers\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\School.Application\School.Application.csproj" />
-      <ProjectReference Include="..\School.Infrastructure\School.Infrastructure.csproj" />
-      <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
+        <ProjectReference Include="..\School.Application\School.Application.csproj"/>
+        <ProjectReference Include="..\School.Infrastructure\School.Infrastructure.csproj"/>
+        <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
 </Project>

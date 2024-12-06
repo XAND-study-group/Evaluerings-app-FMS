@@ -11,8 +11,8 @@ namespace School.Infrastructure.Features.Semester.Class;
 
 public class GetClassQueryHandler : IRequestHandler<GetClassQuery, Result<GetDetailedClassResponse?>>
 {
-    private readonly SchoolDbContext _semesterDbContext;
     private readonly IMapper _mapper;
+    private readonly SchoolDbContext _semesterDbContext;
 
     public GetClassQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
     {
@@ -20,8 +20,9 @@ public class GetClassQueryHandler : IRequestHandler<GetClassQuery, Result<GetDet
         _mapper = mapper;
     }
 
-    async Task<Result<GetDetailedClassResponse?>> IRequestHandler<GetClassQuery, Result<GetDetailedClassResponse?>>.Handle(
-        GetClassQuery request, CancellationToken cancellationToken)
+    async Task<Result<GetDetailedClassResponse?>> IRequestHandler<GetClassQuery, Result<GetDetailedClassResponse?>>.
+        Handle(
+            GetClassQuery request, CancellationToken cancellationToken)
     {
         try
         {

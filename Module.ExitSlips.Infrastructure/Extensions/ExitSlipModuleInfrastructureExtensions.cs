@@ -7,27 +7,23 @@ using Module.ExitSlip.Infrastructure.Mapper;
 using Module.ExitSlip.Infrastructure.Repositories;
 using SharedKernel.Interfaces.UOW;
 
-namespace Module.ExitSlip.Infrastructure.Extensions
+namespace Module.ExitSlip.Infrastructure.Extensions;
+
+public static class ExitSlipModuleInfrastructureExtensions
 {
-    public static class ExitSlipModuleInfrastructureExtensions
+    public static IServiceCollection AddExitSlipModuleInfrastructure(this IServiceCollection serviceCollection,
+        IConfiguration configuration)
     {
-        public static IServiceCollection AddExitSlipModuleInfrastructure(this IServiceCollection serviceCollection,
-            IConfiguration configuration)
-        {
-            serviceCollection.AddDbContext<IExitSlipDbContext, ExitSlipDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    optionsBuilder =>
-                    {
-                        optionsBuilder.MigrationsAssembly("Module.ExitSlip.Infrastructure");
-                    }));
+        serviceCollection.AddDbContext<IExitSlipDbContext, ExitSlipDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                optionsBuilder => { optionsBuilder.MigrationsAssembly("Module.ExitSlip.Infrastructure"); }));
 
-            serviceCollection.AddScoped<IExitSlipRepository, ExitSlipRepository>();
-            serviceCollection.AddScoped<IQuestionRepository, QuestionRepository>();
-            serviceCollection.AddScoped<IAnswerRepository, AnswerRepository>();
+        serviceCollection.AddScoped<IExitSlipRepository, ExitSlipRepository>();
+        serviceCollection.AddScoped<IQuestionRepository, QuestionRepository>();
+        serviceCollection.AddScoped<IAnswerRepository, AnswerRepository>();
 
-            serviceCollection.AddAutoMapper(typeof(MappingProfileExitSlip));
-            serviceCollection.AddScoped<IUnitOfWork, UnitOfWork<ExitSlipDbContext>>();
-            return serviceCollection;
-        }
+        serviceCollection.AddAutoMapper(typeof(MappingProfileExitSlip));
+        serviceCollection.AddScoped<IUnitOfWork, UnitOfWork<ExitSlipDbContext>>();
+        return serviceCollection;
     }
 }

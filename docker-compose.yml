@@ -5,8 +5,8 @@
       context: .
       dockerfile: School.API/Dockerfile
     networks:
-      - schoolNetwork 
-
+      - schoolNetwork
+  
   schooldb:
     image: mcr.microsoft.com/mssql/server:latest
     volumes:
@@ -18,7 +18,7 @@
       - "8090:1433"
     networks:
       - schoolNetwork
-      
+  
   reverseproxy.api:
     image: reverseproxy.api
     build:
@@ -59,7 +59,7 @@
       - "9090:1433"
     networks:
       - evaluationDatabaseNetwork
-      
+  
   fakemailserver:
     image: reachfive/fake-smtp-server:latest
     ports:
@@ -69,8 +69,8 @@
       - ./emails:/tmp/fakemail
     networks:
       - evaluationDatabaseNetwork
-    
-        
+
+
 networks:
   evaluationApiNetwork:
     driver: bridge

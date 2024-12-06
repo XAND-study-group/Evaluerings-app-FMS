@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
-namespace Module.ExitSlip.Application
+namespace Module.ExitSlip.Application;
+
+public class AssemblyReference
 {
-    public class AssemblyReference
-    {
-        public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
-    }
+    public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
 }

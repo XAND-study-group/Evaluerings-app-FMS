@@ -7,17 +7,17 @@ using Module.ExitSlip.Application.Features.ExitSlip.Query;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
 
-namespace Module.ExitSlip.Endpoints.ExitSlip.Queries
+namespace Module.ExitSlip.Endpoints.ExitSlip.Queries;
+
+public class GetAllExitSlips : IEndpoint
 {
-    public class GetAllExitSlips : IEndpoint
+    void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
-        {
-            app.MapGet(configuration["Routes:ExitSlipModule:ExitSlip:GetAllExitSlips"] ??
-                       throw new ArgumentException("Route is not added to config file"),
-                async ([FromServices] IMediator mediator) => (await mediator.Send(new GetAllExitSlipsQuery())).ReturnHttpResult())
-                  .WithTags("ExitSlip")
-                  .RequireAuthorization();
-        }
+        app.MapGet(configuration["Routes:ExitSlipModule:ExitSlip:GetAllExitSlips"] ??
+                   throw new ArgumentException("Route is not added to config file"),
+                async ([FromServices] IMediator mediator) =>
+                (await mediator.Send(new GetAllExitSlipsQuery())).ReturnHttpResult())
+            .WithTags("ExitSlip")
+            .RequireAuthorization();
     }
 }

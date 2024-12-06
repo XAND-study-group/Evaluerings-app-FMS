@@ -38,7 +38,7 @@ builder.Services.AddFeedbackModule(builder.Configuration);
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile("appsettings.json", false, true)
     .AddUserSecrets<EvaluationSecrets>()
     .AddEnvironmentVariables();
 
@@ -71,6 +71,7 @@ app.Run();
 
 namespace Evaluering.API
 {
-    record FeedbackContentDto(string Title, string Problem, string Solution);
-    record CommentContentDto(string Comment);
+    internal record FeedbackContentDto(string Title, string Problem, string Solution);
+
+    internal record CommentContentDto(string Comment);
 }

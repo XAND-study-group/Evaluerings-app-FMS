@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Module.ExitSlip.Infrastructure.Mapper;
 
-namespace Module.ExitSlip.Domain.Test
+namespace Module.ExitSlip.Domain.Test;
+
+public class Startup
 {
-    public class Startup
+    public void ConfigureServices(IServiceCollection services)
     {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddAutoMapper(typeof(MappingProfileExitSlip));
-        }
+        services.AddAutoMapper(typeof(MappingProfileExitSlip));
     }
 }

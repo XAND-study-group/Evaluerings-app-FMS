@@ -9,18 +9,17 @@ namespace Module.ExitSlip.Application.Features.Question.Command;
 public record UpdateQuestionCommand(UpdateQuestionRequest UpdateQuestionRequest)
     : IRequest<Result<bool>>, ITransactionalCommand;
 
-
 public class UpdateQuestionCommandHandler(IQuestionRepository questionRepository) :
     IRequestHandler<UpdateQuestionCommand, Result<bool>>
 {
-  
     public async Task<Result<bool>> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
     {
         try
         {
             //Load
             var updateQuestionRequest = request.UpdateQuestionRequest;
-            var exitSlip = await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(updateQuestionRequest.ExitSlipId);
+            var exitSlip =
+                await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(updateQuestionRequest.ExitSlipId);
 
             //Do
             var question = exitSlip.UpdateQuestion(updateQuestionRequest.QuestionId, updateQuestionRequest.Text);
@@ -36,5 +35,3 @@ public class UpdateQuestionCommandHandler(IQuestionRepository questionRepository
         }
     }
 }
-
-

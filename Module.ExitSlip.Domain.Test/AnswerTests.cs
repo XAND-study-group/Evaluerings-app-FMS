@@ -27,7 +27,7 @@ public class AnswerTests
     {
         // Act
         answer.UpdateAnswer(newText);
-        
+
         // Assert
         Assert.Equal(newText, answer.Text);
     }
@@ -42,7 +42,7 @@ public class AnswerTests
     {
         // Arrange
         var answer = new FakeAnswer();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => answer.SetText(text));
     }
@@ -69,8 +69,8 @@ public class AnswerTests
 
     public static IEnumerable<object[]> Valid_Update_TestData()
     {
-        yield return ["NewValidText", new FakeAnswer("ValidText" )];
-        yield return ["Q", new FakeAnswer("V" )];
+        yield return ["NewValidText", new FakeAnswer("ValidText")];
+        yield return ["Q", new FakeAnswer("V")];
         yield return [new string('q', 500), new FakeAnswer(new string('x', 500))];
     }
 

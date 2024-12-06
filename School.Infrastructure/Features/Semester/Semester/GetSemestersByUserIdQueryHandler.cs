@@ -9,7 +9,9 @@ using SharedKernel.Models;
 
 namespace School.Infrastructure.Features.Semester.Semester;
 
-public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>
+public class
+    GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUserIdQuery,
+    Result<IEnumerable<GetSimpleSemesterResponse>>>
 {
     private readonly SchoolDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -20,7 +22,9 @@ public class GetSemestersByUserIdQueryHandler : IRequestHandler<GetSemestersByUs
         _mapper = mapper;
     }
 
-    async Task<Result<IEnumerable<GetSimpleSemesterResponse>>> IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>.Handle(GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
+    async Task<Result<IEnumerable<GetSimpleSemesterResponse>>>
+        IRequestHandler<GetSemestersByUserIdQuery, Result<IEnumerable<GetSimpleSemesterResponse>>>.Handle(
+            GetSemestersByUserIdQuery request, CancellationToken cancellationToken)
     {
         try
         {

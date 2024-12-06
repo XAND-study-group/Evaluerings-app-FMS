@@ -7,5 +7,7 @@ public record GetSimpleClassResponse(
     string Description,
     int StudentCapacity)
 {
-    public GetSimpleClassResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty, 0) { }
+    public GetSimpleClassResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty, 0)
+    {
+    }
 }

@@ -2,5 +2,7 @@
 
 public record GetLectureIdResponse(Guid Id)
 {
-    public GetLectureIdResponse() : this(Guid.Empty) { }
+    public GetLectureIdResponse() : this(Guid.Empty)
+    {
+    }
 }

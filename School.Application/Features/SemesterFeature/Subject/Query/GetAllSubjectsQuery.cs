@@ -4,4 +4,4 @@ using SharedKernel.Models;
 
 namespace School.Application.Features.SemesterFeature.Subject.Query;
 
-public record GetAllSubjectsQuery() : IRequest<Result<IEnumerable<GetSimpleSubjectResponse>>>;
+public record GetAllSubjectsQuery : IRequest<Result<IEnumerable<GetSimpleSubjectResponse>>>;

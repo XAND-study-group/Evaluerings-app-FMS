@@ -29,7 +29,7 @@ public class CreateSubCommentCommandHandler(
                 createSubCommentRequest.UserId,
                 createSubCommentRequest.CommentText,
                 iValidationServiceProxy);
-            
+
             if (feedback.ShouldSendNotification())
             {
                 var emails = await schoolApiProxy.GetEmailsByUserIdsAsync(feedback.Room.NotificationSubscribedUserIds);

@@ -5,5 +5,7 @@ public record GetLectureUserResponse(
     string Firstname,
     string Lastname)
 {
-    public GetLectureUserResponse() : this(Guid.Empty, string.Empty, string.Empty) { }
+    public GetLectureUserResponse() : this(Guid.Empty, string.Empty, string.Empty)
+    {
+    }
 }

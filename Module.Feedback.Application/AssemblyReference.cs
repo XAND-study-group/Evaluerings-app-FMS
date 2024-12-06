@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 
-namespace Module.Feedback.Application
+namespace Module.Feedback.Application;
+
+public class AssemblyReference
 {
-    public class AssemblyReference
-    {
-        public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
-    }
+    public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
 }

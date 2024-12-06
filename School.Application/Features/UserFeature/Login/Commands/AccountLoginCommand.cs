@@ -35,7 +35,7 @@ public class AccountLoginCommandHandler(
                 return Result<TokenResponse?>.Create("Email eller adgangskode er forkert", null, ResultStatus.Error);
 
             var userClasses = await classRepository.GetClassesByUserIdAsync(user.Id);
-            
+
             var accessToken = tokenProvider.GenerateAccessToken(user, userClasses);
             var refreshToken = tokenProvider.GenerateRefreshToken();
 

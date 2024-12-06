@@ -1,7 +1,7 @@
 ﻿using Module.Feedback.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Vote;
 
-namespace Module.Feedback.Domain;
+namespace Module.Feedback.Domain.Entities;
 
 public class Vote : Entity
 {
@@ -29,17 +29,21 @@ public class Vote : Entity
     #region Vote Methods
 
     internal static Vote Create(Guid userId, VoteScale voteScale)
-        => new(userId, voteScale);
+    {
+        return new Vote(userId, voteScale);
+    }
 
     internal void Update(Guid userId, VoteScale voteScale)
     {
         AssureUserHasVote(userId, HashedUserId);
         VoteScale = voteScale;
     }
-    
+
     internal void Delete(Guid userId)
-        => AssureUserHasVote(userId, HashedUserId);
-    
+    {
+        AssureUserHasVote(userId, HashedUserId);
+    }
+
     private void AssureUserHasVote(Guid userId, HashedUserId hashedUserUserId)
     {
         if (userId != hashedUserUserId)

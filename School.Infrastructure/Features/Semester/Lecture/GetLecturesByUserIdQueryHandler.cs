@@ -10,7 +10,8 @@ using SharedKernel.Models;
 namespace School.Infrastructure.Features.Semester.Lecture;
 
 public class
-    GetLecturesByUserIdQueryHandler : IRequestHandler<GetLecturesByUserIdQuery, Result<IEnumerable<GetSimpleLectureResponse>>>
+    GetLecturesByUserIdQueryHandler : IRequestHandler<GetLecturesByUserIdQuery,
+    Result<IEnumerable<GetSimpleLectureResponse>>>
 {
     private readonly SchoolDbContext _dbContext;
     private readonly IMapper _mapper;

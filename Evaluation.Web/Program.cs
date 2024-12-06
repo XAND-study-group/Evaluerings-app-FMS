@@ -23,12 +23,14 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IEvaluationProxy, EvaluationProxy>();
 
-var evaluationApiUrl = builder.Configuration["Api:EvaluationUrl"] ?? throw new Exception("EvaluationApiUrl configuration is missing");
+var evaluationApiUrl = builder.Configuration["Api:EvaluationUrl"] ??
+                       throw new Exception("EvaluationApiUrl configuration is missing");
 builder.Services.AddHttpClient<IEvaluationProxy, EvaluationProxy>
         (client => { client.BaseAddress = new Uri(evaluationApiUrl); })
     .AddHttpMessageHandler<AuthorizationHeaderHandler>();
 
-var schoolApiUrl = builder.Configuration["Api:SchoolUrl"] ?? throw new Exception("SchoolApiUrl configuration is missing");
+var schoolApiUrl = builder.Configuration["Api:SchoolUrl"] ??
+                   throw new Exception("SchoolApiUrl configuration is missing");
 builder.Services.AddHttpClient<ISchoolApiProxy, SchoolApiProxy>(client =>
 {
     client.BaseAddress = new Uri(schoolApiUrl);
@@ -39,7 +41,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error", true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }

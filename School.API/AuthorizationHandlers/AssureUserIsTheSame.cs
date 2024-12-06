@@ -6,12 +6,12 @@ namespace School.API.AuthorizationHandlers;
 
 public class AssureUserIsTheSameRequirement : IAuthorizationRequirement
 {
-    public string[] Roles { get; }
-
     public AssureUserIsTheSameRequirement(params string[] roles)
     {
         Roles = roles;
     }
+
+    public string[] Roles { get; }
 }
 
 public class AssureUserIsTheSame : AuthorizationHandler<AssureUserIsTheSameRequirement>
@@ -19,7 +19,9 @@ public class AssureUserIsTheSame : AuthorizationHandler<AssureUserIsTheSameRequi
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
         AssureUserIsTheSameRequirement requirement)
     {
-        var tokenUserIdStr = context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
+        var tokenUserIdStr =
+            context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ??
+            string.Empty;
         var role = context.User.FindFirst("Role")?.Value ?? string.Empty;
 
         if (requirement.Roles.Contains(role))
@@ -27,9 +29,9 @@ public class AssureUserIsTheSame : AuthorizationHandler<AssureUserIsTheSameRequi
             context.Succeed(requirement);
             return;
         }
-        
+
         var request = context.Resource as HttpContext;
-        
+
         var userId = request?.Request.RouteValues["userId"]?.ToString();
 
         if (string.IsNullOrEmpty(userId))

@@ -2,5 +2,5 @@
 
 public interface IEmailNotificationProxy
 {
-    Task SendNotificationAsync(IEnumerable<string> emailsTo, string emailFrom, Domain.Feedback feedback);
+    Task SendNotificationAsync(IEnumerable<string> emailsTo, string emailFrom, Domain.Entities.Feedback feedback);
 }

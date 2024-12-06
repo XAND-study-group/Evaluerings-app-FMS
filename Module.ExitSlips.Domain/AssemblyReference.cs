@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 
-namespace Module.ExitSlip.Domain
+[assembly: InternalsVisibleTo("Module.ExitSlip.Domain.Test")]
+
+namespace Module.ExitSlip.Domain;
+
+public class AssemblyReference
 {
-    public class AssemblyReference
-    {
-        public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
-    }
+    public static Assembly Assembly { get; set; } = typeof(AssemblyReference).Assembly;
 }

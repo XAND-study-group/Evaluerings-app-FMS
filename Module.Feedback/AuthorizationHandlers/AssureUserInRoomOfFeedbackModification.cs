@@ -8,15 +8,16 @@ namespace Module.Feedback.AuthorizationHandlers;
 
 public class AssureUserInRoomOfFeedbackModificationRequirement : IAuthorizationRequirement
 {
-    public string[] Roles { get; }
-
     public AssureUserInRoomOfFeedbackModificationRequirement(params string[] roles)
     {
         Roles = roles;
     }
+
+    public string[] Roles { get; }
 }
 
-public class AssureUserInRoomOfFeedbackModification(IFeedbackRepository feedbackRepository) : AuthorizationHandler<AssureUserInRoomOfFeedbackModificationRequirement>
+public class AssureUserInRoomOfFeedbackModification(IFeedbackRepository feedbackRepository)
+    : AuthorizationHandler<AssureUserInRoomOfFeedbackModificationRequirement>
 {
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
         AssureUserInRoomOfFeedbackModificationRequirement requirement)
@@ -28,7 +29,7 @@ public class AssureUserInRoomOfFeedbackModification(IFeedbackRepository feedback
             context.Succeed(requirement);
             return;
         }
-        
+
         var request = context.Resource as HttpContext;
 
         var userClasses = context.User.FindAll("Class").Select(c => Guid.Parse(c.Value));
@@ -51,14 +52,15 @@ public class AssureUserInRoomOfFeedbackModification(IFeedbackRepository feedback
 
         var feedback = await feedbackRepository.GetFeedbackByIdAsync(requestBody.FeedbackId);
 
-        var isUserInRoom = feedback.Room.ClassIds.Any(classId => userClasses.Any(userClassId => classId == userClassId));
+        var isUserInRoom =
+            feedback.Room.ClassIds.Any(classId => userClasses.Any(userClassId => classId == userClassId));
 
         if (!isUserInRoom)
         {
             context.Fail();
             return;
         }
-        
+
         context.Succeed(requirement);
     }
 }

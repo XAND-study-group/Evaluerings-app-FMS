@@ -18,20 +18,20 @@ public class AccountResetPasswordCommandHandler(
         try
         {
             var changePasswordRequest = request.Request;
-            
+
             var memoryValue = memoryCache.Get(changePasswordRequest.Code);
-            
+
             if (memoryValue is not Guid userId)
                 return Result<bool>.Create("Du kan ikke ændre din adgangskode", false, ResultStatus.Error);
 
             var user =
                 await userRepository.GetUserByIdAsync(userId);
-            
+
             if (user is null)
                 return Result<bool>.Create("Brugeren eksistere ikke", false, ResultStatus.Error);
-            
+
             memoryCache.Remove(changePasswordRequest.Code);
-            
+
             user.ChangePassword(changePasswordRequest.NewPassword);
 
             await userRepository.ChangeUserPasswordAsync(user, user.RowVersion);

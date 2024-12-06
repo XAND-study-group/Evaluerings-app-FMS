@@ -6,6 +6,16 @@ namespace School.Domain.Entities;
 
 public class Lecture : Entity
 {
+    #region Lecture Methods
+
+    public static Lecture Create(string lectureTitle, string description, TimeOnly startTime, TimeOnly endTime,
+        DateOnly date, string classRoom)
+    {
+        return new Lecture(lectureTitle, description, startTime, endTime, date, classRoom);
+    }
+
+    #endregion Lecture Methods
+
     #region Properties
 
     public Title Title { get; protected set; }
@@ -15,7 +25,6 @@ public class Lecture : Entity
     public ClassRoom ClassRoom { get; protected set; }
     private readonly List<User> _teachers = [];
     public IReadOnlyCollection<User> Teachers => _teachers;
-    
 
     #endregion Properties
 
@@ -37,21 +46,13 @@ public class Lecture : Entity
 
     #endregion Constructors
 
-    #region Lecture Methods
-
-    public static Lecture Create(string lectureTitle, string description, TimeOnly startTime, TimeOnly endTime,
-        DateOnly date, string classRoom)
-        => new Lecture(lectureTitle, description, startTime, endTime, date, classRoom);
-
-    #endregion Lecture Methods
-    
     #region Relational Methods
 
     public void AddTeacher(User user)
     {
         AssureCorrectRole("Teacher", user);
         AssureNoDuplicates(user, _teachers);
-        
+
         _teachers.Add(user);
     }
 
@@ -60,12 +61,11 @@ public class Lecture : Entity
         if (teachersList.Any(t => t.Id == user.Id))
             throw new InvalidOperationException("User already exists in the teachers list.");
     }
-    
+
     protected void AssureCorrectRole(string roleValueName, User user)
     {
-        if(user.AccountClaims.All(c => c.ClaimValue != roleValueName))
-            throw new ArgumentException($"Brugeren har ikke den korrekte rolle");
-
+        if (user.AccountClaims.All(c => c.ClaimValue != roleValueName))
+            throw new ArgumentException("Brugeren har ikke den korrekte rolle");
     }
 
     #endregion Relational Methods

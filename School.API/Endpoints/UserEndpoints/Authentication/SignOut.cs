@@ -13,7 +13,7 @@ public class SignOut : IEndpoint
     {
         app.MapPost(configuration["Routes:UserModule:Authentication:SignOut"] ??
                     throw new Exception("Route is not added to config file"),
-                async ([FromBody]SignOutRequest request, [FromServices]IMediator mediator)
+                async ([FromBody] SignOutRequest request, [FromServices] IMediator mediator)
                     => (await mediator.Send(new AccountSignOutCommand(request))).ReturnHttpResult())
             .WithTags("Authentication")
             .RequireAuthorization();

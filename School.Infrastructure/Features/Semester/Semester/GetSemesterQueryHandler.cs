@@ -20,8 +20,9 @@ public class GetSemesterQueryHandler : IRequestHandler<GetSemesterQuery, Result<
         _mapper = mapper;
     }
 
-    async Task<Result<GetDetailedSemesterResponse?>> IRequestHandler<GetSemesterQuery, Result<GetDetailedSemesterResponse?>>.Handle(
-        GetSemesterQuery request, CancellationToken cancellationToken)
+    async Task<Result<GetDetailedSemesterResponse?>>
+        IRequestHandler<GetSemesterQuery, Result<GetDetailedSemesterResponse?>>.Handle(
+            GetSemesterQuery request, CancellationToken cancellationToken)
     {
         try
         {

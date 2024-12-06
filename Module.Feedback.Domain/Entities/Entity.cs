@@ -1,4 +1,4 @@
-﻿namespace Module.Feedback.Domain;
+﻿namespace Module.Feedback.Domain.Entities;
 
 public abstract class Entity
 {

@@ -3,43 +3,43 @@ using AutoMapper;
 using AutoMapper.Internal;
 using Module.ExitSlip.Infrastructure.Mapper;
 
-namespace Module.ExitSlip.Domain.Test
+namespace Module.ExitSlip.Domain.Test;
+
+public class ExitSlipAutoMapperConfigurationIsValidTests
 {
-    public class ExitSlipAutoMapperConfigurationIsValidTests
+    private readonly IMapper _mapper;
+
+    public ExitSlipAutoMapperConfigurationIsValidTests()
     {
-        private readonly IMapper _mapper;
+        var config = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfileExitSlip>(); });
 
-        public ExitSlipAutoMapperConfigurationIsValidTests()
+        _mapper = config.CreateMapper();
+    }
+
+    [Fact]
+    public void AllAutoMapperProfilesIsValid()
+    {
+        //Arrange
+        var actual = new StringBuilder();
+        //Act
+        TypeMap typeMap = null;
+        try
         {
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfileExitSlip>(); });
-
-            _mapper = config.CreateMapper();
+            var a = _mapper.ConfigurationProvider as MapperConfiguration;
+            foreach (var t in (_mapper.ConfigurationProvider as MapperConfiguration).Internal()
+                     .GetAllTypeMaps())
+            {
+                typeMap = t;
+                _mapper.ConfigurationProvider.Internal().AssertConfigurationIsValid(t);
+            }
+        }
+        catch (Exception e)
+        {
+            actual.AppendLine(typeMap?.Profile.Name);
+            actual.AppendLine(e.Message);
         }
 
-        [Fact]
-        public void AllAutoMapperProfilesIsValid()
-        {
-            //Arrange
-            var actual = new StringBuilder();
-            //Act
-            TypeMap typeMap = null;
-            try
-            {
-                var a = _mapper.ConfigurationProvider as MapperConfiguration;
-                foreach (var t in (_mapper.ConfigurationProvider as MapperConfiguration).Internal()
-                         .GetAllTypeMaps())
-                {
-                    typeMap = t;
-                    _mapper.ConfigurationProvider.Internal().AssertConfigurationIsValid(t);
-                }
-            }
-            catch (Exception e)
-            {
-                actual.AppendLine(typeMap?.Profile.Name);
-                actual.AppendLine(e.Message);
-            }
-            //Assert
-            Assert.True(actual.Length == 0, actual.ToString());
-        }
+        //Assert
+        Assert.True(actual.Length == 0, actual.ToString());
     }
 }

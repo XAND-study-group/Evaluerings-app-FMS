@@ -11,5 +11,8 @@ public record GetSimpleSemesterResponse(
     DateOnly EndDate,
     SchoolType School)
 {
-    public GetSimpleSemesterResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, 0, new DateOnly(), new DateOnly(), SchoolType.Fredericia) { }
+    public GetSimpleSemesterResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, 0, new DateOnly(),
+        new DateOnly(), SchoolType.Fredericia)
+    {
+    }
 }

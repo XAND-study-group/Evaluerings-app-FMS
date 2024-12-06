@@ -7,19 +7,19 @@ using SharedKernel.Models;
 namespace Module.ExitSlip.Application.Features.Question.Command;
 
 public record DeleteQuestionCommand(DeleteQuestionRequest DeleteQuestionRequest)
-        : IRequest<Result<bool>>, ITransactionalCommand;
+    : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class DeleteQuestionCommandHandler(IQuestionRepository questionRepository) :
     IRequestHandler<DeleteQuestionCommand, Result<bool>>
 {
-
     public async Task<Result<bool>> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
     {
         try
         {
             // Load
             var deleteQuestionRequest = request.DeleteQuestionRequest;
-            var exitSlip = await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(deleteQuestionRequest.ExitSlipId);
+            var exitSlip =
+                await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(deleteQuestionRequest.ExitSlipId);
 
             // Do
             var question = exitSlip.DeleteQuestion(deleteQuestionRequest.QuestionId);

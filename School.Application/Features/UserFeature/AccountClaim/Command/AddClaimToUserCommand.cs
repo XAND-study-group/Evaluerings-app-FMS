@@ -9,7 +9,9 @@ namespace School.Application.Features.UserFeature.AccountClaim.Command;
 
 public record AddClaimToUserCommand(AddClaimToUserRequest Request) : IRequest<Result<bool>>, ITransactionalCommand;
 
-public class AddClaimToUserCommandHandler(IUserRepository userRepository, IAccountClaimRepository accountClaimRepository) : IRequestHandler<AddClaimToUserCommand, Result<bool>>
+public class AddClaimToUserCommandHandler(
+    IUserRepository userRepository,
+    IAccountClaimRepository accountClaimRepository) : IRequestHandler<AddClaimToUserCommand, Result<bool>>
 {
     public async Task<Result<bool>> Handle(AddClaimToUserCommand request, CancellationToken cancellationToken)
     {

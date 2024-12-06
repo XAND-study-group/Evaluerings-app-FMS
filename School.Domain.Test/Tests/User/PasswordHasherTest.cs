@@ -24,7 +24,7 @@ public class PasswordHasherTest
         // Assert
         Assert.False(result);
     }
-    
+
     [Theory]
     [InlineData("Password123.")]
     [InlineData("ThisIsAVeryGoodPassword1.")]

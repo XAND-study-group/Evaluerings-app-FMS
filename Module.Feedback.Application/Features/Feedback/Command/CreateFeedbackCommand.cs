@@ -24,7 +24,8 @@ public class CreateFeedbackCommandHandler(
             var room = await feedbackRepository.GetRoomByIAsync(createFeedbackRequest.RoomId);
 
             // Do
-            var feedback = await Domain.Feedback.CreateAsync(createFeedbackRequest.UserId, createFeedbackRequest.Title,
+            var feedback = await Domain.Entities.Feedback.CreateAsync(createFeedbackRequest.UserId,
+                createFeedbackRequest.Title,
                 createFeedbackRequest.Problem, createFeedbackRequest.Solution, room, iIValidationServiceProxy);
 
             // Save

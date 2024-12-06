@@ -3,5 +3,7 @@
 public record GetClassSubjectResponse(
     Guid Id)
 {
-    public GetClassSubjectResponse() : this(Guid.Empty) { }
+    public GetClassSubjectResponse() : this(Guid.Empty)
+    {
+    }
 }

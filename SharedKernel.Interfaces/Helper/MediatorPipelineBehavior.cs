@@ -8,7 +8,8 @@ public class MediatorPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWor
 {
     private readonly Type _commandMarkerInterface = typeof(ITransactionalCommand);
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         var isTransactionalCommand = _commandMarkerInterface.IsAssignableFrom(typeof(TRequest));
 

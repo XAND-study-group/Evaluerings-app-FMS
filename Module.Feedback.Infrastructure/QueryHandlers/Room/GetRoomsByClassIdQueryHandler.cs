@@ -9,7 +9,8 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Room;
 
-public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetSimpleRoomResponse>?>>
+public class
+    GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetSimpleRoomResponse>?>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
@@ -19,6 +20,7 @@ public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQu
         _feedbackDbContext = feedbackDbContext;
         _mapper = mapper;
     }
+
     async Task<Result<IEnumerable<GetSimpleRoomResponse>?>>
         IRequestHandler<GetRoomsByClassIdQuery, Result<IEnumerable<GetSimpleRoomResponse>?>>.Handle(
             GetRoomsByClassIdQuery request, CancellationToken cancellationToken)
@@ -31,8 +33,9 @@ public class GetRoomsByClassIdQueryHandler : IRequestHandler<GetRoomsByClassIdQu
                     .Any(c => c == request.ClassId))
                 .ProjectTo<GetSimpleRoomResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
-        
-            return Result<IEnumerable<GetSimpleRoomResponse>?>.Create("Fandt forums tilknyttet klasse ID", rooms, ResultStatus.Success);
+
+            return Result<IEnumerable<GetSimpleRoomResponse>?>.Create("Fandt forums tilknyttet klasse ID", rooms,
+                ResultStatus.Success);
         }
         catch (Exception e)
         {

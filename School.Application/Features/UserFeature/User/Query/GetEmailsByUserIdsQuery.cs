@@ -4,4 +4,5 @@ using SharedKernel.Models;
 
 namespace School.Application.Features.UserFeature.User.Query;
 
-public record GetEmailsByUserIdsQuery(GetEmailsByUserIdsRequest Request) : IRequest<Result<IEnumerable<GetEmailsByUserIdsResponse>>>;
+public record GetEmailsByUserIdsQuery(GetEmailsByUserIdsRequest Request)
+    : IRequest<Result<IEnumerable<GetEmailsByUserIdsResponse>>>;

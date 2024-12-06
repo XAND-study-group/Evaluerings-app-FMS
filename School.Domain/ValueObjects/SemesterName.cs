@@ -2,13 +2,13 @@
 
 public record SemesterName
 {
-    public string Value { get; init; }
-
     private SemesterName(string value)
     {
         Validate(value);
         Value = value;
     }
+
+    public string Value { get; init; }
 
     public static SemesterName Create(string name, IEnumerable<string> otherSemesterNames)
     {
@@ -32,5 +32,8 @@ public record SemesterName
             throw new ArgumentException("Semester name kan ikke være længere end 50 karakterer.", nameof(value));
     }
 
-    public static implicit operator string(SemesterName value) => value.Value;
+    public static implicit operator string(SemesterName value)
+    {
+        return value.Value;
+    }
 }

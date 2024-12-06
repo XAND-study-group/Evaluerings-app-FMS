@@ -9,7 +9,9 @@ using SharedKernel.Models;
 
 namespace Module.Feedback.Infrastructure.QueryHandlers.Feedback;
 
-public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRoomIdQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>
+public class
+    GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRoomIdQuery,
+    Result<IEnumerable<GetAllFeedbacksResponse>?>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
@@ -19,6 +21,7 @@ public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRo
         _feedbackDbContext = feedbackDbContext;
         _mapper = mapper;
     }
+
     async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>
         IRequestHandler<GetFeedbacksByRoomIdQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>.Handle(
             GetFeedbacksByRoomIdQuery request, CancellationToken cancellationToken)
@@ -34,7 +37,8 @@ public class GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRo
                 .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create("Alle evalueringer tilknyttet det specifikke forum fundet",
+            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create(
+                "Alle evalueringer tilknyttet det specifikke forum fundet",
                 feedbacks, ResultStatus.Success);
         }
         catch (Exception e)

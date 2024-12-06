@@ -10,8 +10,9 @@ public class AuthorizationHeaderHandler : DelegatingHandler
     {
         _httpContextAccessor = httpContextAccessor;
     }
-    
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        CancellationToken cancellationToken)
     {
         // Get the JWT token from the provider
         var user = _httpContextAccessor.HttpContext.User;

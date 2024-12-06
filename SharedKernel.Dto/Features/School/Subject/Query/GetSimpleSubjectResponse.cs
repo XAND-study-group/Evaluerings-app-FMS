@@ -8,6 +8,8 @@ public record GetSimpleSubjectResponse(
     string Description,
     IEnumerable<GetSimpleLectureResponse> Lectures)
 {
-    public GetSimpleSubjectResponse() : this(Guid.Empty, string.Empty, string.Empty, new List<GetSimpleLectureResponse>()) { }
+    public GetSimpleSubjectResponse() : this(Guid.Empty, string.Empty, string.Empty,
+        new List<GetSimpleLectureResponse>())
+    {
+    }
 }
-

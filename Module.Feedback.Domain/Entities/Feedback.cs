@@ -4,7 +4,7 @@ using SharedKernel.Enums.Features.Evaluering.Feedback;
 using SharedKernel.Enums.Features.Vote;
 using SharedKernel.ValueObjects;
 
-namespace Module.Feedback.Domain;
+namespace Module.Feedback.Domain.Entities;
 
 public class Feedback : Entity
 {
@@ -61,19 +61,29 @@ public class Feedback : Entity
     }
 
     public void ChangeStatus(FeedbackState state)
-        => State = state;
+    {
+        State = state;
+    }
 
     public int GetUpVoteCount()
-        => _votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
+    {
+        return _votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
+    }
 
     public int GetDownVoteCount()
-        => _votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
+    {
+        return _votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
+    }
 
     public int GetCommentsCount()
-        => _comments.Count + GetSubCommentsCount();
+    {
+        return _comments.Count + GetSubCommentsCount();
+    }
 
     private int GetSubCommentsCount()
-        => _comments.Sum(comment => comment.SubComments.Count);
+    {
+        return _comments.Sum(comment => comment.SubComments.Count);
+    }
 
     #endregion Feedback Methods
 
@@ -95,7 +105,7 @@ public class Feedback : Entity
             return false;
 
         // This variable would normally be calculated from the total count of users associated to a room + a percentage number.
-        int minimumsActicityCount = 5;
+        var minimumsActicityCount = 5;
 
         var votesCount = Votes.Count;
         var commentsCount = Comments.Count;
@@ -136,8 +146,10 @@ public class Feedback : Entity
     }
 
     private Comment GetCommentById(Guid commentId)
-        => _comments.FirstOrDefault(c => c.Id == commentId) ??
-           throw new ArgumentException("Kommentaren du prøver at kommentere kunne ikke findes");
+    {
+        return _comments.FirstOrDefault(c => c.Id == commentId) ??
+               throw new ArgumentException("Kommentaren du prøver at kommentere kunne ikke findes");
+    }
 
     #endregion Comment Related Methods
 
@@ -174,7 +186,9 @@ public class Feedback : Entity
     }
 
     private Vote GetVoteById(Guid voteId)
-        => _votes.FirstOrDefault(v => v.Id == voteId) ?? throw new ArgumentException("Vote kunne ikke findes");
+    {
+        return _votes.FirstOrDefault(v => v.Id == voteId) ?? throw new ArgumentException("Vote kunne ikke findes");
+    }
 
     #endregion Vote Related Methods
 

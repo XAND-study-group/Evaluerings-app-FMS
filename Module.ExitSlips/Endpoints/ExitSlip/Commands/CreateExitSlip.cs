@@ -8,18 +8,17 @@ using SharedKernel.Dto.Features.Evaluering.ExitSlip.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
 
-namespace Module.ExitSlip.Endpoints.ExitSlip.Commands
+namespace Module.ExitSlip.Endpoints.ExitSlip.Commands;
+
+public class CreateExitSlip : IEndpoint
 {
-    public class CreateExitSlip : IEndpoint
+    void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
-        {
-            app.MapPost(configuration["Routes:ExitSlipModule:ExitSlip:CreateExitSlip"] ??
-                       throw new ArgumentException("Route is not added to config file"),
+        app.MapPost(configuration["Routes:ExitSlipModule:ExitSlip:CreateExitSlip"] ??
+                    throw new ArgumentException("Route is not added to config file"),
                 async ([FromBody] CreateExitSlipRequest createExitSlipRequest, [FromServices] IMediator mediator) =>
-               (await mediator.Send(new CreateExitSlipCommand(createExitSlipRequest))).ReturnHttpResult())
-                .WithTags("ExitSlip")
-                .RequireAuthorization();
-        }
+                (await mediator.Send(new CreateExitSlipCommand(createExitSlipRequest))).ReturnHttpResult())
+            .WithTags("ExitSlip")
+            .RequireAuthorization();
     }
 }

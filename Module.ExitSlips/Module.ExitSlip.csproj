@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Module.ExitSlips.Application\Module.ExitSlip.Application.csproj" />
-		<ProjectReference Include="..\Module.ExitSlips.Infrastructure\Module.ExitSlip.Infrastructure.csproj" />
-		<ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj" />
-		<ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Module.ExitSlips.Application\Module.ExitSlip.Application.csproj"/>
+        <ProjectReference Include="..\Module.ExitSlips.Infrastructure\Module.ExitSlip.Infrastructure.csproj"/>
+        <ProjectReference Include="..\SharedKernel.Dto\SharedKernel.Dto.csproj"/>
+        <ProjectReference Include="..\SharedKernel.Interfaces\SharedKernel.Interfaces.csproj"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="MediatR" Version="12.4.1" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.4.1"/>
+    </ItemGroup>
 </Project>

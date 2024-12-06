@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
-using Module.Feedback.Domain;
+using Module.Feedback.Domain.Entities;
 using Module.Feedback.Infrastructure.DbContexts;
 
 namespace Module.Feedback.Infrastructure.Repositories;
@@ -14,10 +14,12 @@ public class RoomRepository(FeedbackDbContext feedbackDbContext) : IRoomReposito
     }
 
     async Task<Room> IRoomRepository.GetRoomByIdAsync(Guid roomId)
-        => await feedbackDbContext.Rooms
-            .Include(r => r.ClassIds)
-            .FirstOrDefaultAsync(r => r.Id == roomId) ??
-           throw new ArgumentException("Room not found");
+    {
+        return await feedbackDbContext.Rooms
+                   .Include(r => r.ClassIds)
+                   .FirstOrDefaultAsync(r => r.Id == roomId) ??
+               throw new ArgumentException("Room not found");
+    }
 
     async Task IRoomRepository.UpdateRoomAsync(Room room, byte[] rowVersion)
     {

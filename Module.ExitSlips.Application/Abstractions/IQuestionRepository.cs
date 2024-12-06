@@ -1,12 +1,11 @@
 ﻿using Module.ExitSlip.Domain.Entities;
 
-namespace Module.ExitSlip.Application.Abstractions
+namespace Module.ExitSlip.Application.Abstractions;
+
+public interface IQuestionRepository
 {
-    public interface IQuestionRepository
-    {
-        Task<Domain.Entities.ExitSlip> GetExitSlipWithQuestionsAndAnswersByIdAsync(Guid id);
-        Task CreateQuestionAsync(Question question);
-        Task UpdateQuestionAsync(Question question, byte[] rowVersion);
-        Task DeleteQuestionAsync(Question question, byte[] rowVerison);
-    }
+    Task<Domain.Entities.ExitSlip> GetExitSlipWithQuestionsAndAnswersByIdAsync(Guid id);
+    Task CreateQuestionAsync(Question question);
+    Task UpdateQuestionAsync(Question question, byte[] rowVersion);
+    Task DeleteQuestionAsync(Question question, byte[] rowVerison);
 }

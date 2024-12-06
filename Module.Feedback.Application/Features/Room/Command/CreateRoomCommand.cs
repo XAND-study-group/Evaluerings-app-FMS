@@ -19,7 +19,7 @@ public class CreateRoomCommandHandler(IRoomRepository roomRepository) : IRequest
             var createRoomRequest = request.CreateRoomRequest;
 
             // Do
-            var room = Domain.Room.Create(createRoomRequest.Title, createRoomRequest.Description);
+            var room = Domain.Entities.Room.Create(createRoomRequest.Title, createRoomRequest.Description);
 
             // Save
             await roomRepository.CreateRoomAsync(room);

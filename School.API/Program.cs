@@ -53,22 +53,22 @@ builder.Services.AddSchool(builder.Configuration);
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-    
+
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            factory: _ => new FixedWindowRateLimiterOptions
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
             {
                 AutoReplenishment = true,
-                PermitLimit = 50,     // 50 requests per student per window
-                QueueLimit = 10,       // Allow some queuing for network issues
+                PermitLimit = 50, // 50 requests per student per window
+                QueueLimit = 10, // Allow some queuing for network issues
                 Window = TimeSpan.FromHours(1) // Reset every hour
             }));
-    
+
     options.AddPolicy("LowFrequencyEndpoint", httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            factory: _ => new FixedWindowRateLimiterOptions
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
             {
                 PermitLimit = 5,
                 Window = TimeSpan.FromMinutes(15)
@@ -124,8 +124,8 @@ app.Run();
 
 namespace School.API
 {
-    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
     {
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public int TemperatureF => 32 + (int) (TemperatureC / 0.5556);
     }
 }

@@ -2,9 +2,7 @@
 
 public record UpdateAnswerRequest(
     Guid QuestionId,
-    Guid AnswerId, 
+    Guid AnswerId,
     Guid ExitSlipId,
     string Text,
     byte[] RowVersion);
-    
-

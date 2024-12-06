@@ -28,10 +28,10 @@ public class AccountStartResetPasswordCommandHandler(
             return Result<RequestResetPasswordResponse?>.Create("Brugeren eksistere ikke", null, ResultStatus.Error);
 
         var code = tokenProvider.GenerateRandomCode();
-        
+
         var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetSlidingExpiration(TimeSpan.FromMinutes(15));
-        
+
         memoryCache.Set(code, startResetPasswordRequest.Id, cacheEntryOptions);
 
         return Result<RequestResetPasswordResponse?>.Create("Der blev genereret en kode til at nulstille kodeordet",

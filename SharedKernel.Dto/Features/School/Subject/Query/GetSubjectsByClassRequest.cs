@@ -4,5 +4,7 @@ public record GetSubjectsByClassRequest(
     Guid Id
 )
 {
-    public GetSubjectsByClassRequest() : this(Guid.Empty) { }
+    public GetSubjectsByClassRequest() : this(Guid.Empty)
+    {
+    }
 }

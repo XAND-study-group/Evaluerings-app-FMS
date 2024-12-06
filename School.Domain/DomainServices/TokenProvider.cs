@@ -13,7 +13,6 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
     public string GenerateAccessToken(User user, IEnumerable<Class> classes)
     {
-        
         var secretKey = configuration["Jwt:Secret"];
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
@@ -25,9 +24,9 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
             new(JwtRegisteredClaimNames.Email, user.Email),
             new(JwtRegisteredClaimNames.Name, user.Firstname + " " + user.Lastname)
         ];
-        
+
         claims.AddRange(user.AccountClaims.Select(claim => new Claim(claim.ClaimName, claim.ClaimValue)));
-        
+
         claims.AddRange(classes.Select(c => new Claim("Class", c.Id.ToString())));
 
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -46,7 +45,9 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
     }
 
     public string GenerateRefreshToken()
-        => GenerateRandomCode();
+    {
+        return GenerateRandomCode();
+    }
 
     public string GenerateRandomCode()
     {

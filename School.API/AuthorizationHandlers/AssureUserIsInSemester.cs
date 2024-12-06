@@ -5,19 +5,23 @@ namespace School.API.AuthorizationHandlers;
 
 public class AssureUserIsInSemesterRequirement : IAuthorizationRequirement
 {
-    public string[] Roles { get; }
-
     public AssureUserIsInSemesterRequirement(params string[] roles)
     {
         Roles = roles;
     }
+
+    public string[] Roles { get; }
 }
 
-public class AssureUserIsInSemester(ISemesterRepository semesterRepository) : AuthorizationHandler<AssureUserIsInSemesterRequirement>
+public class AssureUserIsInSemester(ISemesterRepository semesterRepository)
+    : AuthorizationHandler<AssureUserIsInSemesterRequirement>
 {
-    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AssureUserIsInSemesterRequirement requirement)
+    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
+        AssureUserIsInSemesterRequirement requirement)
     {
-        var userIdStr = context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
+        var userIdStr =
+            context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ??
+            string.Empty;
         var role = context.User.FindFirst("Role")?.Value ?? string.Empty;
 
         if (requirement.Roles.Contains(role))
@@ -25,14 +29,14 @@ public class AssureUserIsInSemester(ISemesterRepository semesterRepository) : Au
             context.Succeed(requirement);
             return;
         }
-        
+
         var isUserIdParsed = Guid.TryParse(userIdStr, out var userId);
-        
+
         var request = context.Resource as HttpContext;
-        
+
         var semesterIdStr = request?.Request.RouteValues["semesterId"]?.ToString() ?? "";
         var isSemesterIdParsed = Guid.TryParse(semesterIdStr, out var semesterId);
-        
+
         if (!isSemesterIdParsed || !isUserIdParsed)
         {
             context.Fail();
@@ -46,7 +50,7 @@ public class AssureUserIsInSemester(ISemesterRepository semesterRepository) : Au
             context.Fail();
             return;
         }
-        
+
         context.Succeed(requirement);
     }
 }

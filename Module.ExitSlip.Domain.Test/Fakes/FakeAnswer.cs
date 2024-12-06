@@ -6,7 +6,6 @@ public class FakeAnswer : Answer
 {
     public FakeAnswer()
     {
-        
     }
 
     public FakeAnswer(string text)

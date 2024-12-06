@@ -10,9 +10,9 @@ public static class MediatRExtensions
         var assemblies = Directory.GetFiles(binPath, "Module.*.dll")
             .Select(Assembly.LoadFrom)
             .ToArray();
- 
+
         services.AddMediatR(config => config.RegisterServicesFromAssemblies(assemblies));
- 
+
         return services;
     }
 }

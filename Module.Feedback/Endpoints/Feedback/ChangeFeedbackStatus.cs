@@ -16,9 +16,9 @@ public class ChangeFeedbackStatus : IEndpoint
     {
         app.MapPut(configuration["Routes:FeedbackModule:Feedback:ChangeFeedbackStatus"] ??
                    throw new Exception("Rute ikke tilføjet til konfig filen"),
-            async ([FromBody] ChangeFeedbackStatusRequest request, [FromServices] IMediator mediator) =>
-            (await mediator.Send(new ChangeFeedbackStatusCommand(request))).ReturnHttpResult()
-        ).WithTags("Feedback")
-        .RequireAuthorization("Admin");
+                async ([FromBody] ChangeFeedbackStatusRequest request, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new ChangeFeedbackStatusCommand(request))).ReturnHttpResult()
+            ).WithTags("Feedback")
+            .RequireAuthorization("Admin");
     }
 }

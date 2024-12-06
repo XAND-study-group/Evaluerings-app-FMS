@@ -1,4 +1,4 @@
-﻿using Module.Feedback.Domain;
+﻿using Module.Feedback.Domain.Entities;
 
 namespace Module.Feedback.Application.Abstractions;
 

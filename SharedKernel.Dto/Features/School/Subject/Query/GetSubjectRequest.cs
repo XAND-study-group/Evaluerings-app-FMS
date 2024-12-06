@@ -2,5 +2,7 @@
 
 public record GetSubjectRequest(Guid Id)
 {
-    public GetSubjectRequest() : this(Guid.Empty) { }
+    public GetSubjectRequest() : this(Guid.Empty)
+    {
+    }
 }

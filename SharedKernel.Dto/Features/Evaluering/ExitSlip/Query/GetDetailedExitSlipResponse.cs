@@ -11,5 +11,3 @@ public record GetDetailedExitSlipResponse(
     ExitSlipActiveStatus ActiveStatus,
     IEnumerable<GetSimpleQuestionsResponse> Questions,
     byte[] RowVersion);
-
-

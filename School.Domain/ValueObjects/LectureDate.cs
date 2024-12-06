@@ -2,20 +2,27 @@
 
 public class LectureDate
 {
-    public DateOnly Value { get; init; }
-
     public LectureDate(DateOnly value)
     {
         Validate(value);
         Value = value;
     }
 
+    public DateOnly Value { get; init; }
+
     private void Validate(DateOnly value)
     {
         if (value < DateOnly.FromDateTime(DateTime.Now))
             throw new ArgumentException("Lecture date cannot be earlier than today.");
     }
-    
-    public static implicit operator DateOnly(LectureDate value) => value.Value;
-    public static implicit operator LectureDate(DateOnly value) => new(value);
+
+    public static implicit operator DateOnly(LectureDate value)
+    {
+        return value.Value;
+    }
+
+    public static implicit operator LectureDate(DateOnly value)
+    {
+        return new LectureDate(value);
+    }
 }

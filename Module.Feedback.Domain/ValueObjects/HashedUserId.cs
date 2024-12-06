@@ -4,27 +4,29 @@ namespace Module.Feedback.Domain.ValueObjects;
 
 public record HashedUserId
 {
-    public string Value { get; private set; }
-
     private HashedUserId(string value)
     {
         Value = value;
     }
-    
+
+    public string Value { get; }
+
     public static HashedUserId Create(Guid value)
-    => new(value);
-    
-    
+    {
+        return new HashedUserId(value);
+    }
+
+
     private static string Hash(Guid id)
     {
         // Convert GUID to byte array
-        byte[] guidBytes = id.ToByteArray();
+        var guidBytes = id.ToByteArray();
         // Perform the SHA256 hashing algorithm on guidBytes
-        byte[] hashBytes = SHA256.HashData(guidBytes);
+        var hashBytes = SHA256.HashData(guidBytes);
         // Convert the bytes to a hexadecimal string
         return Convert.ToHexString(hashBytes);
     }
-    
+
     private bool Verify(Guid requestId, string storedId)
     {
         // Convert storedId to a byte array
@@ -37,8 +39,12 @@ public record HashedUserId
         // Compare the two hashed byte[] and return the result.
         return CryptographicOperations.FixedTimeEquals(requestHashBytes, storedHash);
     }
-    
-    public static implicit operator string(HashedUserId hashedUserId) => hashedUserId.Value;
+
+    public static implicit operator string(HashedUserId hashedUserId)
+    {
+        return hashedUserId.Value;
+    }
+
     public static implicit operator HashedUserId(Guid value)
     {
         var hashedId = Hash(value);

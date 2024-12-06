@@ -10,5 +10,8 @@ public record GetDetailedClassResponse(
     IEnumerable<GetClassUserResponse> Students,
     IEnumerable<GetClassSubjectResponse> Subjects)
 {
-    public GetDetailedClassResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty, 0, new List<GetClassUserResponse>(), new List<GetClassUserResponse>(), new List<GetClassSubjectResponse>()) { }
+    public GetDetailedClassResponse() : this(Guid.Empty, Array.Empty<byte>(), string.Empty, string.Empty, 0,
+        new List<GetClassUserResponse>(), new List<GetClassUserResponse>(), new List<GetClassSubjectResponse>())
+    {
+    }
 }

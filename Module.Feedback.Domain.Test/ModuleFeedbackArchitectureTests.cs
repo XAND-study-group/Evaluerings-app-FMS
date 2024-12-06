@@ -5,8 +5,10 @@ using ArchUnitNET.xUnit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
+using Module.Feedback.Domain.Entities;
 using SharedKernel.Interfaces;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
+
 // ReSharper disable RedundantNameQualifier
 
 namespace Module.Feedback.Domain.Test;
@@ -14,7 +16,7 @@ namespace Module.Feedback.Domain.Test;
 public class ModuleFeedbackArchitectureTests
 {
     private static readonly Architecture Architecture = new ArchLoader()
-        .LoadAssemblies(Module.Feedback.AssemblyReference.Assembly,
+        .LoadAssemblies(Feedback.AssemblyReference.Assembly,
             Application.AssemblyReference.Assembly,
             AssemblyReference.Assembly,
             Infrastructure.AssemblyReference.Assembly)
@@ -23,7 +25,7 @@ public class ModuleFeedbackArchitectureTests
     #region Layer Setup
 
     private readonly IObjectProvider<IType> _presentationLayer =
-        Types().That().ResideInAssembly(Module.Feedback.AssemblyReference.Assembly).As("Presentation Layer");
+        Types().That().ResideInAssembly(Feedback.AssemblyReference.Assembly).As("Presentation Layer");
 
     private readonly IObjectProvider<IType> _applicationLayer =
         Types().That().ResideInAssembly(Application.AssemblyReference.Assembly).As("Application Layer");
@@ -76,7 +78,7 @@ public class ModuleFeedbackArchitectureTests
 
     private readonly IObjectProvider<Class> _domainClasses =
         Classes().That().AreAssignableTo(typeof(Entity)).As("Domain Classes");
-    
+
     private readonly IObjectProvider<Class> _dbContextClasses =
         Classes().That().AreAssignableTo(typeof(DbContext)).As("DbContext Classes");
 
@@ -173,7 +175,7 @@ public class ModuleFeedbackArchitectureTests
     {
         IArchRule repositoryInterfaceShouldBeInApplicationLayer =
             Interfaces().That().Are(_repositoryInterface)
-            .Should().Be(_applicationLayer);
+                .Should().Be(_applicationLayer);
 
         repositoryInterfaceShouldBeInApplicationLayer.Check(Architecture);
     }
@@ -183,7 +185,7 @@ public class ModuleFeedbackArchitectureTests
     {
         IArchRule iDbContextInterfaceShouldBeInApplication =
             Interfaces().That().Are(_iDbContext)
-            .Should().Be(_applicationLayer);
+                .Should().Be(_applicationLayer);
 
         iDbContextInterfaceShouldBeInApplication.Check(Architecture);
     }
@@ -202,7 +204,7 @@ public class ModuleFeedbackArchitectureTests
     {
         IArchRule dbContextClassesShouldBeInInfrastructureLayer =
             Classes().That().Are(_dbContextClasses).Should().Be(_infrastructureLayer);
-        
+
         dbContextClassesShouldBeInInfrastructureLayer.Check(Architecture);
     }
 
@@ -213,10 +215,9 @@ public class ModuleFeedbackArchitectureTests
             Classes().That().Are(_iRequestHandlerClasses)
                 .Should().Be(_applicationLayer)
                 .OrShould().Be(_infrastructureLayer);
-        
+
         iRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer.Check(Architecture);
     }
 
     #endregion
-
 }

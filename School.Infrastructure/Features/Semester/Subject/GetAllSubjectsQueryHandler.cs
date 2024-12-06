@@ -7,36 +7,39 @@ using School.Infrastructure.DbContext;
 using SharedKernel.Dto.Features.School.Subject.Query;
 using SharedKernel.Models;
 
-namespace School.Infrastructure.Features.Semester.Subject
+namespace School.Infrastructure.Features.Semester.Subject;
+
+public class
+    GetAllSubjectsQueryHandler : IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetSimpleSubjectResponse>>>
 {
-    public class GetAllSubjectsQueryHandler : IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetSimpleSubjectResponse>>>
+    private readonly IMapper _mapper;
+    private readonly SchoolDbContext _semesterDbContext;
+
+    public GetAllSubjectsQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
     {
-        private readonly SchoolDbContext _semesterDbContext;
-        private readonly IMapper _mapper;
+        _semesterDbContext = semesterDbContext;
+        _mapper = mapper;
+    }
 
-        public GetAllSubjectsQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
-        {
-            _semesterDbContext = semesterDbContext;
-            _mapper = mapper;
-        }
-
-        async Task<Result<IEnumerable<GetSimpleSubjectResponse>>> IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetSimpleSubjectResponse>>>.Handle(
+    async Task<Result<IEnumerable<GetSimpleSubjectResponse>>>
+        IRequestHandler<GetAllSubjectsQuery, Result<IEnumerable<GetSimpleSubjectResponse>>>.Handle(
             GetAllSubjectsQuery request, CancellationToken cancellationToken)
+    {
+        try
         {
-            try
-            {
-                var subjects = await _semesterDbContext.Subjects
-                    .AsNoTracking()
-                    .Include(s => s.Lectures)
-                    .ProjectTo<GetSimpleSubjectResponse>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+            var subjects = await _semesterDbContext.Subjects
+                .AsNoTracking()
+                .Include(s => s.Lectures)
+                .ProjectTo<GetSimpleSubjectResponse>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
-                return Result<IEnumerable<GetSimpleSubjectResponse>>.Create("Alle fag er fundet", subjects, ResultStatus.Success);
-            }
-            catch (Exception ex)
-            {
-                return Result<IEnumerable<GetSimpleSubjectResponse>>.Create(ex.Message, Enumerable.Empty<GetSimpleSubjectResponse>(), ResultStatus.Error);
-            }
+            return Result<IEnumerable<GetSimpleSubjectResponse>>.Create("Alle fag er fundet", subjects,
+                ResultStatus.Success);
+        }
+        catch (Exception ex)
+        {
+            return Result<IEnumerable<GetSimpleSubjectResponse>>.Create(ex.Message,
+                Enumerable.Empty<GetSimpleSubjectResponse>(), ResultStatus.Error);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SharedKernel.ValueObjects;
 
-namespace Module.Feedback.Domain;
+namespace Module.Feedback.Domain.Entities;
 
 public class Room : Entity
 {
@@ -35,7 +35,9 @@ public class Room : Entity
     #region Room Methods
 
     public static Room Create(string title, string description)
-        => new (title, description);
+    {
+        return new Room(title, description);
+    }
 
     public void Update(string title, string description)
     {

@@ -14,5 +14,7 @@ public class FakeQuestion : Question
     }
 
     public void SetText(string text)
-        => Text = text;
+    {
+        Text = text;
+    }
 }

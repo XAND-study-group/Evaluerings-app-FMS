@@ -9,5 +9,3 @@ public record GetSimpleExitSlipsResponse(
     int MaxQuestionCount,
     ExitSlipActiveStatus ActiveStatus,
     byte[] RowVersion);
-
-

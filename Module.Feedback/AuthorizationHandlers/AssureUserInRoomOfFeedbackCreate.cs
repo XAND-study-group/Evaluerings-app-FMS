@@ -8,17 +8,19 @@ namespace Module.Feedback.AuthorizationHandlers;
 
 public class AssureUserInRoomOfFeedbackCreateRequirement : IAuthorizationRequirement
 {
-    public string[] Roles { get; }
-
     public AssureUserInRoomOfFeedbackCreateRequirement(params string[] roles)
     {
         Roles = roles;
     }
+
+    public string[] Roles { get; }
 }
 
-public class AssureUserInRoomOfFeedbackCreate(IFeedbackRepository feedbackRepository) : AuthorizationHandler<AssureUserInRoomOfFeedbackCreateRequirement>
+public class AssureUserInRoomOfFeedbackCreate(IFeedbackRepository feedbackRepository)
+    : AuthorizationHandler<AssureUserInRoomOfFeedbackCreateRequirement>
 {
-    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AssureUserInRoomOfFeedbackCreateRequirement requirement)
+    protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
+        AssureUserInRoomOfFeedbackCreateRequirement requirement)
     {
         var role = context.User.FindFirst("Role")?.Value ?? string.Empty;
 
@@ -27,7 +29,7 @@ public class AssureUserInRoomOfFeedbackCreate(IFeedbackRepository feedbackReposi
             context.Succeed(requirement);
             return;
         }
-        
+
         var request = context.Resource as HttpContext;
 
         var userClasses = context.User.FindAll("Class").Select(c => Guid.Parse(c.Value));
@@ -57,7 +59,7 @@ public class AssureUserInRoomOfFeedbackCreate(IFeedbackRepository feedbackReposi
             context.Fail();
             return;
         }
-        
+
         context.Succeed(requirement);
     }
 }

@@ -4,7 +4,7 @@ public record GetSubjectsByClassResponse(
     string ClassName,
     IEnumerable<GetDetailedSubjectResponse> Subjects)
 {
-    public GetSubjectsByClassResponse() : this(string.Empty, new List<GetDetailedSubjectResponse>()) { }
+    public GetSubjectsByClassResponse() : this(string.Empty, new List<GetDetailedSubjectResponse>())
+    {
+    }
 }
-
-

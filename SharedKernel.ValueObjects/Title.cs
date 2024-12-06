@@ -2,25 +2,13 @@
 
 public record Title
 {
-    public string Value { get; init; }
-
     public Title(string value)
     {
         Validate(value);
         Value = value;
     }
 
-    private void Validate(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException("Title cannot be null or whitespace.", nameof(value));
-        
-        if (value.Length > 100)
-            throw new ArgumentException("Title cannot be longer than 100 characters.", nameof(value));
-    }
-    
-    public static implicit operator string(Title title) => title.Value;
-    public static implicit operator Title(string value) => new(value);
+    public string Value { get; init; }
 
 
     public virtual bool Equals(Title? other)
@@ -33,14 +21,33 @@ public record Title
 
         return string.Equals(Value, other.Value, StringComparison.OrdinalIgnoreCase);
     }
+
+    private void Validate(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException("Title cannot be null or whitespace.", nameof(value));
+
+        if (value.Length > 100)
+            throw new ArgumentException("Title cannot be longer than 100 characters.", nameof(value));
+    }
+
+    public static implicit operator string(Title title)
+    {
+        return title.Value;
+    }
+
+    public static implicit operator Title(string value)
+    {
+        return new Title(value);
+    }
+
     public override int GetHashCode()
     {
         return StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
     }
+
     public override string ToString()
     {
         return Value;
     }
-
-
 }

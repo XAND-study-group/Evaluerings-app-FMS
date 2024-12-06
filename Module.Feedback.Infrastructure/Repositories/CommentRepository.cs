@@ -1,15 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
-using Module.Feedback.Domain;
+using Module.Feedback.Domain.Entities;
 using Module.Feedback.Infrastructure.DbContexts;
 
 namespace Module.Feedback.Infrastructure.Repositories;
 
 public class CommentRepository(FeedbackDbContext feedbackDbContext) : ICommentRepository
 {
-    async Task<Domain.Feedback> ICommentRepository.GetFeedbackByIdAsync(Guid feedbackId)
-        => await feedbackDbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id == feedbackId) ??
-           throw new ArgumentException("Feedback not found");
+    async Task<Domain.Entities.Feedback> ICommentRepository.GetFeedbackByIdAsync(Guid feedbackId)
+    {
+        return await feedbackDbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id == feedbackId) ??
+               throw new ArgumentException("Feedback not found");
+    }
 
     async Task ICommentRepository.CreateCommentAsync(Comment comment)
     {
@@ -18,6 +20,8 @@ public class CommentRepository(FeedbackDbContext feedbackDbContext) : ICommentRe
     }
 
     async Task<Comment> ICommentRepository.GetCommentByIdAsync(Guid commentId)
-        => await feedbackDbContext.Comments.FirstOrDefaultAsync(c => c.Id == commentId) ??
-           throw new ArgumentException("Comment not found");
+    {
+        return await feedbackDbContext.Comments.FirstOrDefaultAsync(c => c.Id == commentId) ??
+               throw new ArgumentException("Comment not found");
+    }
 }

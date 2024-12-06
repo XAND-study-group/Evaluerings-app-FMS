@@ -2,13 +2,13 @@
 
 public record StudentCapacity
 {
-    public int Value { get; init; }
-
     public StudentCapacity(int value)
     {
         Validate(value);
         Value = value;
     }
+
+    public int Value { get; init; }
 
     private void Validate(int value)
     {
@@ -17,7 +17,12 @@ public record StudentCapacity
     }
 
     public static implicit operator StudentCapacity(int value)
-        => new(value);
+    {
+        return new StudentCapacity(value);
+    }
 
-    public static implicit operator int(StudentCapacity value) => value.Value;
+    public static implicit operator int(StudentCapacity value)
+    {
+        return value.Value;
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Module.Feedback.Domain.Test.Fakes;
+﻿using Module.Feedback.Domain.Entities;
+using Module.Feedback.Domain.Test.Fakes;
 
 namespace Module.Feedback.Domain.Test;
 
@@ -260,22 +261,23 @@ public class RoomTests
 
     [Theory]
     [MemberData(nameof(UniqueUserIdData))]
-    public void Given_Unique_UserId_When_Remove_Then_Throw_ArgumentException(Guid userId, IEnumerable<Guid> currentUserIds)
+    public void Given_Unique_UserId_When_Remove_Then_Throw_ArgumentException(Guid userId,
+        IEnumerable<Guid> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act & Assert
         Assert.Throws<ArgumentException>(() => room.AssureUserIdIsInList(userId, currentUserIds));
     }
-    
+
     [Theory]
     [MemberData(nameof(NonUniqueUserIdData))]
     public void Given_Unique_UserId_When_Remove_Then_Void(Guid userId, IEnumerable<Guid> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
-        
+
         // Act
         room.AssureUserIdIsInList(userId, currentUserIds);
     }

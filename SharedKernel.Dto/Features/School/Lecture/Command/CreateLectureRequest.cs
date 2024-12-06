@@ -7,7 +7,6 @@ public record CreateLectureRequest(
     TimeOnly EndTime,
     DateOnly Date,
     string ClassRoom,
-    
     Guid SemesterId,
     Guid ClassId,
     Guid SubjectId);

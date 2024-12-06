@@ -6,20 +6,20 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.Question.Command;
 
-public record CreateQuestionCommand(CreateQuestionRequest createQuestionRequest) : 
+public record CreateQuestionCommand(CreateQuestionRequest createQuestionRequest) :
     IRequest<Result<bool>>, ITransactionalCommand;
 
 public class CreateQuestionCommandHandler(IQuestionRepository questionRepository) :
     IRequestHandler<CreateQuestionCommand, Result<bool>>
 {
-  
     public async Task<Result<bool>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
     {
         try
         {
             // Load
             var createQuestionRequest = request.createQuestionRequest;
-            var exitSlip = await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(createQuestionRequest.ExitSlipId);
+            var exitSlip =
+                await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(createQuestionRequest.ExitSlipId);
 
             // Do
             var question = exitSlip.AddQuestion(createQuestionRequest.Text);

@@ -13,14 +13,16 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
+
     public GetRoomByIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
     {
         _feedbackDbContext = feedbackDbContext;
         _mapper = mapper;
     }
 
-    async Task<Result<GetDetailedRoomResponse?>> IRequestHandler<GetRoomByIdQuery, Result<GetDetailedRoomResponse?>>.Handle(
-        GetRoomByIdQuery request, CancellationToken cancellationToken)
+    async Task<Result<GetDetailedRoomResponse?>> IRequestHandler<GetRoomByIdQuery, Result<GetDetailedRoomResponse?>>.
+        Handle(
+            GetRoomByIdQuery request, CancellationToken cancellationToken)
     {
         try
         {
@@ -29,7 +31,7 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
                 .Where(r => r.Id == request.RoomId)
                 .ProjectTo<GetDetailedRoomResponse>(_mapper.ConfigurationProvider)
                 .SingleAsync(cancellationToken);
-        
+
             return Result<GetDetailedRoomResponse?>.Create("Forum Fundet", response, ResultStatus.Success);
         }
         catch (Exception e)
@@ -37,5 +39,4 @@ public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, Result<
             return Result<GetDetailedRoomResponse?>.Create(e.Message, null, ResultStatus.Error);
         }
     }
-        
 }

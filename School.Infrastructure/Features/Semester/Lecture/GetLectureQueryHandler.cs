@@ -20,8 +20,9 @@ public class GetLectureQueryHandler : IRequestHandler<GetLectureQuery, Result<Ge
         _mapper = mapper;
     }
 
-    async Task<Result<GetDetailedLectureResponse?>> IRequestHandler<GetLectureQuery, Result<GetDetailedLectureResponse?>>.Handle(GetLectureQuery request,
-        CancellationToken cancellationToken)
+    async Task<Result<GetDetailedLectureResponse?>>
+        IRequestHandler<GetLectureQuery, Result<GetDetailedLectureResponse?>>.Handle(GetLectureQuery request,
+            CancellationToken cancellationToken)
     {
         try
         {

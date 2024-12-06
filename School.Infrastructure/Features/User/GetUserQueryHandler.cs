@@ -7,40 +7,37 @@ using School.Infrastructure.DbContext;
 using SharedKernel.Dto.Features.School.User.Query;
 using SharedKernel.Models;
 
-namespace School.Infrastructure.Features.User
+namespace School.Infrastructure.Features.User;
+
+public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<GetDetailedUserResponse?>>
 {
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<GetDetailedUserResponse?>>
+    private readonly SchoolDbContext _dbContext;
+    private readonly IMapper _mapper;
+
+    public GetUserQueryHandler(SchoolDbContext dbContext, IMapper mapper)
     {
-        private readonly SchoolDbContext _dbContext;
-        private readonly IMapper _mapper;
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
 
-        public GetUserQueryHandler(SchoolDbContext dbContext, IMapper mapper)
+    async Task<Result<GetDetailedUserResponse?>> IRequestHandler<GetUserQuery, Result<GetDetailedUserResponse?>>.Handle(
+        GetUserQuery request, CancellationToken cancellationToken)
+    {
+        try
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            var getUserResponse = await _dbContext.Users
+                .AsNoTracking()
+                .Where(u => u.Id == request.Id)
+                .ProjectTo<GetDetailedUserResponse>(_mapper.ConfigurationProvider)
+                .SingleAsync(cancellationToken);
+
+            return Result<GetDetailedUserResponse?>.Create("Efterspurgte User er fundet", getUserResponse
+                , ResultStatus.Success);
         }
-
-        async Task<Result<GetDetailedUserResponse?>> IRequestHandler<GetUserQuery, Result<GetDetailedUserResponse?>>.Handle(
-            GetUserQuery request, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var getUserResponse = await _dbContext.Users
-              .AsNoTracking()
-              .Where(u => u.Id == request.Id)
-              .ProjectTo<GetDetailedUserResponse>(_mapper.ConfigurationProvider)
-              .SingleAsync(cancellationToken);
-
-                return Result<GetDetailedUserResponse?>.Create("Efterspurgte User er fundet", getUserResponse
-                    , ResultStatus.Success);
-            }
-            catch (Exception e)
-            {
-                return Result<GetDetailedUserResponse?>.Create(e.Message, null,
-                    ResultStatus.Error);
-                
-            }
-
+            return Result<GetDetailedUserResponse?>.Create(e.Message, null,
+                ResultStatus.Error);
         }
     }
 }

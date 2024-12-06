@@ -8,5 +8,8 @@ public record GetSimpleLectureResponse(
     DateOnly Date,
     string ClassRoom)
 {
-    public GetSimpleLectureResponse() : this(string.Empty, string.Empty, TimeOnly.MinValue, TimeOnly.MinValue, DateOnly.MinValue, string.Empty) { }
+    public GetSimpleLectureResponse() : this(string.Empty, string.Empty, TimeOnly.MinValue, TimeOnly.MinValue,
+        DateOnly.MinValue, string.Empty)
+    {
+    }
 }

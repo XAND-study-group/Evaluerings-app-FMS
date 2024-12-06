@@ -6,7 +6,8 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.ExitSlip.Command;
 
-public record CreateExitSlipCommand(CreateExitSlipRequest CreateExitSlipRequest) : IRequest<Result<bool>>, ITransactionalCommand;
+public record CreateExitSlipCommand(CreateExitSlipRequest CreateExitSlipRequest)
+    : IRequest<Result<bool>>, ITransactionalCommand;
 
 public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) :
     IRequestHandler<CreateExitSlipCommand, Result<bool>>
@@ -20,7 +21,8 @@ public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository
             var createExitSlip = request.CreateExitSlipRequest;
 
             // Do
-            var exitSlip = Domain.Entities.ExitSlip.Create(createExitSlip.SubjectId, createExitSlip.LectureId, createExitSlip.Title,
+            var exitSlip = Domain.Entities.ExitSlip.Create(createExitSlip.SubjectId, createExitSlip.LectureId,
+                createExitSlip.Title,
                 createExitSlip.MaxQuestionCount, createExitSlip.ActiveStatus);
 
             // Save 
@@ -32,7 +34,5 @@ public class CreateExitSlipCommandHandler(IExitSlipRepository exitSlipRepository
             return Result<bool>.Create(e.Message, false, ResultStatus.Error);
             throw;
         }
-
-
     }
 }

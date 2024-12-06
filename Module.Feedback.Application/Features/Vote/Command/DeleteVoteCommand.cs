@@ -10,7 +10,8 @@ public record DeleteVoteCommand(DeleteVoteRequest DeleteVoteRequest) : IRequest<
 
 public class DeleteVoteCommandHandler(IVoteRepository voteRepository) : IRequestHandler<DeleteVoteCommand, Result<bool>>
 {
-    async Task<Result<bool>> IRequestHandler<DeleteVoteCommand, Result<bool>>.Handle(DeleteVoteCommand request, CancellationToken cancellationToken)
+    async Task<Result<bool>> IRequestHandler<DeleteVoteCommand, Result<bool>>.Handle(DeleteVoteCommand request,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -20,7 +21,7 @@ public class DeleteVoteCommandHandler(IVoteRepository voteRepository) : IRequest
 
             // Do
             var vote = feedback.DeleteVote(deleteVoteRequest.VoteId, deleteVoteRequest.UserId);
-            
+
             // Save
             await voteRepository.DeleteVoteAsync(vote, deleteVoteRequest.RowVersion);
 

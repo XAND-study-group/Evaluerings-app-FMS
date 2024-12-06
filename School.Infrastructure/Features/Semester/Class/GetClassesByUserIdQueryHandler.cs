@@ -9,10 +9,12 @@ using SharedKernel.Models;
 
 namespace School.Infrastructure.Features.Semester.Class;
 
-public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserIdQuery, Result<IEnumerable<GetSimpleClassResponse>>>
+public class
+    GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserIdQuery,
+    Result<IEnumerable<GetSimpleClassResponse>>>
 {
-    private readonly SchoolDbContext _semesterDbContext;
     private readonly IMapper _mapper;
+    private readonly SchoolDbContext _semesterDbContext;
 
     public GetClassesByUserIdQueryHandler(SchoolDbContext semesterDbContext, IMapper mapper)
     {
@@ -33,7 +35,8 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
                 .ProjectTo<GetSimpleClassResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetSimpleClassResponse>>.Create("Klasser tilhørende bruger fundet", getClassesResponse,
+            return Result<IEnumerable<GetSimpleClassResponse>>.Create("Klasser tilhørende bruger fundet",
+                getClassesResponse,
                 ResultStatus.Success);
         }
         catch (Exception e)
@@ -42,5 +45,4 @@ public class GetClassesByUserIdQueryHandler : IRequestHandler<GetClassesByUserId
                 ResultStatus.Error);
         }
     }
-        
 }

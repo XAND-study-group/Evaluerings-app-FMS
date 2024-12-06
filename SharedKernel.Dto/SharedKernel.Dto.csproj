@@ -8,20 +8,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj" />
+        <ProjectReference Include="..\SharedKernel.Enums\SharedKernel.Enums.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Evaluering\Answer\Command\" />
-      <Folder Include="Features\Evaluering\Comment\Query\" />
-      <Folder Include="Features\Evaluering\Question\Command\" />
+        <Folder Include="Features\Evaluering\Answer\Command\"/>
+        <Folder Include="Features\Evaluering\Comment\Query\"/>
+        <Folder Include="Features\Evaluering\Question\Command\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Evaluering\Answer\Command\" />
-      <Folder Include="Features\Evaluering\Question\Command\" />
-      <Folder Include="Features\Evaluering\Vote\Query\" />
-      <Folder Include="Features\School\" />
+        <Folder Include="Features\Evaluering\Answer\Command\"/>
+        <Folder Include="Features\Evaluering\Question\Command\"/>
+        <Folder Include="Features\Evaluering\Vote\Query\"/>
+        <Folder Include="Features\School\"/>
     </ItemGroup>
 
 </Project>

@@ -25,7 +25,7 @@ public class AccountSignUpCommandHandler(
             var exists = await userRepository.DoesUserEmailExistAsync(createRequest.Email);
             if (!exists)
                 return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
-            
+
             var user = await Domain.Entities.User.CreateAsync(createRequest.Firstname, createRequest.Lastname,
                 createRequest.Email,
                 createRequest.Password, Role.User, userDomainService, accountClaimRepository);

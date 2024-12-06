@@ -11,7 +11,7 @@ public static class FeedbackModuleExtension
     {
         services.AddFeedbackModuleInfrastructure(configuration);
         services.AddFeedbackModuleDomain();
-        
+
         return services;
     }
 }

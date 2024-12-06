@@ -8,18 +8,17 @@ using SharedKernel.Dto.Features.Evaluering.Answer.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models.Extensions;
 
-namespace Module.ExitSlip.Endpoints.Answer
+namespace Module.ExitSlip.Endpoints.Answer;
+
+public class UpdateAnswer : IEndpoint
 {
-    public class UpdateAnswer : IEndpoint
+    public void MapEndpoint(WebApplication app, IConfiguration configuration)
     {
-        public void MapEndpoint(WebApplication app, IConfiguration configuration)
-        {
-            app.MapPut(configuration["Routes:ExitSlipModule:Answer:UpdateAnswerOnQuestion"] ??
-                       throw new Exception("Route is not added to config file"),
-                    async ([FromBody] UpdateAnswerRequest updateAnswerRequest, [FromServices] IMediator mediator) =>
-                    (await mediator.Send(new UpdateAnswerCommand(updateAnswerRequest))).ReturnHttpResult())
-                .WithTags("Answer")
-                .RequireAuthorization();
-        }
+        app.MapPut(configuration["Routes:ExitSlipModule:Answer:UpdateAnswerOnQuestion"] ??
+                   throw new Exception("Route is not added to config file"),
+                async ([FromBody] UpdateAnswerRequest updateAnswerRequest, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new UpdateAnswerCommand(updateAnswerRequest))).ReturnHttpResult())
+            .WithTags("Answer")
+            .RequireAuthorization();
     }
 }

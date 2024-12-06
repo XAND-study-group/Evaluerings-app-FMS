@@ -10,11 +10,11 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
 {
     private const string RoleName = "Role";
     private const string PermissionName = "Permission";
-    
+
     async Task IAccountClaimRepository.CreateClaimForRoleAsync(Domain.Entities.User user, Role role)
     {
         user.AddAccountClaim(AccountClaim.Create(RoleName, role.ToString()));
-        
+
         switch (role)
         {
             case Role.User:
@@ -25,7 +25,7 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "VoteOnFeedback"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadRoom"));
                 break;
-            
+
             case Role.Teacher:
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadInteractedFeedback"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadExitSlipAnswers"));
@@ -35,13 +35,13 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "CommentOnFeedback"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "RoomManagement"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadRoom"));
-                break;  
-            
+                break;
+
             case Role.Admin:
                 // TODO: Make admin
                 break;
         }
-        
+
         await dbContext.SaveChangesAsync();
     }
 

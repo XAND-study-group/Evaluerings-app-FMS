@@ -10,6 +10,4 @@ public interface IExitSlipDbContext
     public DbSet<Answer> Answers { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
 }
-

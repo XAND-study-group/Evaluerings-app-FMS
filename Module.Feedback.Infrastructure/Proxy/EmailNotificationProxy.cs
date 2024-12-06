@@ -7,7 +7,7 @@ namespace Module.Feedback.Infrastructure.Proxy;
 public class EmailNotificationProxy : IEmailNotificationProxy
 {
     async Task IEmailNotificationProxy.SendNotificationAsync(IEnumerable<string> emailsTo, string emailFrom,
-        Domain.Feedback feedback)
+        Domain.Entities.Feedback feedback)
     {
         var client = new TcpClient("localhost", 1025);
         await using var stream = client.GetStream();
@@ -17,15 +17,12 @@ public class EmailNotificationProxy : IEmailNotificationProxy
         writer.AutoFlush = true;
         Console.WriteLine(await reader.ReadLineAsync());
 
-        foreach (var emailTo in emailsTo)
-        {
-            await WriteMailContent(writer, reader, feedback, emailFrom, emailTo);
-        }
+        foreach (var emailTo in emailsTo) await WriteMailContent(writer, reader, feedback, emailFrom, emailTo);
 
         client.Close();
     }
 
-    private async Task WriteMailContent(StreamWriter writer, StreamReader reader, Domain.Feedback feedback,
+    private async Task WriteMailContent(StreamWriter writer, StreamReader reader, Domain.Entities.Feedback feedback,
         string emailFrom, string emailTo)
     {
         await writer.WriteLineAsync("EHLO localhost");

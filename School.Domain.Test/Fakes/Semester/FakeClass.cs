@@ -4,6 +4,15 @@ namespace School.Domain.Test.Fakes.Semester;
 
 public class FakeClass : Class
 {
+    #region Relational Business Logic Methods
+
+    public new void AssureMaxCapacityIsNotReached(int studentsCount, int studentCapacity)
+    {
+        base.AssureMaxCapacityIsNotReached(studentsCount, studentCapacity);
+    }
+
+    #endregion
+
     #region Constructors
 
     public FakeClass(string name)
@@ -38,15 +47,6 @@ public class FakeClass : Class
     public void SetDescription(string description)
     {
         Description = description;
-    }
-
-    #endregion
-
-    #region Relational Business Logic Methods
-
-    public new void AssureMaxCapacityIsNotReached(int studentsCount, int studentCapacity)
-    {
-        base.AssureMaxCapacityIsNotReached(studentsCount, studentCapacity);
     }
 
     #endregion
