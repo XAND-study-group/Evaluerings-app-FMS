@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build ./Evaluerings-app-FMS.sln --no-restore
     - name: Test
-      run: dotnet test ./Evaluerings-app-FMS.sln --no-build --verbosity normal
+      run: dotnet test ./Evaluerings-app-FMS.sln --no-build --verbosity diagnostic
