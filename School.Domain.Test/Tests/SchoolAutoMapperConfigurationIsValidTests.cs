@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using AutoMapper;
 using AutoMapper.Internal;
-using School.Infrastructure.Mapping;
+using School.Infrastructure.Mapper;
 using Xunit;
 using Assert = Xunit.Assert;
 

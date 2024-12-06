@@ -2,6 +2,10 @@
 
 public class TimePeriod
 {
+    public TimeOnly From { get; init; }
+    public TimeOnly To { get; init; }
+    public TimeSpan Duration { get; protected set; }
+
     public TimePeriod(TimeOnly from, TimeOnly to)
     {
         Validate(from, to);
@@ -9,11 +13,7 @@ public class TimePeriod
         To = to;
         Duration = to - from;
     }
-
-    public TimeOnly From { get; init; }
-    public TimeOnly To { get; init; }
-    public TimeSpan Duration { get; protected set; }
-
+    
     private void Validate(TimeOnly from, TimeOnly to)
     {
         if (from > to)
