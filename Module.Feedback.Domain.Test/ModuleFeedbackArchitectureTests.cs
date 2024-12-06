@@ -62,11 +62,17 @@ public class ModuleFeedbackArchitectureTests
     private readonly IObjectProvider<Class> _iRequestHandlerClasses =
         Classes().That().ImplementInterface(typeof(IRequestHandler<,>)).As("IRequestHandler Classes");
 
-    private readonly IObjectProvider<Class> _repositoryInterfaces =
+    private readonly IObjectProvider<Interface> _repositoryInterface =
+        Interfaces().That().HaveNameEndingWith("Repository").As("Repository Interface");
+
+    private readonly IObjectProvider<Interface> _iDbContext =
+        Interfaces().That().HaveNameEndingWith("DbContext").As("IDbContext Interface");
+
+    private readonly IObjectProvider<Class> _repositoryClasses =
         Classes().That().ImplementInterface(typeof(IRoomRepository))
             .Or().ImplementInterface(typeof(IFeedbackRepository))
             .Or().ImplementInterface(typeof(ICommentRepository))
-            .Or().ImplementInterface(typeof(IVoteRepository)).As("Repository Interfaces");
+            .Or().ImplementInterface(typeof(IVoteRepository)).As("Repository Classes");
 
     private readonly IObjectProvider<Class> _domainClasses =
         Classes().That().AreAssignableTo(typeof(Entity)).As("Domain Classes");
@@ -75,6 +81,8 @@ public class ModuleFeedbackArchitectureTests
         Classes().That().AreAssignableTo(typeof(DbContext)).As("DbContext Classes");
 
     #endregion Classes & Interfaces Setup
+
+    #region Tests
 
     [Fact]
     public void EndpointClassesShouldBeInPresentationLayer()
@@ -152,12 +160,32 @@ public class ModuleFeedbackArchitectureTests
     }
 
     [Fact]
-    public void RepositoryInterfacesShouldBeInInfrastructureLayer()
+    public void RepositoryClassesShouldBeInInfrastructureLayer()
     {
-        IArchRule repositoryInterfacesShouldBeInApplicationLayer =
-            Classes().That().Are(_repositoryInterfaces).Should().Be(_infrastructureLayer);
+        IArchRule repositoryClassesShouldBeInInfrastructureLayer =
+            Classes().That().Are(_repositoryClasses).Should().Be(_infrastructureLayer);
 
-        repositoryInterfacesShouldBeInApplicationLayer.Check(Architecture);
+        repositoryClassesShouldBeInInfrastructureLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void RepositoryInterfacesShouldBeInApplicationLayer()
+    {
+        IArchRule repositoryInterfaceShouldBeInApplicationLayer =
+            Interfaces().That().Are(_repositoryInterface)
+            .Should().Be(_applicationLayer);
+
+        repositoryInterfaceShouldBeInApplicationLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void IDbContextInterfaceShouldBeInApplication()
+    {
+        IArchRule iDbContextInterfaceShouldBeInApplication =
+            Interfaces().That().Are(_iDbContext)
+            .Should().Be(_applicationLayer);
+
+        iDbContextInterfaceShouldBeInApplication.Check(Architecture);
     }
 
     [Fact]
@@ -188,4 +216,7 @@ public class ModuleFeedbackArchitectureTests
         
         iRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer.Check(Architecture);
     }
+
+    #endregion
+
 }

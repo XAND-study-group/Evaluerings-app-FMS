@@ -3,4 +3,4 @@
 public record ChangePasswordRequest(
     Guid UserId,
     string NewPassword,
-    byte[] rowVersion);
+    byte[] RowVersion);

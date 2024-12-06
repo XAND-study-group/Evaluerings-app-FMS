@@ -19,10 +19,12 @@ namespace Module.ExitSlip.Infrastructure.Extensions
                     optionsBuilder =>
                     {
                         optionsBuilder.MigrationsAssembly("Module.ExitSlip.Infrastructure");
-                        optionsBuilder.EnableRetryOnFailure();
                     }));
 
             serviceCollection.AddScoped<IExitSlipRepository, ExitSlipRepository>();
+            serviceCollection.AddScoped<IQuestionRepository, QuestionRepository>();
+            serviceCollection.AddScoped<IAnswerRepository, AnswerRepository>();
+
             serviceCollection.AddAutoMapper(typeof(MappingProfileExitSlip));
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork<ExitSlipDbContext>>();
             return serviceCollection;

@@ -72,6 +72,7 @@ public class Semester : Entity
         //TODO: Check User has Claim "Teacher"
 
         AssureNoDuplicateUser(teacher, _semesterResponsibles);
+        
 
         _semesterResponsibles.Add(teacher);
     }

@@ -6,31 +6,26 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Application.Features.Question.Command;
 
-public record CreateQuestionCommand(CreateQuestionRequest createQuestionRequest) : IRequest<Result<bool>>, ITransactionalCommand;
+public record CreateQuestionCommand(CreateQuestionRequest createQuestionRequest) : 
+    IRequest<Result<bool>>, ITransactionalCommand;
 
-public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, Result<bool>>
+public class CreateQuestionCommandHandler(IQuestionRepository questionRepository) :
+    IRequestHandler<CreateQuestionCommand, Result<bool>>
 {
-    private readonly IExitSlipRepository _exitSlipRepository;
-
-    public CreateQuestionCommandHandler(IExitSlipRepository exitSlipRepository)
-    {
-        _exitSlipRepository = exitSlipRepository;
-    }
+  
     public async Task<Result<bool>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
     {
         try
         {
             // Load
             var createQuestionRequest = request.createQuestionRequest;
-            var exitSlip = await _exitSlipRepository.GetExitSlipByIdAsync(createQuestionRequest.ExitSlipId);
-            if (exitSlip is null)
-                return Result<bool>.Create("ExitSlip blev ikke fundet", false, ResultStatus.Error);
+            var exitSlip = await questionRepository.GetExitSlipWithQuestionsAndAnswersByIdAsync(createQuestionRequest.ExitSlipId);
 
             // Do
-            var question = exitSlip.AddQuestion(createQuestionRequest.Text, createQuestionRequest.UserId);
+            var question = exitSlip.AddQuestion(createQuestionRequest.Text);
 
             // Save
-            await _exitSlipRepository.CreateQuestionAsync(question);
+            await questionRepository.CreateQuestionAsync(question);
 
             return Result<bool>.Create("Spørgsmål blev oprettet", true, ResultStatus.Created);
         }

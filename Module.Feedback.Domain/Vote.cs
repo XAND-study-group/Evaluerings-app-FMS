@@ -28,18 +28,18 @@ public class Vote : Entity
 
     #region Vote Methods
 
-    public static Vote Create(Guid userId, VoteScale voteScale)
+    internal static Vote Create(Guid userId, VoteScale voteScale)
         => new(userId, voteScale);
 
-    public void Update(Guid userId, VoteScale voteScale)
+    internal void Update(Guid userId, VoteScale voteScale)
     {
         AssureUserHasVote(userId, HashedUserId);
         VoteScale = voteScale;
     }
-
-    public void Delete(Guid userId)
+    
+    internal void Delete(Guid userId)
         => AssureUserHasVote(userId, HashedUserId);
-
+    
     private void AssureUserHasVote(Guid userId, HashedUserId hashedUserUserId)
     {
         if (userId != hashedUserUserId)

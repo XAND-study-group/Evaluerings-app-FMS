@@ -4,8 +4,9 @@ namespace Module.ExitSlip.Application.Abstractions
 {
     public interface IQuestionRepository
     {
-        Task AddAsync(Question question);
-        Task UpdateAsync(Guid id, string newText);
-        Task DeleteAsync(Guid id);
+        Task<Domain.Entities.ExitSlip> GetExitSlipWithQuestionsAndAnswersByIdAsync(Guid id);
+        Task CreateQuestionAsync(Question question);
+        Task UpdateQuestionAsync(Question question, byte[] rowVersion);
+        Task DeleteQuestionAsync(Question question, byte[] rowVerison);
     }
 }

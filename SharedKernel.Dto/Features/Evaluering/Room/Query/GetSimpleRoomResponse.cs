@@ -3,4 +3,5 @@
 public record GetSimpleRoomResponse(
     Guid RoomId,
     string Title,
-    string Description);
+    string Description,
+    byte[] RowVersion);

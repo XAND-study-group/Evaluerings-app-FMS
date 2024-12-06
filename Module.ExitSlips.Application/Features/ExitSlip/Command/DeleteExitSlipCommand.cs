@@ -8,7 +8,8 @@ namespace Module.ExitSlip.Application.Features.ExitSlip.Command
 {
     public record DeleteExitSlipCommand(DeleteExitSlipRequest DeleteExitSlipRequest) : IRequest<Result<bool>>, ITransactionalCommand;
 
-    public class DeleteExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) : IRequestHandler<DeleteExitSlipCommand, Result<bool>>
+    public class DeleteExitSlipCommandHandler(IExitSlipRepository exitSlipRepository) : 
+        IRequestHandler<DeleteExitSlipCommand, Result<bool>>
     {
         async Task<Result<bool>> IRequestHandler<DeleteExitSlipCommand, Result<bool>>.Handle(DeleteExitSlipCommand request, CancellationToken cancellationToken)
         {

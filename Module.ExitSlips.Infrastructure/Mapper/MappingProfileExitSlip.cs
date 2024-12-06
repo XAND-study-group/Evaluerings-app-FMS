@@ -24,7 +24,7 @@ namespace Module.ExitSlip.Infrastructure.Mapper
                 .ForMember(dest => dest.ExitSlipId, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>();
-            CreateMap<Domain.Entities.ExitSlip, GetExitSlipsWithAnswersResponse>();
+            CreateMap<Domain.Entities.ExitSlip, GetExitSlipWithAnswersResponse>();
             CreateMap<Domain.Entities.ExitSlip, GetDetailedExitSlipResponse>();
         }
     }
