@@ -14,17 +14,6 @@ public class AccountChangePasswordCommandHandler(IUserRepository userRepository)
         try
         {
             var changePasswordRequest = request.Request;
-            // var httpContext = httpContextAccessor.HttpContext;
-            //
-            // if (httpContext is null)
-            //     throw new Exception();
-            //
-            // var value = httpContext?.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
-            // var sid = Guid.Parse(value);
-            // var role = httpContext?.User.FindFirst("Role")?.Value ?? string.Empty;
-            //
-            // if (sid != changePasswordRequest.UserId && role != "Admin")
-            //     return Result<bool>.Create("Du prøver at ændre adgangskoden på en anden profil", false, ResultStatus.Error);
         
             // Get
             var user = await userRepository.GetUserByIdAsync(changePasswordRequest.UserId);
@@ -36,7 +25,7 @@ public class AccountChangePasswordCommandHandler(IUserRepository userRepository)
             user.ChangePassword(changePasswordRequest.NewPassword);
         
             // Save
-            await userRepository.ChangeUserPasswordAsync(user, changePasswordRequest.rowVersion);
+            await userRepository.ChangeUserPasswordAsync(user, changePasswordRequest.RowVersion);
             
             return Result<bool>.Create("Adgangskoden er blevet ændre", true, ResultStatus.Success);
         }

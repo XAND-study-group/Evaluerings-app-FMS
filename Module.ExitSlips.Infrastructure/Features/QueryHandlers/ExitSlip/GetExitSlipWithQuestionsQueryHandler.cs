@@ -10,38 +10,27 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
 {
-    public class GetExitSlipWithQuestionsQueryHandler : IRequestHandler<GetExitSlipWithQuestionsQuery,
-        Result<IEnumerable<GetDetailsExitSlipResponse>?>>
+    public class GetExitSlipWithQuestionsQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper)
+        : IRequestHandler<GetExitSlipWithQuestionsQuery,
+            Result<IEnumerable<GetDetailedExitSlipResponse>?>>
     {
-        // TODO: Når automapperen er sat op, skal disse flyttes i primary Ctor. 
-        private readonly IExitSlipDbContext _exitSlipDbContext;
-        private readonly IMapper _mapper;
-        public GetExitSlipWithQuestionsQueryHandler(IExitSlipDbContext exitSlipDbContext)
-        {
-            _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.ExitSlip, GetDetailsExitSlipResponse>();
-                cfg.CreateMap<Domain.Entities.Question, GetSimpleQuestionsResponse>();
-            }).CreateMapper();
-        }
 
-        async Task<Result<IEnumerable<GetDetailsExitSlipResponse>?>> IRequestHandler<GetExitSlipWithQuestionsQuery, Result<IEnumerable<GetDetailsExitSlipResponse>?>>
+        async Task<Result<IEnumerable<GetDetailedExitSlipResponse>?>> IRequestHandler<GetExitSlipWithQuestionsQuery, Result<IEnumerable<GetDetailedExitSlipResponse>?>>
              .Handle(GetExitSlipWithQuestionsQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var response = await _exitSlipDbContext.ExitSlips
+                var response = await exitSlipDbContext.ExitSlips
                     .Where(e => e.Id == request.exitSlipId)
                     .Include(e => e.Questions)
-                    .ProjectTo<GetDetailsExitSlipResponse>(_mapper.ConfigurationProvider)
+                    .ProjectTo<GetDetailedExitSlipResponse>(mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                return Result<IEnumerable<GetDetailsExitSlipResponse>?>.Create("ExitSlip med spørgsmål", response, ResultStatus.Success);
+                return Result<IEnumerable<GetDetailedExitSlipResponse>?>.Create("ExitSlip med spørgsmål", response, ResultStatus.Success);
             }
             catch (Exception e)
             {
-                return Result<IEnumerable<GetDetailsExitSlipResponse>?>.Create(e.Message, [], ResultStatus.Error);
+                return Result<IEnumerable<GetDetailedExitSlipResponse>?>.Create(e.Message, [], ResultStatus.Error);
             }
         }
     }

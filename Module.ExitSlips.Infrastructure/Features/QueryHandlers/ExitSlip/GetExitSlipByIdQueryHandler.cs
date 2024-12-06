@@ -28,8 +28,8 @@ namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
                     .AsNoTracking()
                     .Include(e => e.Questions)
                     .Where(e => e.Id == request.id)
-                    .ProjectTo<GetDetailsExitSlipResponse?>(_mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync();
+                    .ProjectTo<GetDetailedExitSlipResponse?>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
                 return Result<GetDetailedExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);
             }

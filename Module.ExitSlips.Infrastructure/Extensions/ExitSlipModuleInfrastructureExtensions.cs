@@ -3,7 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.ExitSlip.Application.Abstractions;
 using Module.ExitSlip.Infrastructure.DbContexts;
+using Module.ExitSlip.Infrastructure.Mapper;
 using Module.ExitSlip.Infrastructure.Repositories;
+using SharedKernel.Interfaces.UOW;
 
 namespace Module.ExitSlip.Infrastructure.Extensions
 {

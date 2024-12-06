@@ -9,30 +9,20 @@ using SharedKernel.Models;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
 {
-    public class GetExitSlipWithAnswersForUserQueryHandler : 
+    public class GetExitSlipWithAnswersForUserQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper) :
         IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipWithAnswersResponse>>
     {
-        // TODO: Når automapperen er sat op, skal disse flyttes i primary Ctor. 
-        private readonly ExitSlipDbContext _exitSlipDbContext;
-        private readonly IMapper _mapper;
-
-        public GetExitSlipWithAnswersForUserQueryHandler(ExitSlipDbContext exitSlipDbContext, IMapper mapper)
-        {
-            _exitSlipDbContext = exitSlipDbContext;
-            _mapper = mapper;
-        }
-
         async Task<Result<GetExitSlipWithAnswersResponse>> IRequestHandler<GetExitSlipWithAnswersForUserQuery, Result<GetExitSlipWithAnswersResponse>>
             .Handle(GetExitSlipWithAnswersForUserQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var response = await _exitSlipDbContext.ExitSlips
+                var response = await exitSlipDbContext.ExitSlips
                     .AsNoTracking()
                     .Where(e => e.Id == request.ExitSlipId)
                     .Include(e => e.Questions)
                     .ThenInclude(q => q.Answers.Where(a => a.UserId == request.userId))
-                    .ProjectTo<GetExitSlipWithAnswersResponse>(_mapper.ConfigurationProvider)
+                    .ProjectTo<GetExitSlipWithAnswersResponse>(mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken) ??
                     throw new ArgumentException("Kunne ikke finde ExitSlip for denne bruger");
 

@@ -97,7 +97,7 @@ namespace Module.ExitSlip.Domain.Entities
 
         #region AnswerHandling
 
-        public Answer AddAnswerToQuestion(Guid userId, Guid questionId, string text)
+        public Answer AddAnswer(Guid userId, Guid questionId, string text)
         {
             AssureExitSlipActive();
 

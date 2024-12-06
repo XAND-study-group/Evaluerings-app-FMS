@@ -7,8 +7,9 @@ public record GetDetailedExitSlipResponse(
     Guid LectureId,
     Guid SubjectId,
     string Title,
-    int MaxQuestionCount,
+    int MaxQuestioncount,
     ExitSlipActiveStatus ActiveStatus,
-    IEnumerable<GetSimpleQuestionsResponse> Questions);
+    IEnumerable<GetSimpleQuestionsResponse> Questions,
+    byte[] RowVersion);
 
 

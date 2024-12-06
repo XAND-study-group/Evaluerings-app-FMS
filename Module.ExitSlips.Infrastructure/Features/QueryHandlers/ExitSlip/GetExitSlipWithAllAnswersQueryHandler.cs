@@ -16,35 +16,20 @@ using System.Threading.Tasks;
 
 namespace Module.ExitSlip.Infrastructure.Features.QueryHandlers.ExitSlip
 {
-    public class GetExitSlipWithAllAnswersQueryHandler : 
+    public class GetExitSlipWithAllAnswersQueryHandler(IExitSlipDbContext exitSlipDbContext, IMapper mapper) :
         IRequestHandler<GetExitSlipWithAllAnswersQuery, Result<GetExitSlipWithAnswersResponse?>>
     {
-        // TODO: Når automapperen er sat op, skal disse flyttes i primary Ctor. 
-        private readonly IExitSlipDbContext _exitSlipDbContext;
-        private readonly IMapper _mapper;
-        public GetExitSlipWithAllAnswersQueryHandler(IExitSlipDbContext exitSlipDbContext)
-        {
-            _exitSlipDbContext = exitSlipDbContext;
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Domain.Entities.ExitSlip, GetExitSlipWithAnswersResponse>();
-                cfg.CreateMap<Domain.Entities.Question, GetDetailsQuestionsResponse>();
-                cfg.CreateMap<Domain.Entities.Answer, GetSimpleAnswerResponse>();
-            }).CreateMapper();
-        }
-
-
         async Task<Result<GetExitSlipWithAnswersResponse?>> IRequestHandler<GetExitSlipWithAllAnswersQuery, Result<GetExitSlipWithAnswersResponse?>>
             .Handle(GetExitSlipWithAllAnswersQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var response = await _exitSlipDbContext.ExitSlips
+                var response = await exitSlipDbContext.ExitSlips
                     .AsNoTracking()
                     .Where(e => e.Id == request.exitSlipId)
                     .Include(e => e.Questions)
                     .ThenInclude(q => q.Answers)
-                    .ProjectTo<GetExitSlipWithAnswersResponse>(_mapper.ConfigurationProvider)
+                    .ProjectTo<GetExitSlipWithAnswersResponse>(mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
 
                 return Result<GetExitSlipWithAnswersResponse?>.Create("ExitSlip er fundet", response, ResultStatus.Success);    

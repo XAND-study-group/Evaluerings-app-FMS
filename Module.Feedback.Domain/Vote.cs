@@ -31,8 +31,20 @@ public class Vote : Entity
     internal static Vote Create(Guid userId, VoteScale voteScale)
         => new(userId, voteScale);
 
-    internal void Update(VoteScale voteScale)
-        => VoteScale = voteScale;
+    internal void Update(Guid userId, VoteScale voteScale)
+    {
+        AssureUserHasVote(userId, HashedUserId);
+        VoteScale = voteScale;
+    }
+    
+    internal void Delete(Guid userId)
+        => AssureUserHasVote(userId, HashedUserId);
+    
+    private void AssureUserHasVote(Guid userId, HashedUserId hashedUserUserId)
+    {
+        if (userId != hashedUserUserId)
+            throw new ArgumentException("Bruger skal være ejer af vote for at ændre den");
+    }
 
     #endregion Vote Methods
 }
