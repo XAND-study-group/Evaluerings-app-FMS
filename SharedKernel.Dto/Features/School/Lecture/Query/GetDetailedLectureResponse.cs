@@ -9,6 +9,7 @@ public record GetDetailedLectureResponse(
     string Description,
     TimeOnly FromTime,
     TimeOnly ToTime,
+    TimeSpan Duration,
     DateOnly LectureDate,
     string ClassRoom,
     IEnumerable<GetSimpleUserResponse> Teachers);

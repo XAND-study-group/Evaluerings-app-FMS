@@ -12,23 +12,32 @@ public class MappingProfileSchool : Profile
 {
     public MappingProfileSchool()
     {
+        // TODO: Those with formember (split up valueobject) are failing. maybe the valueobject should be send but then it needs to be moved.
         CreateMap<Class, GetDetailedClassResponse>();
         CreateMap<Class, GetSimpleClassResponse>();
 
-        CreateMap<Lecture, GetDetailedLectureResponse>()
+        CreateMap<Lecture, GetDetailedLectureResponse>(MemberList.None)
+            .ForMember(dest => dest.RowVersion, opt => opt.MapFrom(src => src.RowVersion))
+            .ForMember(dest => dest.ClassRoom, opt => opt.MapFrom(src => src.ClassRoom))
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            .ForMember(dest => dest.Teachers, opt => opt.MapFrom(src => src.Teachers))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.LectureDate, opt => opt.MapFrom(src => src.LectureDate))
             .ForMember(dest => dest.FromTime, opt => opt.MapFrom(src => src.TimePeriod.From))
-            .ForMember(dest => dest.ToTime, opt => opt.MapFrom(src => src.TimePeriod.To));
+            .ForMember(dest => dest.ToTime, opt => opt.MapFrom(src => src.TimePeriod.To))
+            .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.TimePeriod.Duration));
 
         CreateMap<Lecture, GetLectureIdResponse>();
-        CreateMap<Lecture, GetSimpleLectureResponse>()
+        CreateMap<Lecture, GetSimpleLectureResponse>(MemberList.None)
             .ForMember(dest => dest.FromTime, opt => opt.MapFrom(src => src.TimePeriod.From))
             .ForMember(dest => dest.ToTime, opt => opt.MapFrom(src => src.TimePeriod.To));
 
-        CreateMap<Semester, GetDetailedSemesterResponse>()
+        CreateMap<Semester, GetDetailedSemesterResponse>(MemberList.None)
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.EducationRange.Start))
             .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EducationRange.End));
         
-        CreateMap<Semester, GetSimpleSemesterResponse>()
+        CreateMap<Semester, GetSimpleSemesterResponse>(MemberList.None)
             .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.EducationRange.Start))
             .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EducationRange.End));
 
