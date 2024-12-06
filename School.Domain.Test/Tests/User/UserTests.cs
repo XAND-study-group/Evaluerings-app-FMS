@@ -80,7 +80,7 @@ public class UserTests
 
     [Theory]
     [MemberData(nameof(UniqueEmails))]
-    public async Task Given_uniqe_email_then_void(string email, IEnumerable<string> otherEmails)
+    public void Given_unique_email_then_void(string email, IEnumerable<string> otherEmails)
     {
         // Arrange
         var emails = otherEmails as string[] ?? otherEmails.ToArray();
@@ -94,7 +94,7 @@ public class UserTests
 
     [Theory]
     [MemberData(nameof(NotUniqeEmails))]
-    public async Task Given_not_uniqe_email_then_throw_argumentException(string email,
+    public void Given_not_unique_email_then_throw_argumentException(string email,
         IEnumerable<string> otherEmails)
     {
         // Arrange
@@ -109,8 +109,7 @@ public class UserTests
 
     [Theory]
     [MemberData(nameof(InvalidEmailInput))]
-    public void Given_invalid_email_format_then_throw_argumentException(string email,
-        IEnumerable<string> otheremails)
+    public void Given_invalid_email_format_then_throw_argumentException(string email)
     {
         // Arrange 
         var user = new FakeUser();
@@ -187,31 +186,25 @@ public class UserTests
 
     public static IEnumerable<object[]> InvalidEmailInput()
     {
-        var otheremails = GetOtherEmails();
-
         yield return new object[]
         {
-            "xabur",
-            otheremails
+            "xabur"
         };
 
         yield return new object[]
         {
-            "Xabur@d",
-            otheremails
+            "Xabur@d"
         };
 
         yield return new object[]
         {
             "alskdjasljdlasknflksnglkasdælkasflkanglkjsfæasjdæalsflakngalkjflksajflksajdlksajdlaksjdlakjfslaskjdlaskjflsakjdlaskjflsakjdalksjflaksjflaskjflaksjflaskfjalskfjlsakjflsakjflask" +
-            "ælsakæsafkpasodkpasofkpsodkpofsaksapofsajaosdjpoaskdpsaodkpsaokdpsaokdpasokd@hotmail.com",
-            otheremails
+            "ælsakæsafkpasodkpasofkpsodkpofsaksapofsajaosdjpoaskdpsaodkpsaokdpsaokdpasokd@hotmail.com"
         };
 
         yield return new object[]
         {
-            " ",
-            otheremails
+            " "
         };
     }
 

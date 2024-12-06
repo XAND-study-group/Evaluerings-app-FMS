@@ -6,8 +6,7 @@ namespace School.Domain.Entities;
 public class Subject : Entity
 {
     #region Properties
-
-    public Guid Id { get; protected set; }
+    
     public SubjectName Name { get; protected set; }
     public SubjectDescription Description { get; protected set; }
     private readonly List<Lecture> _lectures = [];
