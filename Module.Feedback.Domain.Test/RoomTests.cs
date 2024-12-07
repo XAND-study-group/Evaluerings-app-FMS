@@ -190,7 +190,7 @@ public class RoomTests
     [Theory]
     [MemberData(nameof(NonUniqueClassIdData))]
     public void Given_Duplicate_ClassIds_When_Add_Then_Throw_ArgumentException(Guid classId,
-        IEnumerable<Guid> currentClassIds)
+        IEnumerable<FakeClassId> currentClassIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -201,7 +201,7 @@ public class RoomTests
 
     [Theory]
     [MemberData(nameof(UniqueClassIdData))]
-    public void Given_Unique_ClassIds_When_Add_Then_Void(Guid classId, IEnumerable<Guid> currentClassIds)
+    public void Given_Unique_ClassIds_When_Add_Then_Void(Guid classId, IEnumerable<FakeClassId> currentClassIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -212,7 +212,7 @@ public class RoomTests
 
     [Theory]
     [MemberData(nameof(NonUniqueClassIdData))]
-    public void Given_Current_ClassId_When_Remove_Then_Void(Guid classId, IEnumerable<Guid> currentClassIds)
+    public void Given_Current_ClassId_When_Remove_Then_Void(Guid classId, IEnumerable<FakeClassId> currentClassIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -224,7 +224,7 @@ public class RoomTests
     [Theory]
     [MemberData(nameof(UniqueClassIdData))]
     public void Given_New_ClassId_When_Remove_Then_Throw_ArgumentException(Guid classId,
-        IEnumerable<Guid> currentClassIds)
+        IEnumerable<FakeClassId> currentClassIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -239,7 +239,7 @@ public class RoomTests
 
     [Theory]
     [MemberData(nameof(UniqueUserIdData))]
-    public void Given_Unique_UserId_When_Add_Then_Void(Guid userId, IEnumerable<Guid> currentUserIds)
+    public void Given_Unique_UserId_When_Add_Then_Void(Guid userId, IEnumerable<FakeNotificationUserId> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -251,7 +251,7 @@ public class RoomTests
     [Theory]
     [MemberData(nameof(NonUniqueUserIdData))]
     public void Given_NonUnique_UserId_When_Add_Then_Throw_ArgumentException(Guid userId,
-        IEnumerable<Guid> currentUserIds)
+        IEnumerable<FakeNotificationUserId> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -263,7 +263,7 @@ public class RoomTests
     [Theory]
     [MemberData(nameof(UniqueUserIdData))]
     public void Given_Unique_UserId_When_Remove_Then_Throw_ArgumentException(Guid userId,
-        IEnumerable<Guid> currentUserIds)
+        IEnumerable<FakeNotificationUserId> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -274,7 +274,7 @@ public class RoomTests
 
     [Theory]
     [MemberData(nameof(NonUniqueUserIdData))]
-    public void Given_Unique_UserId_When_Remove_Then_Void(Guid userId, IEnumerable<Guid> currentUserIds)
+    public void Given_Unique_UserId_When_Remove_Then_Void(Guid userId, IEnumerable<FakeNotificationUserId> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();
@@ -351,13 +351,13 @@ public class RoomTests
         ];
     }
 
-    private static IEnumerable<Guid> GetCurrentClassIds()
+    private static IEnumerable<FakeClassId> GetCurrentClassIds()
     {
-        return new[]
-        {
-            Guid.Parse("7b365a52-211f-48d2-8c5d-c7694f78f86f"),
-            Guid.Parse("447155e9-800c-4230-a7fe-ec1bd2f213a7")
-        };
+        return
+        [
+            new FakeClassId(Guid.Parse("7b365a52-211f-48d2-8c5d-c7694f78f86f")),
+            new FakeClassId(Guid.Parse("447155e9-800c-4230-a7fe-ec1bd2f213a7"))
+        ];
     }
 
     public static IEnumerable<object[]> UniqueUserIdData()
@@ -382,13 +382,13 @@ public class RoomTests
         ];
     }
 
-    private static IEnumerable<Guid> GetCurrentUserIds()
+    private static IEnumerable<FakeNotificationUserId> GetCurrentUserIds()
     {
-        return new[]
-        {
-            Guid.Parse("7b365a52-211f-48d2-8c5d-c7694f78f86f"),
-            Guid.Parse("447155e9-800c-4230-a7fe-ec1bd2f213a7")
-        };
+        return
+        [
+            new FakeNotificationUserId(Guid.Parse("7b365a52-211f-48d2-8c5d-c7694f78f86f")),
+            new FakeNotificationUserId(Guid.Parse("447155e9-800c-4230-a7fe-ec1bd2f213a7"))
+        ];
     }
 
     #endregion MemberData Methods

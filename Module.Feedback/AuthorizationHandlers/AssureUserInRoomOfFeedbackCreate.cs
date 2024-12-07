@@ -52,7 +52,7 @@ public class AssureUserInRoomOfFeedbackCreate(IFeedbackRepository feedbackReposi
 
         var room = await feedbackRepository.GetRoomByIAsync(requestBody.RoomId);
 
-        var isUserInRoom = room.ClassIds.Any(classId => userClasses.Any(userClassId => classId == userClassId));
+        var isUserInRoom = room.ClassIds.Any(classId => userClasses.Any(userClassId => classId.ClassIdValue == userClassId));
 
         if (!isUserInRoom)
         {

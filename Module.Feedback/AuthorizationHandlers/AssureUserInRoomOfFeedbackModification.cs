@@ -53,7 +53,7 @@ public class AssureUserInRoomOfFeedbackModification(IFeedbackRepository feedback
         var feedback = await feedbackRepository.GetFeedbackByIdAsync(requestBody.FeedbackId);
 
         var isUserInRoom =
-            feedback.Room.ClassIds.Any(classId => userClasses.Any(userClassId => classId == userClassId));
+            feedback.Room.ClassIds.Any(classId => userClasses.Any(userClassId => classId.ClassIdValue == userClassId));
 
         if (!isUserInRoom)
         {

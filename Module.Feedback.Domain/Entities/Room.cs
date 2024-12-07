@@ -1,4 +1,5 @@
-﻿using SharedKernel.ValueObjects;
+﻿using Module.Feedback.Domain.WrapperObjects;
+using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain.Entities;
 
@@ -8,11 +9,12 @@ public class Room : Entity
 
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
-    private readonly List<Guid> _classIds = [];
-    public IReadOnlyCollection<Guid> ClassIds => _classIds;
-    private readonly List<Guid> _notificationSubscribedUserIds = [];
+    private readonly List<ClassId> _classIds = [];
+    public IReadOnlyCollection<ClassId> ClassIds => _classIds;
 
-    public IReadOnlyCollection<Guid> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
+    private readonly List<NotificationUserId> _notificationSubscribedUserIds = [];
+
+    public IReadOnlyCollection<NotificationUserId> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
     private readonly List<Feedback> _feedbacks = [];
     public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
 
@@ -52,25 +54,29 @@ public class Room : Entity
     public void AddClassId(Guid classId)
     {
         AssureNoDuplicateClassIds(classId, _classIds);
-        _classIds.Add(classId);
+        var classIdToAdd = ClassId.Create(classId);
+        _classIds.Add(classIdToAdd);
     }
 
     public void RemoveClassId(Guid classId)
     {
         AssureClassIdIsInList(classId, _classIds);
-        _classIds.Remove(classId);
+        var classIdToRemove = _classIds.Single(c => c.ClassIdValue == classId);
+        _classIds.Remove(classIdToRemove);
     }
 
     public void AddUserIdToNotificationList(Guid userId)
     {
         AssureNoDuplicateUserIds(userId, _notificationSubscribedUserIds);
-        _notificationSubscribedUserIds.Add(userId);
+        var notificationUserId = NotificationUserId.Create(userId);
+        _notificationSubscribedUserIds.Add(notificationUserId);
     }
 
     public void RemoveUserIdFromNotificationList(Guid userId)
     {
         AssureUserIdIsInList(userId, _notificationSubscribedUserIds);
-        _notificationSubscribedUserIds.Remove(userId);
+        var notificationUserId = _notificationSubscribedUserIds.Single(u => u.UserIdValue == userId);
+        _notificationSubscribedUserIds.Remove(notificationUserId);
     }
 
     public void AddFeedback(Feedback feedback)
@@ -82,27 +88,27 @@ public class Room : Entity
 
     #region Relational Business Logic Methods
 
-    protected void AssureNoDuplicateClassIds(Guid classId, IEnumerable<Guid> currentClassIds)
+    protected void AssureNoDuplicateClassIds(Guid classId, IEnumerable<ClassId> currentClassIds)
     {
-        if (currentClassIds.Any(cId => cId == classId))
+        if (currentClassIds.Any(cId => cId.ClassIdValue == classId))
             throw new ArgumentException("Klasse er allerede tilføjet til forum");
     }
 
-    protected void AssureClassIdIsInList(Guid classId, IEnumerable<Guid> currentClassIds)
+    protected void AssureClassIdIsInList(Guid classId, IEnumerable<ClassId> currentClassIds)
     {
-        if (currentClassIds.All(cId => cId != classId))
+        if (currentClassIds.All(cId => cId.ClassIdValue != classId))
             throw new ArgumentException("Klasse kunne ikke findes i rummet");
     }
 
-    protected void AssureNoDuplicateUserIds(Guid userId, IEnumerable<Guid> currentUserIds)
+    protected void AssureNoDuplicateUserIds(Guid userId, IEnumerable<NotificationUserId> currentUserIds)
     {
-        if (currentUserIds.Any(cId => cId == userId))
+        if (currentUserIds.Any(cId => cId.UserIdValue == userId))
             throw new ArgumentException("Bruger er allerede tilføjet til notifikations listen");
     }
 
-    protected void AssureUserIdIsInList(Guid userId, IEnumerable<Guid> currentUserIds)
+    protected void AssureUserIdIsInList(Guid userId, IEnumerable<NotificationUserId> currentUserIds)
     {
-        if (currentUserIds.All(cId => cId != userId))
+        if (currentUserIds.All(cId => cId.UserIdValue != userId))
             throw new ArgumentException("Bruger kunne ikke findes i notofikations listen");
     }
 

@@ -18,6 +18,6 @@ public class GetAllRooms : IEndpoint
                 async ([FromServices] IMediator mediator) =>
                 (await mediator.Send(new GetAllRoomsQuery())).ReturnHttpResult())
             .WithTags("Room")
-            .RequireAuthorization("Admin");
+            .RequireAuthorization("RoomManagement");
     }
 }

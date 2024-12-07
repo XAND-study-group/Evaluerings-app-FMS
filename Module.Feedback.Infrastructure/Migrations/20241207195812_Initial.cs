@@ -15,6 +15,34 @@ namespace Module.Feedback.Infrastructure.Migrations
                 name: "FeedbackModule");
 
             migrationBuilder.CreateTable(
+                name: "ClassId",
+                schema: "FeedbackModule",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClassIdValue = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassId", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationUserId",
+                schema: "FeedbackModule",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserIdValue = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationUserId", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rooms",
                 schema: "FeedbackModule",
                 columns: table => new
@@ -27,6 +55,33 @@ namespace Module.Feedback.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClassIdRoom",
+                schema: "FeedbackModule",
+                columns: table => new
+                {
+                    ClassIdsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassIdRoom", x => new { x.ClassIdsId, x.RoomId });
+                    table.ForeignKey(
+                        name: "FK_ClassIdRoom_ClassId_ClassIdsId",
+                        column: x => x.ClassIdsId,
+                        principalSchema: "FeedbackModule",
+                        principalTable: "ClassId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassIdRoom_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalSchema: "FeedbackModule",
+                        principalTable: "Rooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,6 +105,33 @@ namespace Module.Feedback.Infrastructure.Migrations
                     table.PrimaryKey("PK_Feedbacks", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Feedbacks_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalSchema: "FeedbackModule",
+                        principalTable: "Rooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationUserIdRoom",
+                schema: "FeedbackModule",
+                columns: table => new
+                {
+                    NotificationSubscribedUserIdsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationUserIdRoom", x => new { x.NotificationSubscribedUserIdsId, x.RoomId });
+                    table.ForeignKey(
+                        name: "FK_NotificationUserIdRoom_NotificationUserId_NotificationSubscribedUserIdsId",
+                        column: x => x.NotificationSubscribedUserIdsId,
+                        principalSchema: "FeedbackModule",
+                        principalTable: "NotificationUserId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_NotificationUserIdRoom_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalSchema: "FeedbackModule",
                         principalTable: "Rooms",
@@ -112,6 +194,12 @@ namespace Module.Feedback.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClassIdRoom_RoomId",
+                schema: "FeedbackModule",
+                table: "ClassIdRoom",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentId",
                 schema: "FeedbackModule",
                 table: "Comments",
@@ -130,6 +218,12 @@ namespace Module.Feedback.Infrastructure.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_NotificationUserIdRoom_RoomId",
+                schema: "FeedbackModule",
+                table: "NotificationUserIdRoom",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Votes_FeedbackId",
                 schema: "FeedbackModule",
                 table: "Votes",
@@ -140,11 +234,27 @@ namespace Module.Feedback.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ClassIdRoom",
+                schema: "FeedbackModule");
+
+            migrationBuilder.DropTable(
                 name: "Comments",
                 schema: "FeedbackModule");
 
             migrationBuilder.DropTable(
+                name: "NotificationUserIdRoom",
+                schema: "FeedbackModule");
+
+            migrationBuilder.DropTable(
                 name: "Votes",
+                schema: "FeedbackModule");
+
+            migrationBuilder.DropTable(
+                name: "ClassId",
+                schema: "FeedbackModule");
+
+            migrationBuilder.DropTable(
+                name: "NotificationUserId",
                 schema: "FeedbackModule");
 
             migrationBuilder.DropTable(

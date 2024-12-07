@@ -32,7 +32,10 @@ public class CreateSubCommentCommandHandler(
 
             if (feedback.ShouldSendNotification())
             {
-                var emails = await schoolApiProxy.GetEmailsByUserIdsAsync(feedback.Room.NotificationSubscribedUserIds);
+                var emails = await schoolApiProxy
+                    .GetEmailsByUserIdsAsync(feedback.Room.NotificationSubscribedUserIds
+                    .Select(n => n.UserIdValue));
+                
                 await emailNotificationProxy.SendNotificationAsync(emails, "XAND@gmail.com", feedback);
             }
 
