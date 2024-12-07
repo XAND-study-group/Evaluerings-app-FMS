@@ -18,12 +18,9 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
 
         #region Room OnModelCreating Configuration
 
-        modelBuilder.Entity<Room>()
-            .Property(r => r.Id)
-            .ValueGeneratedOnAdd();
-            
         modelBuilder.Entity<Room>(r =>
         {
+            r.Property(room => room.Id).ValueGeneratedOnAdd();
             r.Property(room => room.RowVersion).IsRowVersion();
             r.ComplexProperty(room => room.Title, room => room.IsRequired());
             r.ComplexProperty(room => room.Description, room => room.IsRequired());
@@ -33,57 +30,39 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
 
         #region Feedback OnModelCreating Configuration
 
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .Property(r => r.Id)
-            .ValueGeneratedOnAdd();
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .Property(r => r.RowVersion)
-            .IsRowVersion();
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .ComplexProperty(f => f.Title);
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .ComplexProperty(f => f.Problem);
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .ComplexProperty(f => f.Solution);
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .ComplexProperty(f => f.HashedUserId);
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .HasMany(f => f.Comments)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<Domain.Entities.Feedback>()
-            .HasMany(f => f.Votes)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Domain.Entities.Feedback>(f =>
+        {
+            f.Property(feedback => feedback.Id).ValueGeneratedOnAdd();
+            f.Property(feedback => feedback.RowVersion).IsRowVersion();
+            f.ComplexProperty(feedback => feedback.Title, feedback => feedback.IsRequired());
+            f.ComplexProperty(feedback => feedback.Problem, feedback => feedback.IsRequired());
+            f.ComplexProperty(feedback => feedback.Solution, feedback => feedback.IsRequired());
+            f.ComplexProperty(feedback => feedback.HashedUserId, feedback => feedback.IsRequired());
+            f.HasMany(feedback => feedback.Comments).WithOne().OnDelete(DeleteBehavior.Cascade);
+            f.HasMany(feedback => feedback.Votes).WithOne().OnDelete(DeleteBehavior.Cascade);
+        });
 
         #endregion Feedback OnModelCreating Configuration
 
         #region Vote OnModelCreating Configuration
 
-        modelBuilder.Entity<Vote>()
-            .Property(v => v.Id)
-            .ValueGeneratedOnAdd();
-        modelBuilder.Entity<Vote>()
-            .Property(v => v.RowVersion)
-            .IsRowVersion();
-        modelBuilder.Entity<Vote>()
-            .ComplexProperty(v => v.HashedUserId);
+        modelBuilder.Entity<Vote>(v =>
+        {
+            v.Property(vote => vote.Id).ValueGeneratedOnAdd();
+            v.Property(vote => vote.RowVersion).IsRowVersion();
+            v.ComplexProperty(vote => vote.HashedUserId, vote => vote.IsRequired());
+        });
 
         #endregion Vote OnModelCreating Configuration
 
         #region Comment OnModelCreating Configuration
 
-        modelBuilder.Entity<Comment>()
-            .Property(v => v.Id)
-            .ValueGeneratedOnAdd();
-        modelBuilder.Entity<Comment>()
-            .Property(v => v.RowVersion)
-            .IsRowVersion();
-        modelBuilder.Entity<Comment>()
-            .ComplexProperty(c => c.CommentText);
-        modelBuilder.Entity<Comment>()
-            .Property(c => c.Created)
-            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Comment>(c =>
+        {
+            c.Property(comment => comment.Id).ValueGeneratedOnAdd();
+            c.Property(comment => comment.RowVersion).IsRowVersion();
+            c.ComplexProperty(comment => comment.CommentText, comment => comment.IsRequired());
+        });
 
         #endregion Comment OnModelCreating Configuration
     }

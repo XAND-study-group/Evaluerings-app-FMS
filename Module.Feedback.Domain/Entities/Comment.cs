@@ -61,6 +61,7 @@ public class Comment : Entity
     {
         UserId = userId;
         CommentText = commentText;
+        Created = DateTime.Now;
     }
 
     #endregion Constructors
