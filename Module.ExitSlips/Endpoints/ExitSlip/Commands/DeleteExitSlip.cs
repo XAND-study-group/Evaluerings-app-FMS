@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Module.ExitSlip.Application.Features.ExitSlip.Command;
@@ -17,7 +18,7 @@ public class DeleteExitSlip : IEndpoint
                       throw new ArgumentException("Route is not added to config file"),
                 async ([FromBody] DeleteExitSlipRequest deleteExitSlipRequest, [FromServices] IMediator mediator) =>
                 (await mediator.Send(new DeleteExitSlipCommand(deleteExitSlipRequest))).ReturnHttpResult())
-            .WithName("ExitSlip")
+            .WithTags("ExitSlip")
             .RequireAuthorization();
     }
 }

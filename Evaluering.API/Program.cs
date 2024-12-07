@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Module.ExitSlip.Extension;
 using Module.Feedback;
 using Module.Feedback.Domain.DomainServices.Interfaces;
 using Module.Feedback.Extension;
@@ -30,11 +31,13 @@ builder.Services.AddAuthorizationWithPolicies();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenWithAuth();
 
 builder.Services.AddMediatRModules();
-builder.Services.AddEndpoints(AssemblyReference.Assembly);
+builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
+builder.Services.AddEndpoints(Module.ExitSlip.AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
+builder.Services.AddExitSlipModule(builder.Configuration);
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())

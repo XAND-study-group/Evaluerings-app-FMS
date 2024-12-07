@@ -22,6 +22,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Module.ExitSlips.Infrastructure\Module.ExitSlip.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Module.ExitSlips\Module.ExitSlip.csproj" />
         <ProjectReference Include="..\Module.Feedback.Domain\Module.Feedback.Domain.csproj"/>
         <ProjectReference Include="..\Module.Feedback\Module.Feedback.csproj"/>
     </ItemGroup>
