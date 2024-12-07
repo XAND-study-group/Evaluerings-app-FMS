@@ -61,6 +61,16 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection();
 
+// Enable request body buffering 
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next();
+});
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapPost("TestGemini/Feedback",
     async ([FromBody] FeedbackContentDto content, [FromServices] IValidationServiceProxy validationServiceProxy) =>
     await validationServiceProxy.IsAcceptableContentAsync(content.Title, content.Problem, content.Solution));
