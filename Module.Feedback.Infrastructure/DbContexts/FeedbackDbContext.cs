@@ -21,11 +21,10 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
         modelBuilder.Entity<Room>()
             .Property(r => r.Id)
             .ValueGeneratedOnAdd();
-        modelBuilder.Entity<Room>()
-            .Property(r => r.RowVersion)
-            .IsRowVersion();
+            
         modelBuilder.Entity<Room>(r =>
         {
+            r.Property(room => room.RowVersion).IsRowVersion();
             r.ComplexProperty(room => room.Title, room => room.IsRequired());
             r.ComplexProperty(room => room.Description, room => room.IsRequired());
         });
