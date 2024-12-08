@@ -27,17 +27,9 @@ public record HashedUserId
         return Convert.ToHexString(hashBytes);
     }
 
-    private bool Verify(Guid requestId, string storedId)
+    public override string ToString()
     {
-        // Convert storedId to a byte array
-        var storedHash = Convert.FromHexString(storedId);
-
-        // Perform same actions as the Hash method: Convert ID to byte[] and Hash the byte[]
-        var requestGuidBytes = requestId.ToByteArray();
-        var requestHashBytes = SHA256.HashData(requestGuidBytes);
-
-        // Compare the two hashed byte[] and return the result.
-        return CryptographicOperations.FixedTimeEquals(requestHashBytes, storedHash);
+        return Value;
     }
 
     public static implicit operator string(HashedUserId hashedUserId)

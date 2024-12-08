@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.Entities;
+using Module.Feedback.Endpoints.Feedback;
 using SharedKernel.Interfaces;
 using Xunit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;

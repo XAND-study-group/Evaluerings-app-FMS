@@ -30,11 +30,12 @@ public class GetSubCommentsQueryHandler : IRequestHandler<GetSubCommentsQuery, R
             var comments = await _feedbackDbContext.Comments
                 .AsNoTracking()
                 .Where(c => c.Id == request.CommentId)
-                .Select(c => c.SubComments)
-                .ProjectTo<GetCommentResponse>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .Select(c => c.SubComments.ToArray())
+                .SingleAsync(cancellationToken);
 
-            return Result<IEnumerable<GetCommentResponse>?>.Create("Fandt Sub Comments", comments,
+            var commentResponse = _mapper.Map<IEnumerable<GetCommentResponse>>(comments);
+
+            return Result<IEnumerable<GetCommentResponse>?>.Create("Fandt Sub Comments", commentResponse,
                 ResultStatus.Success);
         }
         catch (Exception e)
