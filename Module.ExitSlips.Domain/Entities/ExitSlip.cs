@@ -57,11 +57,7 @@ public class ExitSlip : Entity
         return new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
     }
 
-    public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount,
-        ExitSlipActiveStatus activeStatus, IEnumerable<Question> questions)
-    {
-        return new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus, questions);
-    }
+   
     public void Update(string title)
     {
         AssureExitSlipInactive();
@@ -91,16 +87,7 @@ public class ExitSlip : Entity
         _questions.Add(question);
         return question;
     }
-
-    public Question AddQuestionWithAnswer(string text, IEnumerable<Answer> answers)
-    {
-        if (_questions.Count >= MaxQuestionCount)
-            throw new ArgumentException("Kan ikke tilføje flere spørgsmål end det maksimalt tilladte.");
-
-        var question = Question.CreateWithAnswer(text,answers);
-        _questions.Add(question);
-        return question;
-    }
+  
     public Question DeleteQuestion(Guid questionId)
     {
         AssureExitSlipInactive();

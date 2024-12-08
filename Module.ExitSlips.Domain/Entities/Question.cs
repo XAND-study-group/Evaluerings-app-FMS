@@ -23,21 +23,12 @@ public class Question : Entity
     {
         Text = text;
     }
-    private Question(string text, IEnumerable<Answer> answers)
-    {
-        Text = text;
-        _answers = answers.ToList();
-    }
+    
 
     internal static Question Create(string text)
     {
         return new Question(text);
-    }
-   
-    internal static Question CreateWithAnswer(string text, IEnumerable<Answer> answers)
-    {
-        return new Question(text, answers);
-    }
+    } 
 
     #endregion
 

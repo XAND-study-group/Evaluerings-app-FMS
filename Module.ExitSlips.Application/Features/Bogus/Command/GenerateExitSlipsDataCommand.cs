@@ -10,7 +10,10 @@ namespace Module.ExitSlip.Application.Features.Bogus.Command
 {
     public record GenerateExitSlipsDataCommand() : IRequest<Result<bool>>, ITransactionalCommand;
 
-    public class GeneratExitSlipsDataCommandHandler(IExitSlipRepository exitSlipRepository)
+    public class GeneratExitSlipsDataCommandHandler(
+        IExitSlipRepository exitSlipRepository,
+        IQuestionRepository questionRepository,
+        IAnswerRepository answerRepository)
         : IRequestHandler<GenerateExitSlipsDataCommand, Result<bool>>
     {
         async Task<Result<bool>> IRequestHandler<GenerateExitSlipsDataCommand, Result<bool>>
@@ -153,42 +156,52 @@ namespace Module.ExitSlip.Application.Features.Bogus.Command
                     }
                 };
 
+                var questionFaker = new Faker<Domain.Entities.Question>();
+                var answerFaker = new Faker<Domain.Entities.Answer>();
+
                 var exitSlipFaker = new Faker<Domain.Entities.ExitSlip>()
                 .CustomInstantiator(f =>
                 {
-                    var chosenExitSlip = f.PickRandom(exitSlips);
+                    var chosenExitSlip = f.PickRandom(exitSlipWithQuestionWithAnswers.Keys.ToList());
+                    var maxQuestionCount = f.Random.Int(1, 6);
+
                     var exitSlipCreate = Domain.Entities.ExitSlip.Create(
                         f.Random.Guid(),
                         f.Random.Guid(),
                         chosenExitSlip,
-                        f.Random.Int(1, 6),
+                        maxQuestionCount,
                         f.PickRandom(activeStatus));
 
 
-                    var questionFaker = new Faker<Domain.Entities.Question>()
-                    .CustomInstantiator(f2 =>
+                    questionFaker.CustomInstantiator(f2 =>
                     {
-                        var chosenQuestion = f2.PickRandom(questions);
+                        var chosenQuestion = f2.PickRandom(exitSlipWithQuestionWithAnswers[chosenExitSlip].Keys.ToList());
                         var questionCreated = exitSlipCreate.AddQuestion(
-                            chosenQuestion);
+                                     chosenQuestion);
 
-                        var answerFaker = new Faker<Domain.Entities.Answer>()
-                        .CustomInstantiator(f3 =>
+
+                        if (exitSlipCreate.ActiveStatus == ExitSlipActiveStatus.Active)
                         {
-                            var answerCreate = exitSlipCreate.AddAnswer(
-                                f3.Random.Guid(),
-                                questionCreated.Id,
-                                f3.PickRandom(exitSlipWithQuestionWithAnswers[chosenExitSlip][chosenQuestion]));
+                            answerFaker.CustomInstantiator(f3 =>
+                            {
+                                var answerCreate = exitSlipCreate.AddAnswer(
+                                    f3.Random.Guid(),
+                                    questionCreated.Id,
+                                    f3.PickRandom(exitSlipWithQuestionWithAnswers[chosenExitSlip][chosenQuestion].ToList()));
 
-                            return answerCreate;
-                        }).GenerateLazy(3);
+                                return answerCreate;
+                            }).UseSeed(30);
+
+                        }
                         return questionCreated;
-                    }).GenerateLazy(2);
+                    }).UseSeed(30);
 
                     return exitSlipCreate;
                 }).UseSeed(30);
 
-                await exitSlipRepository.CreateExitSlipsAsync(exitSlipFaker.GenerateLazy(2));
+                await exitSlipRepository.CreateExitSlipsAsync(exitSlipFaker.GenerateLazy(4));
+                await questionRepository.CreateQuestionsAsync(questionFaker.GenerateLazy(10));
+                await answerRepository.CreateAnswersAsync(answerFaker.GenerateLazy(30));
 
                 return Result<bool>.Create("Data is Created", true, ResultStatus.Success);
             }
