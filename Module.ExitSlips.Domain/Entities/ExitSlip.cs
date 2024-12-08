@@ -6,19 +6,7 @@ using SharedKernel.ValueObjects;
 namespace Module.ExitSlip.Domain.Entities;
 
 public class ExitSlip : Entity
-{
-    #region HelperMethods
-
-    private Question GetQuestionById(Guid questionId)
-    {
-        var question = _questions.FirstOrDefault(q => q.Id == questionId)
-                       ?? throw new ArgumentException("Spørgsmål ikke fundet.");
-
-        return question;
-    }
-
-    #endregion
-
+{   
     #region Properties
 
     public Guid? SubjectId { get; protected set; }
@@ -49,7 +37,16 @@ public class ExitSlip : Entity
         MaxQuestionCount = maxQuestionCount;
         ActiveStatus = activeStatus;
     }
-
+    private ExitSlip(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount,
+        ExitSlipActiveStatus activeStatus , IEnumerable<Question> questions)
+    {
+        SubjectId = subjectId;
+        LectureId = lectureId;
+        Title = title;
+        MaxQuestionCount = maxQuestionCount;
+        ActiveStatus = activeStatus;
+        _questions = questions.ToList();
+    }
     #endregion
 
     #region Exit Slip Methodes
@@ -60,6 +57,11 @@ public class ExitSlip : Entity
         return new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
     }
 
+    public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount,
+        ExitSlipActiveStatus activeStatus, IEnumerable<Question> questions)
+    {
+        return new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus, questions);
+    }
     public void Update(string title)
     {
         AssureExitSlipInactive();
@@ -90,6 +92,15 @@ public class ExitSlip : Entity
         return question;
     }
 
+    public Question AddQuestionWithAnswer(string text, IEnumerable<Answer> answers)
+    {
+        if (_questions.Count >= MaxQuestionCount)
+            throw new ArgumentException("Kan ikke tilføje flere spørgsmål end det maksimalt tilladte.");
+
+        var question = Question.CreateWithAnswer(text,answers);
+        _questions.Add(question);
+        return question;
+    }
     public Question DeleteQuestion(Guid questionId)
     {
         AssureExitSlipInactive();
@@ -151,4 +162,17 @@ public class ExitSlip : Entity
     }
 
     #endregion
+
+    #region HelperMethods
+
+    private Question GetQuestionById(Guid questionId)
+    {
+        var question = _questions.FirstOrDefault(q => q.Id == questionId)
+                       ?? throw new ArgumentException("Spørgsmål ikke fundet.");
+
+        return question;
+    }
+
+    #endregion
+
 }
