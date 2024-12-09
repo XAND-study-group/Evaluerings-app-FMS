@@ -105,7 +105,7 @@ public class Feedback : Entity
             return false;
 
         // This variable would normally be calculated from the total count of users associated to a room + a percentage number.
-        var minimumsActicityCount = 5;
+        var minimumsActivityCount = 5;
 
         var votesCount = Votes.Count;
         var commentsCount = Comments.Count;
@@ -113,7 +113,7 @@ public class Feedback : Entity
 
         var totalActivityCount = votesCount + commentsCount + subCommentsCount;
 
-        return totalActivityCount >= minimumsActicityCount;
+        return totalActivityCount >= minimumsActivityCount;
     }
 
     #endregion Feedback Business Logic Methods
