@@ -37,16 +37,7 @@ public class ExitSlip : Entity
         MaxQuestionCount = maxQuestionCount;
         ActiveStatus = activeStatus;
     }
-    private ExitSlip(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount,
-        ExitSlipActiveStatus activeStatus , IEnumerable<Question> questions)
-    {
-        SubjectId = subjectId;
-        LectureId = lectureId;
-        Title = title;
-        MaxQuestionCount = maxQuestionCount;
-        ActiveStatus = activeStatus;
-        _questions = questions.ToList();
-    }
+  
     #endregion
 
     #region Exit Slip Methodes

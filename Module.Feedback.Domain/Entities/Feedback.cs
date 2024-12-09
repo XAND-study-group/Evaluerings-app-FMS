@@ -60,6 +60,11 @@ public class Feedback : Entity
         return feedback;
     }
 
+    public static Feedback CreateBogus(Guid userId, string title, string problem, string solution,
+      Room room)
+        =>  new Feedback(userId, title, problem, solution, room);    
+
+
     public void ChangeStatus(FeedbackState state)
     {
         State = state;
@@ -128,6 +133,16 @@ public class Feedback : Entity
         AssureStatusIsNotSolved();
 
         var comment = await Comment.CreateAsync(userId, commentText, validationServiceProxy);
+        _comments.Add(comment);
+
+        return comment;
+    }
+
+    public Comment AddCommentBogus(Guid userId, string commentText)
+    {
+        AssureStatusIsNotSolved();
+
+        var comment = Comment.CreateBogus(userId, commentText);
         _comments.Add(comment);
 
         return comment;

@@ -10,10 +10,7 @@ namespace Module.ExitSlip.Application.Features.Bogus.Command
 {
     public record GenerateExitSlipsDataCommand() : IRequest<Result<bool>>, ITransactionalCommand;
 
-    public class GeneratExitSlipsDataCommandHandler(
-        IExitSlipRepository exitSlipRepository,
-        IQuestionRepository questionRepository,
-        IAnswerRepository answerRepository)
+    public class GeneratExitSlipsDataCommandHandler(IExitSlipRepository exitSlipRepository)
         : IRequestHandler<GenerateExitSlipsDataCommand, Result<bool>>
     {
         async Task<Result<bool>> IRequestHandler<GenerateExitSlipsDataCommand, Result<bool>>
@@ -156,52 +153,50 @@ namespace Module.ExitSlip.Application.Features.Bogus.Command
                     }
                 };
 
-                var questionFaker = new Faker<Domain.Entities.Question>();
-                var answerFaker = new Faker<Domain.Entities.Answer>();
 
-                var exitSlipFaker = new Faker<Domain.Entities.ExitSlip>()
-                .CustomInstantiator(f =>
-                {
-                    var chosenExitSlip = f.PickRandom(exitSlipWithQuestionWithAnswers.Keys.ToList());
-                    var maxQuestionCount = f.Random.Int(1, 6);
+                var faker = new Faker();
 
-                    var exitSlipCreate = Domain.Entities.ExitSlip.Create(
+                int maxQuestionCount = faker.Random.Int(1, 6);
+                int numberOfAnswers = faker.Random.Int(1, 10);
+
+                var exitSlipFakerTest = new Faker<Domain.Entities.ExitSlip>()
+                    .UseSeed(123)
+                    .CustomInstantiator(f =>
+                    {
+                        var chosenExitSlip = faker.PickRandom(exitSlipWithQuestionWithAnswers.Keys.ToList());
+
+                        var exitSlipCreated = Domain.Entities.ExitSlip.Create(
                         f.Random.Guid(),
                         f.Random.Guid(),
                         chosenExitSlip,
                         maxQuestionCount,
                         f.PickRandom(activeStatus));
 
-
-                    questionFaker.CustomInstantiator(f2 =>
-                    {
-                        var chosenQuestion = f2.PickRandom(exitSlipWithQuestionWithAnswers[chosenExitSlip].Keys.ToList());
-                        var questionCreated = exitSlipCreate.AddQuestion(
-                                     chosenQuestion);
-
-
-                        if (exitSlipCreate.ActiveStatus == ExitSlipActiveStatus.Active)
+                        for (int i = 0; i < maxQuestionCount; i++)
                         {
-                            answerFaker.CustomInstantiator(f3 =>
+                            var chosenQuestion = faker.PickRandom(exitSlipWithQuestionWithAnswers[chosenExitSlip].Keys.ToList());
+                            var questionCreated = exitSlipCreated.AddQuestion(
+                                chosenQuestion);
+
+
+                            for (int j = 0; j < numberOfAnswers; j++)
                             {
-                                var answerCreate = exitSlipCreate.AddAnswer(
-                                    f3.Random.Guid(),
-                                    questionCreated.Id,
-                                    f3.PickRandom(exitSlipWithQuestionWithAnswers[chosenExitSlip][chosenQuestion].ToList()));
+                                if (exitSlipCreated.ActiveStatus == ExitSlipActiveStatus.Active)
+                                {
+                                    var chosenAnswer = faker.PickRandom(exitSlipWithQuestionWithAnswers[chosenExitSlip][chosenQuestion].ToList());
 
-                                return answerCreate;
-                            }).UseSeed(30);
-
+                                    var answerCreated = exitSlipCreated.AddAnswer(
+                                        faker.Random.Guid(),
+                                        questionCreated.Id,
+                                        chosenAnswer);
+                                }
+                            }
                         }
-                        return questionCreated;
-                    }).UseSeed(30);
+                        return exitSlipCreated;
+                    });
 
-                    return exitSlipCreate;
-                }).UseSeed(30);
 
-                await exitSlipRepository.CreateExitSlipsAsync(exitSlipFaker.GenerateLazy(4));
-                await questionRepository.CreateQuestionsAsync(questionFaker.GenerateLazy(10));
-                await answerRepository.CreateAnswersAsync(answerFaker.GenerateLazy(30));
+                await exitSlipRepository.CreateExitSlipsAsync(exitSlipFakerTest.GenerateLazy(4));
 
                 return Result<bool>.Create("Data is Created", true, ResultStatus.Success);
             }
