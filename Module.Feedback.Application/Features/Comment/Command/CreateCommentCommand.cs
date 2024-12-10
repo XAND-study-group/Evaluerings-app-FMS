@@ -38,7 +38,7 @@ public class CreateCommentCommandHandler(
                     .GetEmailsByUserIdsAsync(feedback.Room.NotificationSubscribedUserIds
                         .Select(n => n.UserIdValue));
                 
-                await emailNotificationProxy.SendNotificationAsync(emails, "XAND@gmail.com", feedback);
+                await emailNotificationProxy.SendNotificationAsync(emails.SuccessResult, "XAND@gmail.com", feedback);
             }
 
             // Save

@@ -1,5 +1,6 @@
 ﻿using Module.Feedback.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Vote;
+using SharedKernel.Models;
 
 namespace Module.Feedback.Domain.Entities;
 

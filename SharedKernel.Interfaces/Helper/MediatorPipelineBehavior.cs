@@ -12,11 +12,15 @@ public class MediatorPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWor
         CancellationToken cancellationToken)
     {
         var isTransactionalCommand = _commandMarkerInterface.IsAssignableFrom(typeof(TRequest));
+        var beginTransactionHasRun = false;
 
         try
         {
             if (isTransactionalCommand)
+            {
                 await unitOfWork.BeginTransactionAsync();
+                beginTransactionHasRun = true;
+            }
 
             var response = await next();
 
@@ -27,7 +31,7 @@ public class MediatorPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWor
         }
         catch (Exception e)
         {
-            if (isTransactionalCommand)
+            if (isTransactionalCommand && beginTransactionHasRun)
                 await unitOfWork.RollbackAsync();
 
             throw;
