@@ -2,8 +2,6 @@
 
 public enum ExitSlipActiveStatus
 {
-    // TODO: Flyt til Entity i ExitSLip
-
     Active,
     Inactive
 }

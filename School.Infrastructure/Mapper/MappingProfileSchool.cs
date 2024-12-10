@@ -42,5 +42,7 @@ public class MappingProfileSchool : Profile
         CreateMap<User, GetSemesterUserResponse>();
         CreateMap<User, GetDetailedUserResponse>();
         CreateMap<User, GetSimpleUserResponse>();
+        
+        CreateMap<UserEmail, GetEmailsByUserIdsResponse>();
     }
 }

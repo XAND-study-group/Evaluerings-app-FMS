@@ -1,4 +1,5 @@
 ﻿using Module.Feedback.Domain.Entities;
+using SharedKernel.Models;
 
 namespace Module.Feedback.Domain.WrapperObjects;
 

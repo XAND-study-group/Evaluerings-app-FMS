@@ -1,6 +1,9 @@
-﻿namespace Module.Feedback.Application.Services;
+﻿using SharedKernel.Dto.Features.School.User.Query;
+using SharedKernel.Models;
+
+namespace Module.Feedback.Application.Services;
 
 public interface ISchoolApiProxy
 {
-    Task<IEnumerable<string>> GetEmailsByUserIdsAsync(IEnumerable<Guid> userIds);
+    Task<Result<IEnumerable<GetEmailsByUserIdsResponse>>> GetEmailsByUserIdsAsync(IEnumerable<Guid> userIds);
 }

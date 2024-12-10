@@ -8,6 +8,7 @@ using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.Entities;
 using Module.Feedback.Endpoints.Feedback;
 using SharedKernel.Interfaces;
+using SharedKernel.Models;
 using Xunit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
