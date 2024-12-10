@@ -49,4 +49,10 @@ public class ExitSlipRepository(ExitSlipDbContext exitSlipDbContext) : IExitSlip
         exitSlipDbContext.ExitSlips.Remove(exitSlip);
         await exitSlipDbContext.SaveChangesAsync();
     }
+
+    async Task IExitSlipRepository.CreateExitSlipsAsync(IEnumerable<Domain.Entities.ExitSlip> exitSlips)
+    {
+        await exitSlipDbContext.AddRangeAsync(exitSlips);
+        await exitSlipDbContext.SaveChangesAsync();
+    }
 }

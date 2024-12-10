@@ -17,6 +17,13 @@ public class Comment : Entity
         return comment;
     }
 
+    internal static Comment CreateBogus(Guid userId, string commentText)
+    {      
+        var comment = new Comment(userId, commentText);
+        return comment;
+    }
+
+
     #endregion Comment Methods
 
     #region Comment Business Logic Methods

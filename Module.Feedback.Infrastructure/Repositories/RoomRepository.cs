@@ -33,4 +33,10 @@ public class RoomRepository(FeedbackDbContext feedbackDbContext) : IRoomReposito
         feedbackDbContext.Rooms.Remove(room);
         await feedbackDbContext.SaveChangesAsync();
     }
+
+    async Task IRoomRepository.CreateRoomsAsync(IEnumerable<Room> rooms)
+    {
+        await feedbackDbContext.AddRangeAsync(rooms);
+        await feedbackDbContext.SaveChangesAsync();
+    }
 }
