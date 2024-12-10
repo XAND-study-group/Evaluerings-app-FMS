@@ -105,7 +105,7 @@ public class Feedback : Entity
             return false;
 
         // This variable would normally be calculated from the total count of users associated to a room + a percentage number.
-        var minimumsActivityCount = 5;
+        var minimumsActivityCount = 1;
 
         var votesCount = Votes.Count;
         var commentsCount = Comments.Count;

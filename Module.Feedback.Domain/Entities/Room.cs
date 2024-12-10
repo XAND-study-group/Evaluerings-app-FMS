@@ -9,13 +9,13 @@ public class Room : Entity
 
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
+    
     private readonly List<ClassId> _classIds = [];
-    public IReadOnlyCollection<ClassId> ClassIds => _classIds;
-
     private readonly List<NotificationUserId> _notificationSubscribedUserIds = [];
-
-    public IReadOnlyCollection<NotificationUserId> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
     private readonly List<Feedback> _feedbacks = [];
+    
+    public IReadOnlyCollection<ClassId> ClassIds => _classIds;
+    public IReadOnlyCollection<NotificationUserId> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
     public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
 
     #endregion Properties
