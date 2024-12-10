@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Module.Feedback.Application.Abstractions;
+using Module.Feedback.Application.Features.Room.Command;
 using SharedKernel.Dto.Features.Evaluering.Feedback.Command;
 
 namespace Module.Feedback.AuthorizationHandlers;
@@ -16,7 +17,7 @@ public class AssureUserInRoomOfFeedbackCreateRequirement : IAuthorizationRequire
     public string[] Roles { get; }
 }
 
-public class AssureUserInRoomOfFeedbackCreate(IFeedbackRepository feedbackRepository)
+public class AssureUserInRoomOfFeedbackCreate(IMediator mediator)
     : AuthorizationHandler<AssureUserInRoomOfFeedbackCreateRequirement>
 {
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
@@ -50,11 +51,9 @@ public class AssureUserInRoomOfFeedbackCreate(IFeedbackRepository feedbackReposi
             return;
         }
 
-        var room = await feedbackRepository.GetRoomByIAsync(requestBody.RoomId);
+        var isUserInRoom = await mediator.Send(new IsUserInRoomCreateFeedbackCommand(requestBody.RoomId, userClasses));
 
-        var isUserInRoom = room.ClassIds.Any(classId => userClasses.Any(userClassId => classId.ClassIdValue == userClassId));
-
-        if (!isUserInRoom)
+        if (!isUserInRoom.SuccessResult)
         {
             context.Fail();
             return;

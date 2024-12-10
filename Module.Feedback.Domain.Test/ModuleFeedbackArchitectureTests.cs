@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.Entities;
-using Module.Feedback.Endpoints.Feedback;
 using SharedKernel.Interfaces;
 using Xunit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
@@ -205,7 +204,8 @@ public class ModuleFeedbackArchitectureTests
     public void DbContextClassesShouldBeInInfrastructureLayer()
     {
         IArchRule dbContextClassesShouldBeInInfrastructureLayer =
-            Classes().That().Are(_dbContextClasses).Should().Be(_infrastructureLayer);
+            Classes().That().Are(_dbContextClasses)
+                .Should().Be(_infrastructureLayer);
 
         dbContextClassesShouldBeInInfrastructureLayer.Check(Architecture);
     }
@@ -219,6 +219,49 @@ public class ModuleFeedbackArchitectureTests
                 .OrShould().Be(_infrastructureLayer);
 
         iRequestHandlerClassesShouldBeInApplicationOrInfrastructureLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void DomainLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependeciesForDomainLayer =
+            Types().That().Are(_domainLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
+                .AndShould().NotDependOnAnyTypesThat().Are(_applicationLayer)
+                .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
+        
+        correctDependeciesForDomainLayer.Check(Architecture);
+    }
+    
+    [Fact]
+    public void ApplicationLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependeciesForApplicationLayer =
+            Types().That().Are(_applicationLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
+                .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
+        
+        correctDependeciesForApplicationLayer.Check(Architecture);
+    }
+    
+    [Fact]
+    public void PresentationLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependeciesForPresentationLayer =
+            Types().That().Are(_presentationLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_domainLayer);
+        
+        correctDependeciesForPresentationLayer.Check(Architecture);
+    }
+    
+    [Fact]
+    public void InfrastructureLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependeciesForInfrastrcutureLayer =
+            Types().That().Are(_infrastructureLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_presentationLayer);
+        
+        correctDependeciesForInfrastrcutureLayer.Check(Architecture);
     }
 
     #endregion
