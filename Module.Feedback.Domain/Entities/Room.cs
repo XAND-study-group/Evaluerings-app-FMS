@@ -31,12 +31,7 @@ public class Room : Entity
         Title = title;
         Description = description;
     }
-    private Room(string title, string description, IEnumerable<Feedback> feedbacks)
-    {
-        Title = title;
-        Description = description;
-        _feedbacks = feedbacks.ToList();
-    }
+  
     #endregion Constructors
 
     #region Room Methods
@@ -44,10 +39,6 @@ public class Room : Entity
     public static Room Create(string title, string description)
     {
         return new Room(title, description);
-    }
-    public static Room Create(string title, string description, IEnumerable<Feedback> feedbacks)
-    {
-        return new Room(title, description, feedbacks);
     }
 
     public void Update(string title, string description)

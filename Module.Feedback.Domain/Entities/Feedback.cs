@@ -159,6 +159,16 @@ public class Feedback : Entity
 
         return subComment;
     }
+    public Comment AddSubCommentBogus(Guid commentId, Guid userId, string commentText)
+    {
+        AssureStatusIsNotSolved();
+
+        var comment = GetCommentById(commentId);
+        var subComment =  Comment.CreateBogus(userId, commentText);
+        comment.AddSubComment(subComment);
+
+        return subComment;
+    }
 
     private Comment GetCommentById(Guid commentId)
     {

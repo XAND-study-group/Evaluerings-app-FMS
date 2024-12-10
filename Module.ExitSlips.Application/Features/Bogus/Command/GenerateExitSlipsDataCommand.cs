@@ -159,7 +159,7 @@ namespace Module.ExitSlip.Application.Features.Bogus.Command
                 int maxQuestionCount = faker.Random.Int(1, 6);
                 int numberOfAnswers = faker.Random.Int(1, 10);
 
-                var exitSlipFakerTest = new Faker<Domain.Entities.ExitSlip>()
+                var exitSlipFaker = new Faker<Domain.Entities.ExitSlip>()
                     .UseSeed(123)
                     .CustomInstantiator(f =>
                     {
@@ -196,7 +196,7 @@ namespace Module.ExitSlip.Application.Features.Bogus.Command
                     });
 
 
-                await exitSlipRepository.CreateExitSlipsAsync(exitSlipFakerTest.GenerateLazy(4));
+                await exitSlipRepository.CreateExitSlipsAsync(exitSlipFaker.GenerateLazy(4));
 
                 return Result<bool>.Create("Data is Created", true, ResultStatus.Success);
             }
