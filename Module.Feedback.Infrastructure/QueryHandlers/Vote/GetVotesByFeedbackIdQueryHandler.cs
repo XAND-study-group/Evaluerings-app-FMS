@@ -10,10 +10,10 @@ using SharedKernel.Models;
 namespace Module.Feedback.Infrastructure.QueryHandlers.Vote;
 
 public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContext, IMapper mapper)
-    : IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetVoteResponse>?>>
+    : IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetDetailedVoteResponse>?>>
 {
-    async Task<Result<IEnumerable<GetVoteResponse>?>>
-        IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetVoteResponse>?>>.Handle(
+    async Task<Result<IEnumerable<GetDetailedVoteResponse>?>>
+        IRequestHandler<GetVotesByFeedbackIdQuery, Result<IEnumerable<GetDetailedVoteResponse>?>>.Handle(
             GetVotesByFeedbackIdQuery request, CancellationToken cancellationToken)
     {
         try
@@ -27,14 +27,14 @@ public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContex
                 .SingleAsync(cancellationToken);
             
             // Convert
-            var voteResponse = mapper.Map<IEnumerable<GetVoteResponse>>(votes);
+            var voteResponse = mapper.Map<IEnumerable<GetDetailedVoteResponse>>(votes);
 
             // Return
-            return Result<IEnumerable<GetVoteResponse>?>.Create("Votes fundet", voteResponse, ResultStatus.Success);
+            return Result<IEnumerable<GetDetailedVoteResponse>?>.Create("Votes fundet", voteResponse, ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<IEnumerable<GetVoteResponse>?>.Create(e.Message, null, ResultStatus.Error);
+            return Result<IEnumerable<GetDetailedVoteResponse>?>.Create(e.Message, null, ResultStatus.Error);
         }
     }
 }

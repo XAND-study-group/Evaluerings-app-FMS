@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 
-public record GetVoteResponse(
+public record GetDetailedVoteResponse(
     Guid Id,
     byte[] RowVersion,
     string HashedUserId,
