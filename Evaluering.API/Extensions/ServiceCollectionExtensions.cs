@@ -15,8 +15,6 @@ public static class ServiceCollectionExtensions
 
             options.AddPolicy("ReadFeedback",
                 policy => policy.RequireClaim("Permission", "ReadFeedback"));
-            options.AddPolicy("ReadInteractedFeedback",
-                policy => policy.RequireClaim("Permission", "ReadInteractedFeedback"));
             options.AddPolicy("PostFeedback",
                 policy => policy.RequireClaim("Permission", "PostFeedback"));
             options.AddPolicy("CommentOnFeedback",

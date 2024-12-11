@@ -5,7 +5,6 @@ using ArchUnitNET.xUnit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
-using Module.Feedback.Domain.Entities;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;
 using Xunit;
@@ -225,44 +224,44 @@ public class ModuleFeedbackArchitectureTests
     [Fact]
     public void DomainLayerHasCorrectDependencies()
     {
-        IArchRule correctDependeciesForDomainLayer =
+        IArchRule correctDependenciesForDomainLayer =
             Types().That().Are(_domainLayer)
                 .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
                 .AndShould().NotDependOnAnyTypesThat().Are(_applicationLayer)
                 .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
         
-        correctDependeciesForDomainLayer.Check(Architecture);
+        correctDependenciesForDomainLayer.Check(Architecture);
     }
     
     [Fact]
     public void ApplicationLayerHasCorrectDependencies()
     {
-        IArchRule correctDependeciesForApplicationLayer =
+        IArchRule correctDependenciesForApplicationLayer =
             Types().That().Are(_applicationLayer)
                 .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
                 .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
         
-        correctDependeciesForApplicationLayer.Check(Architecture);
+        correctDependenciesForApplicationLayer.Check(Architecture);
     }
     
     [Fact]
     public void PresentationLayerHasCorrectDependencies()
     {
-        IArchRule correctDependeciesForPresentationLayer =
+        IArchRule correctDependenciesForPresentationLayer =
             Types().That().Are(_presentationLayer)
                 .Should().NotDependOnAnyTypesThat().Are(_domainLayer);
         
-        correctDependeciesForPresentationLayer.Check(Architecture);
+        correctDependenciesForPresentationLayer.Check(Architecture);
     }
     
     [Fact]
     public void InfrastructureLayerHasCorrectDependencies()
     {
-        IArchRule correctDependeciesForInfrastrcutureLayer =
+        IArchRule correctDependenciesForInfrastructureLayer =
             Types().That().Are(_infrastructureLayer)
                 .Should().NotDependOnAnyTypesThat().Are(_presentationLayer);
         
-        correctDependeciesForInfrastrcutureLayer.Check(Architecture);
+        correctDependenciesForInfrastructureLayer.Check(Architecture);
     }
 
     #endregion

@@ -28,4 +28,10 @@ public class AnswerRepository(ExitSlipDbContext exitSlipDbContext) : IAnswerRepo
         exitSlipDbContext.Entry(answer).Property(nameof(Answer.RowVersion)).OriginalValue = rowVersion;
         await exitSlipDbContext.SaveChangesAsync();
     }
+
+    async Task IAnswerRepository.CreateAnswersAsync(IEnumerable<Answer> answers)
+    {
+        await exitSlipDbContext.AddRangeAsync(answers);
+        await exitSlipDbContext.SaveChangesAsync();
+    }
 }

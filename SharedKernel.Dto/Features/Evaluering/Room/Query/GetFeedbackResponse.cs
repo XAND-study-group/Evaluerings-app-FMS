@@ -6,5 +6,5 @@ public record GetFeedbackResponse(
     string Problem,
     string Solution,
     IEnumerable<Feedback.Query.GetCommentResponse> Comments,
-    IEnumerable<Feedback.Query.GetVoteResponse> Votes,
+    IEnumerable<Feedback.Query.GetDetailedVoteResponse> Votes,
     byte[] RowVersion);

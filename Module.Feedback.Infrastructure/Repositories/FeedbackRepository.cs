@@ -21,7 +21,7 @@ public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedback
         await feedbackDbContext.SaveChangesAsync();
     }
 
-    public async Task<Domain.Entities.Feedback> GetFeedbackByIdAsync(Guid feedbackId)
+     async Task<Domain.Entities.Feedback> IFeedbackRepository.GetFeedbackByIdAsync(Guid feedbackId)
     {
         return await feedbackDbContext.Feedbacks
                    .Include(f => f.Room)
@@ -43,6 +43,12 @@ public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedback
         feedbackDbContext.Entry(feedback).Property(nameof(Domain.Entities.Feedback.RowVersion)).OriginalValue =
             rowVersion;
         feedbackDbContext.Feedbacks.Update(feedback);
+        await feedbackDbContext.SaveChangesAsync();
+    }
+
+    async Task IFeedbackRepository.CreateFeedbacksAsync(IEnumerable<Domain.Entities.Feedback> feedbacks)
+    {
+        await feedbackDbContext.AddRangeAsync(feedbacks);
         await feedbackDbContext.SaveChangesAsync();
     }
 }

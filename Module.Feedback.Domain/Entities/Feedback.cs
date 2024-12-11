@@ -61,6 +61,11 @@ public class Feedback : Entity
         return feedback;
     }
 
+    public static Feedback CreateBogus(Guid userId, string title, string problem, string solution,
+      Room room)
+        =>  new Feedback(userId, title, problem, solution, room);    
+
+
     public void ChangeStatus(FeedbackState state)
     {
         State = state;
@@ -139,6 +144,16 @@ public class Feedback : Entity
         return comment;
     }
 
+    public Comment AddCommentBogus(Guid userId, string commentText)
+    {
+        AssureStatusIsNotSolved();
+
+        var comment = Comment.CreateBogus(userId, commentText);
+        _comments.Add(comment);
+
+        return comment;
+    }
+
     public async Task<Comment> AddSubCommentAsync(Guid commentId, Guid userId, string commentText,
         IValidationServiceProxy validationServiceProxy)
     {
@@ -146,6 +161,16 @@ public class Feedback : Entity
 
         var comment = GetCommentById(commentId);
         var subComment = await Comment.CreateAsync(userId, commentText, validationServiceProxy);
+        comment.AddSubComment(subComment);
+
+        return subComment;
+    }
+    public Comment AddSubCommentBogus(Guid commentId, Guid userId, string commentText)
+    {
+        AssureStatusIsNotSolved();
+
+        var comment = GetCommentById(commentId);
+        var subComment =  Comment.CreateBogus(userId, commentText);
         comment.AddSubComment(subComment);
 
         return subComment;
