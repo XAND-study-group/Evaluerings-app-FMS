@@ -6,19 +6,7 @@ using SharedKernel.ValueObjects;
 namespace Module.ExitSlip.Domain.Entities;
 
 public class ExitSlip : Entity
-{
-    #region HelperMethods
-
-    private Question GetQuestionById(Guid questionId)
-    {
-        var question = _questions.FirstOrDefault(q => q.Id == questionId)
-                       ?? throw new ArgumentException("Spørgsmål ikke fundet.");
-
-        return question;
-    }
-
-    #endregion
-
+{   
     #region Properties
 
     public Guid? SubjectId { get; protected set; }
@@ -49,7 +37,7 @@ public class ExitSlip : Entity
         MaxQuestionCount = maxQuestionCount;
         ActiveStatus = activeStatus;
     }
-
+  
     #endregion
 
     #region Exit Slip Methodes
@@ -60,6 +48,7 @@ public class ExitSlip : Entity
         return new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
     }
 
+   
     public void Update(string title)
     {
         AssureExitSlipInactive();
@@ -89,7 +78,7 @@ public class ExitSlip : Entity
         _questions.Add(question);
         return question;
     }
-
+  
     public Question DeleteQuestion(Guid questionId)
     {
         AssureExitSlipInactive();
@@ -151,4 +140,17 @@ public class ExitSlip : Entity
     }
 
     #endregion
+
+    #region HelperMethods
+
+    private Question GetQuestionById(Guid questionId)
+    {
+        var question = _questions.FirstOrDefault(q => q.Id == questionId)
+                       ?? throw new ArgumentException("Spørgsmål ikke fundet.");
+
+        return question;
+    }
+
+    #endregion
+
 }
