@@ -12,11 +12,12 @@ public class Room : Entity
     public Text Description { get; protected set; }
     
     private readonly List<ClassId> _classIds = [];
-    private readonly List<NotificationUserId> _notificationSubscribedUserIds = [];
-    private readonly List<Feedback> _feedbacks = [];
-    
     public IReadOnlyCollection<ClassId> ClassIds => _classIds;
+    
+    private readonly List<NotificationUserId> _notificationSubscribedUserIds = [];
     public IReadOnlyCollection<NotificationUserId> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
+    
+    private readonly List<Feedback> _feedbacks = [];
     public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
 
     #endregion Properties
@@ -32,7 +33,7 @@ public class Room : Entity
         Title = title;
         Description = description;
     }
-
+  
     #endregion Constructors
 
     #region Room Methods

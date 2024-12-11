@@ -23,11 +23,12 @@ public class Question : Entity
     {
         Text = text;
     }
+    
 
     internal static Question Create(string text)
     {
         return new Question(text);
-    }
+    } 
 
     #endregion
 
