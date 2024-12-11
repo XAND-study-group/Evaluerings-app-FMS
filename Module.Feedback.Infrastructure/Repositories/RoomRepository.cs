@@ -17,6 +17,7 @@ public class RoomRepository(FeedbackDbContext feedbackDbContext) : IRoomReposito
     {
         return await feedbackDbContext.Rooms
                    .Include(r => r.ClassIds)
+                   .Include(r => r.NotificationSubscribedUserIds)
                    .FirstOrDefaultAsync(r => r.Id == roomId) ??
                throw new ArgumentException("Room not found");
     }

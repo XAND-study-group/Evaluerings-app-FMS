@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.Entities;
+using Module.Feedback.Domain.WrapperObjects;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Infrastructure.DbContexts;
@@ -24,9 +25,31 @@ public class FeedbackDbContext(DbContextOptions<FeedbackDbContext> options) : Db
             r.Property(room => room.RowVersion).IsRowVersion();
             r.ComplexProperty(room => room.Title, room => room.IsRequired());
             r.ComplexProperty(room => room.Description, room => room.IsRequired());
+            r.HasMany(room => room.ClassIds).WithMany();
+            r.HasMany(room => room.NotificationSubscribedUserIds).WithMany();
         });
 
         #endregion Room OnModelCreating Configuration
+
+        #region ClassId WO OnModelCreating Configuration
+
+        modelBuilder.Entity<ClassId>(c =>
+        {
+            c.Property(classId => classId.Id).ValueGeneratedOnAdd();
+            c.Property(classId => classId.RowVersion).IsRowVersion();
+        });
+
+        #endregion
+
+        #region NotificationUserId WO OnModelCreating Configuration
+
+        modelBuilder.Entity<NotificationUserId>(n =>
+        {
+            n.Property(notificationUserId => notificationUserId.Id).ValueGeneratedOnAdd();
+            n.Property(notificationUserId => notificationUserId.RowVersion).IsRowVersion();
+        });
+
+        #endregion
 
         #region Feedback OnModelCreating Configuration
 

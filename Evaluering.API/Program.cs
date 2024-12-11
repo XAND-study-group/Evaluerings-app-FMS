@@ -28,10 +28,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorizationWithPolicies();
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+
 builder.Services.AddSwaggerGenWithAuth();
+
 
 builder.Services.AddMediatRModules();
 builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
@@ -60,6 +61,16 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
+
+// Enable request body buffering 
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next();
+});
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapPost("TestGemini/Feedback",
     async ([FromBody] FeedbackContentDto content, [FromServices] IValidationServiceProxy validationServiceProxy) =>

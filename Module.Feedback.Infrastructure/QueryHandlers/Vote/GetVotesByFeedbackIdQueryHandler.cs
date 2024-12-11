@@ -18,17 +18,19 @@ public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContex
     {
         try
         {
-            // Load
+            // Get
             var votes = await feedbackDbContext.Feedbacks
                 .AsNoTracking()
                 .Include(f => f.Votes)
                 .Where(f => f.Id == request.FeedbackId)
-                .Select(f => f.Votes)
-                .ProjectTo<GetVoteResponse>(mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .Select(f => f.Votes.ToArray())
+                .SingleAsync(cancellationToken);
+            
+            // Convert
+            var voteResponse = mapper.Map<IEnumerable<GetVoteResponse>>(votes);
 
-
-            return Result<IEnumerable<GetVoteResponse>?>.Create("Votes fundet", votes, ResultStatus.Success);
+            // Return
+            return Result<IEnumerable<GetVoteResponse>?>.Create("Votes fundet", voteResponse, ResultStatus.Success);
         }
         catch (Exception e)
         {

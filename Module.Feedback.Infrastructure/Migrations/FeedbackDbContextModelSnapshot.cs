@@ -24,6 +24,21 @@ namespace Module.Feedback.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ClassIdRoom", b =>
+                {
+                    b.Property<Guid>("ClassIdsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClassIdsId", "RoomId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("ClassIdRoom", "FeedbackModule");
+                });
+
             modelBuilder.Entity("Module.Feedback.Domain.Entities.Comment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -34,7 +49,6 @@ namespace Module.Feedback.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("FeedbackId")
@@ -203,6 +217,76 @@ namespace Module.Feedback.Infrastructure.Migrations
                     b.ToTable("Votes", "FeedbackModule");
                 });
 
+            modelBuilder.Entity("Module.Feedback.Domain.WrapperObjects.ClassId", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClassIdValue")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClassId", "FeedbackModule");
+                });
+
+            modelBuilder.Entity("Module.Feedback.Domain.WrapperObjects.NotificationUserId", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<Guid>("UserIdValue")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationUserId", "FeedbackModule");
+                });
+
+            modelBuilder.Entity("NotificationUserIdRoom", b =>
+                {
+                    b.Property<Guid>("NotificationSubscribedUserIdsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("NotificationSubscribedUserIdsId", "RoomId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("NotificationUserIdRoom", "FeedbackModule");
+                });
+
+            modelBuilder.Entity("ClassIdRoom", b =>
+                {
+                    b.HasOne("Module.Feedback.Domain.WrapperObjects.ClassId", null)
+                        .WithMany()
+                        .HasForeignKey("ClassIdsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Feedback.Domain.Entities.Room", null)
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Module.Feedback.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("Module.Feedback.Domain.Entities.Comment", null)
@@ -232,6 +316,21 @@ namespace Module.Feedback.Infrastructure.Migrations
                         .WithMany("Votes")
                         .HasForeignKey("FeedbackId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NotificationUserIdRoom", b =>
+                {
+                    b.HasOne("Module.Feedback.Domain.WrapperObjects.NotificationUserId", null)
+                        .WithMany()
+                        .HasForeignKey("NotificationSubscribedUserIdsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Feedback.Domain.Entities.Room", null)
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Module.Feedback.Domain.Entities.Comment", b =>

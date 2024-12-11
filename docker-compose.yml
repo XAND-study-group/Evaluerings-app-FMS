@@ -10,6 +10,7 @@
       ASPNETCORE_HTTP_PORTS: 8080
     networks:
       - schoolNetwork
+      - communicationNetwork
   
   schooldb:
     image: mcr.microsoft.com/mssql/server:latest
@@ -55,6 +56,7 @@
     networks:
       - evaluationApiNetwork
       - evaluationDatabaseNetwork
+      - communicationNetwork
   
   evaluationdb:
     image: mcr.microsoft.com/mssql/server:latest
@@ -73,8 +75,6 @@
     ports:
       - "1025:1025"
       - "1080:1080"
-    volumes:
-      - ./emails:/tmp/fakemail
     networks:
       - evaluationDatabaseNetwork
 
@@ -85,4 +85,6 @@ networks:
   evaluationDatabaseNetwork:
     driver: bridge
   schoolNetwork:
+    driver: bridge
+  communicationNetwork:
     driver: bridge

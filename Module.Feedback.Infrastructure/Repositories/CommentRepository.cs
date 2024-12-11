@@ -9,8 +9,12 @@ public class CommentRepository(FeedbackDbContext feedbackDbContext) : ICommentRe
 {
     async Task<Domain.Entities.Feedback> ICommentRepository.GetFeedbackByIdAsync(Guid feedbackId)
     {
-        return await feedbackDbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id == feedbackId) ??
-               throw new ArgumentException("Feedback not found");
+        return await feedbackDbContext.Feedbacks
+                   .Include(f => f.Comments)
+                   .ThenInclude(c => c.SubComments)
+                   .AsSplitQuery()
+                   .FirstOrDefaultAsync(f => f.Id == feedbackId) ??
+               throw new ArgumentException("Evaluering ikke fundet");
     }
 
     async Task ICommentRepository.CreateCommentAsync(Comment comment)

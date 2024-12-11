@@ -1,4 +1,5 @@
 ﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain.Entities;

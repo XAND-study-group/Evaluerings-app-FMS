@@ -32,7 +32,7 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
                 .Include(f => f.Room)
                 .ThenInclude(r => r.ClassIds)
                 .Where(f => f.Room.ClassIds
-                    .Any(g => g == request.ClassId))
+                    .Any(g => g.ClassIdValue == request.ClassId))
                 .OrderBy(f => f.Created)
                 .AsSplitQuery()
                 .Skip(request.ItemsPerPage * (request.Page - 1))

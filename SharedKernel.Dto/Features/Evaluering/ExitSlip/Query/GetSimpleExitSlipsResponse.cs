@@ -1,11 +1,13 @@
-﻿using SharedKernel.Enums.Features.Evaluering.ExitSlip;
+﻿using SharedKernel.Dto.Features.Evaluering.ValueObjects;
+using SharedKernel.Enums.Features.Evaluering.ExitSlip;
 
 namespace SharedKernel.Dto.Features.Evaluering.ExitSlip.Query;
 
 public record GetSimpleExitSlipsResponse(
+    Guid Id,
     Guid LectureId,
     Guid SubjectId,
     string Title,
-    int MaxQuestionCount,
+    MaxQuestionCountResponse MaxQuestionCount,
     ExitSlipActiveStatus ActiveStatus,
     byte[] RowVersion);

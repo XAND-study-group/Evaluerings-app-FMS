@@ -12,9 +12,9 @@ public class MappingProfileFeedback : Profile
     public MappingProfileFeedback()
     {
         CreateMap<Comment, GetCommentResponse>();
+        CreateMap<Vote, GetVoteResponse>();
         CreateMap<Domain.Entities.Feedback, GetAllFeedbacksResponse>();
         CreateMap<Domain.Entities.Feedback, GetFeedbackResponse>();
-        CreateMap<Vote, GetVoteResponse>();
         CreateMap<Room, GetSimpleRoomResponse>();
         CreateMap<Room, GetDetailedRoomResponse>();
     }

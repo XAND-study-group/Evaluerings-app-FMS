@@ -9,7 +9,9 @@ public class VoteRepository(FeedbackDbContext feedbackDbContext) : IVoteReposito
 {
     async Task<Domain.Entities.Feedback> IVoteRepository.GetFeedbackByIdAsync(Guid feedbackId)
     {
-        return await feedbackDbContext.Feedbacks.FirstOrDefaultAsync(f => f.Id == feedbackId) ??
+        return await feedbackDbContext.Feedbacks.Include(f => f.Votes)
+                   .Include(f => f.Room)
+                   .ThenInclude(r => r.NotificationSubscribedUserIds).FirstOrDefaultAsync(f => f.Id == feedbackId) ??
                throw new ArgumentException("Feedback not found");
     }
 
