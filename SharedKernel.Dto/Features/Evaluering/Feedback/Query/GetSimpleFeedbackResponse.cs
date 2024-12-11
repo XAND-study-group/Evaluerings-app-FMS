@@ -1,11 +1,9 @@
 ﻿namespace SharedKernel.Dto.Features.Evaluering.Feedback.Query;
 
-public record GetAllFeedbacksResponse(
+public record GetSimpleFeedbackResponse(
     Guid Id,
     byte[] RowVersion,
     string HashedUserId,
     string Title,
     string Problem,
-    string Solution,
-    IEnumerable<GetCommentResponse> Comments,
-    IEnumerable<GetVoteResponse> Votes);
+    string Solution);

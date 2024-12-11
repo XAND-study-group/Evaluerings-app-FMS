@@ -123,7 +123,7 @@ public class GenerateSchoolDataCommandHandler(
                     var chosenSubject = f.PickRandom(subject);
                     var lectureFake = new Faker<Lecture>()
                         .CustomInstantiator(f2 =>
-                            Lecture.Create(
+                            Lecture.Create( 
                                 f2.PickRandom(subjectAndLecture[chosenSubject]),
                                 "Dette er en lektions beskrivelse",
                                 new TimeOnly(12, 00), new TimeOnly(13, 00),

@@ -14,8 +14,13 @@ public class MappingProfileSchool : Profile
 {
     public MappingProfileSchool()
     {
+
+        #region Class Mappings
+
         CreateMap<Class, GetDetailedClassResponse>();
         CreateMap<Class, GetSimpleClassResponse>();
+
+        #endregion
 
         CreateMap<Lecture, GetDetailedLectureResponse>();
         CreateMap<Lecture, GetLectureIdResponse>();
@@ -37,5 +42,7 @@ public class MappingProfileSchool : Profile
         CreateMap<User, GetSemesterUserResponse>();
         CreateMap<User, GetDetailedUserResponse>();
         CreateMap<User, GetSimpleUserResponse>();
+        
+        CreateMap<UserEmail, GetEmailsByUserIdsResponse>();
     }
 }

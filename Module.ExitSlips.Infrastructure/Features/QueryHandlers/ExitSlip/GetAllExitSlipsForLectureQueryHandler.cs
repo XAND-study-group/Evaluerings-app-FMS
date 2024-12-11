@@ -28,11 +28,12 @@ public class GetAllExitSlipsForLectureQueryHandler : IRequestHandler<GetAllExitS
     {
         try
         {
-            var response = await _exitSlipDbContext.ExitSlips
+            var exitSlips = await _exitSlipDbContext.ExitSlips
                 .AsNoTracking()
                 .Where(e => e.LectureId == request.lectureId)
-                .ProjectTo<GetSimpleExitSlipsResponse>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .ToArrayAsync(cancellationToken);
+            
+            var response = _mapper.Map<IEnumerable<GetSimpleExitSlipsResponse?>>(exitSlips);
 
             return Result<IEnumerable<GetSimpleExitSlipsResponse?>>.Create("ExitSlip Fundet", response,
                 ResultStatus.Success);

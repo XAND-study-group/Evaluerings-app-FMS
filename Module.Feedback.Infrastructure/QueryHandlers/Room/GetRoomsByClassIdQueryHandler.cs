@@ -30,7 +30,7 @@ public class
             var rooms = await _feedbackDbContext.Rooms
                 .AsNoTracking()
                 .Where(r => r.ClassIds
-                    .Any(c => c == request.ClassId))
+                    .Any(c => c.ClassIdValue == request.ClassId))
                 .ProjectTo<GetSimpleRoomResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

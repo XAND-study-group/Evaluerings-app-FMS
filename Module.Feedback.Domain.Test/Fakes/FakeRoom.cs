@@ -24,22 +24,22 @@ public class FakeRoom : Room
         Description = description;
     }
 
-    public new void AssureNoDuplicateClassIds(Guid classId, IEnumerable<Guid> currentClassIds)
+    public new void AssureNoDuplicateClassIds(Guid classId, IEnumerable<FakeClassId> currentClassIds)
     {
         base.AssureNoDuplicateClassIds(classId, currentClassIds);
     }
 
-    public new void AssureClassIdIsInList(Guid classId, IEnumerable<Guid> currentClassIds)
+    public new void AssureClassIdIsInList(Guid classId, IEnumerable<FakeClassId> currentClassIds)
     {
         base.AssureClassIdIsInList(classId, currentClassIds);
     }
 
-    public new void AssureNoDuplicateUserIds(Guid userId, IEnumerable<Guid> currentUserIds)
+    public new void AssureNoDuplicateUserIds(Guid userId, IEnumerable<FakeNotificationUserId> currentUserIds)
     {
         base.AssureNoDuplicateUserIds(userId, currentUserIds);
     }
 
-    public new void AssureUserIdIsInList(Guid userId, IEnumerable<Guid> currentUserIds)
+    public new void AssureUserIdIsInList(Guid userId, IEnumerable<FakeNotificationUserId> currentUserIds)
     {
         base.AssureUserIdIsInList(userId, currentUserIds);
     }

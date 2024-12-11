@@ -33,4 +33,10 @@ public class QuestionRepository(ExitSlipDbContext exitSlipDbContext) : IQuestion
         exitSlipDbContext.Entry(question).Property(nameof(Question.RowVersion)).OriginalValue = rowVersion;
         await exitSlipDbContext.SaveChangesAsync();
     }
+
+    async Task IQuestionRepository.CreateQuestionsAsync(IEnumerable<Question> questions)
+    {
+        await exitSlipDbContext.AddRangeAsync(questions);
+        await exitSlipDbContext.SaveChangesAsync();
+    }
 }

@@ -16,6 +16,6 @@ public class RefreshToken : IEndpoint
                     [FromServices] IMediator mediator)
                 => (await mediator.Send(new AccountRefreshTokenCommand(request))).ReturnHttpResult())
             .WithTags("Authentication")
-            .RequireRateLimiting("baseLimit");
+            .RequireRateLimiting("LowFrequencyEndpoint");
     }
 }

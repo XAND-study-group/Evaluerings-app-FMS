@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Features.ExitSlip.Query;
@@ -28,10 +27,11 @@ public class
     {
         try
         {
-            var response = await _exitSlipDbContext.ExitSlips
+            var exitSlips = await _exitSlipDbContext.ExitSlips
                 .AsNoTracking()
-                .ProjectTo<GetSimpleExitSlipsResponse?>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
+            
+            var response = _mapper.Map<IEnumerable<GetSimpleExitSlipsResponse?>>(exitSlips);
 
             return Result<IEnumerable<GetSimpleExitSlipsResponse?>>.Create("ExitSlip fundet", response,
                 ResultStatus.Success);

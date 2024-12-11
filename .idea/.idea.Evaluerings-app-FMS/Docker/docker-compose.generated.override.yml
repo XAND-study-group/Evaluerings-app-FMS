@@ -2,59 +2,110 @@
 services:
   evaluation.api:
     build:
-      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      context: "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS"
       dockerfile: "Evaluering.API/Dockerfile"
       target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/Evaluering.API.dll"
+    - "/opt/JetBrains/RiderDebuggerTools/linux-x64/JetBrains.Debugger.Worker"
+    - "--runtimeconfig"
+    - "/opt/JetBrains/RiderDebuggerTools/JetBrains.Debugger.Worker.runtimeconfig.json"
+    - "--mode=server"
+    - "--frontend-port=57000"
+    - "--backend-port=57200"
+    - "--roslyn-worker-port=57400"
+    - "--timeout=60"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/JetBrains/RiderDebuggerTools"
+      RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "evaluation.api:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57099:57000"
+    - "127.0.0.1:57299:57200"
+    - "127.0.0.1:57499:57400"
     volumes:
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\Evaluering.API:/app:rw"
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
-    - "C:\\Users\\Oetho\\AppData\\Roaming\\Microsoft\\UserSecrets:/home/app/.microsoft/usersecrets"
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS\\Evaluering.API:/app:rw"
+    - "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\kag\\AppData\\Roaming\\Microsoft\\UserSecrets:/home/app/.microsoft/usersecrets"
+    - "C:\\Users\\kag\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\kag\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.3\\Linux64:/opt/JetBrains/RiderDebuggerTools"
+    - "C:\\Users\\kag\\AppData\\Local\\Programs\\Rider\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
+    - "C:\\Users\\kag\\AppData\\Local\\JetBrains\\Rider2024.3\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_12_10_12_59_30:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"
   reverseproxy.api:
     build:
-      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      context: "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS"
       dockerfile: "ReverseProxy.API/Dockerfile"
       target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/ReverseProxy.API.dll"
+    - "/opt/JetBrains/RiderDebuggerTools/linux-x64/JetBrains.Debugger.Worker"
+    - "--runtimeconfig"
+    - "/opt/JetBrains/RiderDebuggerTools/JetBrains.Debugger.Worker.runtimeconfig.json"
+    - "--mode=server"
+    - "--frontend-port=57000"
+    - "--backend-port=57200"
+    - "--roslyn-worker-port=57400"
+    - "--timeout=60"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/JetBrains/RiderDebuggerTools"
+      RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "reverseproxy.api:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57100:57000"
+    - "127.0.0.1:57300:57200"
+    - "127.0.0.1:57500:57400"
     volumes:
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\ReverseProxy.API:/app:rw"
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS\\ReverseProxy.API:/app:rw"
+    - "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\kag\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\kag\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.3\\Linux64:/opt/JetBrains/RiderDebuggerTools"
+    - "C:\\Users\\kag\\AppData\\Local\\Programs\\Rider\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
+    - "C:\\Users\\kag\\AppData\\Local\\JetBrains\\Rider2024.3\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_12_10_12_59_30:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"
   school.api:
     build:
-      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      context: "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS"
       dockerfile: "School.API/Dockerfile"
       target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/School.API.dll"
+    - "/opt/JetBrains/RiderDebuggerTools/linux-x64/JetBrains.Debugger.Worker"
+    - "--runtimeconfig"
+    - "/opt/JetBrains/RiderDebuggerTools/JetBrains.Debugger.Worker.runtimeconfig.json"
+    - "--mode=server"
+    - "--frontend-port=57000"
+    - "--backend-port=57200"
+    - "--roslyn-worker-port=57400"
+    - "--timeout=60"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/JetBrains/RiderDebuggerTools"
+      RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "school.api:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57101:57000"
+    - "127.0.0.1:57301:57200"
+    - "127.0.0.1:57501:57400"
     volumes:
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\School.API:/app:rw"
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS\\School.API:/app:rw"
+    - "C:\\Users\\kag\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\kag\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\kag\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.3\\Linux64:/opt/JetBrains/RiderDebuggerTools"
+    - "C:\\Users\\kag\\AppData\\Local\\Programs\\Rider\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
+    - "C:\\Users\\kag\\AppData\\Local\\JetBrains\\Rider2024.3\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_12_10_12_59_30:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"

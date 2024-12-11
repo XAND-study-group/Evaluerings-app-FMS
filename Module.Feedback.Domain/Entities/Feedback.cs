@@ -2,6 +2,7 @@
 using Module.Feedback.Domain.ValueObjects;
 using SharedKernel.Enums.Features.Evaluering.Feedback;
 using SharedKernel.Enums.Features.Vote;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain.Entities;
@@ -60,6 +61,11 @@ public class Feedback : Entity
         return feedback;
     }
 
+    public static Feedback CreateBogus(Guid userId, string title, string problem, string solution,
+      Room room)
+        =>  new Feedback(userId, title, problem, solution, room);    
+
+
     public void ChangeStatus(FeedbackState state)
     {
         State = state;
@@ -99,13 +105,12 @@ public class Feedback : Entity
 
     public bool ShouldSendNotification()
     {
-        if (State == FeedbackState.Solved)
-            return false;
-        if (NotificationStatus == NotificationStatus.Sent)
+        if (State == FeedbackState.Solved ||
+            NotificationStatus == NotificationStatus.Sent)
             return false;
 
         // This variable would normally be calculated from the total count of users associated to a room + a percentage number.
-        var minimumsActicityCount = 5;
+        var minimumsActivityCount = 1;
 
         var votesCount = Votes.Count;
         var commentsCount = Comments.Count;
@@ -113,7 +118,13 @@ public class Feedback : Entity
 
         var totalActivityCount = votesCount + commentsCount + subCommentsCount;
 
-        return totalActivityCount >= minimumsActicityCount;
+        return totalActivityCount >= minimumsActivityCount;
+    }
+
+    public void ChangeNotificationStatus(NotificationStatus status)
+    {
+        AssureStatusIsNotSolved();
+        NotificationStatus = status;
     }
 
     #endregion Feedback Business Logic Methods
@@ -133,6 +144,16 @@ public class Feedback : Entity
         return comment;
     }
 
+    public Comment AddCommentBogus(Guid userId, string commentText)
+    {
+        AssureStatusIsNotSolved();
+
+        var comment = Comment.CreateBogus(userId, commentText);
+        _comments.Add(comment);
+
+        return comment;
+    }
+
     public async Task<Comment> AddSubCommentAsync(Guid commentId, Guid userId, string commentText,
         IValidationServiceProxy validationServiceProxy)
     {
@@ -140,6 +161,16 @@ public class Feedback : Entity
 
         var comment = GetCommentById(commentId);
         var subComment = await Comment.CreateAsync(userId, commentText, validationServiceProxy);
+        comment.AddSubComment(subComment);
+
+        return subComment;
+    }
+    public Comment AddSubCommentBogus(Guid commentId, Guid userId, string commentText)
+    {
+        AssureStatusIsNotSolved();
+
+        var comment = GetCommentById(commentId);
+        var subComment =  Comment.CreateBogus(userId, commentText);
         comment.AddSubComment(subComment);
 
         return subComment;
@@ -187,7 +218,7 @@ public class Feedback : Entity
 
     private Vote GetVoteById(Guid voteId)
     {
-        return _votes.FirstOrDefault(v => v.Id == voteId) ?? throw new ArgumentException("Vote kunne ikke findes");
+        return _votes.FirstOrDefault(v => v.Id == voteId) ?? throw new ArgumentException("Votering kunne ikke findes");
     }
 
     #endregion Vote Related Methods
@@ -200,7 +231,7 @@ public class Feedback : Entity
     private void AssureNoExistingVoteFromUser(IEnumerable<Vote> votes, Guid userId)
     {
         if (votes.Any(v => v.HashedUserId == userId))
-            throw new ArgumentException("User has already voted for this feedback.");
+            throw new ArgumentException("Brugeren har allerede stemt på denne evaluering.");
     }
 
     private void AssureStatusIsNotSolved()

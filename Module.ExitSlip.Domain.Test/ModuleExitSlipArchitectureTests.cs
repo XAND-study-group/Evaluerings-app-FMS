@@ -52,7 +52,7 @@ public class ModuleExitSlipArchitectureTests
     private readonly IObjectProvider<Class> _commandHandlerClasses =
         Classes().That().HaveNameEndingWith("CommandHandler").As("CommandHandler Classes");
 
-    private readonly IObjectProvider<Class> _iRequestRecrod =
+    private readonly IObjectProvider<Class> _iRequestRecord =
         Classes().That().ImplementInterface(typeof(IRequest<>)).As("Request Record");
 
     private readonly IObjectProvider<Class> _iRequestHandlerClasses =
@@ -118,7 +118,7 @@ public class ModuleExitSlipArchitectureTests
     }
 
     [Fact]
-    public void CommandHandlerClassesShouldBeInApplicationLAyer()
+    public void CommandHandlerClassesShouldBeInApplicationLayer()
     {
         IArchRule commandHandlerShouldBeInApplicationLayer =
             Classes().That().Are(_commandHandlerClasses)
@@ -132,7 +132,7 @@ public class ModuleExitSlipArchitectureTests
     public void IRequestRecordShouldBeInApplicationLayer()
     {
         IArchRule iRequestRecordShouldBeInApplicationLayer =
-            Classes().That().Are(_iRequestRecrod)
+            Classes().That().Are(_iRequestRecord)
                 .Should().Be(_applicationLayer)
                 .AndShould().BeRecord();
 
@@ -151,7 +151,7 @@ public class ModuleExitSlipArchitectureTests
     }
 
     [Fact]
-    public void QueryRecrodsShouldBeInApplicationLayer()
+    public void QueryRecordsShouldBeInApplicationLayer()
     {
         IArchRule queryRecordsShouldBeInApplicationLayer =
             Classes().That().Are(_queryRecords)
@@ -185,7 +185,7 @@ public class ModuleExitSlipArchitectureTests
 
 
     [Fact]
-    public void RepositoryClasseShouldBeInInfrastructureLayer()
+    public void RepositoryClassesShouldBeInInfrastructureLayer()
     {
         IArchRule repositoryClassesShouldBeInInfrastructureLayer =
             Classes().That().Are(_repositoryClasses)
@@ -222,6 +222,49 @@ public class ModuleExitSlipArchitectureTests
                 .Should().Be(_domainLayer);
 
         domainClassesShouldBeInDomainLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void DomainLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependenciesForDomainLayer =
+            Types().That().Are(_domainLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
+                .AndShould().NotDependOnAnyTypesThat().Are(_applicationLayer)
+                .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
+
+        correctDependenciesForDomainLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void ApplicationLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependenciesForApplicationLayer =
+            Types().That().Are(_applicationLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
+                .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
+
+        correctDependenciesForApplicationLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void PresentationLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependenciesForPresentationLayer =
+            Types().That().Are(_presentationLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_domainLayer);
+
+        correctDependenciesForPresentationLayer.Check(Architecture);
+    }
+
+    [Fact]
+    public void InfrastructureLayerHasCorrectDependencies()
+    {
+        IArchRule correctDependenciesForInfrastructureLayer =
+            Types().That().Are(_infrastructureLayer)
+                .Should().NotDependOnAnyTypesThat().Are(_presentationLayer);
+
+        correctDependenciesForInfrastructureLayer.Check(Architecture);
     }
 
     #endregion

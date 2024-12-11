@@ -27,7 +27,7 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
                 break;
 
             case Role.Teacher:
-                user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadInteractedFeedback"));
+                user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadFeedback"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "ReadExitSlipAnswers"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "CreateExitSlips"));
                 user.AddAccountClaim(AccountClaim.Create(PermissionName, "PrintExitSlipReport"));

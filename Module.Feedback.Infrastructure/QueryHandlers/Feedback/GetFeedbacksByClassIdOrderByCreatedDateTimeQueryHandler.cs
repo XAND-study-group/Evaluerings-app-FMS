@@ -10,7 +10,7 @@ using SharedKernel.Models;
 namespace Module.Feedback.Infrastructure.QueryHandlers.Feedback;
 
 public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestHandler<
-    GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>
+    GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetSimpleFeedbackResponse>?>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
@@ -21,8 +21,8 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
         _mapper = mapper;
     }
 
-    async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>
-        IRequestHandler<GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>
+    async Task<Result<IEnumerable<GetSimpleFeedbackResponse>?>>
+        IRequestHandler<GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetSimpleFeedbackResponse>?>>
         .Handle(GetFeedbacksByClassIdOrderByCreatedDateTimeQuery request, CancellationToken cancellationToken)
     {
         try
@@ -32,21 +32,21 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
                 .Include(f => f.Room)
                 .ThenInclude(r => r.ClassIds)
                 .Where(f => f.Room.ClassIds
-                    .Any(g => g == request.ClassId))
+                    .Any(g => g.ClassIdValue == request.ClassId))
                 .OrderBy(f => f.Created)
                 .AsSplitQuery()
                 .Skip(request.ItemsPerPage * (request.Page - 1))
                 .Take(request.ItemsPerPage)
-                .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetSimpleFeedbackResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create(
+            return Result<IEnumerable<GetSimpleFeedbackResponse>?>.Create(
                 "Alle evalueringer tilhørende klassens ID fundet",
                 feedbacks, ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create(e.Message, null, ResultStatus.Error);
+            return Result<IEnumerable<GetSimpleFeedbackResponse>?>.Create(e.Message, null, ResultStatus.Error);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Module.Feedback.Domain.DomainServices.Interfaces;
+using SharedKernel.Models;
 using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Domain.Entities;
@@ -16,6 +17,13 @@ public class Comment : Entity
 
         return comment;
     }
+
+    internal static Comment CreateBogus(Guid userId, string commentText)
+    {      
+        var comment = new Comment(userId, commentText);
+        return comment;
+    }
+
 
     #endregion Comment Methods
 
@@ -61,6 +69,7 @@ public class Comment : Entity
     {
         UserId = userId;
         CommentText = commentText;
+        Created = DateTime.Now;
     }
 
     #endregion Constructors

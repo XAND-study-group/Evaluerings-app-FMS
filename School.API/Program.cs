@@ -88,7 +88,7 @@ if (app.Environment.IsDevelopment())
 {
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 // Enable request body buffering 
 app.Use(async (context, next) =>

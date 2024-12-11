@@ -11,7 +11,7 @@ namespace Module.Feedback.Infrastructure.QueryHandlers.Feedback;
 
 public class
     GetFeedbacksByRoomIdQueryHandler : IRequestHandler<GetFeedbacksByRoomIdQuery,
-    Result<IEnumerable<GetAllFeedbacksResponse>?>>
+    Result<IEnumerable<GetSimpleFeedbackResponse>?>>
 {
     private readonly FeedbackDbContext _feedbackDbContext;
     private readonly IMapper _mapper;
@@ -22,8 +22,8 @@ public class
         _mapper = mapper;
     }
 
-    async Task<Result<IEnumerable<GetAllFeedbacksResponse>?>>
-        IRequestHandler<GetFeedbacksByRoomIdQuery, Result<IEnumerable<GetAllFeedbacksResponse>?>>.Handle(
+    async Task<Result<IEnumerable<GetSimpleFeedbackResponse>?>>
+        IRequestHandler<GetFeedbacksByRoomIdQuery, Result<IEnumerable<GetSimpleFeedbackResponse>?>>.Handle(
             GetFeedbacksByRoomIdQuery request, CancellationToken cancellationToken)
     {
         try
@@ -34,16 +34,16 @@ public class
                 .Where(f => f.Room.Id == request.RoomId)
                 .Skip(request.ItemsPerPage * (request.Page - 1))
                 .Take(request.ItemsPerPage)
-                .ProjectTo<GetAllFeedbacksResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetSimpleFeedbackResponse>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create(
+            return Result<IEnumerable<GetSimpleFeedbackResponse>?>.Create(
                 "Alle evalueringer tilknyttet det specifikke forum fundet",
                 feedbacks, ResultStatus.Success);
         }
         catch (Exception e)
         {
-            return Result<IEnumerable<GetAllFeedbacksResponse>?>.Create(e.Message, null, ResultStatus.Error);
+            return Result<IEnumerable<GetSimpleFeedbackResponse>?>.Create(e.Message, null, ResultStatus.Error);
         }
     }
 }
