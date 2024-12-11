@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        
+
         <ProjectReference Include="..\Module.ExitSlips.Domain\Module.ExitSlip.Domain.csproj"/>
         <ProjectReference Include="..\Module.ExitSlips\Module.ExitSlip.csproj"/>
         <ProjectReference Include="..\Module.ExitSlips.Infrastructure\Module.ExitSlip.Infrastructure.csproj"/>

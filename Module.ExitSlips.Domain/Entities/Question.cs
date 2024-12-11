@@ -5,16 +5,10 @@ namespace Module.ExitSlip.Domain.Entities;
 
 public class Question : Entity
 {
-    #region Properties
-
     public Text Text { get; protected set; }
     private readonly List<Answer> _answers = [];
     public IReadOnlyCollection<Answer> Answers => _answers;
-
-    #endregion
-
-    #region Constructors
-
+    
     protected Question()
     {
     }
@@ -23,16 +17,12 @@ public class Question : Entity
     {
         Text = text;
     }
-    
 
-    internal static Question Create(string text)
-    {
-        return new Question(text);
-    } 
 
-    #endregion
 
     #region Methods
+    
+    internal static Question Create(string text) => new(text);
 
     #region AnswerHandling
 
@@ -75,13 +65,9 @@ public class Question : Entity
 
     #region HelperMethods
 
-    internal Answer GetAnswerById(Guid answerId)
-    {
-        var answer = _answers.FirstOrDefault(a => a.Id == answerId)
-                     ?? throw new ArgumentException("Svar ikke fundet.");
-
-        return answer;
-    }
+    internal Answer GetAnswerById(Guid answerId) 
+        => _answers.FirstOrDefault(a => a.Id == answerId)
+           ?? throw new ArgumentException("Svar ikke fundet.");
 
     #endregion
 

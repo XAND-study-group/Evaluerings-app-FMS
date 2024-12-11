@@ -274,7 +274,8 @@ public class RoomTests
 
     [Theory]
     [MemberData(nameof(NonUniqueUserIdData))]
-    public void Given_Unique_UserId_When_Remove_Then_Void(Guid userId, IEnumerable<FakeNotificationUserId> currentUserIds)
+    public void Given_Unique_UserId_When_Remove_Then_Void(Guid userId,
+        IEnumerable<FakeNotificationUserId> currentUserIds)
     {
         // Arrange
         var room = new FakeRoom();

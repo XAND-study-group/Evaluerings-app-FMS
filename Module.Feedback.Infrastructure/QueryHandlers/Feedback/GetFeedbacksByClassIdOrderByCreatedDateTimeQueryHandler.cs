@@ -22,7 +22,8 @@ public class GetFeedbacksByClassIdOrderByCreatedDateTimeQueryHandler : IRequestH
     }
 
     async Task<Result<IEnumerable<GetSimpleFeedbackResponse>?>>
-        IRequestHandler<GetFeedbacksByClassIdOrderByCreatedDateTimeQuery, Result<IEnumerable<GetSimpleFeedbackResponse>?>>
+        IRequestHandler<GetFeedbacksByClassIdOrderByCreatedDateTimeQuery,
+            Result<IEnumerable<GetSimpleFeedbackResponse>?>>
         .Handle(GetFeedbacksByClassIdOrderByCreatedDateTimeQuery request, CancellationToken cancellationToken)
     {
         try

@@ -6,18 +6,6 @@ namespace School.Domain.Entities;
 
 public class Lecture : Entity
 {
-    #region Lecture Methods
-
-    public static Lecture Create(string lectureTitle, string description, TimeOnly startTime, TimeOnly endTime,
-        DateOnly date, string classRoom)
-    {
-        return new Lecture(lectureTitle, description, startTime, endTime, date, classRoom);
-    }
-
-    #endregion Lecture Methods
-
-    #region Properties
-
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
     public TimePeriod TimePeriod { get; protected set; }
@@ -25,11 +13,7 @@ public class Lecture : Entity
     public ClassRoom ClassRoom { get; protected set; }
     private readonly List<User> _teachers = [];
     public IReadOnlyCollection<User> Teachers => _teachers;
-
-    #endregion Properties
-
-    #region Constructors
-
+    
     protected Lecture()
     {
     }
@@ -43,8 +27,14 @@ public class Lecture : Entity
         LectureDate = date;
         ClassRoom = classRoom;
     }
+    
+    #region Lecture Methods
 
-    #endregion Constructors
+    public static Lecture Create(string lectureTitle, string description, TimeOnly startTime, TimeOnly endTime,
+        DateOnly date, string classRoom) 
+        => new(lectureTitle, description, startTime, endTime, date, classRoom);
+
+    #endregion Lecture Methods
 
     #region Relational Methods
 

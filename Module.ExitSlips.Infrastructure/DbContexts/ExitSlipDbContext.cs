@@ -26,7 +26,7 @@ public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : Db
         });
 
         #endregion
-        
+
         #region Question OnModelCreating Configuration
 
         modelBuilder.Entity<Question>(q =>
@@ -37,7 +37,7 @@ public class ExitSlipDbContext(DbContextOptions<ExitSlipDbContext> options) : Db
         });
 
         #endregion
-        
+
         #region Answer OnModelCreating Configuration
 
         modelBuilder.Entity<Answer>(a =>

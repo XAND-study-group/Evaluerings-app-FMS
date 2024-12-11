@@ -52,8 +52,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.ExitSlip.Domain", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.ExitSlip.Infrastructure", "Module.ExitSlips.Infrastructure\Module.ExitSlip.Infrastructure.csproj", "{51B72056-E0FC-47D6-B996-C93791E70509}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B4997CDC-6B90-4B35-8C7D-74F758484B7E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Application", "School.Application\School.Application.csproj", "{7AF99363-C59F-4946-A890-402EB4129D6A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School.Domain", "School.Domain\School.Domain.csproj", "{799A2651-DC75-4A52-818D-4D4E80C8FD41}"

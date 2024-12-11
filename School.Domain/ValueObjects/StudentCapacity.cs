@@ -16,13 +16,7 @@ public record StudentCapacity
             throw new ArgumentException("Capacity must be greater than zero.");
     }
 
-    public static implicit operator StudentCapacity(int value)
-    {
-        return new StudentCapacity(value);
-    }
+    public static implicit operator StudentCapacity(int value) => new(value);
 
-    public static implicit operator int(StudentCapacity value)
-    {
-        return value.Value;
-    }
+    public static implicit operator int(StudentCapacity value) => value.Value;
 }

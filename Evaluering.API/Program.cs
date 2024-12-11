@@ -35,7 +35,7 @@ builder.Services.AddSwaggerGenWithAuth();
 
 
 builder.Services.AddMediatRModules();
-builder.Services.AddEndpoints(Module.Feedback.AssemblyReference.Assembly);
+builder.Services.AddEndpoints(AssemblyReference.Assembly);
 builder.Services.AddEndpoints(Module.ExitSlip.AssemblyReference.Assembly);
 builder.Services.AddFeedbackModule(builder.Configuration);
 builder.Services.AddExitSlipModule(builder.Configuration);

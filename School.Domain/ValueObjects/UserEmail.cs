@@ -29,15 +29,9 @@ public sealed class UserEmail : IEquatable<UserEmail>
         return Value == other.Value;
     }
 
-    public static UserEmail Create(string value)
-    {
-        return new UserEmail(value);
-    }
+    public static UserEmail Create(string value) => new(value);
 
-    public static async Task<UserEmail> CreateAsync(string value)
-    {
-        return new UserEmail(value);
-    }
+    public static async Task<UserEmail> CreateAsync(string value) => new(value);
 
     private void Validate(string value)
     {
@@ -60,30 +54,15 @@ public sealed class UserEmail : IEquatable<UserEmail>
         return Regex.IsMatch(value, pattern, RegexOptions.IgnoreCase);
     }
 
-    private string NormalizeEmail(string email)
-    {
-        return email.Trim().ToLowerInvariant();
-    }
+    private string NormalizeEmail(string email) => email.Trim().ToLowerInvariant();
 
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj is UserEmail);
-    }
+    public override bool Equals(object? obj) => Equals(obj is UserEmail);
 
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
+    public override int GetHashCode() => Value.GetHashCode();
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 
-    public static implicit operator string(UserEmail value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(UserEmail value) => value.Value;
 
     public static bool operator ==(UserEmail left, UserEmail right)
     {
@@ -93,8 +72,5 @@ public sealed class UserEmail : IEquatable<UserEmail>
         return left.Equals(right);
     }
 
-    public static bool operator !=(UserEmail left, UserEmail right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(UserEmail left, UserEmail right) => !(left == right);
 }

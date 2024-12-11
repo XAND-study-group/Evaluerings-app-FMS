@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.Feedback.Application.Features.Vote.Query;
@@ -25,12 +24,13 @@ public class GetVotesByFeedbackIdQueryHandler(FeedbackDbContext feedbackDbContex
                 .Where(f => f.Id == request.FeedbackId)
                 .Select(f => f.Votes.ToArray())
                 .SingleAsync(cancellationToken);
-            
+
             // Convert
             var voteResponse = mapper.Map<IEnumerable<GetDetailedVoteResponse>>(votes);
 
             // Return
-            return Result<IEnumerable<GetDetailedVoteResponse>?>.Create("Votes fundet", voteResponse, ResultStatus.Success);
+            return Result<IEnumerable<GetDetailedVoteResponse>?>.Create("Votes fundet", voteResponse,
+                ResultStatus.Success);
         }
         catch (Exception e)
         {

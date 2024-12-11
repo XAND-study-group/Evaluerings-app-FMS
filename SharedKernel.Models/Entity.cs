@@ -18,15 +18,9 @@ public abstract class Entity : IEquatable<Entity>
     }
 
 
-    public override bool Equals(object? obj)
-    {
-        return base.Equals(obj as Entity);
-    }
+    public override bool Equals(object? obj) => base.Equals(obj as Entity);
 
-    public override int GetHashCode()
-    {
-        return Id.GetHashCode();
-    }
+    public override int GetHashCode() => Id.GetHashCode();
 
     public static bool operator ==(Entity left, Entity right)
     {
@@ -36,8 +30,5 @@ public abstract class Entity : IEquatable<Entity>
         return left.Equals(right);
     }
 
-    public static bool operator !=(Entity left, Entity right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(Entity left, Entity right) => !(left == right);
 }

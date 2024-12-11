@@ -1,19 +1,22 @@
-﻿using Module.Feedback.Domain.Entities;
-using SharedKernel.Models;
+﻿using SharedKernel.Models;
 
 namespace Module.Feedback.Domain.WrapperObjects;
 
 public class NotificationUserId : Entity
 {
-    public Guid UserIdValue { get; protected set; }
+    protected NotificationUserId()
+    {
+    }
 
-    protected NotificationUserId() { }
-    
     private NotificationUserId(Guid userId)
     {
         UserIdValue = userId;
     }
 
+    public Guid UserIdValue { get; protected set; }
+
     public static NotificationUserId Create(Guid userId)
-        => new (userId);
+    {
+        return new NotificationUserId(userId);
+    }
 }

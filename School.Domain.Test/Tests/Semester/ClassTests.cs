@@ -170,7 +170,7 @@ public class ClassTests
 
     private static IEnumerable<FakeClass> OtherClassesNameNotUnique()
     {
-        return new[] {new FakeClass("NotUnique")};
+        return new[] { new FakeClass("NotUnique") };
     }
 
     #endregion

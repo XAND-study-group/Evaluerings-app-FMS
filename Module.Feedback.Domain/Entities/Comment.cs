@@ -6,27 +6,24 @@ namespace Module.Feedback.Domain.Entities;
 
 public class Comment : Entity
 {
-    #region Comment Methods
+    public Guid UserId { get; protected set; }
+    public Text CommentText { get; protected set; }
+    public DateTime Created { get; init; }
 
-    internal static async Task<Comment> CreateAsync(Guid userId, string commentText,
-        IValidationServiceProxy iIValidationServiceProxy)
+    private readonly List<Comment> _subComments = [];
+    public IReadOnlyCollection<Comment> SubComments => _subComments;
+    
+    protected Comment()
     {
-        await AssureAcceptableContent(commentText, iIValidationServiceProxy);
-
-        var comment = new Comment(userId, commentText);
-
-        return comment;
     }
 
-    internal static Comment CreateBogus(Guid userId, string commentText)
-    {      
-        var comment = new Comment(userId, commentText);
-        return comment;
+    private Comment(Guid userId, string commentText)
+    {
+        UserId = userId;
+        CommentText = commentText;
+        Created = DateTime.Now;
     }
-
-
-    #endregion Comment Methods
-
+    
     #region Comment Business Logic Methods
 
     private static async Task AssureAcceptableContent(string commentText,
@@ -48,29 +45,23 @@ public class Comment : Entity
 
     #endregion Relational Methods
 
-    #region Properties
+    #region Comment Methods
 
-    public Guid UserId { get; protected set; }
-    public Text CommentText { get; protected set; }
-    public DateTime Created { get; init; }
-
-    private readonly List<Comment> _subComments = [];
-    public IReadOnlyCollection<Comment> SubComments => _subComments;
-
-    #endregion Properties
-
-    #region Constructors
-
-    protected Comment()
+    internal static async Task<Comment> CreateAsync(Guid userId, string commentText,
+        IValidationServiceProxy iIValidationServiceProxy)
     {
+        await AssureAcceptableContent(commentText, iIValidationServiceProxy);
+
+        var comment = new Comment(userId, commentText);
+
+        return comment;
     }
 
-    private Comment(Guid userId, string commentText)
+    internal static Comment CreateBogus(Guid userId, string commentText)
     {
-        UserId = userId;
-        CommentText = commentText;
-        Created = DateTime.Now;
+        var comment = new Comment(userId, commentText);
+        return comment;
     }
 
-    #endregion Constructors
+    #endregion Comment Methods
 }

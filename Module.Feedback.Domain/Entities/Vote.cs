@@ -6,15 +6,9 @@ namespace Module.Feedback.Domain.Entities;
 
 public class Vote : Entity
 {
-    #region Properties
-
     public HashedUserId HashedUserId { get; protected set; }
     public VoteScale VoteScale { get; protected set; }
-
-    #endregion Properties
-
-    #region Constructors
-
+    
     protected Vote()
     {
     }
@@ -24,15 +18,10 @@ public class Vote : Entity
         HashedUserId = hashedUserId;
         VoteScale = voteScale;
     }
-
-    #endregion Constructors
-
+    
     #region Vote Methods
 
-    internal static Vote Create(Guid userId, VoteScale voteScale)
-    {
-        return new Vote(userId, voteScale);
-    }
+    internal static Vote Create(Guid userId, VoteScale voteScale) => new(userId, voteScale);
 
     internal void Update(Guid userId, VoteScale voteScale)
     {

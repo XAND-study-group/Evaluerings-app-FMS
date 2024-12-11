@@ -15,8 +15,8 @@ public class GetExitSlipById : IEndpoint
     {
         app.MapGet(configuration["Routes:ExitSlipModule:ExitSlip:GetExitSlipById"] ??
                    throw new ArgumentException("Route is not added to config file"),
-            async (Guid exitSlipId, [FromServices] IMediator mediator) => 
-            (await mediator.Send(new GetExitSlipByIdQuery(exitSlipId))).ReturnHttpResult())
+                async (Guid exitSlipId, [FromServices] IMediator mediator) =>
+                (await mediator.Send(new GetExitSlipByIdQuery(exitSlipId))).ReturnHttpResult())
             .WithTags("ExitSlip");
     }
 }

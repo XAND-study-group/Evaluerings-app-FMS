@@ -8,6 +8,54 @@ namespace School.Domain.Entities;
 
 public class User : Entity
 {
+    public UserFirstname Firstname { get; protected set; }
+    public UserLastname Lastname { get; protected set; }
+    public UserEmail Email { get; protected set; }
+
+    public PasswordHash PasswordHash { get; protected set; }
+    public Role UserRole { get; protected set; }
+
+    public IEnumerable<Semester> Semesters { get; protected set; }
+    private readonly List<AccountClaim> _accountClaims = [];
+    public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
+    protected List<RefreshToken> _refreshTokens = [];
+    public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens;
+
+    protected User()
+    {
+    }
+
+    private User(string fristname, string lastname, string email, string password, Role role)
+    {
+        AssurePasswordCompliesWithRequirements(password);
+
+        Firstname = fristname;
+        Lastname = lastname;
+        Email = UserEmail.Create(email);
+        PasswordHash = password;
+        UserRole = role;
+    }
+
+    #region User Methodes
+
+    public static User Create(string firstname, string lastname, string email, string password, Role role,
+        IEnumerable<User> otherUsers) =>
+        new(firstname, lastname, email, password, role);
+
+    public static async Task<User> CreateAsync(string firstname, string lastname, string email, string password,
+        Role role,
+        IUserDomainService userDomainService,
+        IAccountClaimRepository accountClaimRepository)
+    {
+        if (userDomainService.DoesUserEmailExist(email))
+            throw new ArgumentException($"A User with email '{email}' already exists.");
+
+        var user = new User(firstname, lastname, email, password, role);
+        await accountClaimRepository.CreateClaimForRoleAsync(user, role);
+
+        return user;
+    }
+    
     public void AddAccountClaim(AccountClaim claim)
     {
         if (AccountClaims.Contains(claim))
@@ -41,64 +89,6 @@ public class User : Entity
     {
         AssurePasswordCompliesWithRequirements(newPassword);
         PasswordHash = newPassword;
-    }
-
-    #region Properties
-
-    public UserFirstname Firstname { get; protected set; }
-    public UserLastname Lastname { get; protected set; }
-    public UserEmail Email { get; protected set; }
-
-    public PasswordHash PasswordHash { get; protected set; }
-    public Role UserRole { get; protected set; }
-
-    public IEnumerable<Semester> Semesters { get; protected set; }
-    private readonly List<AccountClaim> _accountClaims = [];
-    public IReadOnlyCollection<AccountClaim> AccountClaims => _accountClaims;
-    protected List<RefreshToken> _refreshTokens = [];
-    public IReadOnlyCollection<RefreshToken> RefreshTokens => _refreshTokens;
-
-    #endregion
-
-    #region Constructors
-
-    protected User()
-    {
-    }
-
-    private User(string fristname, string lastname, string email, string password, Role role)
-    {
-        AssurePasswordCompliesWithRequirements(password);
-
-        Firstname = fristname;
-        Lastname = lastname;
-        Email = UserEmail.Create(email);
-        PasswordHash = password;
-        UserRole = role;
-    }
-
-    #endregion
-
-    #region User Methodes
-
-    public static User Create(string firstname, string lastname, string email, string password, Role role,
-        IEnumerable<User> otherUsers)
-    {
-        return new User(firstname, lastname, email, password, role);
-    }
-
-    public static async Task<User> CreateAsync(string firstname, string lastname, string email, string password,
-        Role role,
-        IUserDomainService userDomainService,
-        IAccountClaimRepository accountClaimRepository)
-    {
-        if (userDomainService.DoesUserEmailExist(email))
-            throw new ArgumentException($"A User with email '{email}' already exists.");
-
-        var user = new User(firstname, lastname, email, password, role);
-        await accountClaimRepository.CreateClaimForRoleAsync(user, role);
-
-        return user;
     }
 
     #endregion

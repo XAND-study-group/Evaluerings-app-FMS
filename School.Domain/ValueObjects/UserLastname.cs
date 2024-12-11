@@ -31,30 +31,15 @@ public sealed class UserLastname : IEquatable<UserLastname>
             throw new ArgumentException("Lastname can only contain letters", nameof(value));
     }
 
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as UserLastname);
-    }
+    public override bool Equals(object? obj) => Equals(obj as UserLastname);
 
-    public override int GetHashCode()
-    {
-        return StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
-    }
+    public override int GetHashCode() => StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 
-    public static implicit operator string(UserLastname value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(UserLastname value) => value.Value;
 
-    public static implicit operator UserLastname(string value)
-    {
-        return new UserLastname(value);
-    }
+    public static implicit operator UserLastname(string value) => new(value);
 
     public static bool operator ==(UserLastname left, UserLastname right)
     {
@@ -64,8 +49,5 @@ public sealed class UserLastname : IEquatable<UserLastname>
         return left.Equals(right);
     }
 
-    public static bool operator !=(UserLastname left, UserLastname right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(UserLastname left, UserLastname right) => !(left == right);
 }

@@ -18,13 +18,7 @@ public record MaxQuestionCount
             throw new ArgumentException("The number of questions in an exitslip can't exceed 10.");
     }
 
-    public static implicit operator MaxQuestionCount(int value)
-    {
-        return new MaxQuestionCount(value);
-    }
+    public static implicit operator MaxQuestionCount(int value) => new(value);
 
-    public static implicit operator int(MaxQuestionCount value)
-    {
-        return value.Value;
-    }
+    public static implicit operator int(MaxQuestionCount value) => value.Value;
 }

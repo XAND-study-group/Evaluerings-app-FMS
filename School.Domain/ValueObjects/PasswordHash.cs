@@ -58,10 +58,7 @@ public class PasswordHash
         return CryptographicOperations.FixedTimeEquals(hash, inputHashWithPepper);
     }
 
-    public static implicit operator string(PasswordHash value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(PasswordHash value) => value.Value;
 
     public static implicit operator PasswordHash(string value)
     {

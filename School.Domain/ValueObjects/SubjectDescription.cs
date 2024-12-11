@@ -15,33 +15,15 @@ public sealed class SubjectDescription : IEquatable<SubjectDescription>
 
     public string Value { get; init; }
 
-    public bool Equals(SubjectDescription? other)
-    {
-        return other != null && Value == other.Value;
-    }
+    public bool Equals(SubjectDescription? other) => other != null && Value == other.Value;
 
-    public override bool Equals(object? obj)
-    {
-        return obj is SubjectDescription description && Value == description.Value;
-    }
+    public override bool Equals(object? obj) => obj is SubjectDescription description && Value == description.Value;
 
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
+    public override int GetHashCode() => Value.GetHashCode();
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 
-    public static implicit operator string(SubjectDescription description)
-    {
-        return description.Value;
-    }
+    public static implicit operator string(SubjectDescription description) => description.Value;
 
-    public static implicit operator SubjectDescription(string description)
-    {
-        return new SubjectDescription(description);
-    }
+    public static implicit operator SubjectDescription(string description) => new(description);
 }

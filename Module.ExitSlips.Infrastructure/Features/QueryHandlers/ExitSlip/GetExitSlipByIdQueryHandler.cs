@@ -30,7 +30,7 @@ public class GetExitSlipByIdQueryHandler : IRequestHandler<GetExitSlipByIdQuery,
                 .AsNoTracking()
                 .Include(e => e.Questions)
                 .Where(e => e.Id == request.id)
-                .ProjectTo<GetDetailedExitSlipResponse>(_mapper.ConfigurationProvider) 
+                .ProjectTo<GetDetailedExitSlipResponse>(_mapper.ConfigurationProvider)
                 .SingleAsync(cancellationToken);
 
             return Result<GetDetailedExitSlipResponse?>.Create("ExitSLip funder", response, ResultStatus.Success);

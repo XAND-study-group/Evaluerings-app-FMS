@@ -12,10 +12,7 @@ public class RefreshToken
     public string? Token { get; init; }
     public DateTime? ExpirationDate { get; init; }
 
-    public static RefreshToken Create(string? token, DateTime? expirationDate)
-    {
-        return new RefreshToken(token, expirationDate);
-    }
+    public static RefreshToken Create(string? token, DateTime? expirationDate) => new(token, expirationDate);
 
     private void AssureDateIsInFuture(DateTime? value)
     {

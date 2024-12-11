@@ -6,24 +6,18 @@ namespace Module.Feedback.Domain.Entities;
 
 public class Room : Entity
 {
-    #region Properties
-
     public Title Title { get; protected set; }
     public Text Description { get; protected set; }
-    
+
     private readonly List<ClassId> _classIds = [];
     public IReadOnlyCollection<ClassId> ClassIds => _classIds;
-    
+
     private readonly List<NotificationUserId> _notificationSubscribedUserIds = [];
     public IReadOnlyCollection<NotificationUserId> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
-    
+
     private readonly List<Feedback> _feedbacks = [];
     public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
-
-    #endregion Properties
-
-    #region Constructors
-
+    
     protected Room()
     {
     }
@@ -33,15 +27,10 @@ public class Room : Entity
         Title = title;
         Description = description;
     }
-  
-    #endregion Constructors
-
+    
     #region Room Methods
 
-    public static Room Create(string title, string description)
-    {
-        return new Room(title, description);
-    }
+    public static Room Create(string title, string description) => new(title, description);
 
     public void Update(string title, string description)
     {

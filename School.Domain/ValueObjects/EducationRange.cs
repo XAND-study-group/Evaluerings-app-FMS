@@ -14,10 +14,7 @@ public record EducationRange
     public DateOnly Start { get; protected set; }
     public DateOnly End { get; protected set; }
 
-    public static EducationRange Create(DateOnly start, DateOnly end)
-    {
-        return new EducationRange(start, end);
-    }
+    public static EducationRange Create(DateOnly start, DateOnly end) => new(start, end);
 
     private void Validate(DateOnly start, DateOnly end, DateOnly now)
     {

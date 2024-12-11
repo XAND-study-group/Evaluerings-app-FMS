@@ -6,8 +6,6 @@ namespace School.Domain.Entities;
 
 public class Semester : Entity
 {
-    #region Properties
-
     // General Information
     public SemesterName Name { get; protected set; }
     public SemesterNumber SemesterNumber { get; protected set; }
@@ -19,10 +17,6 @@ public class Semester : Entity
 
     public IReadOnlyCollection<User> SemesterResponsibles => _semesterResponsibles;
     public IReadOnlyCollection<Class> Classes => _classes;
-
-    #endregion
-
-    #region Constructors
 
     protected Semester()
     {
@@ -51,21 +45,15 @@ public class Semester : Entity
         _classes = classes.ToList();
     }
 
-    #endregion
-
     #region Semester Methods
 
     public static Semester Create(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
         SchoolType school, IEnumerable<Semester> otherSemesters)
-    {
-        return new Semester(name, semesterNumber, startDate, endDate, school, otherSemesters);
-    }
+        => new(name, semesterNumber, startDate, endDate, school, otherSemesters);
 
     public static Semester Create(string name, int semesterNumber, DateOnly startDate, DateOnly endDate,
-        SchoolType school, IEnumerable<Class> classes, IEnumerable<Semester> otherSemesters)
-    {
-        return new Semester(name, semesterNumber, startDate, endDate, school, classes, otherSemesters);
-    }
+        SchoolType school, IEnumerable<Class> classes, IEnumerable<Semester> otherSemesters) 
+        => new(name, semesterNumber, startDate, endDate, school, classes, otherSemesters);
 
     #endregion
 

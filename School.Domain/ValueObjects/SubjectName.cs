@@ -12,33 +12,15 @@ public sealed class SubjectName : IEquatable<SubjectName>
 
     public string Value { get; init; }
 
-    public bool Equals(SubjectName? other)
-    {
-        return other != null && Value == other.Value;
-    }
+    public bool Equals(SubjectName? other) => other != null && Value == other.Value;
 
-    public override bool Equals(object? obj)
-    {
-        return obj is SubjectName name && Value == name.Value;
-    }
+    public override bool Equals(object? obj) => obj is SubjectName name && Value == name.Value;
 
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
+    public override int GetHashCode() => Value.GetHashCode();
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 
-    public static implicit operator string(SubjectName name)
-    {
-        return name.Value;
-    }
+    public static implicit operator string(SubjectName name) => name.Value;
 
-    public static implicit operator SubjectName(string name)
-    {
-        return new SubjectName(name);
-    }
+    public static implicit operator SubjectName(string name) => new(name);
 }

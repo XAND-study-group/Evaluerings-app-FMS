@@ -11,10 +11,7 @@ public record HashedUserId
 
     public string Value { get; init; }
 
-    public static HashedUserId Create(Guid value)
-    {
-        return new HashedUserId(value);
-    }
+    public static HashedUserId Create(Guid value) => new(value);
 
 
     private static string Hash(Guid id)
@@ -27,15 +24,9 @@ public record HashedUserId
         return Convert.ToHexString(hashBytes);
     }
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 
-    public static implicit operator string(HashedUserId hashedUserId)
-    {
-        return hashedUserId.Value;
-    }
+    public static implicit operator string(HashedUserId hashedUserId) => hashedUserId.Value;
 
     public static implicit operator HashedUserId(Guid value)
     {

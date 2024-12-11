@@ -9,8 +9,6 @@ namespace Module.Feedback.Domain.Entities;
 
 public class Feedback : Entity
 {
-    #region Properties
-
     // General Properties
     public HashedUserId HashedUserId { get; protected set; }
     public Title Title { get; protected set; }
@@ -26,11 +24,7 @@ public class Feedback : Entity
     private readonly List<Vote> _votes = [];
     public IReadOnlyCollection<Comment> Comments => _comments;
     public IReadOnlyCollection<Vote> Votes => _votes;
-
-    #endregion Properties
-
-    #region Constructors
-
+    
     protected Feedback()
     {
     }
@@ -46,9 +40,7 @@ public class Feedback : Entity
         Room = room;
         Created = DateTime.Now;
     }
-
-    #endregion Constructors
-
+    
     #region Feedback Methods
 
     public static async Task<Feedback> CreateAsync(Guid userId, string title, string problem, string solution,
@@ -61,9 +53,8 @@ public class Feedback : Entity
         return feedback;
     }
 
-    public static Feedback CreateBogus(Guid userId, string title, string problem, string solution,
-      Room room)
-        =>  new Feedback(userId, title, problem, solution, room);    
+    public static Feedback CreateBogus(Guid userId, string title, string problem, string solution, Room room) 
+        => new(userId, title, problem, solution, room);
 
 
     public void ChangeStatus(FeedbackState state)
@@ -71,25 +62,13 @@ public class Feedback : Entity
         State = state;
     }
 
-    public int GetUpVoteCount()
-    {
-        return _votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
-    }
+    public int GetUpVoteCount() => _votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
 
-    public int GetDownVoteCount()
-    {
-        return _votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
-    }
+    public int GetDownVoteCount() => _votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
 
-    public int GetCommentsCount()
-    {
-        return _comments.Count + GetSubCommentsCount();
-    }
+    public int GetCommentsCount() => _comments.Count + GetSubCommentsCount();
 
-    private int GetSubCommentsCount()
-    {
-        return _comments.Sum(comment => comment.SubComments.Count);
-    }
+    private int GetSubCommentsCount() => _comments.Sum(comment => comment.SubComments.Count);
 
     #endregion Feedback Methods
 
@@ -165,12 +144,13 @@ public class Feedback : Entity
 
         return subComment;
     }
+
     public Comment AddSubCommentBogus(Guid commentId, Guid userId, string commentText)
     {
         AssureStatusIsNotSolved();
 
         var comment = GetCommentById(commentId);
-        var subComment =  Comment.CreateBogus(userId, commentText);
+        var subComment = Comment.CreateBogus(userId, commentText);
         comment.AddSubComment(subComment);
 
         return subComment;

@@ -229,10 +229,10 @@ public class ModuleFeedbackArchitectureTests
                 .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
                 .AndShould().NotDependOnAnyTypesThat().Are(_applicationLayer)
                 .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
-        
+
         correctDependenciesForDomainLayer.Check(Architecture);
     }
-    
+
     [Fact]
     public void ApplicationLayerHasCorrectDependencies()
     {
@@ -240,27 +240,27 @@ public class ModuleFeedbackArchitectureTests
             Types().That().Are(_applicationLayer)
                 .Should().NotDependOnAnyTypesThat().Are(_infrastructureLayer)
                 .AndShould().NotDependOnAnyTypesThat().Are(_presentationLayer);
-        
+
         correctDependenciesForApplicationLayer.Check(Architecture);
     }
-    
+
     [Fact]
     public void PresentationLayerHasCorrectDependencies()
     {
         IArchRule correctDependenciesForPresentationLayer =
             Types().That().Are(_presentationLayer)
                 .Should().NotDependOnAnyTypesThat().Are(_domainLayer);
-        
+
         correctDependenciesForPresentationLayer.Check(Architecture);
     }
-    
+
     [Fact]
     public void InfrastructureLayerHasCorrectDependencies()
     {
         IArchRule correctDependenciesForInfrastructureLayer =
             Types().That().Are(_infrastructureLayer)
                 .Should().NotDependOnAnyTypesThat().Are(_presentationLayer);
-        
+
         correctDependenciesForInfrastructureLayer.Check(Architecture);
     }
 

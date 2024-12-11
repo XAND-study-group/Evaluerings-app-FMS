@@ -6,9 +6,7 @@ using SharedKernel.ValueObjects;
 namespace Module.ExitSlip.Domain.Entities;
 
 public class ExitSlip : Entity
-{   
-    #region Properties
-
+{
     public Guid? SubjectId { get; protected set; }
     public Guid? LectureId { get; protected set; }
 
@@ -19,11 +17,7 @@ public class ExitSlip : Entity
 
     private readonly List<Question> _questions = [];
     public IReadOnlyCollection<Question> Questions => _questions;
-
-    #endregion
-
-    #region Constructors
-
+    
     protected ExitSlip()
     {
     }
@@ -37,18 +31,14 @@ public class ExitSlip : Entity
         MaxQuestionCount = maxQuestionCount;
         ActiveStatus = activeStatus;
     }
-  
-    #endregion
-
+    
     #region Exit Slip Methodes
 
     public static ExitSlip Create(Guid? subjectId, Guid? lectureId, string title, MaxQuestionCount maxQuestionCount,
-        ExitSlipActiveStatus activeStatus)
-    {
-        return new ExitSlip(subjectId, lectureId, title, maxQuestionCount, activeStatus);
-    }
+        ExitSlipActiveStatus activeStatus) 
+        => new(subjectId, lectureId, title, maxQuestionCount, activeStatus);
 
-   
+
     public void Update(string title)
     {
         AssureExitSlipInactive();
@@ -78,7 +68,7 @@ public class ExitSlip : Entity
         _questions.Add(question);
         return question;
     }
-  
+
     public Question DeleteQuestion(Guid questionId)
     {
         AssureExitSlipInactive();
@@ -125,7 +115,7 @@ public class ExitSlip : Entity
 
     #endregion
 
-    #region EXitSlip StatusHandling
+    #region ExitSlip StatusHandling
 
     private void AssureExitSlipInactive()
     {
@@ -140,7 +130,7 @@ public class ExitSlip : Entity
     }
 
     #endregion
-
+    
     #region HelperMethods
 
     private Question GetQuestionById(Guid questionId)
@@ -152,5 +142,4 @@ public class ExitSlip : Entity
     }
 
     #endregion
-
 }

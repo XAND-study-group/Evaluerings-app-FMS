@@ -19,18 +19,9 @@ public record Text
             throw new ArgumentException("Value cannot be longer than 500 characters.", nameof(value));
     }
 
-    public static implicit operator Text(string value)
-    {
-        return new Text(value);
-    }
+    public static implicit operator Text(string value) => new(value);
 
-    public static implicit operator string(Text value)
-    {
-        return value.Value;
-    }
+    public static implicit operator string(Text value) => value.Value;
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 }

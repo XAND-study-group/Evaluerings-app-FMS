@@ -5,17 +5,16 @@ namespace School.Domain.Entities;
 
 public class Subject : Entity
 {
-    #region Properties
-    
     public SubjectName Name { get; protected set; }
     public SubjectDescription Description { get; protected set; }
     private readonly List<Lecture> _lectures = [];
     public IReadOnlyCollection<Lecture> Lectures => _lectures;
 
-    #endregion
-
-    #region Constructors
-
+    protected Subject()
+    {
+        
+    }
+    
     protected Subject(SubjectName name, SubjectDescription description, IEnumerable<Lecture> lectures,
         IEnumerable<Subject> otherSubjects)
     {
@@ -31,13 +30,7 @@ public class Subject : Entity
         Description = description;
         AssureNameIsUnique(name, otherSubjects);
     }
-
-    protected Subject()
-    {
-    }
-
-    #endregion
-
+    
     #region Subject Business Logic Methods
 
     public static Subject Create(SubjectName name, SubjectDescription description, IEnumerable<Subject> otherSubjects)

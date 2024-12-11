@@ -6,18 +6,6 @@ namespace School.Domain.Entities;
 
 public class Class : Entity
 {
-    #region Class Business Logic Methods
-
-    protected void AssureNameIsUnique(string name, IEnumerable<Class> otherClassNames)
-    {
-        if (otherClassNames.Any(s => s.Name == name))
-            throw new ArgumentException($"A Class with name '{name}' already exists.");
-    }
-
-    #endregion
-
-    #region Properties
-
     // List & IReadOnlyCollections
     private readonly List<User> _teachers = [];
     private readonly List<User> _students = [];
@@ -30,11 +18,7 @@ public class Class : Entity
     public string Name { get; protected set; }
     public Text Description { get; protected set; }
     public StudentCapacity StudentCapacity { get; protected set; }
-
-    #endregion
-
-    #region Constructors
-
+    
     protected Class()
     {
     }
@@ -60,20 +44,24 @@ public class Class : Entity
         AssureMaxCapacityIsNotReached(_students.Count, StudentCapacity);
         AssureNameIsUnique(Name, otherClassNames);
     }
-
-    #endregion
-
+    
     #region Class Methods
 
-    public static Class Create(string name, string description, int capacity, IEnumerable<Class> otherClassNames)
-    {
-        return new Class(name, description, capacity, otherClassNames);
-    }
+    public static Class Create(string name, string description, int capacity, IEnumerable<Class> otherClassNames) 
+        => new(name, description, capacity, otherClassNames);
 
     public static Class Create(string name, string description, int capacity, IEnumerable<User> students,
-        IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames)
+        IEnumerable<Subject> subjects, IEnumerable<Class> otherClassNames) 
+        => new(name, description, capacity, students, subjects, otherClassNames);
+
+    #endregion
+    
+    #region Class Business Logic Methods
+
+    protected void AssureNameIsUnique(string name, IEnumerable<Class> otherClassNames)
     {
-        return new Class(name, description, capacity, students, subjects, otherClassNames);
+        if (otherClassNames.Any(s => s.Name == name))
+            throw new ArgumentException($"A Class with name '{name}' already exists.");
     }
 
     #endregion
@@ -82,6 +70,7 @@ public class Class : Entity
 
     public void AddSubject(Subject subject)
     {
+        AssureSubjectIsNotAlreadyAdded(subject);
         _subjects.Add(subject);
     }
 
@@ -115,6 +104,12 @@ public class Class : Entity
     {
         if (studentsCount >= studentCapacity)
             throw new ArgumentException("Maximum number of students reached.");
+    }
+
+    protected void AssureSubjectIsNotAlreadyAdded(Subject subject)
+    {
+        if (_subjects.Any(s => s.Id == subject.Id))
+            throw new ArgumentException("Faget er allerede tilføjet til denne klasse");
     }
 
     protected void AssureCorrectRole(string roleValueName, User user)

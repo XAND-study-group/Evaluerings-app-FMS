@@ -34,7 +34,7 @@ public class CreateVoteCommandHandler(
                 var emails = await schoolApiProxy
                     .GetEmailsByUserIdsAsync(feedback.Room.NotificationSubscribedUserIds
                         .Select(n => n.UserIdValue));
-                
+
                 await emailNotificationProxy.SendNotificationAsync(emails.SuccessResult, "XAND@gmail.com", feedback);
             }
 

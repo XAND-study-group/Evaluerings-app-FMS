@@ -1,18 +1,22 @@
-﻿using Module.Feedback.Domain.Entities;
-using SharedKernel.Models;
+﻿using SharedKernel.Models;
 
 namespace Module.Feedback.Domain.WrapperObjects;
 
 public class ClassId : Entity
 {
-    public Guid ClassIdValue { get; protected set; }
+    protected ClassId()
+    {
+    }
 
-    protected ClassId() { }
     private ClassId(Guid classIdValue)
     {
         ClassIdValue = classIdValue;
     }
 
+    public Guid ClassIdValue { get; protected set; }
+
     public static ClassId Create(Guid id)
-        => new(id);
+    {
+        return new ClassId(id);
+    }
 }

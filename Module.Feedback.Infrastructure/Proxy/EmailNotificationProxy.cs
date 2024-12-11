@@ -1,6 +1,4 @@
-﻿using System.Net.Sockets;
-using System.Text;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 using Module.Feedback.Application.Services;
 using SharedKernel.Dto.Features.School.User.Query;
@@ -16,13 +14,13 @@ public class EmailNotificationProxy : IEmailNotificationProxy
     {
         using var client = new SmtpClient();
         client.ServerCertificateValidationCallback = (s, c, h, e) => true; // Accept any certificate
-        
-        await client.ConnectAsync("fakemailserver", 1025, false);  // Use container name and port
-        
+
+        await client.ConnectAsync("fakemailserver", 1025, false); // Use container name and port
+
         foreach (var emailTo in emailsTo) await WriteMailContent(client, feedback, emailFrom, emailTo.Value);
-        
+
         await client.DisconnectAsync(true);
-        
+
         feedback.ChangeNotificationStatus(NotificationStatus.Sent);
     }
 
@@ -38,13 +36,13 @@ public class EmailNotificationProxy : IEmailNotificationProxy
                         $"<br>\r\n" +
                         $"Evalueringen har haft: <b>{feedback.GetUpVoteCount()}</b> Up Votes, <b>{feedback.GetDownVoteCount()}</b> Down Votes, <b>{feedback.GetCommentsCount()}</b> Comments\r\n" +
                         $"</body>\r\n";
-        
+
         var message = new MimeMessage();
         message.From.Add(MailboxAddress.Parse(emailFrom));
         message.To.Add(MailboxAddress.Parse(emailTo));
         message.Subject = "Forums Aktivitet på Evaluering";
         message.Body = new TextPart("html") { Text = emailBody };
-        
+
         await client.SendAsync(message);
     }
 }

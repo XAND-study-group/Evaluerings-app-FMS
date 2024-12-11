@@ -63,7 +63,7 @@ public static class ServiceCollectionExtensions
             .AddScoped<IAuthorizationHandler, AssureUserInRoomOfFeedbackCreate>()
             .AddScoped<IAuthorizationHandler, AssureUserInRoomOfFeedbackModification>();
     }
-    
+
     internal static IServiceCollection AddSwaggerGenWithAuth(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddSwaggerGen(o =>

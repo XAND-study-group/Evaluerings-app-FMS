@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.SignalR;
 using Module.ExitSlip.Domain.Entities;
 using Module.ExitSlip.Domain.ValueObjects;
 using SharedKernel.Dto.Features.Evaluering.Answer.Query;
@@ -15,9 +14,9 @@ public class MappingProfileExitSlip : Profile
     {
         CreateMap<Question, GetSimpleQuestionsResponse>();
         CreateMap<Question, GetDetailedQuestionsResponse>();
-        
+
         CreateMap<Answer, GetDetailedAnswerResponse>();
-        
+
         CreateMap<Domain.Entities.ExitSlip, GetSimpleExitSlipsResponse>();
         CreateMap<Domain.Entities.ExitSlip, GetExitSlipWithAnswersResponse>();
         CreateMap<Domain.Entities.ExitSlip, GetDetailedExitSlipResponse>();

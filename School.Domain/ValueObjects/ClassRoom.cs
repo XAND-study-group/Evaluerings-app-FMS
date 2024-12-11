@@ -19,13 +19,7 @@ public class ClassRoom
             throw new ArgumentException("Value cannot be longer than 50 characters.", nameof(value));
     }
 
-    public static implicit operator string(ClassRoom classRoom)
-    {
-        return classRoom.Value;
-    }
+    public static implicit operator string(ClassRoom classRoom) => classRoom.Value;
 
-    public static implicit operator ClassRoom(string classRoom)
-    {
-        return new ClassRoom(classRoom);
-    }
+    public static implicit operator ClassRoom(string classRoom) => new(classRoom);
 }

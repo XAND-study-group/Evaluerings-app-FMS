@@ -21,7 +21,7 @@ public class FeedbackRepository(FeedbackDbContext feedbackDbContext) : IFeedback
         await feedbackDbContext.SaveChangesAsync();
     }
 
-     async Task<Domain.Entities.Feedback> IFeedbackRepository.GetFeedbackByIdAsync(Guid feedbackId)
+    async Task<Domain.Entities.Feedback> IFeedbackRepository.GetFeedbackByIdAsync(Guid feedbackId)
     {
         return await feedbackDbContext.Feedbacks
                    .Include(f => f.Room)

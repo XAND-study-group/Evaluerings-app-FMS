@@ -35,13 +35,7 @@ public record Title
 
     public static implicit operator Title(string value) => new(value);
 
-    public override int GetHashCode()
-    {
-        return StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
-    }
+    public override int GetHashCode() => StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() => Value;
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Module.ExitSlip.Application.Features.ExitSlip.Query;
@@ -32,7 +31,7 @@ public class GetAllExitSlipsForSubjectQueryHandler : IRequestHandler<GetAllExitS
                 .AsNoTracking()
                 .Where(e => e.SubjectId == request.subjectId)
                 .ToArrayAsync(cancellationToken);
-            
+
             var response = _mapper.Map<IEnumerable<GetSimpleExitSlipsResponse?>>(exitSlips);
 
             return Result<IEnumerable<GetSimpleExitSlipsResponse?>>.Create("ExitSlip fundet", response,

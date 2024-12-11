@@ -2,7 +2,6 @@
 using Module.Feedback.Application.Abstractions;
 using Module.Feedback.Domain.Entities;
 using Module.Feedback.Domain.WrapperObjects;
-using SharedKernel.ValueObjects;
 
 namespace Module.Feedback.Infrastructure.DbContexts;
 
