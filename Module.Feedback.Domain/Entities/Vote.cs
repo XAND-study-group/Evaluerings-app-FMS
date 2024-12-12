@@ -8,7 +8,7 @@ public class Vote : Entity
 {
     public HashedUserId HashedUserId { get; protected set; }
     public VoteScale VoteScale { get; protected set; }
-    
+
     protected Vote()
     {
     }
@@ -18,7 +18,7 @@ public class Vote : Entity
         HashedUserId = hashedUserId;
         VoteScale = voteScale;
     }
-    
+
     #region Vote Methods
 
     internal static Vote Create(Guid userId, VoteScale voteScale) => new(userId, voteScale);
