@@ -6,7 +6,7 @@ namespace Module.Feedback.Domain.Entities;
 
 public class Comment : Entity
 {
-    public Guid UserId { get; protected set; }
+    public Guid UserId { get; }
     public Text CommentText { get; protected set; }
     public DateTime Created { get; init; }
 

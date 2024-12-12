@@ -44,11 +44,6 @@ public class FakeRoom : Room
         base.AssureUserIdIsInList(userId, currentUserIds);
     }
 
-    public new void AddFeedback(Entities.Feedback feedback)
-    {
-        base.AddFeedback(feedback);
-    }
-
     public new void AddClassId(Guid classId)
     {
         base.AddClassId(classId);

@@ -10,14 +10,14 @@ namespace Module.Feedback.Domain.Entities;
 public class Feedback : Entity
 {
     // General Properties
-    public HashedUserId HashedUserId { get; protected set; }
+    public HashedUserId HashedUserId { get; }
     public Title Title { get; protected set; }
     public Text Problem { get; protected set; }
     public Text Solution { get; protected set; }
     public DateTime Created { get; init; }
     public FeedbackState State { get; protected set; }
     public NotificationStatus NotificationStatus { get; protected set; }
-    public Room Room { get; protected set; }
+    public Room Room { get; }
 
     // List Properties
     private readonly List<Comment> _comments = [];
@@ -62,9 +62,9 @@ public class Feedback : Entity
         State = state;
     }
 
-    public int GetUpVoteCount() => _votes.Count(vote => vote.VoteScale == VoteScale.UpVote);
+    public int GetUpVoteCount() => _votes.Count(vote => vote.VoteScale == VoteScale.Up);
 
-    public int GetDownVoteCount() => _votes.Count(vote => vote.VoteScale == VoteScale.DownVote);
+    public int GetDownVoteCount() => _votes.Count(vote => vote.VoteScale == VoteScale.Down);
 
     public int GetCommentsCount() => _comments.Count + GetSubCommentsCount();
 

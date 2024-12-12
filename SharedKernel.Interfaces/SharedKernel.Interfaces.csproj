@@ -16,4 +16,8 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="IApplcationClass.cs" />
+    </ItemGroup>
+
 </Project>

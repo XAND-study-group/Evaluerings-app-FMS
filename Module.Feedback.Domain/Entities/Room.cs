@@ -10,13 +10,10 @@ public class Room : Entity
     public Text Description { get; protected set; }
 
     private readonly List<ClassId> _classIds = [];
-    public IReadOnlyCollection<ClassId> ClassIds => _classIds;
-
     private readonly List<NotificationUserId> _notificationSubscribedUserIds = [];
-    public IReadOnlyCollection<NotificationUserId> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
 
-    private readonly List<Feedback> _feedbacks = [];
-    public IReadOnlyCollection<Feedback> Feedbacks => _feedbacks;
+    public IReadOnlyCollection<ClassId> ClassIds => _classIds;
+    public IReadOnlyCollection<NotificationUserId> NotificationSubscribedUserIds => _notificationSubscribedUserIds;
     
     protected Room()
     {
@@ -68,11 +65,6 @@ public class Room : Entity
         AssureUserIdIsInList(userId, _notificationSubscribedUserIds);
         var notificationUserId = _notificationSubscribedUserIds.Single(u => u.UserIdValue == userId);
         _notificationSubscribedUserIds.Remove(notificationUserId);
-    }
-
-    public void AddFeedback(Feedback feedback)
-    {
-        _feedbacks.Add(feedback);
     }
 
     #endregion Relational Methods

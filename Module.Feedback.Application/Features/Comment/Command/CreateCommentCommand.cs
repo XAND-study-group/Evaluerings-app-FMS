@@ -9,7 +9,7 @@ using SharedKernel.Models;
 namespace Module.Feedback.Application.Features.Comment.Command;
 
 public record CreateCommentCommand(CreateCommentRequest CreateCommentRequest)
-    : IRequest<Result<bool>>, IApplcationClass;
+    : IRequest<Result<bool>>;
 
 public class CreateCommentCommandHandler(
     ICommentRepository commentRepository,

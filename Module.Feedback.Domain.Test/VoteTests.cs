@@ -45,17 +45,17 @@ public class VoteTests
 
     public static IEnumerable<object[]> ValidCreationData()
     {
-        yield return [Guid.NewGuid(), VoteScale.UpVote];
-        yield return [Guid.NewGuid(), VoteScale.DownVote];
+        yield return [Guid.NewGuid(), VoteScale.Up];
+        yield return [Guid.NewGuid(), VoteScale.Down];
     }
 
     public static IEnumerable<object[]> ValidUpdateData()
     {
         var userId = Guid.Parse("4cf1ab55-5356-437b-a578-77812884c146");
         yield return
-            [new FakeVote(userId, VoteScale.DownVote), userId, VoteScale.UpVote];
+            [new FakeVote(userId, VoteScale.Down), userId, VoteScale.Up];
         yield return
-            [new FakeVote(userId, VoteScale.UpVote), userId, VoteScale.DownVote];
+            [new FakeVote(userId, VoteScale.Up), userId, VoteScale.Down];
     }
 
     #endregion MemberData Methods

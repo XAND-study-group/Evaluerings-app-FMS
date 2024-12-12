@@ -7,8 +7,8 @@ namespace Module.ExitSlip.Domain.Entities;
 
 public class ExitSlip : Entity
 {
-    public Guid? SubjectId { get; protected set; }
-    public Guid? LectureId { get; protected set; }
+    public Guid? SubjectId { get; }
+    public Guid? LectureId { get; }
 
     public Title Title { get; protected set; }
 

@@ -19,7 +19,7 @@ public class GenerateFeedBackDataBogusCommandHandler(
     {
         try
         {
-            VoteScale[] randomVoteScale = [VoteScale.UpVote, VoteScale.DownVote];
+            VoteScale[] randomVoteScale = [VoteScale.Up, VoteScale.Down];
 
             var roomsWithDescription = new Dictionary<string, string>
             {

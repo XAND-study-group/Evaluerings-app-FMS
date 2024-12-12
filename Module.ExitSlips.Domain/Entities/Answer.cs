@@ -5,7 +5,7 @@ namespace Module.ExitSlip.Domain.Entities;
 
 public class Answer : Entity
 {
-    public Guid UserId { get; protected set; }
+    public Guid UserId { get; }
     public Text Text { get; protected set; }
     
     protected Answer()

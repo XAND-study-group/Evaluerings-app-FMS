@@ -14,12 +14,8 @@ public class MappingProfileSchool : Profile
 {
     public MappingProfileSchool()
     {
-        #region Class Mappings
-
         CreateMap<Class, GetDetailedClassResponse>();
         CreateMap<Class, GetSimpleClassResponse>();
-
-        #endregion
 
         CreateMap<Lecture, GetDetailedLectureResponse>();
         CreateMap<Lecture, GetLectureIdResponse>();

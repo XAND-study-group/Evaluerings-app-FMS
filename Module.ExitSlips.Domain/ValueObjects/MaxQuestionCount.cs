@@ -2,7 +2,7 @@
 
 public record MaxQuestionCount
 {
-    public MaxQuestionCount(int value)
+    private MaxQuestionCount(int value)
     {
         Validate(value);
         Value = value;

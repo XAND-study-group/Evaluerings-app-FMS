@@ -2,6 +2,6 @@
 
 public enum VoteScale
 {
-    UpVote,
-    DownVote
+    Up,
+    Down
 }
