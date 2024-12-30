@@ -50,12 +50,6 @@ public class Question : Entity
         return answer;
     }
 
-    internal void DeleteAnswer(Guid answerId)
-    {
-        var answer = GetAnswerById(answerId);
-        _answers.Remove(answer);
-    }
-
     #endregion
 
     #region QuestionHandling
@@ -75,7 +69,7 @@ public class Question : Entity
 
     #region HelperMethods
 
-    internal Answer GetAnswerById(Guid answerId)
+    private Answer GetAnswerById(Guid answerId)
     {
         var answer = _answers.FirstOrDefault(a => a.Id == answerId)
                      ?? throw new ArgumentException("Svar ikke fundet.");
