@@ -22,8 +22,10 @@ public class ExitSlipAutoMapperConfigurationIsValidTests
     {
         //Arrange
         var actual = new StringBuilder();
+        
         //Act
         TypeMap typeMap = null;
+        
         try
         {
             var a = _mapper.ConfigurationProvider as MapperConfiguration;
