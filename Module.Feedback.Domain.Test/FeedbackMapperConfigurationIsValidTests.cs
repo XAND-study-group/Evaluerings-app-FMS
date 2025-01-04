@@ -17,7 +17,6 @@ public class FeedbackAutoMapperConfigurationIsValidTests(IMapper mapper)
         TypeMap? typeMap = null;
         try
         {
-            var a = mapper.ConfigurationProvider as MapperConfiguration;
             foreach (var t in (mapper.ConfigurationProvider as MapperConfiguration).Internal()
                      .GetAllTypeMaps())
             {

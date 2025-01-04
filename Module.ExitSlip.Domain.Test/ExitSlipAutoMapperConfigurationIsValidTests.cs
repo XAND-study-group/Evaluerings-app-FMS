@@ -28,7 +28,6 @@ public class ExitSlipAutoMapperConfigurationIsValidTests
         
         try
         {
-            var a = _mapper.ConfigurationProvider as MapperConfiguration;
             foreach (var t in (_mapper.ConfigurationProvider as MapperConfiguration).Internal()
                      .GetAllTypeMaps())
             {
