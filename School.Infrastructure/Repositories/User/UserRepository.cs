@@ -52,7 +52,6 @@ public class UserRepository(SchoolDbContext dbContext) : IUserRepository
 
     async Task IUserRepository.ChangeUserPasswordAsync(Domain.Entities.User user, byte[] rowVersion)
     {
-        user.ResetRefreshToken();
         dbContext.Entry(user).Property(nameof(user.RowVersion)).OriginalValue = rowVersion;
         await dbContext.SaveChangesAsync();
     }

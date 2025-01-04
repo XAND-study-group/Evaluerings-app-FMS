@@ -27,7 +27,6 @@ public class CreateFeedbackCommandHandler(
             var feedback = await Domain.Entities.Feedback.CreateAsync(createFeedbackRequest.UserId,
                 createFeedbackRequest.Title,
                 createFeedbackRequest.Problem, createFeedbackRequest.Solution, room, iIValidationServiceProxy);
-
             // Save
             await feedbackRepository.CreateFeedbackAsync(feedback);
 

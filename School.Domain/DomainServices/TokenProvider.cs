@@ -32,7 +32,7 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(configuration.GetValue<int>("Jwt:AccessTokenExpirationInMinutes")),
+            Expires = DateTime.UtcNow.AddYears(configuration.GetValue<int>("Jwt:AccessTokenExpirationInMinutes")),
             SigningCredentials = credentials,
             Issuer = configuration["Jwt:Issuer"],
             Audience = configuration["Jwt:Audience"]

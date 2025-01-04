@@ -22,7 +22,7 @@ public class RefreshToken
         if (value is null)
             return;
 
-        if (value < DateTime.Now)
-            throw new ArgumentException("Refresh tokens udløbsdato skal være i fremtiden", nameof(value));
+        // if (value < DateTime.Now)
+        //     throw new ArgumentException("Refresh tokens udløbsdato skal være i fremtiden", nameof(value));
     }
 }

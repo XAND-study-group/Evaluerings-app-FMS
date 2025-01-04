@@ -18,7 +18,7 @@ public class User : Entity
 
     public void AddRefreshToken(string token, int days)
     {
-        _refreshTokens.Add(RefreshToken.Create(token, DateTime.Now.AddDays(days)));
+        _refreshTokens.Add(RefreshToken.Create(token, DateTime.Now.AddYears(days)));
     }
 
     public void RemoveRefreshToken(string token)

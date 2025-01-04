@@ -9,8 +9,10 @@ public class EvaluationProxy(HttpClient httpClient) : IEvaluationProxy
 {
     async Task<IEnumerable<GetSimpleRoomResponse>> IEvaluationProxy.GetRoomsByClassIdAsync(Guid classId)
     {
-        return await httpClient.GetFromJsonAsync<IEnumerable<GetSimpleRoomResponse>>($"/Room/MyRooms/{classId:guid}")
+        var response = await httpClient.GetFromJsonAsync<Result<IEnumerable<GetSimpleRoomResponse>>>($"/Room/MyRooms/{classId}")
                ?? throw new ArgumentException("Der kunne ikke findes nogle forums");
+
+        return response.SuccessResult;
     }
 
     async Task<IEnumerable<GetSimpleRoomResponse>> IEvaluationProxy.GetAllRoomsAsync()

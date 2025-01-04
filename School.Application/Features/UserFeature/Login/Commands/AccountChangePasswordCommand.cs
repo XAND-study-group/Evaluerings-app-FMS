@@ -24,6 +24,7 @@ public class AccountChangePasswordCommandHandler(IUserRepository userRepository)
                 return Result<bool>.Create("Brugeren eksistere ikke", false, ResultStatus.Error);
 
             user.ChangePassword(changePasswordRequest.NewPassword);
+            user.ResetRefreshToken();
 
             // Save
             await userRepository.ChangeUserPasswordAsync(user, changePasswordRequest.RowVersion);

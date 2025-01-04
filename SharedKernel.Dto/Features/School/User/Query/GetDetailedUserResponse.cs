@@ -7,4 +7,5 @@ public record GetDetailedUserResponse(
     string Firstname,
     string Lastname,
     string Email,
-    IEnumerable<GetSimpleSemesterResponse> Semesters);
+    IEnumerable<GetSimpleSemesterResponse> Semesters,
+    byte[] RowVersion);

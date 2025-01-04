@@ -19,7 +19,8 @@ public class EmailNotificationProxy : IEmailNotificationProxy
         
         await client.ConnectAsync("fakemailserver", 1025, false);  // Use container name and port
         
-        foreach (var emailTo in emailsTo) await WriteMailContent(client, feedback, emailFrom, emailTo.Value);
+        foreach (var emailTo in emailsTo) 
+            await WriteMailContent(client, feedback, emailFrom, emailTo.Value);
         
         await client.DisconnectAsync(true);
         

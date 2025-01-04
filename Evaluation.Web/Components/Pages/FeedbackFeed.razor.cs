@@ -24,8 +24,6 @@ public partial class FeedbackFeed : ComponentBase
 
     private async Task CreateFeedback()
     {
-        await Authenticate();
-
         StartLoading = true;
         var userId = Guid.NewGuid();
         if (FeedbackViewModel.RoomId == Guid.Empty)
@@ -73,7 +71,8 @@ public partial class FeedbackFeed : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        Rooms = await EvaluationProxy.GetAllRoomsAsync();
+        var classId = Guid.Parse("ADF1DE2A-24AF-4F0A-F7FF-08DD164A0CB0");
+        Rooms = await EvaluationProxy.GetRoomsByClassIdAsync(classId);
     }
 
     private async Task Authenticate()
