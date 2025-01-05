@@ -13,3 +13,4 @@ public interface IUserRepository
     Task<bool> DoesUserEmailExistAsync(string createRequestEmail);
     Task SignOutUserAsync();
 }
+

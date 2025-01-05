@@ -15,7 +15,7 @@ public class UserTests
 
     [Theory]
     [InlineData("Xabur", "Zaradeshtø", "xabur@hotmail.com", "Password123.")]
-    public async void Given_valid_input_then_create_success(string firstname, string lastname, string email,
+    public void Given_valid_input_then_create_success(string firstname, string lastname, string email,
         string password)
     {
         // Arrange
@@ -25,11 +25,10 @@ public class UserTests
 
         var accountClaimRepositoryMock = new Mock<IAccountClaimRepository>();
         accountClaimRepositoryMock
-            .Setup(mock => mock.CreateClaimForRoleAsync(It.IsAny<Entities.User>(), It.IsAny<Role>()))
-            .Returns(Task.CompletedTask);
+            .Setup(mock => mock.AddClaimsForRole(It.IsAny<Entities.User>(), It.IsAny<Role>()));
 
         // Act
-        var user = await Entities.User.CreateAsync(firstname, lastname, email, password, It.IsAny<Role>(),
+        var user = Entities.User.Create(firstname, lastname, email, password, It.IsAny<Role>(),
             domainServiceMock.Object, accountClaimRepositoryMock.Object);
 
         // Assert
@@ -94,7 +93,7 @@ public class UserTests
 
     [Theory]
     [MemberData(nameof(NotUniqeEmails))]
-    public void Given_not_unique_email_then_throw_argumentException(string email,
+    public async void Given_not_unique_email_then_throw_argumentException(string email,
         IEnumerable<string> otherEmails)
     {
         // Arrange

@@ -11,7 +11,7 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
     private const string RoleName = "Role";
     private const string PermissionName = "Permission";
 
-    async Task IAccountClaimRepository.CreateClaimForRoleAsync(Domain.Entities.User user, Role role)
+    void IAccountClaimRepository.AddClaimsForRole(Domain.Entities.User user, Role role)
     {
         user.AddAccountClaim(AccountClaim.Create(RoleName, role.ToString()));
 
@@ -41,8 +41,6 @@ public class AccountClaimRepository(SchoolDbContext dbContext) : IAccountClaimRe
                 // TODO: Make admin
                 break;
         }
-
-        await dbContext.SaveChangesAsync();
     }
 
     async Task IAccountClaimRepository.AddClaimToUserAsync(AccountClaim claim)

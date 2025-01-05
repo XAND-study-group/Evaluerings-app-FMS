@@ -108,14 +108,14 @@ public class GenerateSchoolDataCommandHandler(
 
             var userFake = new Faker<User>()
                 .CustomInstantiator(f =>
-                    User.CreateAsync(
+                    User.Create(
                         f.Person.FirstName,
                         f.Person.LastName,
                         f.Person.Email,
                         "Password123.",
                         f.PickRandom(roles),
                         userDomainService,
-                        accountClaimRepository).Result).UseSeed(420);
+                        accountClaimRepository)).UseSeed(420);
 
             var subjectFake = new Faker<Subject>()
                 .CustomInstantiator(f =>
@@ -159,14 +159,14 @@ public class GenerateSchoolDataCommandHandler(
 
             var adminFake = new Faker<User>()
                 .CustomInstantiator(f =>
-                    User.CreateAsync(
+                    User.Create(
                         f.Person.FirstName,
                         f.Person.LastName,
                         f.Person.Email,
                         "Password123.",
                         Role.Admin,
                         userDomainService,
-                        accountClaimRepository).Result).UseSeed(50);
+                        accountClaimRepository)).UseSeed(50);
 
             await semesterRepository.CreateSemestersAsync(semesterFake.GenerateLazy(2));
 

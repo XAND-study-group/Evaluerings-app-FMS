@@ -2,7 +2,7 @@
 services:
   evaluation.api:
     build:
-      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      context: "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS"
       dockerfile: "Evaluering.API/Dockerfile"
       target: "base"
     command: []
@@ -15,14 +15,13 @@ services:
     image: "evaluation.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\Evaluering.API:/app:rw"
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
-    - "C:\\Users\\Oetho\\AppData\\Roaming\\Microsoft\\UserSecrets:/home/app/.microsoft/usersecrets"
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS\\Evaluering.API:/app:rw"
+    - "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
     working_dir: "/app"
   reverseproxy.api:
     build:
-      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      context: "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS"
       dockerfile: "ReverseProxy.API/Dockerfile"
       target: "base"
     command: []
@@ -35,13 +34,13 @@ services:
     image: "reverseproxy.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\ReverseProxy.API:/app:rw"
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS\\ReverseProxy.API:/app:rw"
+    - "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
     working_dir: "/app"
   school.api:
     build:
-      context: "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS"
+      context: "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS"
       dockerfile: "School.API/Dockerfile"
       target: "base"
     command: []
@@ -54,7 +53,7 @@ services:
     image: "school.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS\\School.API:/app:rw"
-    - "C:\\Users\\Oetho\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS\\School.API:/app:rw"
+    - "C:\\Users\\danie\\RiderProjects\\Evaluerings-app-FMS:/src:rw"
+    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
     working_dir: "/app"

@@ -25,7 +25,7 @@ public class CreateUserCommandHandler(
             var userRequest = request.Request;
 
             // Do 
-            var user = await Domain.Entities.User.CreateAsync(
+            var user = Domain.Entities.User.Create(
                 userRequest.Firstname,
                 userRequest.Lastname,
                 userRequest.Email,

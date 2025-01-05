@@ -22,14 +22,12 @@ public class AccountSignUpCommandHandler(
         {
             var createRequest = request.Request;
 
-            var exists = await userRepository.DoesUserEmailExistAsync(createRequest.Email);
-            if (!exists)
-                return Result<bool>.Create("Email already exists", false, ResultStatus.Error);
-
-            var user = await Domain.Entities.User.CreateAsync(createRequest.Firstname, createRequest.Lastname,
+            var user = Domain.Entities.User.Create(createRequest.Firstname, createRequest.Lastname,
                 createRequest.Email,
                 createRequest.Password, Role.User, userDomainService, accountClaimRepository);
 
+            accountClaimRepository.AddClaimsForRole(user, Role.User);
+            
             await userRepository.CreateUserAsync(user);
 
             return Result<bool>.Create("Account created", true, ResultStatus.Success);

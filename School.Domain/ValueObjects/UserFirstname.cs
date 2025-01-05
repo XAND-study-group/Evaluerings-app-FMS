@@ -60,10 +60,10 @@ public sealed class UserFirstname : IEquatable<UserFirstname>
     {
         if (left is null)
             return right is null;
-
+    
         return left.Equals(right);
     }
-
+    
     public static bool operator !=(UserFirstname left, UserFirstname right)
     {
         return !(left == right);

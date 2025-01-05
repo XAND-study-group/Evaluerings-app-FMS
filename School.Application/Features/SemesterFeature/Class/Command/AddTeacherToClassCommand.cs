@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using School.Application.Abstractions.Semester;
+using School.Domain.ValueObjects;
 using SharedKernel.Dto.Features.School.Class.Command;
 using SharedKernel.Interfaces;
 using SharedKernel.Models;

@@ -87,7 +87,7 @@ public class User : Entity
         return new User(firstname, lastname, email, password, role);
     }
 
-    public static async Task<User> CreateAsync(string firstname, string lastname, string email, string password,
+    public static User Create(string firstname, string lastname, string email, string password,
         Role role,
         IUserDomainService userDomainService,
         IAccountClaimRepository accountClaimRepository)
@@ -96,8 +96,7 @@ public class User : Entity
             throw new ArgumentException($"A User with email '{email}' already exists.");
 
         var user = new User(firstname, lastname, email, password, role);
-        await accountClaimRepository.CreateClaimForRoleAsync(user, role);
-
+        accountClaimRepository.AddClaimsForRole(user, role);
         return user;
     }
 

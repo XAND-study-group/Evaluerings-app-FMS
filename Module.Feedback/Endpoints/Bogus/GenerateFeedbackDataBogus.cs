@@ -13,9 +13,9 @@ namespace Module.Feedback.Endpoints.Bogus
         void IEndpoint.MapEndpoint(WebApplication app, IConfiguration configuration)
         {
             app.MapPost(configuration["Routes:FeedbackModule:Bogus:GenerateFeedbackDataBogus"] ??
-                   throw new ArgumentException("Route is not added to config file"),
-           async ([FromServices] IMediator mediator) =>
-           await mediator.Send(new GenerateFeedBackDataBogusCommand())).WithTags("GenerateData");
+                        throw new ArgumentException("Route is not added to config file"),
+                async ([FromServices] IMediator mediator) =>
+                await mediator.Send(new GenerateFeedBackDataBogusCommand())).WithTags("GenerateData");
         }
     }
 }
